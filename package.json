@@ -44,6 +44,7 @@
     "react-headroom": "^3.2.1",
     "react-hook-form": "^7.53.0",
     "react-select": "^5.8.2",
+    "styled-components": "^5.3.11",
     "sweetalert2": "^11.14.4",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
