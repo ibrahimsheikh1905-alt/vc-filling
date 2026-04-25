@@ -88,9 +88,7 @@ export const ProtectRoute = ({ children }: any) => {
   useEffect(() => {
     if (loading) return;
     
-    if (!isAuthenticated && pathName.startsWith('/dashboard')) {
-      router.replace('/login');
-    } else if (isAuthenticated && (pathName === '/login' || pathName === '/register')) {
+    if (isAuthenticated && (pathName === '/login' || pathName === '/register')) {
       router.replace('/dashboard');
     }
   }, [isAuthenticated, pathName, loading, router]);
@@ -101,4 +99,3 @@ export const ProtectRoute = ({ children }: any) => {
 
   return children;
 };
-
