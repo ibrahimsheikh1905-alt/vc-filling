@@ -1,0 +1,24 @@
+<svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              style="--secondaryIconColor:#1b1b1b;--primaryIconColor:#39b54a"
+              class="h-8 w-8 shrink-0"
+              height="40px"
+              width="40px"
+            >
+              <path
+                stroke="var(--primaryIconColor, #1c1b18)"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="m15 22 .5-.5 1.58-1.58c2.773-2.773 4.159-4.159 4.678-5.757a7 7 0 0 0 0-4.326c-.52-1.598-1.905-2.984-4.678-5.757L16 3l-.5-.5M11 10a2 2 0 1 1-4 0 2 2 0 0 1 4 0"
+              ></path>
+              <path
+                stroke="var(--secondaryIconColor, #39b54a)"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M2 10.349c0 .978 0 1.468.11 1.928.099.408.26.798.48 1.156.247.404.593.75 1.285 1.441l2.6 2.6c1.584 1.585 2.376 2.377 3.289 2.673a4 4 0 0 0 2.472 0c.913-.296 1.705-1.088 3.29-2.672l.948-.95c1.585-1.584 2.377-2.376 2.673-3.289a4 4 0 0 0 0-2.472c-.296-.913-1.088-1.705-2.672-3.29l-2.6-2.6c-.692-.691-1.038-1.037-1.442-1.285a3.998 3.998 0 0 0-1.156-.478C10.817 3 10.327 3 9.349 3H8.4c-2.24 0-3.36 0-4.216.436a4 4 0 0 0-1.748 1.748C2 6.04 2 7.16 2 9.4z"
+              ></path>
+            </svg>

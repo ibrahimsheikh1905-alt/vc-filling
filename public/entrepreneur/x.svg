@@ -1,0 +1,6 @@
+<svg viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="19" height="19" rx="2" fill="var(--primaryIconColor, #1c1b18)" />
+  <path
+    d="M10.6428 8.58177L15.1108 3.5H14.0524L10.1712 7.91152L7.0736 3.5H3.5L8.1852 10.1716L3.5 15.5H4.5584L8.6544 10.8403L11.9264 15.5H15.5M4.9404 4.28095H6.5664L14.0516 14.7574H12.4252"
+    fill="white" />
+</svg>
