@@ -18,11 +18,34 @@ interface ServiceType {
 
 const servicesData: Record<string, ServiceType[]> = {
   'Company Changes': [
-    { icon: Type, title: 'Assumed Business Name', description: 'Filed if a company requires assumed business/fictitious name.' },
-    { icon: Edit3, title: 'Amendment', description: 'Filed if a company requires changes to membership, addresses or company name.' },
-    { icon: RefreshCw, title: 'Reinstatement', description: 'Used to formally restore a company to good standing.' },
-    { icon: XCircle, title: 'Dissolution', description: 'Used to formally terminate the existence of an entity.' },
-    { icon: MapPin, title: 'Virtual Address', description: 'Business address service to maintain the privacy of your personal addresses.' }
+    { icon: Type,
+      title: 'Assumed Business Name',
+      description: 'Filed if a company requires assumed business/fictitious name.',
+      path: '/dashboard/Registrationoffictitious' 
+    },
+    { icon: Edit3,
+      title: 'Amendment',
+      description: 'Filed if a company requires changes to membership, addresses or company name.',
+      path: '/dashboard/Amendment' 
+    },
+    { icon: RefreshCw,
+      title: 'Reinstatement',
+      description: 'Used to formally restore a company to good standing.',
+      path: '/dashboard/Reinstatement' 
+
+    },
+    { icon: XCircle,
+      title: 'Dissolution',
+      description: 'Used to formally terminate the existence of an entity.',
+      path: '/dashboard/Dissolution' 
+
+    },
+    { icon: MapPin,
+      title: 'Virtual Address',
+      description: 'Business address service to maintain the privacy of your personal addresses.',
+      path: '/dashboard/VirtualAddress' 
+
+    }
   ],
   'Compliance': [
     { 
