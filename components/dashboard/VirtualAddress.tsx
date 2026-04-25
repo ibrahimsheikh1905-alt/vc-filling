@@ -26,7 +26,7 @@ const VirtualAddress = () => {
         <div className="mb-10">
           <h1 className="text-[22px] font-bold text-gray-900 tracking-tight mb-2">Virtual Address</h1>
           <p className="text-[13px] text-gray-500 max-w-4xl leading-relaxed">
-            Bizee currently provides virtual mailboxes in <span className="font-bold text-gray-800">48 different states</span> across the country, providing you with the flexibility you need to run your business in the location that makes the most sense for you.
+            vc Filling currently provides virtual mailboxes in <span className="font-bold text-gray-800">48 different states</span> across the country, providing you with the flexibility you need to run your business in the location that makes the most sense for you.
           </p>
 
           {/* Blue Info Alert */}
