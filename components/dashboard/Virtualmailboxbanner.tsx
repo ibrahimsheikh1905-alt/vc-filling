@@ -24,10 +24,11 @@ const VirtualMailboxBanner = () => {
 
       {/* Right - Button */}
       <div className="flex-shrink-0">
-        <button className="bg-[#FF5722] hover:bg-[#F4511E] text-white font-bold py-3 px-8 rounded-xl flex items-center gap-2 shadow-lg hover:shadow-xl transition-all uppercase text-sm tracking-wide">
+        <button onClick={() => window.location.href = '/dashboard/VirtualAddress'} className="bg-[#FF5722] hover:bg-[#F4511E] text-white font-bold py-3 px-8 rounded-xl flex items-center gap-2 shadow-lg hover:shadow-xl transition-all uppercase text-sm tracking-wide cursor-pointer">
           GET STARTED
           <ArrowRight className="w-4 h-4" />
         </button>
+
       </div>
     </div>
   );

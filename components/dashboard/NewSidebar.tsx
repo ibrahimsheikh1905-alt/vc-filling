@@ -3,7 +3,8 @@
 import React from "react";
 import { 
   Activity, Settings, Zap, AlertCircle, Mail, FolderOpen, 
-  Tag, Building2, Users, Receipt, Shield, Bolt
+  Tag, Building2, Users, Receipt, Shield, Bolt,
+  FileText
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -129,6 +130,15 @@ const NewSidebar: React.FC = () => {
         <Link href="/dashboard/compliance" className={getLinkStyle('/dashboard/compliance')}>
           <Shield className={getIconStyle('/dashboard/compliance')} />
           <span className="text-[13.5px]">Compliance</span>
+        </Link>
+
+        {/* State & IRS Filing Section */}
+        <Link 
+          href="/dashboard/StateirsFilling" 
+          className={getLinkStyle('/dashboard/StateirsFilling')}
+        >
+          <FileText className={getIconStyle('/dashboard/StateirsFilling')} />
+          <span className="text-[13.5px]">State & IRS Filing</span>
         </Link>
       </nav>
     </aside>

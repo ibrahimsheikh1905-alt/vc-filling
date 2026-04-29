@@ -72,7 +72,7 @@ export default function RegisteredAgentDashboard() {
               <p className="text-sm text-gray-400 font-medium mb-10 flex-1 leading-relaxed">
                 Use to set up a new registered agent service for a new state.
               </p>
-              <button className="w-full bg-[#FF5722] hover:bg-[#F4511E] text-white font-black py-4 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-100 transition-all uppercase text-xs tracking-widest">
+              <button onClick={() => window.location.href = '/dashboard/Registeragentform'} className="w-full bg-[#FF5722] hover:bg-[#F4511E] text-white font-black py-4 px-6 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-100 transition-all uppercase text-xs tracking-widest cursor-pointer">
                 ORDER <ArrowRight className="w-4 h-4" strokeWidth={3} />
               </button>
             </div>
@@ -92,7 +92,7 @@ export default function RegisteredAgentDashboard() {
               <p className="text-sm text-gray-400 font-medium mb-10 flex-1 leading-relaxed">
                 Use to update the registered agent on file with the state of formation.
               </p>
-              <button className="w-full lg:w-auto self-start bg-[#FF5722] hover:bg-[#F4511E] text-white font-black py-4 px-10 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-100 transition-all uppercase text-xs tracking-widest">
+              <button onClick={() => window.location.href = '/dashboard/ChangeRegister'} className="w-full lg:w-auto self-start bg-[#FF5722] hover:bg-[#F4511E] text-white font-black py-4 px-10 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-orange-100 transition-all uppercase text-xs tracking-widest cursor-pointer">
                 ORDER <ArrowRight className="w-4 h-4" strokeWidth={3} />
               </button>
             </div>

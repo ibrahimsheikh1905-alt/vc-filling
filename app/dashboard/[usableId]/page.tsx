@@ -113,9 +113,10 @@ export default function BusinessDashboard() {
                 {/* Total & Action */}
                 <div className="flex flex-col items-end gap-6 pt-6 border-t border-gray-100">
                   <p className="text-xl font-bold text-gray-900">Total: <span className="text-2xl font-black ml-2">$26</span></p>
-                  <button className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-orange-200 transition-all active:scale-95">
+                  <button onClick={() => window.print()} className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-orange-200 transition-all active:scale-95">
                     Print Receipt
                   </button>
+
                 </div>
               </div>
             </div>

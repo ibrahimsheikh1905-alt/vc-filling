@@ -33,14 +33,10 @@ export default function VirtualMailboxPage() {
         {/* Content Sections */}
         <div className="space-y-12">
           {/* Table Section */}
-          <section>
+<section className="space-y-8">
              <VirtualMailboxTable />
-          </section>
-
-          {/* Banners Section */}
-          <section className="grid grid-cols-1 gap-6">
+             <div className="pt-6 pb-4"></div>
              <PromotionBanner />
-             <VirtualMailboxBanner />
           </section>
 
           {/* Info Section */}
@@ -50,9 +46,17 @@ export default function VirtualMailboxPage() {
                 <TipsGrid />
              </div>
           </section>
+
+          <VirtualMailboxBanner />
         </div>
 
+
+
+
+
+
+
       </div>
-    </main>
+   </main>
   );
 }

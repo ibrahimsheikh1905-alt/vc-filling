@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import React from 'react';
 import { Package, Check, FileText } from "lucide-react";
@@ -87,9 +87,10 @@ export default function OrderStatus() {
 
     {/* Right Side: Button - Isay 'shrink-0' diya hai taake ye line mein hi rahe */}
     <div className="shrink-0">
-      <button className="whitespace-nowrap bg-[#FF5722] hover:bg-[#F4511E] text-white font-black py-4 px-10 rounded-xl transition-all text-xs tracking-widest shadow-lg shadow-orange-100 uppercase">
+      <button onClick={() => window.location.href = '/dashboard/mail-documents'} className="whitespace-nowrap bg-[#FF5722] hover:bg-[#F4511E] text-white font-black py-4 px-10 rounded-xl transition-all text-xs tracking-widest shadow-lg shadow-orange-100 uppercase cursor-pointer">
         MAIL MY DOCUMENTS - $25
       </button>
+
     </div>
     
   </div>
@@ -99,3 +100,4 @@ export default function OrderStatus() {
     </div>
   );
 }
+

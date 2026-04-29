@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 import { 
   AlertCircle, 
   ChevronDown, 
@@ -15,7 +17,7 @@ import {
 } from "lucide-react";
 
 export default function ComplianceTasks() {
-  // isExpanded ko false kar diya taake page open hone par ye band rahe
+  const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -36,7 +38,7 @@ export default function ComplianceTasks() {
               onClick={() => setIsModalOpen(true)}
               className="text-orange-500 bg-orange-50 p-0.5 rounded-full hover:bg-orange-100 transition-colors"
             >
-               <AlertCircle className="w-3.5 h-3.5" />
+              <AlertCircle className="w-3.5 h-3.5" />
             </button>
           </div>
           
@@ -47,7 +49,10 @@ export default function ComplianceTasks() {
           </div>
 
           <div className="pt-2">
-            <button className="w-full bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-orange-100">
+            <button 
+              onClick={() => router.push('/dashboard/annual-report')} 
+              className="w-full bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-orange-100"
+            >
               Start Filing <ArrowRight className="w-4 h-4 stroke-[3px]" />
             </button>
           </div>
@@ -162,10 +167,9 @@ export default function ComplianceTasks() {
 
       {/* 3. Upgrade Banner */}
       <div className="relative bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-[24px] p-10 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-6 py-2 rounded-xl border border-orange-200 text-[#FF5722] font-black text-sm uppercase tracking-widest shadow-lg">
-          Pay Once
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-6 py-1 rounded-full border border-orange-200 text-orange-600 font-black text-sm uppercase tracking-wider">
+          BEST DEAL
         </div>
-
         <div className="flex flex-col lg:flex-row gap-12 items-start lg:items-center pt-8">
           <div className="flex-1 space-y-4">
             <h3 className="text-3xl lg:text-4xl font-black text-gray-900 leading-tight">
@@ -192,7 +196,7 @@ export default function ComplianceTasks() {
         </div>
         
         <div className="flex justify-center pt-8">
-          <button className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-4 px-12 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 text-lg">
+            <button onClick={() => router.push('/dashboard/annual-report')} className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-4 px-12 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 text-lg">
             Buy Now <ArrowRight className="w-5 h-5" />
           </button>
         </div>
@@ -209,7 +213,7 @@ export default function ComplianceTasks() {
             <p className="text-gray-600 font-medium">To see the documents you have already filed, visit your Order History</p>
           </div>
         </div>
-        <button className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-3 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all">
+        <button onClick={() => router.push('/dashboard/226041533405')} className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-3 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all">
           Go to Order History
         </button>
       </div>

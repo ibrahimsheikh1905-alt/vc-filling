@@ -15,10 +15,11 @@ const VirtualMailboxBannerFixed = () => {
           Get a Fixed Street Address and Access to Your Correspondence Anywhere
         </p>
         
-        <button className="bg-[#FF5722] hover:bg-[#F4511E] text-white font-bold py-4 px-10 rounded-2xl flex items-center gap-3 transition-all shadow-lg shadow-orange-100">
+        <button onClick={() => window.location.href = '/dashboard/VirtualAddress'} className="bg-[#FF5722] hover:bg-[#F4511E] text-white font-bold py-4 px-10 rounded-2xl flex items-center gap-3 transition-all shadow-lg shadow-orange-100 cursor-pointer">
           GET STARTED 
           <ArrowRight className="w-5 h-5" />
         </button>
+
       </div>
 
       {/* RIGHT SIDE: Envelopes (Bilkul Title ke Samne) */}

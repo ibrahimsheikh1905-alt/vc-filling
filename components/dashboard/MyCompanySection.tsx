@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { Clock, Eye } from "lucide-react";
 
 const companies = [
@@ -63,7 +64,9 @@ export default function MyCompanySection() {
                   <td className="px-6 py-5 whitespace-nowrap text-right text-sm">
                     <button className="inline-flex items-center gap-2 text-gray-700 hover:text-orange-600 bg-white hover:bg-orange-50 px-4 py-2 rounded-xl border border-gray-200 hover:border-orange-200 transition-all font-bold text-[13px] shadow-sm">
                       <Eye className="w-4 h-4 transition-transform group-hover:scale-110" />
-                      View Company
+                      <Link href="/dashboard/tasks" className="no-underline">
+                        View Company
+                      </Link>
                     </button>
                   </td>
                 </tr>

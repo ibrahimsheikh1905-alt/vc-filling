@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { LayoutDashboard } from 'lucide-react';
-import ActionItemsSection from './ActionItemsSection';
+// import ActionItemsSection from './ActionItemsSection';
 import MyCompanySection from './MyCompanySection';
 import OrderServicesSection from './OrderServicesSection';
 
@@ -25,8 +25,6 @@ const DashboardMainContent: React.FC = () => {
 
       {/* Sections Container */}
       <div className="space-y-12">
-        {/* Action Items Section */}
-        <ActionItemsSection />
 
         {/* My Company Section */}
         <MyCompanySection />

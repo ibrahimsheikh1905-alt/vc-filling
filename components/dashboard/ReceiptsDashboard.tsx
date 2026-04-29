@@ -67,9 +67,20 @@ const ReceiptsDashboard = () => {
                     <td className="px-6 py-8 text-[16px] font-bold text-gray-600">NONPROFIT FILING (MO)</td>
                     <td className="px-6 py-8 text-xl font-black text-[#111827]">$26.00</td>
                     <td className="px-6 py-8 text-center">
-                      <button className="p-3 bg-red-50 rounded-xl hover:bg-red-100 transition-colors">
+
+
+                      <button 
+                        onClick={() => { 
+                          window.print(); 
+                          console.log('Print triggered'); 
+                        }} 
+                        className="p-3 bg-red-50 rounded-xl hover:bg-red-100 transition-colors cursor-pointer shadow-sm active:scale-95"
+                        title="Print Receipt"
+                      >
                         <FileText className="w-6 h-6 text-red-500" />
                       </button>
+
+
                     </td>
                     <td className="px-6 py-8 text-[16px] font-bold text-gray-600">Apr 15, 2026</td>
                     <td className="px-6 py-8">
