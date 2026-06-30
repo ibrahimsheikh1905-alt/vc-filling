@@ -1,33 +1,14 @@
 import { NextResponse, NextRequest } from "next/server";
 import { executeQuery } from "@/lib/dbConnect";
 import getFormattedDate from "@/hooks/useGetDate";
-import { createUser, UserData } from "@/lib/createUser";
-import handleUsers from "@/lib/handleUsers";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    const userData: UserData = {
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      mobilePhone: data.mobilePhone,
-    };
-
-    // Check if the user exists or create a new user
-    try {
-      const userResponse = await createUser(userData);
-      if (userResponse.user) {
-        console.log(userResponse)
-        await handleUsers(userResponse.user, "trademark");
-      }
-    } catch (error) {
-      console.error("Error processing user:", error);
-      return NextResponse.json(
-        { error: "Failed to process user data" },
-        { status: 500 }
-      );
-    }
+    
+    // Skip user handling for now - just insert the trademark data directly
+    // User handling can be added later if needed
 
     // Define the fields we expect in the same order as the SQL query
     const fields = [
@@ -61,25 +42,34 @@ export async function POST(req: NextRequest) {
       );
     `;
 
+    // Helper function to convert any value to SQLite-compatible type
+    const toDbValue = (val: any): any => {
+      if (val === undefined || val === null) return null;
+      if (typeof val === "boolean") return val === true ? "true" : "false";
+      if (typeof val === "string") return val;
+      if (typeof val === "number") return val;
+      return String(val);
+    };
+
     const values = [
-      data.entityType ?? null,
-      data.stateOfFormation ?? null,
-      data.companyName ?? null,
-      data.designator ?? null,
-      data.mobilePhone ?? null,
-      data.email ?? null,
-      data.lastName ?? null,
-      data.firstName ?? null,
-      data.streetAddress ?? null,
-      data.addressLine2 ?? null,
-      data.city ?? null,
-      data.state ?? null,
-      data.zipCode ?? null,
-      data.trademarkType ?? null,
-      data.usingMark ?? null,
-      data.acknowledgement ?? null,
-      data.productOrService ?? null,
-      data.trademarkNameOrSlogan ?? null,
+      toDbValue(data.entityType),
+      toDbValue(data.stateOfFormation),
+      toDbValue(data.companyName),
+      toDbValue(data.designator),
+      toDbValue(data.mobilePhone),
+      toDbValue(data.email),
+      toDbValue(data.lastName),
+      toDbValue(data.firstName),
+      toDbValue(data.streetAddress),
+      toDbValue(data.addressLine2),
+      toDbValue(data.city),
+      toDbValue(data.state),
+      toDbValue(data.zipCode),
+      toDbValue(data.trademarkType),
+      toDbValue(data.usingMark),
+      toDbValue(data.acknowledgement),
+      toDbValue(data.productOrService),
+      toDbValue(data.trademarkNameOrSlogan),
       getFormattedDate(),
     ];
 
@@ -88,16 +78,49 @@ export async function POST(req: NextRequest) {
 
     const newQuery = `INSERT INTO all_form_data (entity_type, company_name, designator, first_name, last_name, email, mobile_phone, usable_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     await executeQuery(newQuery, [
-      data.entityType,
-      data.companyName,
-      data.designator,
-      data.firstName,
-      data.lastName,
-      data.email,
-      data.mobilePhone,
+      toDbValue(data.entityType),
+      toDbValue(data.companyName),
+      toDbValue(data.designator),
+      toDbValue(data.firstName),
+      toDbValue(data.lastName),
+      toDbValue(data.email),
+      toDbValue(data.mobilePhone),
       `trademark-${insertedId}`,
       getFormattedDate(),
     ]);
+
+    // ALSO create an application record in Prisma so it shows up in admin submissions
+    try {
+      await prisma.application.create({
+        data: {
+          type: "trademark",
+          company: `${data.companyName} ${data.designator}`.trim(),
+          state: data.stateOfFormation || data.state,
+          status: "submitted",
+          details: JSON.stringify({
+            entityType: data.entityType,
+            companyName: data.companyName,
+            designator: data.designator,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            mobilePhone: data.mobilePhone,
+            trademarkType: data.trademarkType,
+            trademarkNameOrSlogan: data.trademarkNameOrSlogan,
+            productOrService: data.productOrService,
+            usingMark: data.usingMark,
+            streetAddress: data.streetAddress,
+            city: data.city,
+            zipCode: data.zipCode,
+          }),
+          submittedAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      });
+    } catch (prismaError) {
+      console.error("Error creating Prisma application:", prismaError);
+      // Continue even if Prisma fails - the main data is already saved
+    }
 
     return NextResponse.json({
       message: "Data inserted successfully.",

@@ -29,8 +29,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Define the fields we expect in the same order as the SQL query
+// Define the fields we expect in the same order as the SQL query
     const fields = [
+      "user_id",
       "mobile_phone",
       "email",
       "last_name",
@@ -57,7 +58,8 @@ export async function POST(req: NextRequest) {
       );
     `;
 
-    const values = [
+const values = [
+      data.userId ?? null,
       data.mobilePhone ?? null,
       data.email ?? null,
       data.lastName ?? null,
@@ -78,8 +80,9 @@ export async function POST(req: NextRequest) {
     const result = await executeQuery(query, values);
     const insertedId = result.insertId;
 
-    const newQuery = `INSERT INTO all_form_data (entity_type, company_name, designator, first_name, last_name, email, mobile_phone, usable_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+const newQuery = `INSERT INTO all_form_data (user_id, entity_type, company_name, designator, first_name, last_name, email, mobile_phone, usable_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     await executeQuery(newQuery, [
+      data.userId ?? null,
       data.entityType,
       data.companyName,
       data.designator,

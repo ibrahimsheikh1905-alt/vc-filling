@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp, X, LogOut } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useAuth } from "@/contexts/auth";
 import Link from "next/link";
 import Image from "next/image";
 import clsx from "clsx";
@@ -50,6 +51,7 @@ const navTwo = [
 
 export default function AppSidebar() {
   const { isOpen, closeSidebar } = useSidebar();
+  const { Logout: handleLogout, name } = useAuth();
   const [servicesOpen, setServicesOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
 
@@ -173,7 +175,7 @@ export default function AppSidebar() {
             </div>
           )}
 
-          {/* How it Works */}
+{/* How it Works */}
           <Link
             href="/makes-dif"
             onClick={closeSidebar}
@@ -188,6 +190,25 @@ export default function AppSidebar() {
           >
             About Us
           </Link>
+          
+          {/* User Info & Logout */}
+          {name && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="px-4 py-2 text-sm text-gray-600">
+                Signed in as <span className="font-semibold">{name}</span>
+              </div>
+              <button
+                onClick={() => {
+                  closeSidebar();
+                  handleLogout();
+                }}
+                className="flex items-center gap-2 w-full px-4 py-3 text-red-600 hover:bg-red-50 transition"
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Logout</span>
+              </button>
+            </div>
+          )}
         </nav>
       </aside>
     </>

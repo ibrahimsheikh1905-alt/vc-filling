@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import OrderStatus from "@/components/dashboard/OrderStatus";
 

@@ -1,454 +1,624 @@
-import NavigationWrapper from "@/components/NavigationWrapper";
+"use client";
+
 import {
-  ArrowRightIcon,
-  CheckBadgeIcon,
-  DocumentCheckIcon,
-  ArrowDownIcon,
-} from "@heroicons/react/24/outline";
-import { StarIcon } from "@heroicons/react/24/solid";
-import { ArrowDown } from "lucide-react";
+  Search,
+  Package,
+  FileCheck,
+  Shield,
+  MapPin,
+  Building2,
+  Activity,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import React, { useState, useEffect } from "react";
+import NavigationWrapper from "@/components/NavigationWrapper";
 
-const Amendment = () => {
+const BusinessLicense = () => {
+  const [activeSection, setActiveSection] = useState("");
+
+  const tocItems = [
+    ["What Is a Business License?", "#what-is-license"],
+    ["What Is a Business Permit?", "#what-is-permit"],
+    [
+      "What Licenses and Permits are Needed to Start a Business?",
+      "#licenses-needed",
+    ],
+    ["Seven Common Types of Business Licenses and Permits", "#seven-types"],
+    ["Licensing and Permitting Differences Between States", "#state-differences"],
+    ["A Note on Federal Permits", "#federal-permits"],
+    ["Prepare Your Company for Success", "#prepare-success"],
+  ];
+
+  const obtainingSteps = [
+    {
+      number: "1",
+      icon: Search,
+      title: "Research Requirements",
+      desc: "Determine all business licenses and permits required at the federal, state, county and municipal level.",
+    },
+    {
+      number: "2",
+      icon: Package,
+      title: "Prepare a Customized Package",
+      desc: "Your package includes each of the proper license/permit applications related to your business and location.",
+    },
+    {
+      number: "3",
+      icon: FileCheck,
+      title: "Filing Instructions and Documentation",
+      desc: "List filing instructions, supporting document requirements, and fees.",
+    },
+  ];
+
+  const licenseFactors = [
+    {
+      icon: Activity,
+      title: "Industry",
+      desc: "Regulations differ vastly across industries. A bakery needs a health department permit for safe food handling and inspections, while a software company likely won't.",
+    },
+    {
+      icon: MapPin,
+      title: "Location",
+      desc: "Requirements vary by state, county, and even city. Always check with your local government for the latest regulations.",
+    },
+    {
+      icon: Building2,
+      title: "Business Structure",
+      desc: "Sole proprietorships might have fewer licensing hurdles than LLCs or corporations.",
+    },
+    {
+      icon: Shield,
+      title: "Business Activities",
+      desc: "Beyond your core business activities, consider any additional services you provide.",
+    },
+  ];
+
+  const sevenTypes = [
+    {
+      title: "General business license",
+      desc: "This is often the first license obtained, authorizing basic business operations within a specific location.",
+    },
+    {
+      title: "Seller's permit",
+      desc: "If you sell physical products, you'll most likely need a seller's permit.",
+    },
+    {
+      title: "Home occupation permit",
+      desc: "Working from home often requires a specific permit to comply with zoning regulations.",
+    },
+    {
+      title: "Business signage permit",
+      desc: "This allows you to display your business name and logo outside your place of business.",
+    },
+    {
+      title: "Zoning permits",
+      desc: "You might need a zoning permit to ensure your operation complies with designated land use.",
+    },
+    {
+      title: "Building permits",
+      desc: "Any construction or major renovations will likely require a building permit.",
+    },
+    {
+      title: "Environmental permits",
+      desc: "Businesses that generate waste or handle hazardous materials may need environmental permits.",
+    },
+  ];
+
+  const stateDifferences = [
+    {
+      title: "Tech and e-commerce",
+      desc: "Startup-heavy industries like tech or e-commerce might have specific state-level requirements.",
+    },
+    {
+      title: "Licensed professionals",
+      desc: "Licensing requirements for certain professionals may vary by state.",
+    },
+    {
+      title: "Home-based businesses",
+      desc: "Regulations for home-based businesses can differ from state to state.",
+    },
+  ];
+
+  const federalSectors = [
+    "Broadcasting and transportation may need federal licenses or permits.",
+    "Manufacturing and distribution may require food, drug, or medical permits.",
+    "Businesses with environmental impact may need EPA-related permits.",
+    "Alcohol and tobacco businesses require special federal licensing.",
+    "Farming and livestock businesses may need agriculture-related permits.",
+  ];
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActiveSection(`#${e.target.id}`);
+        }),
+      { root: null, rootMargin: "-20% 0px -60% 0px", threshold: 0 }
+    );
+
+    tocItems.forEach(([, link]) => {
+      const el = document.getElementById(link.replace("#", ""));
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    link: string
+  ) => {
+    e.preventDefault();
+
+    const el = document.getElementById(link.replace("#", ""));
+
+    if (el) {
+      const offsetPosition =
+        el.getBoundingClientRect().top + window.scrollY - 100;
+
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+      window.history.pushState(null, "", link);
+      setActiveSection(link);
+    }
+  };
+
   return (
     <NavigationWrapper>
-      <div className=" my-16 flex  max-sm:flex-col gap-16 justify-between md:flex-row">
-        <div className="max-sm:text-center text-left">
-          <h1 className="text-5xl font-bold pt-20 md:pl-20">
-            Business License
-          </h1>
-          <h2 className="text-5xl font-bold md:pl-20 ">Research Package</h2>
-          <h2 className="text-xl md:pl-20 py-5 pb-24">Only $99</h2>
-          <Link
-            className="px-10 md:ml-20 py-5 font-bold bg-primary text-white border border-primary rounded-[30px] "
-            href="/business-license/step-1"
-          >
-            ORDER NOW
-          </Link>
-        </div>
+      <main className="bg-white text-[#1E293B]">
+        {/* HERO */}
+        <section className="relative mx-auto flex max-w-7xl flex-col-reverse items-center gap-12 overflow-hidden px-4 py-16 md:flex-row">
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage:
+                "linear-gradient(#06B6D4 1px, transparent 1px), linear-gradient(90deg, #06B6D4 1px, transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
 
-        <Image
-          src="/free-llc/LLC green.jpg"
-          alt="Free LLC"
-          width={850}
-          height={850}
-        />
-      </div>
-      <div className="max-w-7xl mx-auto ">
-        <div className="flex gap-4 items-center justify-center my-16 py-7 mx-3 md:flex-row flex-col">
-          <Image src="/main/vcicon.jpg" alt="image" width={200} height={200} />
-          <div>
-            <h3 className="md:text-5xl text-3xl font-bold py-2 uppercase">
-              Join <span className="text-primary">1,000,000+</span>
-              <br /> Entrepreneurs <br />
-              like you
-            </h3>
-            <p className="md:text-xl text-base font-light">
-              Entrepreneurship is booming - and we&apos;re happy to be <br />{" "}
-              one of America&apos;s fastest growing companies.
+          <div className="relative z-10 flex-1 max-sm:mx-5 md:pl-20">
+            <p className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-[#1E293B] shadow-sm">
+              Excellent 4.7 out of 5{" "}
+              <span className="mx-1 text-[#06B6D4]">★</span> Trustpilot
             </p>
-          </div>
-        </div>
-        {/* -----------new section --- */}
 
-        {/* new section start  */}
+            <h1 className="py-6 text-5xl font-bold leading-tight text-[#1E293B]">
+              Business License Research{" "}
+              <span className="text-[#06B6D4]">(Made Easy)</span>
+            </h1>
 
-        {/* new section start  */}
-        <div className="pt-24 md:grid md:grid-cols-2 mx-5">
-          <div className="mx-5">
-            <h2 className="text-5xl  font-bold ">What is a</h2>
-            <h2 className="text-5xl font-bold "> Business</h2>
-            <h2 className="text-5xl font-bold uppercase">License?</h2>
-          </div>
-          <div>
-            <h2 className=" mx-5 pt-6 ">
-              As a business owner, you are responsible for making sure your
-              business has the proper federal, state and local licenses and
-              permits to operate legally. A business license ensures you are
-              legitimately doing business in a particular locale. Every new
-              business must apply for a business license. But, don&apos;t be
-              fooled, your corporation or LLC may need more than one license, or
-              permit, to fully operate at the state level.
-            </h2>
-            <h2 className=" py-6 mx-5">
-              At VC FILING we take the guesswork out of how to obtain a business
-              license and the necessary permits.
-            </h2>
-            <div className="mt-5 mx-5">
-              <Link
-                className="md:px-9 px-2 block py-5 bg-primary text-white border border-primary rounded-[30px] my-6 "
-                href="/business-license/step-1"
-              >
-                GET THE BUSINESS LICENSES RESEARCH PACKAGES
-              </Link>
-            </div>
-            <div className=" pt-11 mx-5">
-              <h2 className="text-5xl font-bold">
-                what is a Business License?
-              </h2>
-              <div className="bg-slate-200 border rounded-xl flex gap-3 p-4 my-7">
-                <div>
-                  {" "}
-                  <DocumentCheckIcon className="min-h-7 min-w-7 max-h-7 max-w-7 text-primary" />
-                </div>
-                <div>
-                  <p className="text-base font-normal">
-                    A business license authorizes a company to do business in a
-                    certain geographical jurisdiction. It is a certificate that
-                    authenticates your company is properly registered with the
-                    particular county or city in which your office(s) are
-                    located.
-                  </p>
-                </div>
-              </div>
-              <p>
-                When you apply for a business license, keep in mind that there
-                are instances with certain types of businesses and certain
-                locations that require additional paperwork for permits. We
-                discuss both the types of licenses and permits below. If
-                you&apos;d like to research your license and permit requirements
-                yourself, you can get started with{" "}
-                <span className="text-primary">
-                  VC FILING Business License Search Tool,
-                </span>
-                which will tell you the basic requirements for your state and
-                industry.
-              </p>
-              <h2 className="text-5xl font-bold py-6">
-                What Licenses Does My Business Need?
-              </h2>
-              <p className="py-2">
-                There are two categories of business licenses, namely federal
-                and state. This is just the first step in operating legally in
-                both your jurisdiction and in the country.
-              </p>
-              <p className="py-2">
-                The federal government often requires a license to be obtained
-                when you have a very specialized industry or one with a high
-                level of liability. Some examples include serving alcohol,
-                running a fishery, opening a gun shop, or transporting live
-                animals across state lines. The state government always requires
-                a license to operate within your particular locale and rules can
-                differ based on whether your LLC or corporation is inside city
-                limits or not.
-              </p>
-              <p className="py2">
-                For example, you&apos;ll need to research whether you can have
-                particular types of home businesses, especially when living in
-                the city or a multi-family dwelling.
-              </p>
-              <h2 className="text-5xl py-5 font-bold">
-                How Do I Know What Permits My Business Needs?
-              </h2>
-              <p>
-                Permits are an additional requirement for many businesses and
-                are needed in the following circumstances.
-              </p>
-              <div className="bg-slate-200 rounded-xl px-2 my-9 py-10">
-                <p>A Certificate of Good Standing can also be known as:</p>
-                <div className="flex py-6 gap-3 mx-4">
-                  <CheckBadgeIcon className="min-h-3 min-w-3 max-h-3 max-w-3  text-primary" />
-                  <p>Your LLC or corporation plans to serve alcohol or food</p>
-                </div>
-                <div className="flex py-6 gap-3 mx-4">
-                  <CheckBadgeIcon className="min-h-3 min-w-3 max-h-3 max-w-3  text-primary" />
-                  <p>
-                    You will need to build or add a structure to your
-                    company&apos;s building.
-                  </p>
-                </div>
-                <div className="flex py-6 gap-3 mx-4">
-                  <CheckBadgeIcon className="min-h-3 min-w-3 max-h-3 max-w-3  text-primary" />
-                  <p>
-                    Your business is going to construct a building or structure
-                    on new land.
-                  </p>
-                </div>
-                <div className="flex py-6 gap-3 mx-4">
-                  <CheckBadgeIcon className="min-h-3 min-w-3 max-h-3 max-w-3  text-primary" />
-                  <p>Your LLC plans to put up an exterior sign.</p>
-                </div>
-                <div className="flex gap-3 py-6 mx-4">
-                  <CheckBadgeIcon className="min-h-3 min-w-3 max-h-3 max-w-3  text-primary" />
-                  <p>You want to designate street parking for your business.</p>
-                </div>
-                <div className="flex gap-3 py-6 mx-4">
-                  <CheckBadgeIcon className="min-h-3 min-w-3 max-h-3 max-w-3  text-primary" />
-                  <p>Your industry is governed by a state association.</p>
-                </div>
-              </div>
-              <p>
-                This is not an exhaustive list by any means, therefore, working
-                with VC FILING to identify every situation is a key factor in
-                starting your business off right.
-              </p>
-              <div className="my-9 mb-16">
-                <Link
-                  className="px-9 py-5 bg-primary text-white border border-primary rounded-[30px] my-6 "
-                  href="/business-license/step-1"
-                >
-                  HAVE VC FILING RESEARCH FOR YOU
-                </Link>
-              </div>
-              <div className="mt-9">
-                <Link
-                  className="px-9 py-5 bg-primary text-white border border-primary rounded-[30px]   "
-                  href="/business-license/step-1"
-                >
-                  DO THE RESEARCH YOURSELF
-                </Link>
-              </div>
-              <h2 className="text-5xl font-bold py-16">
-                How Do I Know What Permits My Business Needs?
-              </h2>
-              <p>
-                Permits are an additional requirement for many businesses and
-                are needed in the following circumstances.
-              </p>
-              {/* border section  */}
-              <div>
-                <div className="border border-gray-300 rounded-xl p-3 my-4">
-                  <div className="flex gap-2  ">
-                    <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7 text-primary" />
-                    <p>
-                      You&apos;ll need to get a license for a small fee to
-                      operate a business at the address of location.
-                    </p>
-                  </div>
-                </div>
-                <div className="border border-gray-300 rounded-xl p-3 my-4">
-                  <div className="flex gap-2  ">
-                    <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7 text-primary" />
-                    <p>
-                      Next, your company will need an Assumed Name under which
-                      to register, or you can{" "}
-                      <span className="text-primary">
-                        incorporate your business
-                      </span>{" "}
-                      and use your formal name.
-                    </p>
-                  </div>
-                </div>
-                <div className="border border-gray-300 rounded-xl p-3 my-4">
-                  <div className="">
-                    <div className="flex gap-2">
-                      <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7 text-primary" />
-                      <p>
-                        Then, if you operate from home or plan to remodel a
-                        space, for example, you&apos;ll need to obtain permits
-                        to do so. Other permits covering serving alcohol,
-                        displaying a sign on the building exterior and even
-                        parking for your business might also be a requirement. A
-                        great place to research your local zoning and operating
-                        laws is the nearest Small Business Development Center
-                        (SBDC).
-                      </p>
-                    </div>
-                    <p className="mx-7 pt-6">
-                      <span className="text-primary ">
-                        Nearest Small Business Development Center (SBDC).
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="border border-gray-300 rounded-xl p-3 my-4">
-                  <div className="flex gap-2  ">
-                    <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7 text-primary" />
-                    <p>
-                      Finally, a business must register with the state tax
-                      office and submit appropriate taxes on the schedule
-                      indicated by your secretary of state.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* new section start  */}
-        <div className="pt-28 text-center mx-5">
-          <h2 className="text-4xl font-bold text-center">
-            Business License and Permit Requirements by State
-          </h2>
-
-          <p className="pt-6 mx-16">
-            Every state has different licensing needs based on the type of
-            business you&apos;ve incorporated, where it&apos;s located and the
-            government rules in that state. We will research your business
-            license needs for you with our Business License Research Package,
-            but you can also do initial research yourself with the following
-            resources:
-          </p>
-        </div>
-        {/* new section start  */}
-
-        {/* new section start  */}
-        <div className="md:grid grid-cols-2 gap-5 pt-16 mx-5">
-          <div className="py-5">
-            {" "}
-            <h2 className="text-4xl font-bold">What&apos;s in the </h2>
-            <h2 className="text-4xl font-bold">Package?</h2>
-          </div>
-          <div>
-            <p>
-              Business licensing requirements vary from state to state, county
-              to county and city to city. Government agencies frequently update
-              their forms and change requirements for supporting documents. To
-              make it easier, our trusted licensing partner will provide you
-              with fresh forms and updates you with the latest licensing
-              requirements to protect your business.
+<p className="pb-8 text-slate-600 md:text-xl">
+              Navigating business licenses can feel overwhelming. Incorp Bay
+              takes the guesswork out of it by doing the research for you — so
+              you can focus on building your business.
             </p>
-            <p className="pt-6">
-              Your customized Business License Research Package will be emailed
-              to you 3 - 4 weeks from your company being filed by the state.
-            </p>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="text-center my-24 pt-12 mx-5">
-          <h2 className="text-5xl font-bold capitalize">
-            As part of the Business{" "}
-            <span className="text-primary">License</span>
-          </h2>
-          <h2 className="text-5xl font-bold">
-            <span className="text-primary">Research Package,</span> a licensing
-            expert
-          </h2>
-          <h2 className="text-5xl font-bold">will...</h2>
-        </div>
-        {/* new section start  */}
-        <div className="md:flex gap-5 my-28 mx-5">
-          <div className="border-4 border-gray-50 rounded-xl bg-slate-200 ">
-            <div className="p-4">
-              <CheckBadgeIcon className="min-h-10 min-w-10 max-h-10 max-w-10 text-primary " />
-            </div>
 
-            <p className="my-2 md:text-xl  font-normal pb-2 text-center px-4  ">
-              Determine all business licenses and permits required at the
-              federal, state, county and municipal level.
-            </p>
-          </div>
-          {/* arrow section  */}
-          <div className="flex items-center justify-center py-5 max-sm:hidden ">
-            <ArrowRightIcon className="min-h-7 min-w-7 max-h-7 max-w-7 text-primary max-sm:hidden  " />
-          </div>
-          <div className="max-sm:visible md:hidden flex justify-center items-center pb-4"></div>
-          {/* part 2 */}
-          <div className="border-4 border-gray-50 rounded-xl bg-slate-200 ">
-            <div className="p-4">
-              <DocumentCheckIcon className="min-h-10 min-w-10 max-h-10 max-w-10 text-primary " />
-            </div>
-
-            <p className="my-2 md:text-xl  font-normal pb-2 text-center px-4  ">
-              Determine all business licenses and permits required at the
-              federal, state, county and municipal level.
-            </p>
-          </div>
-          {/* arrow section start  */}
-          <div className="flex items-center justify-center py-5">
-            <ArrowRightIcon className="min-h-7 min-w-7 max-h-7 max-w-7 text-primary max-sm:hidden  " />
-          </div>
-          <div className="max-sm:visible md:hidden flex justify-center items-center pb-4"></div>
-          <div className="border-4 border-gray-50 rounded-xl bg-slate-200 ">
-            <div className="p-4">
-              <DocumentCheckIcon className="min-h-10 min-w-10 max-h-10 max-w-10 text-primary" />
-            </div>
-
-            <p className="my-2 md:text-xl  font-normal pb-2 text-center px-4  ">
-              Determine all business licenses and permits required at the
-              federal, state, county and municipal level.
-            </p>
-          </div>
-          {/* part 3 */}
-        </div>
-        {/* review section start  */}
-        <div className="flex justify-center items-center pb-4 mx-5">
-          <StarIcon className="w-9 h-9  text-primary" />
-        </div>
-        <p className="text-center">19,443 Customer Rating</p>
-        <div className="flex justify-center items-center pb-5">
-          <div className="flex gap-1 pt-5">
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="text-center pb-24 mx-5">
-          <h2 className="md:text-5xl text-2xl font-bold py-3 uppercase ">
-            vC filing Business License
-          </h2>
-          <h2 className="text-5xl font-bold uppercase">
-            <span className="text-primary">Research Package</span>
-          </h2>
-          <p className="pt-5">
-            With VC FILING Business License Research Package, you&apos;ll have
-            everything you need to apply for your licenses
-          </p>
-          <p>and meet the requirements for your business.</p>
-          <div className="flex justify-center items-center py-5">
-            <Link
-              className="md:px-10 md:py-5 py-6 px-4  bg-primary text-white border border-primary rounded-[30px] "
-              href={"/form-a-llc/"}
+<Link
+              href="/business-license/step-1"
+              className="group relative inline-flex items-center gap-1 overflow-hidden rounded-full bg-[#06B6D4] px-10 py-5 font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#0891B2] hover:shadow-[0_0_16px_3px_rgba(6,182,212,0.3)] active:scale-95"
             >
-              ORDER NOW
+              <span className="relative z-10 flex items-center gap-1">
+                ORDER NOW{" "}
+                <span className="inline-block transition-transform group-hover:translate-x-1">
+                  →
+                </span>
+              </span>
             </Link>
           </div>
-        </div>
-        {/* image section start  */}
-        <div className=" md:grid grid-cols-3 gap-5 md:pb-32 pb-8 mx-5 mb-24">
-          {/* image 1 */}
-          <div>
+
+          <div className="relative z-10 flex flex-1 justify-center">
             <Image
-              className=""
-              src="/foreign-qualification/img1.webp"
-              alt="Free LLC"
-              width={500}
-              height={500}
+              src="/business-license/business-license-hero.webp"
+              alt="Business License Hero"
+              width={750}
+              height={650}
+              className="rounded-3xl"
             />
-            <p className="py-3 text-lg mx-3">
-              How to Start Selling Merchandise for Your Small Business and Be
-              Profitable
-            </p>
-            <p className="mx-3 text-lg pb-5">Nov 9 , 2023, Lisa Crocco</p>
           </div>
-          {/* image 2 */}
-          <div>
-            <Image
-              className=""
-              src="/foreign-qualification/img2.webp"
-              alt="Free LLC"
-              width={500}
-              height={500}
-            />
-            <p className="pt-3 text-lg mx-3 capitalize">
-              How to Start a Business in Texas and Why
+        </section>
+
+        <div className="mx-auto max-w-7xl">
+{/* TRUST BAR */}
+          <section className="mx-5 mb-16 border-y border-slate-100 py-6 text-center text-sm text-slate-500">
+            Bootstrapped, Founder-Led, and Independently Owned —{" "}
+            <span className="font-bold text-[#06B6D4]">Serving Over 1,000,000 Entrepreneurs Since 2004</span>
+          </section>
+
+          {/* PACKAGE */}
+          <section className="mx-5 mb-16 rounded-3xl bg-[#F8FAFC] px-6 py-16 md:px-10">
+            <h2 className="mb-6 text-center text-4xl font-bold text-[#1E293B]">
+              What&apos;s in the Package?
+            </h2>
+
+            <p className="mx-auto mb-12 max-w-3xl text-center text-lg text-slate-600">
+              Business licensing rules vary by location, and government agencies
+              often update filing requirements. Our trusted partner simplifies
+              this by providing the latest forms and guidelines. Your customized
+              Business License Research Package will arrive by email 3–4 weeks
+              after your company is filed.
             </p>
 
-            <p className="mx-3 text-lg pb-5">Nov 9 , 2023, Lisa Crocco</p>
-          </div>
-          {/* image 3 */}
-          <div>
-            <Image
-              className=""
-              src="/foreign-qualification/img3.webp"
-              alt="Free LLC"
-              width={500}
-              height={500}
-            />
-            <p className="py-3 text-lg mx-3">
-              10 Best (and Worst) Cities for Digital Nomads in The States
-            </p>
-            <p className="mx-3 text-lg">Nov 9 , 2023, Lisa Crocco</p>
-          </div>
+            <div className="grid gap-6 md:grid-cols-3">
+              {[
+                {
+                  src: "/business-license/whats-in-the-package-info-group-1.webp",
+                  alt: "Order Your Business License Research Package",
+                },
+                {
+                  src: "/business-license/whats-in-the-package-info-group-2.webp",
+                  alt: "Receive Your Customized Package",
+                },
+                {
+                  src: "/business-license/whats-in-the-package-info-group-3.webp",
+                  alt: "Receive Your Licenses and Permits",
+                },
+              ].map((img) => (
+                <div
+                  key={img.src}
+                  className="flex items-center justify-center rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={400}
+                    height={300}
+                    className="rounded-xl"
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* OBTAINING */}
+          <section className="mx-5 mb-16 py-16">
+            <div className="grid items-center gap-12 md:grid-cols-2">
+              <div className="flex justify-center">
+                <div className="group relative">
+                  <div className="absolute inset-0 rounded-3xl bg-[#06B6D4]/10 blur-2xl opacity-40 transition-opacity group-hover:opacity-60" />
+
+                  <Image
+                    src="/business-license/using-ein-business-license-info.webp"
+                    alt="Obtaining Business Licenses"
+                    width={520}
+                    height={600}
+                    className="relative z-10 rounded-3xl shadow-xl"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h2 className="mb-10 text-4xl font-bold text-[#1E293B]">
+                  Obtaining Business Licenses and Permits
+                </h2>
+
+                <div className="flex flex-col gap-8">
+                  {obtainingSteps.map((step) => {
+                    const StepIcon = step.icon;
+
+                    return (
+                      <div
+                        key={step.number}
+                        className="group flex items-start gap-5"
+                      >
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#06B6D4] text-lg font-bold text-white shadow-md transition-transform duration-300 group-hover:scale-105">
+                          {step.number}
+                        </div>
+
+                        <div>
+                          <h3 className="mb-1 text-lg font-bold text-[#1E293B]">
+                            {step.title}
+                          </h3>
+                          <p className="text-sm leading-relaxed text-slate-500">
+                            {step.desc}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ARTICLE */}
+          <section className="mx-5 py-10">
+            <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[300px_1fr]">
+              {/* TOC */}
+              <aside className="w-full lg:sticky lg:top-24">
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    Table of Contents
+                  </p>
+
+                  <ul className="mt-4">
+                    {tocItems.map(([title, link]) => (
+                      <li
+                        key={link}
+                        className="border-t border-slate-100 first:border-t-0"
+                      >
+                        <a
+                          href={link}
+                          onClick={(e) => handleSmoothScroll(e, link)}
+                          className={`flex justify-between gap-3 py-3 text-sm font-medium transition-colors duration-200 ${
+                            activeSection === link
+                              ? "font-bold text-[#06B6D4]"
+                              : "text-slate-700 hover:text-[#06B6D4]"
+                          }`}
+                        >
+                          {title}
+                          <span
+                            className={
+                              activeSection === link
+                                ? "translate-x-1 transition-transform"
+                                : ""
+                            }
+                          >
+                            ›
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </aside>
+
+              {/* Content */}
+              <article className="w-full max-w-4xl leading-7 text-slate-700">
+                <section id="what-is-license" className="scroll-mt-24 mb-12">
+                  <h2 className="mb-4 text-3xl font-bold text-[#1E293B]">
+                    What Is a Business License?
+                  </h2>
+                  <p className="leading-relaxed text-slate-600">
+                    Think of a business license as your official permission slip
+                    from the state government authorizing you to operate in a
+                    specific location. It&apos;s like a driver&apos;s license for
+                    your business — a green light to conduct business legally.
+                  </p>
+                </section>
+
+                <section id="what-is-permit" className="scroll-mt-24 mb-12">
+                  <h2 className="mb-4 text-3xl font-bold text-[#1E293B]">
+                    What Is a Business Permit?
+                  </h2>
+                  <p className="leading-relaxed text-slate-600">
+                    A business permit, typically issued by a state or federal
+                    agency after an inspection, ensures your startup adheres to
+                    your industry&apos;s safety and health standards.
+                  </p>
+                </section>
+
+                <section id="licenses-needed" className="scroll-mt-24 mb-12">
+                  <h2 className="mb-4 text-3xl font-bold text-[#1E293B]">
+                    What Licenses and Permits are Needed to Start a Business?
+                  </h2>
+
+                  <p className="mb-8 leading-relaxed text-slate-600">
+                    To ensure compliance with local and federal regulations,
+                    it&apos;s crucial to thoroughly research and understand the
+                    specific licensing and permit requirements for your business.
+                  </p>
+
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    {licenseFactors.map((factor) => {
+                      const FactorIcon = factor.icon;
+
+                      return (
+                        <div
+                          key={factor.title}
+                          className="group rounded-2xl border border-slate-100 bg-[#F8FAFC] p-6 transition-all duration-300 hover:border-[#06B6D4]/30 hover:shadow-md"
+                        >
+                          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#06B6D4]/10 transition-colors duration-300 group-hover:bg-[#06B6D4]/20">
+                            <FactorIcon className="h-5 w-5 text-[#06B6D4]" />
+                          </div>
+
+                          <h3 className="mb-2 font-bold text-[#1E293B]">
+                            {factor.title}
+                          </h3>
+
+                          <p className="text-sm leading-relaxed text-slate-500">
+                            {factor.desc}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-8">
+                    <Image
+                      src="/business-license/business-license-toc.webp"
+                      alt="Business License"
+                      width={800}
+                      height={450}
+                      className="mb-3 rounded-2xl"
+                    />
+
+                    <p className="text-sm text-slate-500">
+                      A data breach can weaken a starting enterprise, eroding
+                      trust, incurring hefty fines, and leading to legal trouble.
+                    </p>
+                  </div>
+                </section>
+
+                <section id="seven-types" className="scroll-mt-24 mb-12">
+                  <h2 className="mb-4 text-3xl font-bold text-[#1E293B]">
+                    Seven Common Types of Business Licenses and Permits
+                  </h2>
+
+                  <p className="mb-6 leading-relaxed text-slate-600">
+                    The particular permits or licenses you need will vary
+                    depending on your location and industry.
+                  </p>
+
+                  <ol className="space-y-4">
+                    {sevenTypes.map((item, idx) => (
+                      <li key={item.title} className="flex items-start gap-4">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#06B6D4] text-sm font-bold text-white">
+                          {idx + 1}
+                        </span>
+
+                        <div>
+                          <span className="font-bold text-[#1E293B]">
+                            {item.title}.{" "}
+                          </span>
+                          <span className="text-slate-600">{item.desc}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </section>
+
+                <section id="state-differences" className="scroll-mt-24 mb-12">
+                  <h2 className="mb-4 text-3xl font-bold text-[#1E293B]">
+                    Licensing and Permitting Differences Between States
+                  </h2>
+
+                  <p className="mb-6 leading-relaxed text-slate-600">
+                    Business license and permit requirements vary significantly
+                    from state to state.
+                  </p>
+
+                  <div className="space-y-4">
+                    {stateDifferences.map((item) => (
+                      <div
+                        key={item.title}
+                        className="rounded-r-2xl border-l-4 border-[#06B6D4] bg-[#F8FAFC] py-4 pl-5 pr-6"
+                      >
+                        <h3 className="mb-1 font-bold text-[#1E293B]">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-slate-600">
+                          {item.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+
+                <section id="federal-permits" className="scroll-mt-24 mb-12">
+                  <h2 className="mb-4 text-3xl font-bold text-[#1E293B]">
+                    A Note on Federal Permits
+                  </h2>
+
+                  <p className="mb-6 leading-relaxed text-slate-600">
+                    While most businesses won&apos;t need federal permits, some
+                    industries operate under federal government regulations.
+                  </p>
+
+                  <ul className="space-y-3">
+                    {federalSectors.map((item, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-start gap-3 text-sm leading-relaxed text-slate-600"
+                      >
+                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#06B6D4]" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section id="prepare-success" className="scroll-mt-24 mb-12">
+                  <h2 className="mb-4 text-3xl font-bold text-[#1E293B]">
+                    Prepare Your Company for Success
+                  </h2>
+
+                  <p className="leading-relaxed text-slate-600">
+                    Recognizing the distinctions between business licenses and
+                    permits helps ensure that you comply with all local, state,
+                    and federal regulations.
+                  </p>
+                </section>
+
+<div className="rounded-2xl border border-slate-200 bg-[#F8FAFC] p-5 text-xs leading-relaxed text-slate-500">
+                  <p className="mb-1 font-bold text-slate-600">Disclaimer</p>
+                  Incorp Bay and its affiliates do not provide tax, legal, or
+                  accounting advice. This material is prepared for informational
+                  purposes only.
+                </div>
+              </article>
+            </div>
+          </section>
+
+          {/* CTA */}
+          <section className="mx-5 my-20">
+            <div
+              className="relative overflow-hidden rounded-[40px] p-10 text-center md:p-16"
+              style={{
+                background:
+                  "linear-gradient(135deg, #1E293B 0%, #06B6D4 100%)",
+              }}
+            >
+              <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#06B6D4]/15 to-transparent" />
+
+              <div className="pointer-events-none absolute right-1/4 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-[#06B6D4]/20 blur-[80px]" />
+
+<div className="relative z-10">
+                <span className="rounded-full bg-[#06B6D4] px-4 py-2 text-sm font-semibold text-white">
+                  Incorporate Now
+                </span>
+
+                <h2 className="mb-4 mt-6 text-4xl font-bold leading-tight text-white md:text-5xl">
+                  Incorp Bay&apos;s Business License{" "}
+                  <span
+                    style={{
+                      background:
+                        "linear-gradient(135deg, #67E8F9 0%, #ffffff 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
+                    Research Package
+                  </span>
+                </h2>
+
+                <p className="mx-auto mb-10 max-w-2xl text-lg text-cyan-50">
+                  With Incorp Bay&apos;s Business License Research Package,
+                  you&apos;ll have everything you need to apply for the right licenses
+                  and meet your business&apos;s specific requirements — all in one
+                  place, ready to go.
+                </p>
+
+                <div className="mb-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                  <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm">
+                    <span className="text-sm font-bold text-white">
+                      147,797 ratings
+                    </span>
+                    <span className="text-[#06B6D4]">★★★★★</span>
+                    <span className="text-sm font-semibold text-cyan-50">
+                      Shopper Approved
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm">
+                    <span className="text-sm font-bold text-white">
+                      25,578 reviews
+                    </span>
+                    <span className="text-[#06B6D4]">★★★★★</span>
+                    <span className="text-sm font-semibold text-cyan-50">
+                      Trustpilot
+                    </span>
+                  </div>
+                </div>
+
+<Link
+                  href="/business-license/step-1"
+                  className="group relative inline-flex items-center gap-1 overflow-hidden rounded-full bg-[#06B6D4] px-10 py-5 font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#0891B2] hover:shadow-[0_0_16px_3px_rgba(6,182,212,0.3)] active:scale-95"
+                >
+                  <span className="relative z-10 flex items-center gap-1">
+                    ORDER NOW{" "}
+                    <span className="inline-block transition-transform group-hover:translate-x-1">
+                      →
+                    </span>
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </section>
         </div>
-      </div>
+      </main>
     </NavigationWrapper>
   );
 };
 
-export default Amendment;
+export default BusinessLicense;

@@ -3,6 +3,7 @@ import { executeQuery } from "@/lib/dbConnect";
 import getFormattedDate from "@/hooks/useGetDate";
 import { createUser, UserData } from "@/lib/createUser";
 import handleUsers from "@/lib/handleUsers";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(req: NextRequest) {
   try {
@@ -15,11 +16,13 @@ export async function POST(req: NextRequest) {
     };
 
     // Check if the user exists or create a new user
+    let createdUser = null;
     try {
       const userResponse = await createUser(userData);
       if (userResponse.user) {
-        console.log(userResponse)
+        console.log(userResponse);
         await handleUsers(userResponse.user, "foreign_qualification");
+        createdUser = userResponse.user;
       }
     } catch (error) {
       console.error("Error processing user:", error);
@@ -29,7 +32,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Define the fields we expect in the same order as the SQL query
+// NOTE: Application saving is done in the hook now (useSubmitForeignQualification)
+    // to avoid duplicates - MySQL route only saves to MySQL, hook handles Prisma/Application
+    console.log("[FQ MySQL] Application will be saved by hook, not here");
+
+    // Define the fields
     const fields = [
       "mobile_phone",
       "email",

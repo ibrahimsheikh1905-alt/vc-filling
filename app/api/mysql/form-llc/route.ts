@@ -29,8 +29,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Define the fields we expect in the same order as the SQL query
+// Define the fields we expect in the same order as the SQL query
     const fields = [
+      "user_id",
       "entity_type",
       "package_type",
       "state_name",
@@ -82,7 +83,8 @@ export async function POST(req: NextRequest) {
       );
     `;
 
-    const values = [
+const values = [
+      data.userId ?? null,
       data.entityType ?? null,
       data.packageType ?? null,
       data.stateName ?? null,

@@ -115,7 +115,7 @@ export async function submitEINFormData(paymentData: any, captureId: any, captur
     });
     
     await axios.post(
-      "/api/payment/",
+      "/api/payments",
       {
         paymentMethod:
           JSON.parse(localStorage.getItem("/forms/step-final") || "{}")

@@ -6,10 +6,8 @@ import {
 } from "@heroicons/react/24/solid";
 import OrderSummary from "@/components/OrderSummary";
 import useLocalStorageForm from "@/hooks/useLocalStorage";
-import StepNavigation from "@/components/StepNavigation";
 import { businessTypeData, statesInUS } from "@/data";
 import NavigationWrapper from "@/components/NavigationWrapper";
-import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -33,15 +31,11 @@ type Inputs = {
 };
 const StepOne = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [verificationStatus, setVerificationStatus] = useState("");
 
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -49,37 +43,7 @@ const StepOne = () => {
     updateFormData(data);
     router.push("/forms/step-final");
   };
-  // console.log(watch("members"));
 
-  const sendOtp = async () => {
-    try {
-      // Make API call to send OTP to the user's email
-      await axios.post("/api/send-otp", { email: formData.email });
-      setIsOtpSent(true);
-      setVerificationStatus("OTP sent to your email!");
-    } catch (error) {
-      setVerificationStatus("Failed to send OTP.");
-    }
-  };
-
-  const verifyOtp = async () => {
-    try {
-      // Make API call to verify the OTP
-      const response = await axios.post("/api/verify-otp", {
-        email: formData.email,
-        otp: Number(otp),
-      });
-      if (response.data.success) {
-        setVerificationStatus("Email verified successfully!");
-        updateFormData({ emailVerified: true });
-        // onEmailVerified(true); // Move to the next step
-      } else {
-        setVerificationStatus("Incorrect OTP.");
-      }
-    } catch (error) {
-      setVerificationStatus("Verification failed.");
-    }
-  };
   const [formData, updateFormData] = useLocalStorageForm({
     entityType: "",
     stateOfFormation: "",
@@ -96,8 +60,30 @@ const StepOne = () => {
     city: "",
     state: "",
     zipCode: "",
-    emailVerified: false,
   });
+
+  // Load user data from localStorage on mount
+  useEffect(() => {
+    const userName = localStorage.getItem("vcFillingName") || "";
+    const userEmail = localStorage.getItem("userEmail") || "";
+    
+    if (userName) {
+      const nameParts = userName.split(" ");
+      if (nameParts.length > 1) {
+        updateFormData({
+          firstName: nameParts[0],
+          lastName: nameParts.slice(1).join(" "),
+          email: userEmail,
+        });
+      } else {
+        updateFormData({
+          firstName: userName,
+          lastName: "",
+          email: userEmail,
+        });
+      }
+    }
+  }, []);
 
   useEffect(() => {
     setIsMounted(true);
@@ -185,76 +171,30 @@ const StepOne = () => {
                           </span>
                         )}
                       </div>
-                      <div>
-                        {formData.emailVerified || !isOtpSent ? (
-                          <label
-                            id="email"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            Email *
-                          </label>
-                        ) : (
-                          <label
-                            id="email"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            OTP *
-                          </label>
+<div>
+                        <label
+                          id="email"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          placeholder="Enter your email"
+                          value={formData.email}
+                          {...register("email", {
+                            required: true,
+                            onChange: (e) => {
+                              updateFormData({ email: e.target.value });
+                            },
+                          })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        {errors.email && (
+                          <span className="text-red-500 text-xs mt-1">
+                            Email is required
+                          </span>
                         )}
-                        <div>
-                          {formData.emailVerified || !isOtpSent ? (
-                            <>
-                              <input
-                                type="email"
-                                placeholder="Enter your email"
-                                value={formData.email}
-                                {...register("email", {
-                                  required: true,
-                                  onChange: (e) => {
-                                    updateFormData({ email: e.target.value });
-                                  },
-                                })}
-                                readOnly={formData.emailVerified}
-                                className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
-                                  formData.emailVerified ? "bg-gray-100" : ""
-                                }`}
-                              />
-                              {!formData.emailVerified && (
-                                <button
-                                  type="button"
-                                  onClick={sendOtp}
-                                  className="mt-3 rounded-xl border border-primary px-2 py-1"
-                                >
-                                  Verify Email
-                                </button>
-                              )}
-                            </>
-                          ) : (
-                            <div className="">
-                              <input
-                                type="number"
-                                placeholder="Enter OTP"
-                                value={otp}
-                                onChange={(e) => setOtp(e.target.value)}
-                                required
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                              />
-                              <button
-                                type="button"
-                                onClick={verifyOtp}
-                                className="mt-3 rounded-xl border border-primary px-2 py-1"
-                              >
-                                Verify OTP
-                              </button>
-                            </div>
-                          )}
-                          {errors.email && (
-                            <span className="text-red-500 text-xs mt-1">
-                              Email is required
-                            </span>
-                          )}
-                          <p>{verificationStatus}</p>
-                        </div>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
@@ -602,11 +542,11 @@ const StepOne = () => {
                   Back
                 </Link>
 
-                <button
-                  className={`px-8 py-2 bg-primary text-white border border-primary rounded-[30px] ${formData.emailVerified ? "" : "cursor-not-allowed opacity-50"}`}
+<button
+                  className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px]"
                   type="submit"
                 >
-                  {formData.emailVerified ? "Next" : "Verify Email Above."}
+                  Next
                 </button>
               </div>
             </div>

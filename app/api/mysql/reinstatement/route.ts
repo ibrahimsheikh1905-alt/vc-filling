@@ -1,102 +1,101 @@
 import { NextResponse, NextRequest } from "next/server";
 import { executeQuery } from "@/lib/dbConnect";
-import getFormattedDate from "@/hooks/useGetDate";
-import { createUser, UserData } from "@/lib/createUser";
-import handleUsers from "@/lib/handleUsers";
+
+function getFormattedDate(): string {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    const userData: UserData = {
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      mobilePhone: data.mobilePhone,
-    };
-
-    // Check if the user exists or create a new user
+    console.log("Reinstatement data received:", JSON.stringify(data));
+    
+    // Insert into reinstatement table
+    const reinstatementQuery = `
+      INSERT INTO reinstatement (
+        mobile_phone, email, last_name, first_name, company_name, designator, 
+        entity_type, state_of_formation, street_address, address_line2, 
+        city, state, zip_code, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    
+    const reinstatementValues = [
+      data.mobilePhone || null,
+      data.email || null,
+      data.lastName || null,
+      data.firstName || null,
+      data.companyName || null,
+      data.designator || null,
+      data.entityType || null,
+      data.stateOfFormation || data.state || null,
+      data.streetAddress || null,
+      data.addressLine2 || null,
+      data.city || null,
+      data.state || null,
+      data.zipCode || null,
+      getFormattedDate(),
+    ];
+    
+    console.log("Inserting reinstatement with values:", reinstatementValues);
+    
+    let result;
     try {
-      const userResponse = await createUser(userData);
-      if (userResponse.user) {
-        console.log(userResponse)
-        await handleUsers(userResponse.user, "reinstatement");
-      }
-    } catch (error) {
-      console.error("Error processing user:", error);
+      result = await executeQuery(reinstatementQuery, reinstatementValues);
+      console.log("Reinstatement insert result:", result);
+    } catch (reinstatementError: any) {
+      console.error("Error inserting into reinstatement:", reinstatementError);
       return NextResponse.json(
-        { error: "Failed to process user data" },
+        { error: "Failed to insert reinstatement: " + reinstatementError.message },
         { status: 500 }
       );
     }
-
-    // Define the fields we expect in the same order as the SQL query
-    const fields = [
-      "mobile_phone",
-      "email",
-      "last_name",
-      "first_name",
-      "company_name",
-      "designator",
-      "entity_type",
-      "state_of_formation",
-      "street_address",
-      "address_line2",
-      "city",
-      "state",
-      "zip_code",
-      "created_at",
-    ];
-
-    // Construct the query dynamically based on the fields
-    const query = `
-      INSERT INTO reinstatement (
-        ${fields.join(", ")}
-      ) VALUES (
-        ${fields.map(() => "?").join(", ")}
-      );
+    
+    const insertedId = result?.insertId || result?.lastInsertRowid || 1;
+    console.log("Inserted ID:", insertedId);
+    
+    // Insert into all_form_data
+    const allFormQuery = `
+      INSERT INTO all_form_data (
+        entity_type, company_name, designator, first_name, last_name, 
+        email, mobile_phone, usable_id, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
-
-    const values = [
-      data.mobilePhone ?? null,
-      data.email ?? null,
-      data.lastName ?? null,
-      data.firstName ?? null,
-      data.companyName ?? null,
-      data.designator ?? null,
-      data.entityType ?? null,
-      data.stateOfFormation ?? null,
-      data.streetAddress ?? null,
-      data.addressLine2 ?? null,
-      data.city ?? null,
-      data.state ?? null,
-      data.zipCode ?? null,
-      getFormattedDate(),
-    ];
-
-    const result = await executeQuery(query, values);
-    const insertedId = result.insertId;
-
-    const newQuery = `INSERT INTO all_form_data (entity_type, company_name, designator, first_name, last_name, email, mobile_phone, usable_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-    await executeQuery(newQuery, [
-      data.entityType,
-      data.companyName,
-      data.designator,
-      data.firstName,
-      data.lastName,
-      data.email,
-      data.mobilePhone,
+    
+    const allFormValues = [
+      data.entityType || null,
+      data.companyName || null,
+      data.designator || null,
+      data.firstName || null,
+      data.lastName || null,
+      data.email || null,
+      data.mobilePhone || null,
       `reinstatement-${insertedId}`,
       getFormattedDate(),
-    ]);
+    ];
+    
+    console.log("Inserting all_form_data with values:", allFormValues);
+    
+    try {
+      await executeQuery(allFormQuery, allFormValues);
+    } catch (allFormError: any) {
+      console.error("Error inserting into all_form_data:", allFormError);
+    }
 
     return NextResponse.json({
       message: "Data inserted successfully.",
       usableId: `reinstatement-${insertedId}`,
     });
-  } catch (error) {
-    console.error("Error inserting data:", error);
+  } catch (error: any) {
+    console.error("Error in reinstatement route:", error);
     return NextResponse.json(
-      { error: "Failed to insert data" },
+      { error: "Server error: " + error.message },
       { status: 500 }
     );
   }

@@ -5,6 +5,7 @@ import { LayoutDashboard } from 'lucide-react';
 // import ActionItemsSection from './ActionItemsSection';
 import MyCompanySection from './MyCompanySection';
 import OrderServicesSection from './OrderServicesSection';
+import ComplianceTasks from './ComplianceTasks';
 
 const DashboardMainContent: React.FC = () => {
   return (
@@ -26,6 +27,7 @@ const DashboardMainContent: React.FC = () => {
       {/* Sections Container */}
       <div className="space-y-12">
 
+        
         {/* My Company Section */}
         <MyCompanySection />
         

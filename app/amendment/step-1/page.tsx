@@ -8,7 +8,6 @@ import {
 import OrderSummary from "@/components/OrderSummary";
 import useLocalStorageForm from "@/hooks/useLocalStorage";
 import { statesInUS } from "@/data";
-import axios from "axios";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
@@ -45,9 +44,6 @@ type Inputs = {
 
 const StepOne = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [verificationStatus, setVerificationStatus] = useState("");
 
   const router = useRouter();
   const {
@@ -56,7 +52,7 @@ const StepOne = () => {
     // watch,
     formState: { errors },
   } = useForm<Inputs>({ defaultValues: { stateFillingTime: "fast" } });
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+const onSubmit: SubmitHandler<Inputs> = (data) => {
     updateFormData({
       ...data,
       nameChangeOption: data.nameChangeOption === "true",
@@ -65,35 +61,30 @@ const StepOne = () => {
   };
   // console.log(watch("nameChangeOption"));
 
-  const sendOtp = async () => {
-    try {
-      // Make API call to send OTP to the user's email
-      await axios.post("/api/send-otp", { email: formData.email });
-      setIsOtpSent(true);
-      setVerificationStatus("OTP sent to your email!");
-    } catch (error) {
-      setVerificationStatus("Failed to send OTP.");
-    }
-  };
-
-  const verifyOtp = async () => {
-    try {
-      // Make API call to verify the OTP
-      const response = await axios.post("/api/verify-otp", {
-        email: formData.email,
-        otp: Number(otp),
-      });
-      if (response.data.success) {
-        setVerificationStatus("Email verified successfully!");
-        updateFormData({ emailVerified: true });
+  // Load user data from localStorage on mount
+  useEffect(() => {
+    const userName = localStorage.getItem("vcFillingName") || "";
+    const userEmail = localStorage.getItem("userEmail") || "";
+    
+    if (userName) {
+      const nameParts = userName.split(" ");
+      if (nameParts.length > 1) {
+        updateFormData({
+          firstName: nameParts[0],
+          lastName: nameParts.slice(1).join(" "),
+          email: userEmail,
+        });
       } else {
-        setVerificationStatus("Incorrect OTP.");
+        updateFormData({
+          firstName: userName,
+          lastName: "",
+          email: userEmail,
+        });
       }
-    } catch (error) {
-      setVerificationStatus("Verification failed.");
     }
-  };
-  const [formData, updateFormData] = useLocalStorageForm({
+  }, []);
+
+const [formData, updateFormData] = useLocalStorageForm({
     nameChangeOption: null,
     amendInfo: "",
     stateFillingTime: "fast",
@@ -113,7 +104,6 @@ const StepOne = () => {
     city: "",
     state: "",
     zipCode: "",
-    emailVerified: false,
   });
 
   const options: Record<"standard" | "fast", FilingOption> = {
@@ -169,7 +159,7 @@ const StepOne = () => {
                       Contact Information
                     </h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
+<div>
                         <label className="block text-sm font-medium text-gray-700">
                           First Name *
                         </label>
@@ -190,11 +180,6 @@ const StepOne = () => {
                             First Name is required
                           </span>
                         )}
-                        {/* {formData.firstName === "" && (
-                        <p className="text-red-500 text-xs mt-1">
-                          First Name is required
-                        </p>
-                      )} */}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
@@ -219,77 +204,32 @@ const StepOne = () => {
                         )}
                       </div>
                       <div>
-                        {formData.emailVerified || !isOtpSent ? (
-                          <label
-                            id="email"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            Email *
-                          </label>
-                        ) : (
-                          <label
-                            id="email"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            OTP *
-                          </label>
+                        <label
+                          id="email"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          autoComplete="email"
+                          value={formData.email}
+                          placeholder="Enter your email"
+                          {...register("email", {
+                            required: true,
+                            onChange: (e) => {
+                              updateFormData({
+                                email: e.target.value,
+                              });
+                            },
+                          })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        {errors.email && (
+                          <span className="text-sm text-red-600">
+                            Email is required
+                          </span>
                         )}
-                        <div>
-                          {formData.emailVerified || !isOtpSent ? (
-                            <>
-                              <input
-                                type="email"
-                                autoComplete="email"
-                                value={formData.email}
-                                placeholder="Enter your email"
-                                {...register("email", {
-                                  required: true,
-                                  onChange: (e) => {
-                                    updateFormData({
-                                      email: e.target.value,
-                                    });
-                                  },
-                                })}
-                                readOnly={formData.emailVerified}
-                                className={`email-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 `}
-                              />
-                              {!formData.emailVerified && (
-                                <button
-                                  type="button"
-                                  onClick={sendOtp}
-                                  className="mt-3 rounded-xl border border-primary px-2 py-1"
-                                >
-                                  Verify Email
-                                </button>
-                              )}
-                            </>
-                          ) : (
-                            <div className="">
-                              <input
-                                type="number"
-                                placeholder="Enter OTP"
-                                value={otp}
-                                name="otp"
-                                onChange={(e) => setOtp(e.target.value)}
-                                required
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                              />
-                              <button
-                                type="button"
-                                onClick={verifyOtp}
-                                className="mt-3 rounded-xl border border-primary px-2 py-1"
-                              >
-                                Verify OTP
-                              </button>
-                            </div>
-                          )}
-                          <p>{verificationStatus}</p>
-                          {errors.email && (
-                            <span className="text-sm text-red-600">
-                              Email is required
-                            </span>
-                          )}
-                        </div>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
@@ -860,7 +800,7 @@ const StepOne = () => {
                 </p>
               </div>
               {/* navigation */}
-              <div className="flex justify-between mt-12">
+<div className="flex justify-between mt-12">
                 <Link
                   href="/amendment"
                   className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
@@ -869,11 +809,10 @@ const StepOne = () => {
                 </Link>
 
                 <button
-                  className={`px-8 py-2 bg-primary text-white border border-primary rounded-[30px] ${formData.emailVerified ? "" : "cursor-not-allowed opacity-50"}`}
+                  className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px]"
                   type="submit"
-                  disabled={!formData.emailVerified}
                 >
-                  {formData.emailVerified ? "Next" : "Verify Email Above."}
+                  Next
                 </button>
               </div>
 

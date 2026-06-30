@@ -1,11 +1,10 @@
-import {
-  CheckBadgeIcon,
-  StarIcon,
-  ChevronDownIcon,
-} from "@heroicons/react/24/solid";
+"use client";
+
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
+import { ShieldCheck, FileText, Settings, ClipboardList } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -17,301 +16,475 @@ import { statesInUS } from "@/data";
 
 const entityTypes = ["LLC", "C-Corporation", "Partnership", "Nonprofit"];
 
+const stateFees: Record<string, number> = {
+  Alabama: 200,
+  Alaska: 250,
+  Arizona: 150,
+  Arkansas: 300,
+  California: 350,
+  Colorado: 150,
+  Connecticut: 350,
+  Delaware: 200,
+  Florida: 350,
+  Georgia: 250,
+  Hawaii: 150,
+  Idaho: 150,
+  Illinois: 350,
+  Indiana: 150,
+  Iowa: 150,
+  Kansas: 200,
+  Kentucky: 200,
+  Louisiana: 300,
+  Maine: 250,
+  Maryland: 200,
+  Massachusetts: 350,
+  Michigan: 250,
+  Minnesota: 250,
+  Mississippi: 200,
+  Missouri: 200,
+  Montana: 150,
+  Nebraska: 150,
+  Nevada: 250,
+  "New Hampshire": 250,
+  "New Jersey": 250,
+  "New Mexico": 150,
+  "New York": 350,
+  "North Carolina": 250,
+  "North Dakota": 150,
+  Ohio: 150,
+  Oklahoma: 200,
+  Oregon: 300,
+  Pennsylvania: 300,
+  "Rhode Island": 350,
+  "South Carolina": 200,
+  "South Dakota": 150,
+  Tennessee: 300,
+  Texas: 300,
+  Utah: 200,
+  Vermont: 150,
+  Virginia: 200,
+  Washington: 250,
+  "West Virginia": 200,
+  Wisconsin: 250,
+  Wyoming: 150,
+};
+
+const serviceFee = 99;
+
+// Track geometry constants — must match the step item classes below:
+// min-h-[120px] + mb-12 (48px) = 168px per item spacing
+// icon is w-12 h-12 = 48px, center = 24px
+const ITEM_SPACING = 168; // px
+const ICON_CENTER = 24;   // px (half of 48px icon)
+
 const Amendment = () => {
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedEntityType, setSelectedEntityType] = useState("");
+  const [timelineProgress, setTimelineProgress] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  const whyFilingRef = useRef<HTMLDivElement>(null);
+
+  const currentStateFee =
+    selectedState && stateFees[selectedState] ? stateFees[selectedState] : 0;
+
+  const totalPrice = selectedState ? serviceFee + currentStateFee : 0;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          let current = 0;
+
+          const interval = setInterval(() => {
+            current += 1;
+
+            if (current >= 100) {
+              setTimelineProgress(100);
+              setActiveStep(4);
+              clearInterval(interval);
+            } else {
+              setTimelineProgress(current);
+
+              if (current >= 0 && current < 28) setActiveStep(1);
+              else if (current >= 28 && current < 58) setActiveStep(2);
+              else if (current >= 58 && current < 88) setActiveStep(3);
+              else if (current >= 88) setActiveStep(4);
+            }
+          }, 25);
+
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (whyFilingRef.current) {
+      observer.observe(whyFilingRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [mounted]);
+
+  const stepsData = [
+    {
+      title: "Stay Legally Compliant",
+      desc: "Keeping your LLC's official records current helps you stay in line with state laws and steer clear of unnecessary fines or penalties.",
+      icon: ClipboardList,
+    },
+    {
+      title: "Keep Your Liability Protection Intact",
+      desc: "Filing amendments helps preserve your LLC's limited liability protection by making sure your business information stays accurate and up to date.",
+      icon: ShieldCheck,
+    },
+    {
+      title: "Keep Public Records Accurate",
+      desc: "Updating your LLC's details means banks, investors, vendors and other stakeholders always have access to correct information.",
+      icon: FileText,
+    },
+    {
+      title: "Keep Operations Running Smoothly",
+      desc: "Current records help your business run without hiccups, especially during transactions where legal accuracy really matters.",
+      icon: Settings,
+    },
+  ];
+
+  // Track height in px: from center of icon 1 to center of icon 4
+  const totalSteps = stepsData.length;
+  const trackHeightPx = (totalSteps - 1) * ITEM_SPACING;
+  // Cyan fill height in px — capped at trackHeightPx
+  const fillHeightPx = (Math.min(timelineProgress, 100) / 100) * trackHeightPx;
+
+  const faqData = [
+    {
+      id: "faq-1",
+      question: "How Long Does It Take To Change a Company Name?",
+      answer:
+        "The filing time for Articles of Amendment typically takes four to six weeks, depending on the processing speeds of your specific Secretary of State. Some states offer expedited processing options for an additional fee if you need the updates approved quickly.",
+    },
+    {
+      id: "faq-2",
+      question: "How do i file out-of-state Articles of Amendment?",
+      answer:
+        "If you're filing an amendment for a business that's registered as a foreign entity in another state, you will need to submit the corresponding amendment forms to that specific state's governing business authority, adhering to their particular state guidelines and document requirements.",
+    },
+    {
+      id: "faq-3",
+      question:
+        "What is the difference between Articles of Amendment and Restated Articles?",
+      answer:
+        "Articles of Amendment add to, delete, or change specific details in your original layout documents. Restated Articles combine your original articles and all subsequent updates or modifications into one single, clean, and comprehensive master document.",
+    },
+    {
+      id: "faq-4",
+      question:
+        "Do I need to update my operating agreement after filing an amendment?",
+      answer:
+        "Yes, it is highly recommended. Whenever key structural parameters or entity records change at the state level, like a company name change or change in membership, you should update your internal Operating Agreement to maintain operational clarity.",
+    },
+  ];
+
   return (
     <NavigationWrapper>
-      <div className=" my-16 flex flex-col-reverse md:flex-row">
-        <div className=" md:text-left max-sm:mx-5">
-          <h1 className="text-5xl font-bold  pt-20 md:pl-20 max-sm:text-3xl">
+      {/* Hero Section */}
+      <div className="my-16 flex flex-col-reverse md:flex-row items-center justify-between gap-8">
+        <div className="md:text-left max-sm:mx-5 w-full md:w-1/2">
+          <h1 className="text-5xl font-bold pt-20 md:pl-20 max-sm:text-3xl text-[#1E293B]">
             File Articles of
           </h1>
-          <h2 className="md:text-5xl max-sm:text-3xl font-bold md:pl-20">
+
+          <h2 className="md:text-5xl max-sm:text-3xl font-bold md:pl-20 text-[#1E293B]">
             Amendment
           </h2>
-          <h2 className="text-xl md:pl-20 py-10 pb-24 ">
-            Here&apos;s how to change your LLC&apos;s name, address or member
-            information.
+
+          <h2 className="text-xl md:pl-20 py-10 pb-24 text-[#1E293B]">
+            Here&apos;s how to update your LLC&apos;s name, address or member
+            details.
           </h2>
+
           <Link
-            className="px-10 md:ml-20 py-5 font-bold bg-primary text-white border border-primary rounded-[30px] "
             href="/amendment/step-1"
+            className="group relative px-10 md:ml-20 py-5 font-bold bg-[#06B6D4] text-white border border-[#06B6D4] rounded-[30px] overflow-hidden inline-flex items-center justify-center gap-2 transition-all duration-300 ease-in-out shadow-md hover:shadow-[0_8px_30px_rgba(6,182,212,0.5)] hover:-translate-y-1 active:scale-[0.98]"
           >
-            ARTICLES OF AMENDMENT
+            <div className="absolute inset-0 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative z-10 flex items-center gap-2">
+              ARTICLES OF AMENDMENT
+              <span className="group-hover:translate-x-1 transition-transform duration-300">
+                →
+              </span>
+            </span>
           </Link>
         </div>
 
-        <Image
-          src="/free-llc/LLC green.jpg"
-          alt="Free LLC"
-          width={850}
-          height={850}
-        />
-      </div>
-      <div className="max-w-7xl mx-auto ">
-        <div className="flex gap-4 items-center justify-center my-16 py-7 mx-3 md:flex-row flex-col">
-          <Image src="/main/vcicon.jpg" alt="image" width={200} height={200} />
-          <div>
-            <h3 className="md:text-5xl text-3xl font-bold py-2 uppercase">
-              Join <span className="text-primary">1,000,000+</span>
-              <br /> Entrepreneurs <br />
-              like you
-            </h3>
-            <p className="text-xl">
-              Entrepreneurship is booming - and we&apos;re happy to be <br />{" "}
-              one of America&apos;s fastest growing companies.
-            </p>
-          </div>
-        </div>
-        <div className="md:flex  md:py-10 mx-4 px-1">
-          <div className=" md:text-left md:w-1/2 md:px-16 ">
-            <h3 className="md:text-5xl text-3xl font-bold   ">
-              What Are Articles of Amendment?
-            </h3>
-            <p className="md:text-xl text-base max-sm:pt-5 md:pt-5">
-              Articles of Amendment are filed when a company makes a significant
-              change to their{" "}
-              <span className="text-primary">Articles of Incorporation</span> or
-              Articles of Organization that were created when the business first
-              formed.
-            </p>
-            <p className="md:pt-8 md:text-xl text-base  max-sm:py-3">
-              As an organization, you&apos;re always evolving, shifting and
-              improving. This means you&apos;ll inevitably need to change some
-              of the important parameters of your business. That&apos;s where
-              Articles of Amendment come in.
-            </p>
-          </div>
+        <div className="w-full md:w-1/2 flex justify-center">
           <Image
-            className="pt-10"
-            src="/amendment/articles1.webp"
+            src="/free-llc/LLC green.jpg"
             alt="Free LLC"
-            width={600}
-            height={600}
+            width={850}
+            height={850}
+            priority
           />
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto">
+        {/* Count Section */}
+        <div className="flex gap-4 items-center justify-center my-16 py-7 mx-3 md:flex-row flex-col">
+          <div>
+            <h3 className="md:text-5xl text-3xl font-bold py-2 uppercase text-[#1E293B]">
+              Join <span className="text-[#06B6D4]">1,000,000+</span>
+              <br />
+              Entrepreneurs <br /> Like You
+            </h3>
+
+            <p className="text-xl text-[#1E293B] mt-4">
+              Entrepreneurship is on the rise, and we&apos;re proud to be <br />
+              one of America&apos;s fastest-growing companies.
+            </p>
+          </div>
         </div>
 
+        {/* Info Block 1 */}
+        <div className="md:flex items-center md:py-10 mx-4 px-1 gap-10">
+          <div className="md:text-left md:w-1/2 md:px-16">
+            <h3 className="md:text-5xl text-3xl font-bold text-[#1E293B]">
+              What Are Articles of Amendment?
+            </h3>
+
+            <p className="md:text-xl text-base max-sm:pt-5 md:pt-5 text-slate-600">
+              Articles of Amendment come into play when a company needs to make
+              a major change to the Articles of Incorporation or Articles of
+              Organization...
+            </p>
+
+            <p className="md:pt-8 md:text-xl text-base max-sm:py-3 text-slate-600">
+              Businesses are always growing and changing, so at some point
+              you&apos;ll likely need to update a few key details...
+            </p>
+          </div>
+
+          <div className="md:w-1/2 flex justify-center pt-10 md:pt-0">
+            <Image
+              src="/amendment/articles1.webp"
+              alt="Articles Amendment"
+              width={600}
+              height={600}
+            />
+          </div>
+        </div>
+
+        {/* Info Block 2 Check-List */}
         <div className="md:flex justify-center gap-10 items-center py-10 mx-5">
-          <Image
-            src="/amendment/articles2.webp"
-            alt="Free LLC"
-            width={600}
-            height={600}
-            className=""
-          />
-          <div className=" md:text-left md:w-1/2 md:px-16 px-1">
-            <h3 className="md:text-5xl text-2xl font-bold md:py-10 max-sm:pt-5  ">
+          <div className="md:w-1/2 flex justify-center">
+            <Image
+              src="/amendment/articles2.webp"
+              alt="Articles Amendment"
+              width={600}
+              height={600}
+            />
+          </div>
+
+          <div className="md:text-left md:w-1/2 md:px-16 px-1">
+            <h3 className="md:text-5xl text-2xl font-bold md:py-10 max-sm:pt-5 text-[#1E293B]">
               When Do I Need to File Articles of Amendment?
             </h3>
-            <p className="md:text-xl text-base max-sm:pt-5">
+
+            <p className="md:text-xl text-base max-sm:pt-5 text-slate-600">
               You need to file Articles of Amendment with your Secretary of
               State when your LLC, C Corp, S Corp or nonprofit changes or
               modifies its:
             </p>
 
-            <div className="md:pt-16 max-sm:pt-6 md:justify-between flex">
-              <div className="px-2">
-                <div className="flex py-1 gap-2">
-                  <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7" />
+            <div className="md:pt-16 max-sm:pt-6 md:justify-between flex flex-col sm:flex-row gap-4">
+              <div className="px-2 text-[#1E293B] space-y-3">
+                <div className="flex items-center gap-2">
+                  <CheckBadgeIcon className="h-7 w-7 text-[#06B6D4]" />
                   Business Address
                 </div>
-                <div className="flex py-3 gap-2">
-                  <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7" />
+
+                <div className="flex items-center gap-2">
+                  <CheckBadgeIcon className="h-7 w-7 text-[#06B6D4]" />
                   Business Name
                 </div>
-                <div className="flex py-3 gap-2">
-                  <CheckBadgeIcon className="min-h-7 max-h-7 min-w-7 max-w-7" />
+
+                <div className="flex items-center gap-2">
+                  <CheckBadgeIcon className="h-7 w-7 text-[#06B6D4]" />
                   Stated Business Activities
                 </div>
               </div>
-              <div className="px-2">
-                <div className="flex py-1 gap-2 text-primary ">
-                  <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7" />
+
+              <div className="px-2 text-[#1E293B] space-y-3">
+                <div className="flex items-center gap-2">
+                  <CheckBadgeIcon className="h-7 w-7 text-[#06B6D4]" />
                   Registered Agent
                 </div>
-                <div className="flex py-3 gap-2 ">
-                  <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7" />
+
+                <div className="flex items-center gap-2">
+                  <CheckBadgeIcon className="h-7 w-7 text-[#06B6D4]" />
                   Member Information
                 </div>
-                <div className="flex py-3 gap-2 ">
-                  <CheckBadgeIcon className="min-h-7 min-w-7 max-h-7 max-w-7" />
+
+                <div className="flex items-center gap-2">
+                  <CheckBadgeIcon className="h-7 w-7 text-[#06B6D4]" />
                   Number of authorized shares
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="md:flex    gap-10 items-center md:py-10 mx-5">
-          <div className=" md:text-left md:w-1/2 md:px-16">
-            <h3 className="md:text-5xl text-2xl font-bold md:py-10 ">
-              Why Is It Important to File?
+
+        {/* Dynamic Timeline */}
+        <div
+          ref={whyFilingRef}
+          className="md:flex gap-10 items-center md:py-10 mx-5"
+        >
+          <div className="md:text-left w-full md:w-1/2 md:px-16">
+            <h3 className="md:text-5xl text-2xl font-bold md:py-5 mb-2 text-[#1E293B]">
+              Why Filing Matters
             </h3>
-            <p className="md:text-xl text-base  max-sm:pt-5   ">
-              Not keeping your business&apos;s information up-to-date may result
-              in fines and penalties.
-            </p>
-            <p className="md:text-xl text-base   py-3 ">
-              You need to let the state know things have changed so that you
-              remain in good standing. Otherwise, you risk being seen as
-              negligent, damaging your reputation.
-            </p>
-            <p className="md:text-xl text-base ">
-              For practical purposes, the state needs to know who to send
-              official correspondence and legal notices to. For this reason,
-              keeping information updated, such as your Registered Agent, is
-              key.
-            </p>
+
+            <div className="relative w-full flex flex-col py-10">
+
+              {/* Grey background track: starts at center of icon 1, ends at center of icon 4 */}
+              <div
+                className="absolute w-1 bg-slate-100 rounded-full z-0"
+                style={{
+                  left: `${ICON_CENTER}px`,
+                  top: `${ICON_CENTER}px`,
+                  height: `${trackHeightPx}px`,
+                }}
+              >
+                {/* Cyan fill: grows in px, capped at trackHeightPx */}
+                <div
+                  className="w-full bg-[#06B6D4] rounded-full origin-top transition-all duration-200 ease-out"
+                  style={{ height: `${fillHeightPx}px` }}
+                />
+              </div>
+
+              {stepsData.map((step, idx) => {
+                const StepIcon = step.icon;
+                const isCompletedOrActive = activeStep >= idx + 1;
+
+                return (
+                  <div
+                    key={idx}
+                    className="relative flex flex-row items-start w-full min-h-[120px] mb-12 last:mb-0 z-10"
+                  >
+                    <div
+                      className={`absolute left-0 top-0 w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-500 ${
+                        isCompletedOrActive
+                          ? "bg-cyan-50 border-[#06B6D4] text-[#06B6D4] shadow-md scale-105"
+                          : "bg-white border-slate-300 text-slate-400"
+                      }`}
+                    >
+                      <StepIcon className="w-5 h-5" strokeWidth={2.5} />
+                    </div>
+
+                    <div className="w-full pl-16 text-left">
+                      <h4
+                        className={`md:text-xl text-lg font-bold transition-colors duration-500 ${
+                          isCompletedOrActive
+                            ? "text-[#06B6D4]"
+                            : "text-slate-500"
+                        }`}
+                      >
+                        {step.title}
+                      </h4>
+
+                      <p className="md:text-base text-sm text-slate-600 mt-1 leading-relaxed">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <Image
-            className="pt-5"
-            src="/amendment/a3.webp"
-            alt="Free LLC"
-            width={500}
-            height={500}
-          />
+
+          <div className="md:w-1/2 flex justify-center pt-5 md:pt-0">
+            <Image
+              src="/amendment/a3.webp"
+              alt="Articles Amendment"
+              width={500}
+              height={500}
+            />
+          </div>
         </div>
 
+        {/* Steps Guide Grid */}
         <div className="md:pt-12 mx-5 pt-6">
-          <p className="text-blue-600 font-semibold">NEW ERA OF PRIVACY</p>
-          <h2 className="md:text-5xl  font-bold text-2xl ">HOW TO FILE</h2>
-          <h2 className="md:text-5xl  font-bold text-2xl">
-            ARTICLES <span className="text-primary"> OF </span>AMENDMENT
+          <h2 className="md:text-5xl font-bold text-2xl text-[#1E293B]">
+            How to File Articles of Amendment
           </h2>
         </div>
 
-        {/* new section start  */}
-        <div className="mx-5 my-10 gap-5 md:grid md:grid-cols-2">
-          {/* left section  */}
-          <div>
-            <div className="border border-gray-200 rounded-2xl flex p-5  mb-7">
-              <div>
-                <div className="flex gap-4 bg-blue-50 pt-6 pb-6 pl-3  rounded-xl mb-2 ">
-                  <p className="text-3xl bg-white p-7  rounded-lg  text-blue-400 font-semibold">
-                    1
-                  </p>
-                  <h2 className="font-bold md:text-2xl text-xl uppercase">
-                    determine the{" "}
-                    <span className="text-primary">correct form</span> needed
-                  </h2>
-                </div>
-
-                <p className="py-7 md:text-xl text-base ">
-                  This is typically provided by your state. Make sure you
-                  can&apos;t file a cheaper or simpler form. For example, some
-                  states have a separate form solely for changing your
-                  Registered Agent that often requires a lower fee than Articles
-                  of Amendment. Research your state&apos;s requirements before
-                  beginning.
+        <div className="mx-5 my-10 rounded-xl p-8">
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              "Figure out which form you need",
+              "Complete the amendment form",
+              "Submit it to your state",
+              "File Restated Articles of Organization",
+            ].map((item, index) => (
+              <div
+                key={item}
+                className="bg-cyan-50 rounded-xl p-8 text-center border border-cyan-100 hover:border-[#06B6D4] transition duration-300 ease-in-out"
+              >
+                <p className="font-bold text-xl text-[#1E293B]">
+                  <span className="text-[#06B6D4]">{index + 1}. </span>
+                  {item}
                 </p>
               </div>
-            </div>
-            {/* part 2 */}
-            <div className="border border-gray-200 rounded-2xl flex p-5  mb-7">
-              <div>
-                <div className="flex gap-4 bg-blue-50 pt-6 pb-6 pl-3  rounded-xl mb-2 ">
-                  <p className="text-3xl bg-white p-7  rounded-lg  text-blue-400 font-semibold">
-                    3
-                  </p>
-                  <h2 className="font-bold md:text-2xl text-xl uppercase">
-                    submit the form to the{" "}
-                    <span className="text-primary">state</span> and{" "}
-                    <span className="text-primary">pay</span> the filling fee
-                  </h2>
-                </div>
-
-                <p className="py-7 md:text-xl text-base text-wrap leading-normal ">
-                  Depending on the state, this may be done online or delivered
-                  in person. It typically costs $100-$200 — but if you&apos;re a
-                  nonprofit corporation, the fee is often lower.
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* right section  */}
-          <div className="mt-10">
-            <div className="border border-gray-200 rounded-2xl flex p-5  mb-7">
-              <div>
-                <div className="flex gap-4 bg-blue-50 pt-6 pb-6 pl-3  rounded-xl mb-2 ">
-                  <p className="text-3xl bg-white p-7  rounded-lg  text-blue-400 font-semibold">
-                    2
-                  </p>
-                  <h2 className="font-bold md:text-2xl text-xl uppercase">
-                    fill out the{" "}
-                    <span className="text-primary">amendment form</span>
-                  </h2>
-                </div>
-
-                <p className="py-7 md:text-xl text-base text-wrap leading-normal ">
-                  A standard form includes your business name, state, date,
-                  article number(s) being amended, a written statement that the
-                  article is being amended, the amendment itself and a statement
-                  that all other articles remain in effect. You&apos;ll also
-                  need signatures from members. Failing to provide all the
-                  necessary info could mean your amendment is denied.
-                </p>
-              </div>
-            </div>
-            {/* part 2  */}
-            <div className="border border-gray-200 rounded-2xl flex p-5  mb-7">
-              <div>
-                <div className="flex gap-4 bg-blue-50 pt-6 pb-6 pl-3  rounded-xl mb-2 ">
-                  <p className="text-3xl bg-white p-7  rounded-lg  text-blue-400 font-semibold">
-                    4
-                  </p>
-                  <h2 className="font-bold md:text-2xl text-xl uppercase">
-                    file{" "}
-                    <span className="text-primary">restated articles </span>of
-                    organization or incorporation
-                  </h2>
-                </div>
-
-                <p className="py-7 md:text-xl text-base text-wrap leading-normal ">
-                  Once the Articles of Amendment are submitted, you may want to
-                  file restated Articles of Organization that reflect these new
-                  changes. While its not a requirement, it helps consolidate
-                  your documents so everything&apos;s streamlined.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="flex flex-col-reverse md:flex-row  gap-10 items-center pt-10 md:pt-24 mx-5">
-          <div className=" md:text-left md:w-1/2 md:px-16">
-            <h3 className="md:text-5xl text-3xl font-bold   ">
+        {/* Order Setup Pricing Form section */}
+        <div className="flex flex-col-reverse md:flex-row gap-10 items-center pt-10 md:pt-24 mx-5">
+          {/* LEFT SIDE - Text Content */}
+          <div className="md:text-left md:w-1/2 md:px-16">
+            <h3 className="md:text-5xl text-3xl font-bold text-[#1E293B]">
               We Make Filing
             </h3>
-            <h3 className="md:text-5xl text-3xl font-bold">Easy</h3>
-            <p className="md:text-xl text-base   pt-10 py-2 ">
-              We get it. Running a business takes time, money and lots of mental
+
+            <h3 className="md:text-5xl text-3xl font-bold text-[#1E293B]">
+              Simple
+            </h3>
+
+            <p className="md:text-xl text-base pt-10 py-2 text-slate-600">
+              We know running a business already takes up enough time, money and
               energy.
             </p>
-            <p className="py-2">
-              VC FILING offers fast and affordable professional filing services
-              so your Articles of Amendment will be out of sight and out of
-              mind. Life is short — why spend it doing paperwork?
-            </p>
-            <p className="py-2">
-              Use our form to enter your business type and state, and place an
-              order. The rest is up to us.
+
+            <p className="py-2 text-slate-600">
+              Incorp Bay offers quick, affordable filing services so you can
+              check Articles of Amendment off your list...
             </p>
           </div>
 
-          <div className=" border border-gray-300  rounded-xl shadow-xl min-w-[95%] md:min-w-[10%] md:w-[40%]">
-            <div className="relative bg-slate-300 ">
-              <Image
-                className="absolute right-0 mr-2"
-                src="/amendment/logo.png"
-                alt="Free LLC"
-                width={70}
-                height={70}
-              />
-            </div>
-            <p className="text-center text-2xl pt-8 pb-3 font-bold">
-              AMENDMENT
+          {/* RIGHT SIDE - Form */}
+          <div className="md:text-left md:w-1/2 md:px-16 w-full">
+            <p className="text-center text-2xl pt-8 pb-3 font-bold text-[#1E293B]">
+              Articles of Amendment
             </p>
+
             <div className="pb-5 flex flex-col justify-center">
-              <p className="text-center pt-4 py-3">Entity Type</p>
-              <select className="py-2 mx-1 rounded-full border-2 text-center hover:border-red-600">
+              <p className="text-center pt-4 py-3 text-[#1E293B]">
+                Entity Type
+              </p>
+
+              <select
+                className="py-2 mx-3 rounded-full border-2 text-center border-slate-200 hover:border-[#06B6D4] focus:border-[#06B6D4] bg-white outline-none transition duration-300 ease-in-out"
+                value={selectedEntityType}
+                onChange={(e) => setSelectedEntityType(e.target.value)}
+              >
                 <option hidden value="">
                   Select Entity Type
                 </option>
@@ -321,147 +494,104 @@ const Amendment = () => {
                   </option>
                 ))}
               </select>
-              <p className="pb-2 pt-3  text-center">Entity State </p>
-              <select className="py-2 mx-1 rounded-full border-2 text-center hover:border-red-600">
+
+              <p className="pb-2 pt-3 text-center text-[#1E293B]">
+                Entity State
+              </p>
+
+              <select
+                className="py-2 mx-3 rounded-full border-2 text-center border-slate-200 hover:border-[#06B6D4] focus:border-[#06B6D4] bg-white outline-none transition duration-300 ease-in-out"
+                value={selectedState}
+                onChange={(e) => setSelectedState(e.target.value)}
+              >
                 <option value="">Select State</option>
-                {entityTypes.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
+                {statesInUS.map((state) => (
+                  <option key={state} value={state}>
+                    {state}
                   </option>
                 ))}
               </select>
-              <div className="border-4 border-gray-200 mx-2 rounded-full text-center  py-5 my-5">
-                <h1 className="text-4xl font-semibold">0$</h1>
-                <p>Plus $0 state Fee</p>
+
+              <div className="border-4 border-cyan-100 mx-3 rounded-full text-center py-5 my-5 bg-white transition duration-300 ease-in-out hover:border-[#06B6D4]">
+                <h1 className="text-4xl font-semibold text-[#06B6D4]">
+                  ${totalPrice || "0"}
+                </h1>
+
+                <p className="text-sm text-slate-600 mt-1">
+                  {selectedState
+                    ? `Plus $${currentStateFee} state Fee`
+                    : "Select a state"}
+                </p>
               </div>
 
               <div className="flex justify-center items-center">
                 <Link
-                  className="px-9 py-5 bg-primary text-white border border-primary rounded-[30px] "
                   href="/amendment/step-1"
+                  className="group relative px-9 py-5 bg-[#06B6D4] text-white border border-[#06B6D4] rounded-[30px] overflow-hidden text-center inline-flex items-center justify-center gap-2 transition-all duration-300 ease-in-out shadow-md hover:shadow-[0_8px_30px_rgba(6,182,212,0.5)] hover:-translate-y-1 active:scale-[0.98]"
                 >
-                  ORDER NOW
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="relative z-10 flex items-center gap-2">
+                    ORDER NOW
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">
+                      →
+                    </span>
+                  </span>
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        {/*------------------ faq section ----------*/}
+        {/* FAQs Accordion */}
         <div className="my-16 md:px-10 md:pt-20 mx-5">
-          <h2 className="md:text-5xl text-2xl font-bold  md:text-left ">
+          <h2 className="md:text-5xl text-2xl font-bold md:text-left text-[#1E293B]">
             Common Questions About
           </h2>
-          <h2 className="md:text-5xl text-2xl font-bold  md:text-left pb-10">
+
+          <h2 className="md:text-5xl text-2xl font-bold md:text-left pb-10 text-[#1E293B]">
             Filing Articles of Amendment
           </h2>
-          <Accordion type="single" collapsible className="text-xl">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>
-                How Long Does It Take To Change a Company Name?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2 md:text-xl text-base  ">
-                  The filing time for Articles of Amendment typically takes four
-                  to six weeks, depending on the governing state agency. For
-                  example, in California, the process takes over eight weeks. In
-                  Texas, it may take just three to five business days. Many
-                  states offer expedited service for an additional fee. For the
-                  purpose of federal taxes, the IRS typically takes about six to
-                  eight weeks to register a change of business name.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>
-                How do i file out-of-state Articles of Amendment ?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2 md:text-xl text-base  ">
-                  If you&apos;re filing an amendment for a business that&apos;s
-                  not in your home state, you&apos;ll need to file a Foreign
-                  Amendment. These will require additional documentation by your
-                  state, including a Certificate of Good Standing.
-                </p>{" "}
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>
-                How much does it cost to file Articles of Amendment ?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2 md:text-xl text-base  ">
-                  Our service fee to file Articles of Amendment is $99, so your
-                  cost will be $99 + the fee in your state. State feels
-                  typically are around $100-$200, but if you&apos;re a
-                  nonprofit, the fee is often lower. To review the fee in your
-                  state, select the state and entity type above. Some states
-                  also offer expedited filing, which is an additional fee.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger>
-                Do i need to consult a Lawyer While Filling ?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2 md:text-xl text-base  ">
-                  An attorney isn&apos;t necessary to file an amendment. That
-                  said, if you&apos;re ever faced with a confusing business
-                  situation, it&apos;s never a bad idea to consult a trusted
-                  legal professional to ensure you&apos;re making the most
-                  educated decision you can.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-5">
-              <AccordionTrigger>
-                What Will I Receive When Articles are Filed{" "}
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2 md:text-xl text-base  ">
-                  You&apos;ll receive a copy of the articles once they&apos;re
-                  filed. If you file with us, the governing state agency will
-                  return a copy to us. Then we&apos;ll mail it to you for your
-                  records.
-                </p>
-              </AccordionContent>
 
-              <AccordionContent></AccordionContent>
-              <AccordionContent></AccordionContent>
-            </AccordionItem>
+          <Accordion type="single" collapsible className="text-xl w-full">
+            {faqData.map((faq) => (
+              <AccordionItem key={faq.id} value={faq.id}>
+                <AccordionTrigger className="text-left font-medium py-4 text-[#1E293B] hover:text-[#06B6D4] transition duration-200 ease-in-out">
+                  {faq.question}
+                </AccordionTrigger>
+
+                <AccordionContent>
+                  <p className="my-2 md:text-xl text-base text-slate-600 leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
           </Accordion>
         </div>
 
-        <div className="flex justify-center items-center pb-4 mx-5">
-          <StarIcon className="w-9 h-9 " color="#39b54a" />
-        </div>
-        <p className="text-center">19,443 Customer Rating</p>
-        <div className="flex justify-center items-center pb-5">
-          <div className="flex gap-1 pt-5">
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-          </div>
-        </div>
-
+        {/* Footer CTAs */}
         <div className="text-center pb-24 mx-5">
-          <h2 className="md:text-5xl text-2xl font-bold md:py-3">READY TO</h2>
-          <h2 className="md:text-5xl text-2xl font-bold md:py-3">
-            <span className="text-primary">MAKE A</span> CHANGE ?
+          <h2 className="md:text-5xl text-2xl font-bold md:py-3 uppercase text-[#1E293B]">
+            Ready for a Change?
           </h2>
-          <p className="md:text-xl text-base max-sm:pt-4">
-            Save the hassle. Let us file your LLC&apos;s Articles of Amendment
-            on your behalf.
+
+          <p className="md:text-xl text-base max-sm:pt-4 text-slate-600">
+            Skip the hassle — let us file your LLC&apos;s Articles of Amendment
+            for you.
           </p>
+
           <div className="flex justify-center items-center py-5">
             <Link
-              className="md:px-10 md:py-5 py-6 px-4  bg-primary text-white border border-primary rounded-[30px] "
               href="/amendment/step-1"
+              className="group relative md:px-10 md:py-5 py-6 px-4 bg-[#06B6D4] text-white border border-[#06B6D4] rounded-[30px] overflow-hidden inline-flex items-center justify-center gap-2 transition-all duration-300 ease-in-out shadow-md hover:shadow-[0_8px_30px_rgba(6,182,212,0.5)] hover:-translate-y-1 active:scale-[0.98]"
             >
-              FILE ARTICLES OF AMENDMENT
+              <div className="absolute inset-0 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="relative z-10 flex items-center gap-2">
+                FILE ARTICLES OF AMENDMENT
+                <span className="group-hover:translate-x-1 transition-transform duration-300">
+                  →
+                </span>
+              </span>
             </Link>
           </div>
         </div>

@@ -60,15 +60,24 @@ export async function POST(req: NextRequest) {
       );
     `;
 
+// Convert JavaScript types to SQLite-compatible types
+    // Handle numberOfShares (INTEGER in DB), noParValue (TEXT in DB)
+    const numberOfSharesValue = data.numberOfShares !== undefined && data.numberOfShares !== null && data.numberOfShares !== "" 
+      ? String(data.numberOfShares) 
+      : null;
+    const noParValueText = data.noParValue === true || data.noParValue === "true" || data.noParValue === "true" 
+      ? "true" 
+      : "false";
+
     const values = [
       data.entityType ?? null,
       data.stateOfFormation ?? null,
       data.companyName ?? null,
       data.designator ?? null,
       data.dateOfFormation ?? null,
-      data.numberOfShares ?? null,
-      data.shareParValue ?? null,
-      data.noParValue ?? null,
+      numberOfSharesValue,
+      data.shareParValue != null && data.shareParValue !== "" ? String(data.shareParValue) : null,
+      noParValueText,
       data.mobilePhone ?? null,
       data.email ?? null,
       data.lastName ?? null,

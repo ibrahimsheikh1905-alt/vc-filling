@@ -3,10 +3,10 @@ import getFormattedDate from "@/hooks/useGetDate";
 
 interface User {
   id?: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  mobile_phone: string;
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  mobile_phone?: string;
 }
 
 async function handleUsers(user: User, formName: string): Promise<void> {

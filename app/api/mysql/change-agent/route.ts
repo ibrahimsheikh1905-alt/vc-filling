@@ -1,45 +1,23 @@
 import { NextResponse, NextRequest } from "next/server";
 import { executeQuery } from "@/lib/dbConnect";
 import getFormattedDate from "@/hooks/useGetDate";
-import { createUser, UserData } from "@/lib/createUser";
-import handleUsers from "@/lib/handleUsers";
 
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    const userData: UserData = {
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      mobilePhone: data.mobilePhone,
-    };
-
-    // Check if the user exists or create a new user
-    try {
-      const userResponse = await createUser(userData);
-      if (userResponse.user) {
-        console.log(userResponse)
-        await handleUsers(userResponse.user, "change_agent");
-      }
-    } catch (error) {
-      console.error("Error processing user:", error);
-      return NextResponse.json(
-        { error: "Failed to process user data" },
-        { status: 500 }
-      );
-    }
-
-    // Define the fields we expect in the same order as the SQL query
+    
+    // Define the fields matching the change_agent table
     const fields = [
+      "user_id",
       "agent_type",
       "agent_first_name",
       "agent_last_name",
       "agent_company_name",
-      "agent_zip_code",
-      "agent_state",
-      "agent_city",
-      "agent_address_line2",
       "agent_street_address",
+      "agent_address_line2",
+      "agent_city",
+      "agent_state",
+      "agent_zip_code",
       "mobile_phone",
       "email",
       "last_name",
@@ -63,19 +41,20 @@ export async function POST(req: NextRequest) {
         ${fields.join(", ")}
       ) VALUES (
         ${fields.map(() => "?").join(", ")}
-      );
+      )
     `;
 
     const values = [
+      data.userId ?? null,
       data.agentType ?? null,
       data.agentFirstName ?? null,
       data.agentLastName ?? null,
       data.agentCompanyName ?? null,
-      data.agentZipCode ?? null,
-      data.agentState ?? null,
-      data.agentCity ?? null,
-      data.agentAddressLine2 ?? null,
       data.agentStreetAddress ?? null,
+      data.agentAddressLine2 ?? null,
+      data.agentCity ?? null,
+      data.agentState ?? null,
+      data.agentZipCode ?? null,
       data.mobilePhone ?? null,
       data.email ?? null,
       data.lastName ?? null,
@@ -96,8 +75,10 @@ export async function POST(req: NextRequest) {
     const result = await executeQuery(query, values);
     const insertedId = result.insertId;
 
-    const newQuery = `INSERT INTO all_form_data (entity_type, company_name, designator, first_name, last_name, email, mobile_phone, usable_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    // Also save to all_form_data for tracking
+    const newQuery = `INSERT INTO all_form_data (user_id, entity_type, company_name, designator, first_name, last_name, email, mobile_phone, usable_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     await executeQuery(newQuery, [
+      data.userId ?? null,
       data.entityType,
       data.companyName,
       data.designator,

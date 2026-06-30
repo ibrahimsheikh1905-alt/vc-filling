@@ -13,6 +13,7 @@ import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/contexts/auth";
 
 type Inputs = {
   entityType: string;
@@ -33,10 +34,9 @@ type Inputs = {
 
 const StepOne = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [verificationStatus, setVerificationStatus] = useState("");
+  const [isLoadingUserData, setIsLoadingUserData] = useState(false);
   const router = useRouter();
+  const { userId, isAuthenticated, loading: authLoading } = useAuth();
   const {
     register,
     handleSubmit,
@@ -46,35 +46,6 @@ const StepOne = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     updateFormData(data);
     router.push("/annual-report/step-2");
-  };
-  const sendOtp = async () => {
-    try {
-      // Make API call to send OTP to the user's email
-      await axios.post("/api/send-otp", { email: formData.email });
-      setIsOtpSent(true);
-      setVerificationStatus("OTP sent to your email!");
-    } catch (error) {
-      setVerificationStatus("Failed to send OTP.");
-    }
-  };
-
-  const verifyOtp = async () => {
-    try {
-      // Make API call to verify the OTP
-      const response = await axios.post("/api/verify-otp", {
-        email: formData.email,
-        otp: Number(otp),
-      });
-      if (response.data.success) {
-        setVerificationStatus("Email verified successfully!");
-        updateFormData({ emailVerified: true });
-        // onEmailVerified(true); // Move to the next step
-      } else {
-        setVerificationStatus("Incorrect OTP.");
-      }
-    } catch (error) {
-      setVerificationStatus("Verification failed.");
-    }
   };
   const [formData, updateFormData] = useLocalStorageForm({
     entityType: "",
@@ -91,8 +62,34 @@ const StepOne = () => {
     city: "",
     state: "",
     zipCode: "",
-    emailVerified: false,
   });
+
+// Fetch user data for authenticated users
+  const fetchUserData = async (uid: number) => {
+    try {
+      setIsLoadingUserData(true);
+      const response = await axios.get(`/api/user-data?userId=${uid}`);
+      if (response.data.success && response.data.user) {
+        const user = response.data.user;
+        // Auto-populate form with user data
+        // Extract first and last name from the name field
+        const nameParts = (user.name || "").split(" ");
+        const firstName = nameParts[0] || "";
+        const lastName = nameParts.slice(1).join(" ") || "";
+        
+        updateFormData({
+          firstName: firstName,
+          lastName: lastName,
+          email: user.email || "",
+          mobilePhone: user.phone || "",
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    } finally {
+      setIsLoadingUserData(false);
+    }
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -102,8 +99,26 @@ const StepOne = () => {
     setServiceType();
   }, []);
 
-  if (!isMounted) {
-    return null;
+// Check if user is authenticated and fetch their data
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && userId) {
+      // Fetch user data to auto-populate the form
+      fetchUserData(userId);
+    }
+  }, [authLoading, isAuthenticated, userId]);
+
+  // Show loading while checking auth or fetching user data
+  if (!isMounted || authLoading || isLoadingUserData) {
+    return (
+      <NavigationWrapper>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading your information...</p>
+          </div>
+        </div>
+      </NavigationWrapper>
+    );
   }
 
   return (
@@ -173,80 +188,34 @@ const StepOne = () => {
                             Last Name is required
                           </span>
                         )}
-                      </div>
+</div>
                       <div>
-                        {formData.emailVerified || !isOtpSent ? (
-                          <label
-                            id="email"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            Email *
-                          </label>
-                        ) : (
-                          <label
-                            id="email"
-                            className="block text-sm font-medium text-gray-700"
-                          >
-                            OTP *
-                          </label>
+                        <label
+                          id="email"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          autoComplete="email"
+                          value={formData.email}
+                          placeholder="Enter your email"
+                          {...register("email", {
+                            required: true,
+                            onChange: (e) => {
+                              updateFormData({
+                                email: e.target.value,
+                              });
+                            },
+                          })}
+                          className="email-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                        />
+                        {errors.email && (
+                          <span className="text-sm text-red-600">
+                            Email is required
+                          </span>
                         )}
-                        <div>
-                          {formData.emailVerified || !isOtpSent ? (
-                            <>
-                              <input
-                                type="email"
-                                autoComplete="email"
-                                value={formData.email}
-                                placeholder="Enter your email"
-                                {...register("email", {
-                                  required: true,
-                                  onChange: (e) => {
-                                    updateFormData({
-                                      email: e.target.value,
-                                    });
-                                  },
-                                })}
-                                readOnly={formData.emailVerified}
-                                // disabled={formData.emailVerified}
-                                className={`email-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 `}
-                              />
-                              {!formData.emailVerified && (
-                                <button
-                                  type="button"
-                                  onClick={sendOtp}
-                                  className="mt-3 rounded-xl border border-primary px-2 py-1"
-                                >
-                                  Verify Email
-                                </button>
-                              )}
-                            </>
-                          ) : (
-                            <div className="">
-                              <input
-                                type="number"
-                                placeholder="Enter OTP"
-                                value={otp}
-                                name="otp"
-                                onChange={(e) => setOtp(e.target.value)}
-                                required
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                              />
-                              <button
-                                type="button"
-                                onClick={verifyOtp}
-                                className="mt-3 rounded-xl border border-primary px-2 py-1"
-                              >
-                                Verify OTP
-                              </button>
-                            </div>
-                          )}
-                          <p>{verificationStatus}</p>
-                          {errors.email && (
-                            <span className="text-sm text-red-600">
-                              Email is required
-                            </span>
-                          )}
-                        </div>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700">
@@ -575,19 +544,19 @@ const StepOne = () => {
                 </div>
               </div>
 
-              <div className="flex justify-between mt-12">
+<div className="flex justify-between mt-12">
                 <Link
                   href="/annual-report"
-                  className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                  className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px]"
                 >
                   Back
                 </Link>
 
                 <button
-                  className={`px-8 py-2 bg-primary text-white border border-primary rounded-[30px] ${formData.emailVerified ? "" : "cursor-not-allowed opacity-50"}`}
+                  className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px]"
                   type="submit"
                 >
-                  {formData.emailVerified ? "Next" : "Verify Email Above."}
+                  Next
                 </button>
               </div>
             </div>

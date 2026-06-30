@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-lora)", "serif"],
+      },
       colors: {
         "dark-theme-bg": "#004246",
         "light-theme-bg": "white",

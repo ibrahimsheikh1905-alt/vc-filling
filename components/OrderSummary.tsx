@@ -4,199 +4,270 @@ import { ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
 import { useAtom } from "jotai";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getStateFee } from "@/data/stateFeeData";
 
 const OrderSummary = ({ referer }: { referer?: string }) => {
   const pathname = usePathname();
-  const orderSummaryReferer = referer?.replace(/\/step-.*$/, "");
+  const orderSummaryReferer = referer?.replace(/\/step-.*$/, "") || "";
   const [totalPrice, setTotalPrice] = useAtom<number>(totalPriceAtom);
   const [stateFee, setStateFee] = useState<number>(0);
   const [packagePrice, setPackagePrice] = useState<number>(0);
 
-  const currentFullPath = window.location.pathname;
-  const currentBasePath = currentFullPath.split("/")[1];
+const currentFullPath = typeof window !== 'undefined' ? window.location.pathname : "";
+  const currentBasePath = currentFullPath.split("/")[1] || "";
 
-  const conditionalPathOneThree =
-    window.location.pathname.split("/")[2] === "step-1" ? "step-1" : "step-3";
-
-  const conditionalPathOneFive =
-    window.location.pathname.split("/")[2] === "step-1" ? "step-1" : "step-5";
-
-  const packageType = JSON.parse(
-    localStorage.getItem(
-      pathname === "/forms/step-final"
-        ? orderSummaryReferer + "/step-1"
-        : pathname.replace(/step-\d+.*/, "step-1")
-    ) as string
-  )?.packageType;
-  const serviceType = localStorage.getItem("serviceType");
-
-  const stateName = JSON.parse(
-    localStorage.getItem(
-      pathname === "/forms/step-final"
-        ? orderSummaryReferer + "/step-1"
-        : pathname.replace(/step-\d+.*/, "step-1")
-    ) as string
-  )?.stateName;
-
-  const isFastFillingTime = JSON.parse(
-    localStorage.getItem(
-      pathname === "/forms/step-final"
-        ? orderSummaryReferer + `/${conditionalPathOneThree}`
-        : pathname.replace(/step-\d+.*/, `${conditionalPathOneThree}`)
-    ) as string
-  )?.stateFillingTime;
-
-  const addressOption = JSON.parse(
-    localStorage.getItem(
-      pathname === "/forms/step-final"
-        ? orderSummaryReferer + `/${conditionalPathOneFive}`
-        : `/${currentBasePath}/${conditionalPathOneFive}`
-    ) as string
-  )?.addressOption;
-
-  const premiumServicePackage = JSON.parse(
-    localStorage.getItem(
-      pathname === "/forms/step-final"
-        ? orderSummaryReferer + "/step-6"
-        : `/${currentBasePath}/step-6`
-    ) as string
-  )?.premiumServicePackage;
-
-  const licenseType = JSON.parse(
-    localStorage.getItem(
-      pathname === "/forms/step-final"
-        ? orderSummaryReferer + "/step-12"
-        : `/${currentBasePath}/step-12`
-    ) as string
-  )?.licenseType;
-
-  // const addressOption = JSON.parse(
-  //   localStorage.getItem(`/${currentBasePath}/step-5`) as string
-  // )?.addressOption;
-
-  // const premiumServicePackage = JSON.parse(
-  //   localStorage.getItem(`/${currentBasePath}/step-6`) as string
-  // )?.premiumServicePackage;
-
-  // const licenseType = JSON.parse(
-  //   localStorage.getItem(`/${currentBasePath}/step-12`) as string
-  // )?.licenseType;
-
-  const entityType = JSON.parse(
-    localStorage.getItem("/form-a-llc/step-1") as string
-  );
-
-  useEffect(() => {
-    console.log("licenseType", currentBasePath);
-  }, [currentBasePath]);
-
-  // useEffect(() => {
-  //   console.log("currentBasePath>>>>", currentBasePath);
-  //   console.log("addressOption", addressOption);
-  // }, []);
-
-  useEffect(() => {
-    // Fetch state fee based on selected state
-    const fetchStateFee = async () => {
+  // Get serviceType from localStorage to determine which path to use
+  // For foreign-qualification, also try getting from pathname if localStorage doesn't have it
+  const getServiceType = () => {
+    if (typeof window === 'undefined') return null;
+    let type = localStorage.getItem("serviceType");
+    // Fallback: try to get from current pathname
+    if (!type && currentFullPath.includes("foreign-qualification")) {
+      type = "foreign-qualification";
+    } else if (!type && currentFullPath.includes("registered-agent")) {
+      type = "registered-agent";
+    }
+    return type;
+  };
+  const serviceType = getServiceType();
+  
+  // Map service type to base path
+  const getServiceBasePath = () => {
+    const pathMap: Record<string, string> = {
+      'form-llc': '/form-a-llc',
+      'form-c-corporation': '/form-c-corporation',
+      'form-s-corporation': '/form-s-corporation',
+      'amendment': '/amendment',
+      'annual-report': '/annual-report',
+      'business-license': '/business-license',
+      'cert-good-standing': '/cert-good-standing',
+      'change-agent': '/change-agent',
+      'dissolution': '/dissolution',
+      'ein-form': '/ein-form',
+      'fake-name': '/fictitious-business-name',
+      'foreign-qualification': '/foreign-qualification',
+      'kit-info': '/kit-info',
+      'registered-agent': '/registered-agent',
+      'reinstatement': '/reinstatement',
+      'trademark': '/trademark',
+      'virtual-address': '/virtual-address',
+    };
+    return serviceType ? pathMap[serviceType] || orderSummaryReferer : orderSummaryReferer;
+  };
+  
+  const baseFormPath = getServiceBasePath();
+  
+// Try multiple paths to find form data
+  const tryGetFormData = (key: string) => {
+    if (typeof window === 'undefined') return null;
+    
+    // For registered-agent and foreign-qualification, we need special handling
+    let pathsToTry: string[];
+    
+    if (serviceType === "registered-agent") {
+      pathsToTry = [
+        "/registered-agent/step-1",
+        baseFormPath + key,
+        orderSummaryReferer + key,
+        pathname.replace(/step-\d+.*/, "step-1") + key,
+        "/" + currentBasePath + key,
+      ];
+    } else if (serviceType === "foreign-qualification") {
+      // Explicitly try foreign-qualification paths
+      pathsToTry = [
+        "/foreign-qualification/step-1",
+        "/foreign-qualification" + key,
+        baseFormPath + key,
+        orderSummaryReferer + key,
+        pathname.replace(/step-\d+.*/, "step-1") + key,
+        "/" + currentBasePath + key,
+      ];
+    } else {
+      pathsToTry = [
+        baseFormPath + key,
+        orderSummaryReferer + key,
+        pathname.replace(/step-\d+.*/, "step-1") + key,
+        "/" + currentBasePath + key,
+      ];
+    }
+    
+    // Debug: Log the paths being tried (can be removed later)
+    // console.log('Trying paths for', serviceType, pathsToTry);
+    
+    for (const path of pathsToTry) {
       try {
-        const response = await fetch(`/api/states?stateName=${stateName}`);
-        const data = await response.json();
-
-        entityType === "LLC"
-          ? setStateFee(data.llc_price)
-          : entityType === "C-Corporation"
-            ? setStateFee(data.c_corp_price)
-            : entityType === "S-Corporation"
-              ? setStateFee(data.s_corp_price)
-              : setStateFee(data.nonprofit_price);
-      } catch (error) {
-        console.error("Failed to fetch state fee:", error);
+        const data = localStorage.getItem(path);
+        if (data) {
+          // console.log('Found data at path:', path);
+          return JSON.parse(data);
+        }
+      } catch (e) {
+        // Continue to next path
       }
+    }
+    return null;
+  };
+  
+  // Get data from localStorage using tryGetFormData
+  const step1Data = tryGetFormData("/step-1");
+  const step3Data = tryGetFormData("/step-3");
+  const step5Data = tryGetFormData("/step-5");
+  const step6Data = tryGetFormData("/step-6");
+  const step12Data = tryGetFormData("/step-12");
+  
+// Extract values from the data
+  const packageType = step1Data?.packageType;
+  // For registered-agent, use stateOfService field; for others, use stateName or stateOfFormation
+  // For foreign-qualification, use stateOfService as it's the "State of Service" (the state where you want to do business)
+  let stateName = step1Data?.stateName || step1Data?.stateOfFormation || step1Data?.stateOfService;
+  // For foreign-qualification, prioritize stateOfService (the state seeking authority)
+  if (serviceType === "foreign-qualification") {
+    stateName = step1Data?.stateOfService || step1Data?.stateOfFormation || step1Data?.stateName;
+  }
+  // Get entityType and validate it - don't show state names as entity type
+  const rawEntityType = step1Data?.entityType;
+  // Valid entity types for foreign-qualification
+  const validEntityTypes = ["LLC", "S-Corporation", "C-Corporation", "Nonprofit"];
+  // Only show entity type if it's a valid one, otherwise don't show anything
+  const entityType = validEntityTypes.includes(rawEntityType) ? rawEntityType : "";
+  // Get company info
+  const companyName = step1Data?.companyName;
+  const designator = step1Data?.designator;
+  
+// Get filing time from step-1 OR step-3 data (Amendment forms only have step-1)
+  const stateFillingTime = step1Data?.stateFillingTime || step3Data?.stateFillingTime;
+  
+  // Get address option from step-5 data
+  const addressOption = step5Data?.addressOption;
+  
+  // Get premium service package from step-6 data  
+  const premiumServicePackage = step6Data?.premiumServicePackage;
+  
+  // Get license type from step-12 data
+  const licenseType = step12Data?.licenseType;
+
+useEffect(() => {
+    // Set state fee using hardcoded values (API doesn't have states table)
+    const setStateFeeFromFallback = () => {
+      if (!stateName) {
+        return;
+      }
+      
+      // Comprehensive fallback state fees for all US states
+      const fallbackFees: Record<string, number> = {
+        "California": 249,
+        "Texas": 199,
+        "Florida": 199,
+        "New York": 200,
+        "Delaware": 179,
+        "Nevada": 175,
+        "Arizona": 149,
+        "Colorado": 149,
+        "Georgia": 199,
+        "Washington": 180,
+        "Illinois": 199,
+        "Ohio": 199,
+        "North Carolina": 199,
+        "Michigan": 199,
+        "New Jersey": 199,
+        "Virginia": 199,
+        "Massachusetts": 199,
+        "Tennessee": 199,
+        "Indiana": 199,
+        "Missouri": 199,
+        "Maryland": 199,
+        "Wisconsin": 199,
+        "Minnesota": 199,
+        "South Carolina": 199,
+        "Alabama": 199,
+        "Louisiana": 199,
+        "Kentucky": 199,
+        "Oregon": 199,
+        "Oklahoma": 199,
+        "Connecticut": 199,
+        "Utah": 199,
+        "Iowa": 199,
+        "Arkansas": 199,
+        "Mississippi": 199,
+        "Kansas": 199,
+        "New Mexico": 199,
+        "Nebraska": 199,
+        "West Virginia": 199,
+        "Idaho": 199,
+        "Hawaii": 199,
+        "Maine": 199,
+        "Montana": 199,
+        "Rhode Island": 199,
+        "South Dakota": 199,
+        "North Dakota": 199,
+        "Alaska": 199,
+        "Vermont": 199,
+        "Wyoming": 199,
+        "District of Columbia": 199,
+      };
+      
+      const fee = fallbackFees[stateName] || 149;
+      setStateFee(fee);
     };
 
-    // Fetch package prices
-    const fetchPackagePrices = async () => {
-      try {
-        const response = await fetch(`/api/package-prices`);
-        const data = await response.json();
-        // console.log("data", data)
+    setStateFeeFromFallback();
+  }, [stateName]);
+
+useEffect(() => {
+    // Set package prices using hardcoded fallback values
+    const setPackagePricesFromFallback = () => {
+      // Service types have fixed prices
+      if (serviceType === "amendment") {
+        setPackagePrice(99);
+      } else if (serviceType === "registered-agent") {
+        setPackagePrice(149);
+      } else if (serviceType === "virtual-address") {
+        setPackagePrice(99);
+      } else if (serviceType === "cert-good-standing") {
+        setPackagePrice(50);
+      } else if (serviceType === "fake-name") {
+        setPackagePrice(50);
+      } else if (serviceType === "foreign-qualification") {
+        setPackagePrice(149);
+      } else if (serviceType === "change-agent") {
+        setPackagePrice(99);
+      } else if (serviceType === "business-license") {
+        setPackagePrice(199);
+      } else if (serviceType === "annual-report") {
+        setPackagePrice(50);
+      } else if (serviceType === "trademark") {
+        setPackagePrice(149);
+      } else if (serviceType === "kit-info") {
+        setPackagePrice(99);
+      } else if (serviceType === "dissolution") {
+        setPackagePrice(99);
+      } else if (serviceType === "ein-form") {
+        setPackagePrice(79);
+      } else if (serviceType === "reinstatement") {
+        setPackagePrice(99);
+      } else {
+        // LLC package types
         switch (packageType) {
           case "Basic":
-            setPackagePrice(data[0].price);
+            setPackagePrice(0);
             break;
           case "Standard":
-            setPackagePrice(data[1].price);
+            setPackagePrice(199);
             break;
           case "Premium":
-            setPackagePrice(data[2].price);
+            setPackagePrice(299);
             break;
           default:
-            switch (serviceType) {
-              case "amendment":
-                setPackagePrice(data[3].price);
-                break;
-              case "registered-agent":
-                setPackagePrice(data[4].price);
-                break;
-              case "virtual-address":
-                setPackagePrice(data[5].price);
-                break;
-              case "cert-good-standing":
-                setPackagePrice(data[6].price);
-                break;
-              case "fake-name":
-                setPackagePrice(data[7].price);
-                break;
-              case "foreign-qualification":
-                setPackagePrice(data[8].price);
-                break;
-              case "change-agent":
-                setPackagePrice(data[9].price);
-                break;
-              case "business-license":
-                setPackagePrice(data[10].price);
-                break;
-              case "annual-report":
-                setPackagePrice(data[11].price);
-                break;
-              case "trademark":
-                setPackagePrice(data[12].price);
-                break;
-              case "kit-info":
-                setPackagePrice(data[13].price);
-                break;
-              case "dissolution":
-                setPackagePrice(data[14].price);
-                break;
-              default:
-                setPackagePrice(0);
-                break;
-            }
-            break;
+            setPackagePrice(0);
         }
-        // console.log("service type in fetchPackagePrices", serviceType)
-
-        // setPackagePrice(
-        //   data[packageType === "Basic" ? 0 : packageType === "Standard" ? 1 : 2]
-        //     .price
-        // );
-      } catch (error) {
-        console.error("Failed to fetch package prices:", error);
       }
     };
 
-    fetchStateFee();
-    fetchPackagePrices();
-  }, [stateName, packageType, entityType, serviceType]);
+    setPackagePricesFromFallback();
+  }, [serviceType, packageType]);
 
-  useEffect(() => {
-    console.log("packagePrice> hello> ", packagePrice);
-  }, [packagePrice]);
-
-  // const packagePrice =
-  // packageType === "Premium" ? 299 : packageType === "Standard" ? 199 : 0;
-  // const stateFee = 236;
-  const isFastFillingTimePrice = isFastFillingTime === "fast" ? 50 : 0;
+  // Calculate prices
+  const isFastFillingTimePrice = stateFillingTime === "fast" ? 50 : 0;
   const addressOptionPrice = addressOption === "recommended" ? 29 : 0;
   const premiumServicePackagePrice = premiumServicePackage ? 99 : 0;
   const licenseTypePrice = licenseType === "recommended" ? 99 : 0;
@@ -212,10 +283,21 @@ const OrderSummary = ({ referer }: { referer?: string }) => {
     "/start-a-nonprofit/step-1",
   ];
 
+// Update total price when any price changes
   useEffect(() => {
     let newTotalPrice = 0;
-    newTotalPrice = safeAdd(newTotalPrice, Number(stateFee));
-    newTotalPrice = safeAdd(newTotalPrice, Number(packagePrice));
+    
+    // For registered-agent, add BOTH packagePrice AND state fee
+    // For other services, use regular stateFee + packagePrice
+    if (serviceType === "registered-agent" && stateName) {
+      // Show both service fee and state fee separately
+      newTotalPrice = safeAdd(newTotalPrice, Number(packagePrice));
+      newTotalPrice = safeAdd(newTotalPrice, getStateFee(stateName));
+    } else if (serviceType !== "registered-agent") {
+      newTotalPrice = safeAdd(newTotalPrice, Number(stateFee));
+      newTotalPrice = safeAdd(newTotalPrice, Number(packagePrice));
+    }
+    
     newTotalPrice = safeAdd(newTotalPrice, isFastFillingTimePrice);
     newTotalPrice = safeAdd(newTotalPrice, addressOptionPrice);
     newTotalPrice = safeAdd(newTotalPrice, premiumServicePackagePrice);
@@ -229,28 +311,92 @@ const OrderSummary = ({ referer }: { referer?: string }) => {
     addressOptionPrice,
     premiumServicePackagePrice,
     licenseTypePrice,
+    serviceType,
   ]);
+
+  // Map service types to display names
+  const getServiceName = () => {
+    switch (serviceType) {
+      case "amendment":
+        return "Amendment Filing";
+      case "registered-agent":
+        return "Registered Agent";
+      case "virtual-address":
+        return "Virtual Address";
+      case "cert-good-standing":
+        return "Certificate of Good Standing";
+      case "fake-name":
+        return "Fictitious Business Name";
+      case "foreign-qualification":
+        return "Foreign Qualification";
+      case "change-agent":
+        return "Change Registered Agent";
+      case "business-license":
+        return "Business License";
+      case "annual-report":
+        return "Annual Report";
+      case "trademark":
+        return "Trademark";
+      case "kit-info":
+        return "Business Kit";
+      case "dissolution":
+        return "Dissolution";
+      default:
+        return serviceType || "Service";
+    }
+  };
 
   return (
     <div className="mt-8 bg-gray-50 p-6 rounded-lg sticky top-0 max-w-[400px]">
       <h3 className="text-xl font-bold mb-4">Order Summary</h3>
-      <div className="space-y-2 mb-4">
-        {packageType === "" ? (
-          <div className="flex justify-evenly">
-            <ArrowLeftCircleIcon className="w-6 h-6 text-gray-500" />
-            <span>Please Select a package type</span>
+<div className="space-y-2 mb-4">
+        {/* Show company info - Entity Type and Company Name */}
+        {entityType && (
+          <div className="flex justify-between">
+            <span>Entity Type:</span>
+            <span>{entityType}</span>
           </div>
-        ) : (
+        )}
+        {companyName && (
+          <div className="flex justify-between">
+            <span>Company Name:</span>
+            <span>{companyName} {designator}</span>
+          </div>
+        )}
+        {/* Show either package or service depending on what's selected */}
+        {packageType && packageType !== "" ? (
           <div className="flex justify-between">
             <span>{packageType} Package:</span>
             <span>${packagePrice}</span>
           </div>
+        ) : serviceType === "registered-agent" && stateName ? (
+          // For registered-agent, show both service fee and state fee separately
+          <div className="flex justify-between">
+            <span>Registration Fee:</span>
+            <span>${packagePrice}</span>
+          </div>
+        ) : serviceType ? (
+          <div className="flex justify-between">
+            <span>{getServiceName()}:</span>
+            <span>${packagePrice}</span>
+          </div>
+        ) : (
+          <div className="flex justify-evenly">
+            <ArrowLeftCircleIcon className="w-6 h-6 text-gray-500" />
+            <span>Please Select a package type</span>
+          </div>
         )}
+{/* Show state fee - for registered-agent show as total (includes service), for others show separately */}
         <div className="flex justify-between">
-          <span>{stateName} State Fee:</span>
-          <span>${stateFee ? stateFee : 0}</span>
+          <span>{stateName ? stateName + ' State Fee' : 'State Fee'}:</span>
+          <span>${serviceType === "registered-agent" && stateName ? getStateFee(stateName) : (stateFee || 0)}</span>
         </div>
-        {isFastFillingTime === "fast" && (
+        {serviceType === "registered-agent" && (
+          <div className="text-xs text-gray-500 text-center">
+            (Includes registered agent service fee)
+          </div>
+        )}
+        {stateFillingTime === "fast" && (
           <div className="flex justify-between">
             <span>Fast Filling Time:</span>
             <span>${isFastFillingTimePrice}</span>
@@ -258,7 +404,7 @@ const OrderSummary = ({ referer }: { referer?: string }) => {
         )}
         {addressOption === "recommended" && (
           <div className="flex justify-between items-center">
-            <span className=" text-wrap max-w-56">
+            <span className="text-wrap max-w-56">
               Professional Business Address & Virtual Mail Service:
             </span>
             <span>${addressOptionPrice}/month</span>

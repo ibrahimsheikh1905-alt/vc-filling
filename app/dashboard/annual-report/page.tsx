@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, 
   HelpCircle, 
@@ -11,7 +11,8 @@ import {
   CreditCard,
   Check,
   MapPin,
-  Lock
+  Lock,
+  Loader2
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -20,12 +21,89 @@ const AnnualReportPage = () => {
   const [selectedPlan, setSelectedPlan] = useState<'standard' | 'unlimited'>('unlimited');
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [formationDate, setFormationDate] = useState('');
+  const [loading, setLoading] = useState(true);
+  
+  // Company Data States
+  const [companyData, setCompanyData] = useState<{
+    companyName: string;
+    state: string;
+    businessPurpose: string;
+  } | null>(null);
   
   // Form States
   const [cardNumber, setCardNumber] = useState('');
   const [isSaved, setIsSaved] = useState(false);
   
   const router = useRouter();
+
+  // Get User ID from JWT or localStorage
+  const getUserId = (): number | null => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (jwtToken) {
+      try {
+        const parts = jwtToken.split('.');
+        if (parts.length >= 2) {
+          const base64Url = parts[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split('')
+              .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+              .join('')
+          );
+          const payload = JSON.parse(jsonPayload);
+          return payload.id || payload.userId || null;
+        }
+      } catch (e) {
+        console.error('[AnnualReport] JWT decode error:', e);
+      }
+    }
+    const localUserId = localStorage.getItem('userId');
+    if (localUserId) {
+      return parseInt(localUserId);
+    }
+    return null;
+  };
+
+  // Fetch Company Data
+  useEffect(() => {
+    const fetchCompanyData = async () => {
+      try {
+        const userId = getUserId();
+        if (!userId) {
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`/api/company-data?userId=${userId}`, {
+          credentials: 'include'
+        });
+        
+        const data = await response.json();
+        
+        if (data.success && data.company) {
+          setCompanyData({
+            companyName: data.company.companyName || data.company.name || 'N/A',
+            state: data.company.state || 'N/A',
+            businessPurpose: data.company.businessPurpose || data.company.business_type || 'N/A'
+          });
+        } else if (data.success && data.data) {
+          // Fallback for different response structure
+          setCompanyData({
+            companyName: data.data.companyName || data.data.company_name || 'N/A',
+            state: data.data.state || 'N/A',
+            businessPurpose: data.data.businessPurpose || data.data.business_purpose || 'N/A'
+          });
+        }
+      } catch (err) {
+        console.error('[AnnualReport] Error fetching company data:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCompanyData();
+  }, []);
 
   // 2. Pricing Calculations
   const stateFee = 10;
@@ -78,18 +156,39 @@ const AnnualReportPage = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-4">
+<div className="grid grid-cols-2 md:grid-cols-3 gap-y-8 gap-x-4">
                 <div>
                   <p className="text-[11px] font-bold text-gray-400 uppercase mb-1">Company</p>
-                  <p className="text-sm font-semibold">VCFILING LIMITED</p>
+                  {loading ? (
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin text-orange-500" />
+                      <span className="text-sm text-gray-400">Loading...</span>
+                    </div>
+                  ) : (
+                    <p className="text-sm font-semibold">{companyData?.companyName || 'N/A'}</p>
+                  )}
                 </div>
                 <div>
                   <p className="text-[11px] font-bold text-gray-400 uppercase mb-1">State of Formation</p>
-                  <p className="text-sm font-semibold">Missouri</p>
+                  {loading ? (
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin text-orange-500" />
+                      <span className="text-sm text-gray-400">Loading...</span>
+                    </div>
+                  ) : (
+                    <p className="text-sm font-semibold">{companyData?.state || 'N/A'}</p>
+                  )}
                 </div>
                 <div>
                   <p className="text-[11px] font-bold text-gray-400 uppercase mb-1">Business Purpose</p>
-                  <p className="text-sm font-semibold">Clothing brand</p>
+                  {loading ? (
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin text-orange-500" />
+                      <span className="text-sm text-gray-400">Loading...</span>
+                    </div>
+                  ) : (
+                    <p className="text-sm font-semibold">{companyData?.businessPurpose || 'N/A'}</p>
+                  )}
                 </div>
               </div>
             </div>

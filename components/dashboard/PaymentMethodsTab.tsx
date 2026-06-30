@@ -1,33 +1,172 @@
 "use client";
 
-import React, { useState } from 'react';
-import { CreditCard, ChevronDown, Plus, HelpCircle, Save, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { CreditCard, ChevronDown, Plus, HelpCircle, Save, X, Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 const PaymentMethodsTab = () => {
   // States
   const [showAddForm, setShowAddForm] = useState(false);
-  const [cards, setCards] = useState([
-    { id: 1, last4: "9591", expiry: "08/2032", holder: "John Doe", company: "SOLVEXNEST INC.", primary: true }
-  ]);
-  const [newCard, setNewCard] = useState({ number: '', expiry: '', holder: '', cvc: '' });
+  const [cards, setCards] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [newCard, setNewCard] = useState({ number: '', expiry: '', holder: '', cvc: '', setAsPrimary: false });
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState<number | null>(null);
 
-  const handleSave = () => {
-    if (!newCard.number || !newCard.holder) return alert("Please fill details");
+  // Toggle card expansion
+  const toggleCardExpand = (cardId: number) => {
+    setExpandedCard(expandedCard === cardId ? null : cardId);
+  };
+
+  // Make card primary
+  const handleSetPrimary = async (cardId: number) => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (!jwtToken) return;
+
+    try {
+      const res = await fetch('/api/payment-methods', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify({
+          paymentMethodId: cardId,
+          isPrimary: true
+        })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        // Refresh cards
+        const res = await fetch('/api/payment-methods', {
+          headers: { 'Authorization': `Bearer ${jwtToken}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+          setCards(data.paymentMethods);
+        }
+      }
+    } catch (error) {
+      console.error('Error setting primary:', error);
+    }
+  };
+
+  // Delete card
+  const handleDeleteCard = async (cardId: number) => {
+    if (!confirm('Are you sure you want to delete this payment method?')) return;
     
-    const cardToAdd = {
-      id: Date.now(),
-      last4: newCard.number.slice(-4),
-      expiry: newCard.expiry || "12/28",
-      holder: newCard.holder,
-      company: "PERSONAL CARD",
-      primary: false
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (!jwtToken) return;
+
+    setDeleting(cardId);
+    try {
+      const res = await fetch('/api/payment-methods', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify({
+          paymentMethodId: cardId
+        })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        // Refresh cards
+        const res = await fetch('/api/payment-methods', {
+          headers: { 'Authorization': `Bearer ${jwtToken}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+          setCards(data.paymentMethods);
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting card:', error);
+    } finally {
+      setDeleting(null);
+    }
+  };
+
+  // Fetch payment methods from API on mount
+  useEffect(() => {
+    const fetchPaymentMethods = async () => {
+      try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        if (!jwtToken) {
+          setLoading(false);
+          return;
+        }
+
+        const res = await fetch('/api/payment-methods', {
+          headers: { 'Authorization': `Bearer ${jwtToken}` }
+        });
+        const data = await res.json();
+
+        if (data.success && data.paymentMethods) {
+          setCards(data.paymentMethods);
+        }
+      } catch (error) {
+        console.error('Error fetching payment methods:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    setCards([...cards, cardToAdd]);
-    setShowAddForm(false);
-    setNewCard({ number: '', expiry: '', holder: '', cvc: '' });
+    fetchPaymentMethods();
+  }, []);
+
+  const handleSave = async () => {
+    if (!newCard.number || !newCard.holder) return alert("Please fill details");
+    
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (!jwtToken) {
+      alert('Please login first');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const res = await fetch('/api/payment-methods', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
+        },
+        body: JSON.stringify({
+          last4: newCard.number.slice(-4),
+          expiry: newCard.expiry || "12/28",
+          holder: newCard.holder,
+          company: "PERSONAL CARD",
+          isPrimary: newCard.setAsPrimary
+        })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        // Re-fetch payment methods
+        const res = await fetch('/api/payment-methods', {
+          headers: { 'Authorization': `Bearer ${jwtToken}` }
+        });
+        const data = await res.json();
+        if (data.success) {
+          setCards(data.paymentMethods);
+        }
+      } else {
+        alert('Failed to add card: ' + data.error);
+      }
+    } catch (error) {
+      console.error('Error saving card:', error);
+      alert('Error saving card');
+    } finally {
+      setSaving(false);
+      setShowAddForm(false);
+      setNewCard({ number: '', expiry: '', holder: '', cvc: '', setAsPrimary: false });
+    }
   };
 
   return (
@@ -45,29 +184,86 @@ const PaymentMethodsTab = () => {
             </span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-8 space-y-4">
-          {cards.map((card) => (
-            <div key={card.id} className="flex items-center gap-6 bg-gray-50/50 p-6 rounded-[20px] border border-gray-100 transition-all hover:shadow-md hover:bg-white">
-              <div className="w-16 h-10 bg-gradient-to-br from-gray-900 to-gray-700 rounded-lg flex items-center justify-center text-white shadow-lg">
-                <CreditCard className="w-6 h-6 opacity-80" />
-              </div>
-              <div className="flex-1 min-w-0 text-left">
-                <div className="flex items-center gap-3 mb-1">
-                  <span className="text-lg font-bold text-gray-900 tracking-tight">**** **** **** {card.last4}</span>
-                  {card.primary && (
-                    <span className="px-2.5 py-1 rounded-full bg-blue-500 text-white text-[10px] font-black uppercase tracking-wider">Primary</span>
-                  )}
-                </div>
-                <div className="flex items-center gap-4 text-sm font-medium">
-                  <p className="text-gray-400">Expires <span className="text-gray-600">{card.expiry}</span></p>
-                  <p className="text-gray-400">Cardholder: <span className="text-gray-600 uppercase">{card.holder}</span></p>
-                </div>
-              </div>
-              <Button variant="ghost" size="sm" className="h-10 w-10 p-0 rounded-xl hover:bg-orange-50">
-                <ChevronDown className="w-5 h-5" />
-              </Button>
+<CardContent className="p-8 space-y-4">
+          {loading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
             </div>
-          ))}
+          ) : cards.length === 0 ? (
+            <div className="text-center py-8 text-gray-400">
+              No payment methods found. Add a new card below.
+            </div>
+) : cards.length === 0 ? (
+            <div className="text-center py-8 text-gray-400">
+              No payment methods found. Add a new card below.
+            </div>
+          ) : (
+            cards.map((card) => (
+              <div key={card.id} className="bg-gray-50/50 p-6 rounded-[20px] border border-gray-100 transition-all hover:shadow-md hover:bg-white">
+                <div className="flex items-center gap-6">
+                  <div className="w-16 h-10 bg-gradient-to-br from-gray-900 to-gray-700 rounded-lg flex items-center justify-center text-white shadow-lg">
+                    <CreditCard className="w-6 h-6 opacity-80" />
+                  </div>
+                  <div className="flex-1 min-w-0 text-left">
+                    <div className="flex items-center gap-3 mb-1">
+                      <span className="text-lg font-bold text-gray-900 tracking-tight">**** **** **** {card.last4}</span>
+                      {card.isPrimary && (
+                        <span className="px-2.5 py-1 rounded-full bg-blue-500 text-white text-[10px] font-black uppercase tracking-wider">Primary</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-4 text-sm font-medium">
+                      <p className="text-gray-400">Expires <span className="text-gray-600">{card.expiry}</span></p>
+                      <p className="text-gray-400">Cardholder: <span className="text-gray-600 uppercase">{card.holder}</span></p>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-10 w-10 p-0 rounded-xl hover:bg-orange-50"
+                    onClick={() => toggleCardExpand(card.id)}
+                  >
+                    <ChevronDown className={`w-5 h-5 transition-transform ${expandedCard === card.id ? 'rotate-180' : ''}`} />
+                  </Button>
+                </div>
+                
+                {/* Expanded Card Details */}
+                {expandedCard === card.id && (
+                  <div className="mt-4 pt-4 border-t border-gray-200 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs text-gray-500 uppercase">Company</p>
+                        <p className="text-sm font-medium">{card.company}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 uppercase">Card Type</p>
+                        <p className="text-sm font-medium capitalize">{card.cardType}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      {!card.isPrimary && (
+                        <Button 
+                          size="sm" 
+                          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
+                          onClick={() => handleSetPrimary(card.id)}
+                        >
+                          Set as Primary
+                        </Button>
+                      )}
+                      <Button 
+                        size="sm" 
+                        variant="destructive"
+                        className="flex-1 bg-red-500 hover:bg-red-600 text-white"
+                        onClick={() => handleDeleteCard(card.id)}
+                        disabled={deleting === card.id}
+                      >
+                        {deleting === card.id ? 'Deleting...' : 'Delete'}
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
         </CardContent>
       </Card>
 
@@ -129,12 +325,28 @@ const PaymentMethodsTab = () => {
                     />
                 </div>
             </div>
-            <div className="mt-8 flex gap-4">
-                <Button onClick={handleSave} className="flex-1 bg-gray-900 hover:bg-black text-white font-black py-6 rounded-xl uppercase tracking-widest text-xs">
-                    <Save className="w-4 h-4 mr-2" /> Save Card
+<div className="mt-8 flex gap-4">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    checked={newCard.setAsPrimary}
+                    onChange={(e) => setNewCard({...newCard, setAsPrimary: e.target.checked})}
+                    className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">Set as primary payment method</span>
+                </label>
+              </div>
+              <div className="mt-4 flex gap-4">
+                <Button onClick={handleSave} disabled={saving} className="flex-1 bg-gray-900 hover:bg-black text-white font-black py-6 rounded-xl uppercase tracking-widest text-xs">
+                  {saving ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-2" />
+                  )} 
+                  {saving ? 'Saving...' : 'Save Card'}
                 </Button>
                 <Button onClick={() => setShowAddForm(false)} variant="outline" className="px-8 py-6 rounded-xl font-bold border-gray-200">Cancel</Button>
-            </div>
+              </div>
           </Card>
         )}
       </div>

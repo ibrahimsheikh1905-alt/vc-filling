@@ -1,9 +1,57 @@
 "use client";
 
-import React from 'react';
-import { UserCircle, UserPlus, User, ArrowRight, HelpCircle } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import { UserCircle, UserPlus, User, ArrowRight, HelpCircle, Loader2 } from "lucide-react";
+
+interface RegisteredAgent {
+  id: number;
+  companyName: string;
+  state: string;
+  agentName: string;
+  agentEmail: string;
+  agentPhone?: string;
+  agentAddress?: string;
+  renewalDate?: string;
+  status: string;
+}
 
 export default function RegisteredAgentDashboard() {
+  const [agents, setAgents] = useState<RegisteredAgent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        // Get userId from localStorage (set by login flow)
+        const userId = localStorage.getItem('userId');
+        
+        if (!userId) {
+          setError('Please log in to view your registered agents');
+          setLoading(false);
+          return;
+        }
+
+        // Fetch registered agents for this user
+        const res = await fetch(`/api/register-agent?userId=${userId}`, { 
+          cache: 'no-store' 
+        });
+        const data = await res.json();
+
+        if (data.registeredAgents) {
+          setAgents(data.registeredAgents);
+        }
+      } catch (err) {
+        console.error('Error fetching agents:', err);
+        setError('Failed to load registered agents');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAgents();
+  }, []);
+
   return (
     <div className="bg-[#F9FAFB] min-h-screen py-12 px-4 sm:px-6 lg:px-8 font-sans antialiased">
       <div className="max-w-5xl mx-auto space-y-8">
@@ -24,33 +72,57 @@ export default function RegisteredAgentDashboard() {
           
           <div className="bg-white border border-gray-100 rounded-[24px] shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50">
-                    <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">State</th>
-                    <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">Agent Name</th>
-                    <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">Agent Address</th>
-                    <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">Renewal Date</th>
-                    <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-50">
-                  <tr className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-8 font-bold text-gray-900">Missouri</td>
-                    <td className="px-6 py-8 font-bold text-gray-900">Noraiz Husnain</td>
-                    <td className="px-6 py-8">
-                      <div className="text-gray-500 font-medium leading-relaxed">
-                        312 SW Greenwich Dr<br />
-                        Lees Summit MO 64082
-                      </div>
-                    </td>
-                    <td className="px-6 py-8 font-bold text-gray-400">N/A</td>
-                    <td className="px-6 py-8">
-                      <span className="text-[11px] font-black uppercase tracking-widest text-gray-400">N/A</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              {loading ? (
+                <div className="flex items-center justify-center py-16">
+                  <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+                  <span className="ml-3 text-gray-500 font-bold">Loading agents...</span>
+                </div>
+              ) : error ? (
+                <div className="py-12 text-center text-gray-500">
+                  <p className="font-bold">{error}</p>
+                </div>
+              ) : agents.length === 0 ? (
+                <div className="py-12 text-center text-gray-500">
+                  <p className="font-bold">No registered agents found.</p>
+                  <p className="text-sm mt-2">Order a service to get started!</p>
+                </div>
+              ) : (
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gray-50">
+                      <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">State</th>
+                      <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">Agent Name</th>
+                      <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">Agent Address</th>
+                      <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">Renewal Date</th>
+                      <th className="px-6 py-5 text-left text-[11px] font-black uppercase tracking-widest text-gray-400">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-50">
+                    {agents.map((agent) => (
+                      <tr key={agent.id} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="px-6 py-8 font-bold text-gray-900">{agent.state}</td>
+                        <td className="px-6 py-8 font-bold text-gray-900">{agent.agentName}</td>
+<td className="px-6 py-8">
+                          <div className="text-gray-500 font-medium leading-relaxed">
+                            {agent.agentAddress || agent.agentEmail}<br />
+                            {agent.agentPhone || ''}
+                          </div>
+                        </td>
+                        <td className="px-6 py-8 font-bold text-gray-400">{agent.renewalDate || 'N/A'}</td>
+                        <td className="px-6 py-8">
+                          <span className={`text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-full ${
+                            agent.status === 'Active' 
+                              ? 'bg-emerald-50 text-emerald-600' 
+                              : 'bg-gray-100 text-gray-500'
+                          }`}>
+                            {agent.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3002",
+    "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -26,6 +26,7 @@
     "@workos-inc/authkit-nextjs": "^0.10.1",
     "@workos-inc/node": "^7.27.2",
     "axios": "^1.7.5",
+    "better-sqlite3": "^12.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "formidable": "^3.5.1",
@@ -48,7 +49,8 @@
     "sweetalert2": "^11.14.4",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "uploadthing": "^7.0.2"
+    "uploadthing": "^7.0.2",
+    "vc-dashboard": "file:.."
   },
   "devDependencies": {
     "@types/formidable": "^3.4.5",

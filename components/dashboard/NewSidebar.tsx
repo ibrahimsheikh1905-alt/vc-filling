@@ -1,16 +1,173 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Activity, Settings, Zap, AlertCircle, Mail, FolderOpen, 
   Tag, Building2, Users, Receipt, Shield, Bolt,
-  FileText
+  FileText, LogOut, Loader2, MessageCircle
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "@/contexts/auth";
 
 const NewSidebar: React.FC = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { Logout, userId: authUserId } = useAuth();
+
+const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<{ name: string; email: string; status: string } | null>(null);
+  const [companyData, setCompanyData] = useState<{ name: string; status: string; type: string } | null>(null);
+  const [orderData, setOrderData] = useState<{ id: number; type: string; company: string; status: string; date: string } | null>(null);
+  const [orderCount, setOrderCount] = useState<number>(0);
+  const [pendingIssuesCount, setPendingIssuesCount] = useState<number>(0);
+
+  // Helper function to get userId from various sources
+  const getUserId = (): number | null => {
+    // Priority 1: From auth context
+    if (authUserId) return authUserId;
+    
+    // Priority 2: From JWT token
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (jwtToken) {
+      try {
+        const parts = jwtToken.split('.');
+        if (parts.length >= 2) {
+          const base64Url = parts[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split('')
+              .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+              .join('')
+          );
+          const payload = JSON.parse(jsonPayload);
+          return payload.id || payload.userId || null;
+        }
+      } catch (e) {
+        console.error('[Sidebar] JWT decode error:', e);
+      }
+    }
+    
+    // Priority 3: From localStorage
+    const localUserId = localStorage.getItem('userId');
+    if (localUserId) {
+      return parseInt(localUserId);
+    }
+    
+    return null;
+  };
+
+// Fetch user, company, order data and pending issues count from database
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userId = getUserId();
+        
+        if (!userId) {
+          // Use localStorage fallback
+          const storedName = localStorage.getItem("vcFillingName") || "User";
+          const storedEmail = localStorage.getItem("userEmail") || "";
+          setUserData({ name: storedName, email: storedEmail, status: "Active" });
+          setLoading(false);
+          return;
+        }
+
+        // Fetch company data from /api/company-data endpoint
+        const res = await fetch(`/api/company-data?userId=${userId}`);
+        const data = await res.json();
+
+        if (data.success) {
+          // Set user data with status from database
+          setUserData({
+            name: data.user?.name || "User",
+            email: data.user?.email || "",
+            status: data.user?.status || "Active"
+          });
+          
+          // Set company data
+          if (data.primaryCompany) {
+            setCompanyData({
+              name: data.primaryCompany.name,
+              status: data.primaryCompany.status,
+              type: data.primaryCompany.type
+            });
+          }
+        } else {
+          // Fallback to localStorage
+          const storedName = localStorage.getItem("vcFillingName") || "User";
+          const storedEmail = localStorage.getItem("userEmail") || "";
+          setUserData({ name: storedName, email: storedEmail, status: "Active" });
+        }
+        
+        // Fetch orders from /api/orders endpoint
+        try {
+          const ordersRes = await fetch(`/api/orders?userId=${userId}`);
+          const ordersData = await ordersRes.json();
+          
+          if (ordersData.success && ordersData.orders && ordersData.orders.length > 0) {
+            // Set order count
+            setOrderCount(ordersData.orders.length);
+            
+            // Set most recent order data
+            const latestOrder = ordersData.orders[0];
+            setOrderData({
+              id: latestOrder.id,
+              type: latestOrder.type,
+              company: latestOrder.company,
+              status: latestOrder.status,
+              date: latestOrder.date
+            });
+          }
+        } catch (orderError) {
+          console.error('[Sidebar] Error fetching orders:', orderError);
+        }
+
+// Fetch pending issues count from /api/issues endpoint
+        try {
+          const issuesRes = await fetch(`/api/issues?userId=${userId}`);
+          const issuesData = await issuesRes.json();
+          
+          // Filter only REJECTED issues (as per user requirement)
+          if (issuesData.issues && Array.isArray(issuesData.issues)) {
+            const pendingCount = issuesData.issues.filter((issue: any) => 
+              issue.status === 'rejected'
+            ).length;
+            setPendingIssuesCount(pendingCount);
+          }
+        } catch (issuesError) {
+          console.error('[Sidebar] Error fetching pending issues:', issuesError);
+        }
+      } catch (error) {
+        console.error('[Sidebar] Error fetching data:', error);
+        // Fallback to localStorage on error
+        const storedName = localStorage.getItem("vcFillingName") || "User";
+        const storedEmail = localStorage.getItem("userEmail") || "";
+        setUserData({ name: storedName, email: storedEmail, status: "Active" });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [authUserId]);
+
+  const userName = userData?.name || (typeof window !== "undefined" ? localStorage.getItem("vcFillingName") || "User" : "User");
+  const userEmail = userData?.email || (typeof window !== "undefined" ? localStorage.getItem("userEmail") || "" : "");
+  const userStatus = userData?.status || "Active";
+  
+  const getInitials = (name: string) => {
+    if (!name) return "U";
+    const words = name.trim().split(" ");
+    if (words.length >= 2) {
+      return (words[0][0] + words[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  };
+
+  const handleLogout = async () => {
+    await Logout();
+  };
 
   const isMyTasksActive = pathname === '/dashboard/tasks';
 
@@ -45,22 +202,37 @@ const NewSidebar: React.FC = () => {
     }`;
   };
 
+  // Get status color based on order/company status
+  const getStatusColor = (status: string) => {
+    const s = status?.toLowerCase();
+    if (s === 'completed' || s === 'paid' || s === 'active') {
+      return 'bg-green-50 text-green-700';
+    }
+    return 'bg-orange-50 text-orange-700';
+  };
+
+  if (loading) {
+    return (
+      <aside className="w-64 bg-white border-r border-gray-100 h-screen flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+      </aside>
+    );
+  }
+
   return (
     <aside className="w-64 bg-white border-r border-gray-100 h-screen flex flex-col font-sans antialiased">
-      {/* Profile Section */}
-      <div className="p-5 border-b border-gray-50">
+<div className="p-5 border-b border-gray-50">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-orange-500 rounded-lg flex-shrink-0 flex items-center justify-center text-white font-bold text-sm shadow-sm">
-            NH
+            {getInitials(userName)}
           </div>
           <div className="min-w-0">
-            <h3 className="font-bold text-gray-900 text-[13px] leading-none truncate">Noraiz Husnain</h3>
-            <p className="text-gray-400 text-[11px] truncate mt-1">frndzitme@gmail.com</p>
+            <h3 className="font-bold text-gray-900 text-[13px] leading-none truncate">{userName}</h3>
+            <p className="text-gray-400 text-[11px] truncate mt-1">{userEmail}</p>
           </div>
         </div>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 py-6 px-3 space-y-0.5 overflow-y-auto">
         <Link href="/dashboard" className={getLinkStyle('/dashboard')}>
           <Activity className={getIconStyle('/dashboard')} />
@@ -72,7 +244,6 @@ const NewSidebar: React.FC = () => {
           <span className="text-[13.5px]">Settings</span>
         </Link>
 
-        {/* Section Labels */}
         <div className="px-4 py-3 mt-6 mb-1">
           <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400/80">ACTIONS</span>
         </div>
@@ -83,10 +254,14 @@ const NewSidebar: React.FC = () => {
           <span className="ml-auto bg-orange-500 text-white text-[10px] font-bold rounded-md px-1.5 py-0.5 shadow-sm">3</span>
         </Link>
 
-        <Link href="/dashboard/issues" className={getLinkStyle('/dashboard/issues')}>
+<Link href="/dashboard/issues" className={getLinkStyle('/dashboard/issues')}>
           <AlertCircle className={getIconStyle('/dashboard/issues')} />
           <span className="text-[13.5px]">Pending Issue</span>
-          <span className="ml-auto bg-red-500 text-white text-[10px] font-bold rounded-md px-1.5 py-0.5 shadow-sm">1</span>
+          {pendingIssuesCount > 0 && (
+            <span className="ml-auto bg-red-500 text-white text-[10px] font-bold rounded-md px-1.5 py-0.5 shadow-sm">
+              {pendingIssuesCount}
+            </span>
+          )}
         </Link>
 
         <div className="px-4 py-3 mt-6 mb-1">
@@ -103,11 +278,7 @@ const NewSidebar: React.FC = () => {
           <span className="text-[13.5px] truncate">Business Contracts</span>
         </Link>
 
-        <div className="px-4 py-3 mt-6 mb-1">
-          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400/80">COMPANY DETAILS</span>
-        </div>
-
-        <Link href="/dashboard/orders" className={getLinkStyle('/dashboard/orders')}>
+<Link href="/dashboard/orders" className={getLinkStyle('/dashboard/orders')}>
           <Tag className={getIconStyle('/dashboard/orders')} />
           <span className="text-[13.5px]">Order Status</span>
         </Link>
@@ -132,14 +303,30 @@ const NewSidebar: React.FC = () => {
           <span className="text-[13.5px]">Compliance</span>
         </Link>
 
-        {/* State & IRS Filing Section */}
-        <Link 
+<Link 
           href="/dashboard/StateirsFilling" 
           className={getLinkStyle('/dashboard/StateirsFilling')}
         >
           <FileText className={getIconStyle('/dashboard/StateirsFilling')} />
           <span className="text-[13.5px]">State & IRS Filing</span>
         </Link>
+
+        <div className="px-4 py-3 mt-6 mb-1">
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-gray-400/80">SUPPORT</span>
+        </div>
+
+        <Link href="/dashboard/support" className={getLinkStyle('/dashboard/support')}>
+          <MessageCircle className={getIconStyle('/dashboard/support')} />
+          <span className="text-[13.5px]">Support</span>
+        </Link>
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center w-full px-4 py-2.5 mt-6 rounded-lg text-red-600 hover:bg-red-50 transition-all group"
+        >
+          <LogOut className="w-5 h-5 mr-3 flex-shrink-0 text-red-500 group-hover:text-red-600" />
+          <span className="text-[13.5px] font-medium">Logout</span>
+        </button>
       </nav>
     </aside>
   );

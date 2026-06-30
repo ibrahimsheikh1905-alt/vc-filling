@@ -20,58 +20,31 @@ interface FormData {
 }
 
 export async function submitFakeNameFormData(paymentData: any, captureId: any, captureStatus: any): Promise<any> {
+  const step1Data = JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}");
+  
   const formData: FormData = {
-    entityType:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.entityType || "",
-
-    state:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")?.state || "",
-    companyName:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.companyName || "",
-    designator:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.designator || "",
-    email:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")?.email || "",
-    firstName:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")?.firstName ||
-      "",
-    lastName:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")?.lastName ||
-      "",
-    mobilePhone:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.mobilePhone || "",
-    addressLine2:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.addressLine2 || "",
-
-    streetAddress:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.streetAddress || "",
-
-    city:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")?.city || "",
-
-    zipCode:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")?.zipCode ||
-      "",
-    stateOfFormation:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.stateOfFormation || "",
-    stateOfService:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.stateOfService || "",
-    businessPurpose:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.businessPurpose || "",
-    fakeCompanyName:
-      JSON.parse(localStorage.getItem("/fictitious-business-name/step-1") || "{}")
-        ?.fakeCompanyName || "",
-    
+    entityType: step1Data?.entityType || "",
+    state: step1Data?.state || "",
+    companyName: step1Data?.companyName || "",
+    designator: step1Data?.designator || "",
+    email: step1Data?.email || "",
+    firstName: step1Data?.firstName || "",
+    lastName: step1Data?.lastName || "",
+    mobilePhone: step1Data?.mobilePhone || "",
+    addressLine2: step1Data?.addressLine2 || "",
+    streetAddress: step1Data?.streetAddress || "",
+    city: step1Data?.city || "",
+    zipCode: step1Data?.zipCode || "",
+    stateOfFormation: step1Data?.stateOfFormation || "",
+    stateOfService: step1Data?.stateOfService || "",
+    businessPurpose: step1Data?.businessPurpose || "",
+    fakeCompanyName: step1Data?.fakeCompanyName || "",
   };
+
+  // Get userId from localStorage
+  const userIdFromStorage = localStorage.getItem("userId");
+  const userData = JSON.parse(localStorage.getItem("userData") || "null");
+  const userId = userIdFromStorage || (userData?.id) || null;
 
   try {
     const response = await axios.post("/api/mysql/fake-name", formData, {
@@ -81,7 +54,7 @@ export async function submitFakeNameFormData(paymentData: any, captureId: any, c
     });
     
     await axios.post(
-      "/api/payment/",
+      "/api/payments",
       {
         paymentMethod:
           JSON.parse(localStorage.getItem("/forms/step-final") || "{}")
@@ -99,6 +72,37 @@ export async function submitFakeNameFormData(paymentData: any, captureId: any, c
         },
       }
     );
+    
+    // Get company name and state for order and application
+    const companyName = formData.companyName || "Fictitious Business Name";
+    const stateName = formData.stateOfService || formData.state || "Unknown";
+    
+// Only save to Application table for admin Submission Manager
+    // Note: Order will NOT be created here - admin will create order from Submissions page when processing
+    await axios.post("/api/applications", {
+      userId: userId,
+      type: "Fictitious Business Name",
+      company: companyName,
+      state: stateName,
+      status: "submitted",
+      details: JSON.stringify({
+        companyName: companyName,
+        fakeCompanyName: formData.fakeCompanyName,
+        entityType: formData.entityType,
+        stateOfService: formData.stateOfService,
+        stateOfFormation: formData.stateOfFormation,
+        designator: formData.designator,
+        email: formData.email,
+        phone: formData.mobilePhone,
+        address: formData.streetAddress,
+        addressLine2: formData.addressLine2,
+        city: formData.city,
+        state: formData.state,
+        zipCode: formData.zipCode,
+        businessPurpose: formData.businessPurpose,
+        submittedAt: new Date().toISOString()
+      })
+    });
     
     localStorage.removeItem("/forms/step-final");
     // Clear localStorage after successful submission

@@ -33,128 +33,86 @@ interface FormData {
   agentCity: string;
   agentAddressLine2: string;
   agentStreetAddress: string;
+  amount: number;
 }
 
 export async function submitAnnualReportFormData(paymentData: any, captureId: any, captureStatus: any): Promise<any> {
+  // Get data from localStorage for both steps
+  const step1Data = JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}");
+  const step2Data = JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}");
+  
+  // Get amount from paymentData - this is the total price calculated by OrderSummary
+  const paymentAmount = paymentData?.amount || 0;
+  
+  // Debug log to help troubleshoot
+  console.log("=== Annual Report Submission ===");
+  console.log("Step 1 data:", step1Data);
+  console.log("Step 2 data:", step2Data);
+  console.log("Payment amount:", paymentAmount);
+  
+  // Validate required fields are present before sending
+  if (!step1Data.companyName || !step1Data.entityType) {
+    console.error("Missing required fields:", { 
+      companyName: step1Data.companyName, 
+      entityType: step1Data.entityType 
+    });
+    throw new Error("Missing required fields: companyName or entityType");
+  }
+  
   const formData: FormData = {
-    agentType:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentType || "",
-    agentFirstName:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentFirstName || "",
-    agentLastName:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentLastName || "",
-    agentCompanyName:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentCompanyName || "",
-    agentZipCode:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentZipCode || "",
-    agentState:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentState || "",
-    agentCity:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentCity || "",
-    agentAddressLine2:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentAddressLine2 || "",
-    agentStreetAddress:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.agentStreetAddress || "",
+    agentType: step2Data?.agentType || "",
+    agentFirstName: step2Data?.agentFirstName || "",
+    agentLastName: step2Data?.agentLastName || "",
+    agentCompanyName: step2Data?.agentCompanyName || "",
+    agentZipCode: step2Data?.agentZipCode || "",
+    agentState: step2Data?.agentState || "",
+    agentCity: step2Data?.agentCity || "",
+    agentAddressLine2: step2Data?.agentAddressLine2 || "",
+    agentStreetAddress: step2Data?.agentStreetAddress || "",
 
-    entityType:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.entityType || "",
+    entityType: step1Data?.entityType || "",
+    state: step1Data?.state || "",
+    companyName: step1Data?.companyName || "",
+    designator: step1Data?.designator || "",
+    email: step1Data?.email || "",
+    firstName: step1Data?.firstName || "",
+    lastName: step1Data?.lastName || "",
+    mobilePhone: step1Data?.mobilePhone || "",
+    addressLine2: step1Data?.addressLine2 || "",
+    streetAddress: step1Data?.streetAddress || "",
+    city: step1Data?.city || "",
+    zipCode: step1Data?.zipCode || "",
+    stateOfFormation: step1Data?.stateOfFormation || "",
+    dateOfFormation: step1Data?.dateOfFormation || "",
 
-    state:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.state || "",
-    companyName:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.companyName || "",
-    designator:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.designator || "",
-    email:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.email || "",
-    firstName:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.firstName || "",
-    lastName:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.lastName || "",
-    mobilePhone:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.mobilePhone || "",
-    addressLine2:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.addressLine2 || "",
-
-    streetAddress:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.streetAddress || "",
-
-    city:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")?.city ||
-      "",
-
-    zipCode:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.zipCode || "",
-    stateOfFormation:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.stateOfFormation || "",
-    dateOfFormation:
-      JSON.parse(localStorage.getItem("/annual-report/step-1") || "{}")
-        ?.dateOfFormation || "",
-
-    sameAsCompanyAddress:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.sameAsCompanyAddress || false,
-
-    mailStreetAddress:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.mailStreetAddress || "",
-
-    mailAddressLine2:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.mailAddressLine2 || "",
-
-    mailCity:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.mailCity || "",
-
-    mailState:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.mailState || "",
-
-    mailZipCode:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.mailZipCode || "",
-
-    memberNumber:
-      JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-        ?.memberNumber || "",
-    members:
-      JSON.stringify(
-        JSON.parse(localStorage.getItem("/annual-report/step-2") || "{}")
-          ?.members
-      ) || "",
+    sameAsCompanyAddress: step2Data?.sameAsCompanyAddress || false,
+    mailStreetAddress: step2Data?.mailStreetAddress || "",
+    mailAddressLine2: step2Data?.mailAddressLine2 || "",
+    mailCity: step2Data?.mailCity || "",
+    mailState: step2Data?.mailState || "",
+    mailZipCode: step2Data?.mailZipCode || "",
+    memberNumber: step2Data?.memberNumber || "",
+    members: JSON.stringify(step2Data?.members || []),
+    
+    // Include the payment amount so it can be stored in the Application details
+    amount: paymentAmount,
   };
 
+  console.log("Sending form data:", formData);
+
   try {
+// Get userId from localStorage - this is set when user logs in
+    const userId = localStorage.getItem("userId") || null;
+    
     const response = await axios.post("/api/mysql/annual-report", formData, {
       headers: {
         "Content-Type": "application/json",
+        "userId": userId,
       },
     });
     
     await axios.post(
-      "/api/payment/",
+      "/api/payments",
       {
         paymentMethod:
           JSON.parse(localStorage.getItem("/forms/step-final") || "{}")

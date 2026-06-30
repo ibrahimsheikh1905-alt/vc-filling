@@ -22,61 +22,32 @@ interface FormData {
 }
 
 export async function submitTrademarkFormData(paymentData: any, captureId: any, captureStatus: any): Promise<any> {
+  // Get data from localStorage - use the pathname as key
+  const storedData = JSON.parse(localStorage.getItem("/trademark/step-1") || "{}");
+  
+  // Log for debugging
+  console.log("Trademark form data from localStorage:", storedData);
+  
   const formData: FormData = {
-    entityType:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.entityType || "",
-    state:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")?.state || "",
-    companyName:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.companyName || "",
-    designator:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.designator || "",
-    email:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")?.email || "",
-    firstName:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")?.firstName ||
-      "",
-    lastName:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")?.lastName ||
-      "",
-    mobilePhone:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.mobilePhone || "",
-    addressLine2:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.addressLine2 || "",
-
-    streetAddress:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.streetAddress || "",
-
-    city:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")?.city || "",
-
-    zipCode:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")?.zipCode ||
-      "",
-    stateOfFormation:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.stateOfFormation || "",
-    trademarkType:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.trademarkType || "",
-    usingMark:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")?.usingMark ||
-      "",
-    acknowledgement:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.acknowledgement || "",
-    productOrService:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.productOrService || "",
-    trademarkNameOrSlogan:
-      JSON.parse(localStorage.getItem("/trademark/step-1") || "{}")
-        ?.trademarkNameOrSlogan || "",
+    entityType: storedData?.entityType || "",
+    stateOfFormation: storedData?.stateOfFormation || "",
+    companyName: storedData?.companyName || "",
+    designator: storedData?.designator || "",
+    email: storedData?.email || "",
+    firstName: storedData?.firstName || "",
+    lastName: storedData?.lastName || "",
+    mobilePhone: storedData?.mobilePhone || "",
+    addressLine2: storedData?.addressLine2 || "",
+    streetAddress: storedData?.streetAddress || "",
+    city: storedData?.city || "",
+    // Map 'state' (Company Address State) to stateOfFormation if needed, but send actual state field
+    state: storedData?.state || "",
+    zipCode: storedData?.zipCode || "",
+    trademarkType: storedData?.trademarkType || "",
+    usingMark: storedData?.usingMark || "",
+    acknowledgement: storedData?.acknowledgement || "",
+    productOrService: storedData?.productOrService || "",
+    trademarkNameOrSlogan: storedData?.trademarkNameOrSlogan || "",
   };
 
   try {
@@ -91,7 +62,7 @@ export async function submitTrademarkFormData(paymentData: any, captureId: any, 
     );
     
     await axios.post(
-      "/api/payment/",
+      "/api/payments",
       {
         paymentMethod:
           JSON.parse(localStorage.getItem("/forms/step-final") || "{}")

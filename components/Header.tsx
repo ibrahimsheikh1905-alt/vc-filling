@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   NavigationMenu,
@@ -22,7 +23,14 @@ import AppSidebar from "@/components/app-sidebar";
 // import { UserCircleIcon } from "@heroicons/react/24/solid";
 
 const NavigationMenuDemo = () => {
-  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+  const { isAuthenticated, name, Logout: handleLogout } = useAuth();
+  
+  const handleLogoutClick = async () => {
+    await handleLogout();
+    router.push('/login');
+  };
+  
   return (
     <Headroom style={{ zIndex: 999 }}>
       <div className="bg-white">
@@ -61,12 +69,34 @@ const NavigationMenuDemo = () => {
                 </svg>
               </Link>
             </div>
-            <SidebarProvider>
+<SidebarProvider>
               <AppSidebar />
               <div className="lg:hidden ">
                 <SidebarTrigger />
               </div>
             </SidebarProvider>
+            
+            {/* Login/Logout Button - Desktop */}
+            <div className="max-sm:hidden flex items-center gap-4">
+              {isAuthenticated ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-gray-600">Hi, {name}</span>
+                  <button
+                    onClick={handleLogoutClick}
+                    className="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+                >
+                  Login
+                </Link>
+              )}
+            </div>
           </div>
 
           <div className="max-sm:hidden absolute left-1/2 transform -translate-x-1/2">

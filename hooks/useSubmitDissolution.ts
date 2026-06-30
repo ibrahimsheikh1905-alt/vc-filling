@@ -71,7 +71,7 @@ export async function submitDissolutionFormData(paymentData: any, captureId: any
     });
     
     await axios.post(
-      "/api/payment/",
+      "/api/payments",
       {
         paymentMethod:
           JSON.parse(localStorage.getItem("/forms/step-final") || "{}")

@@ -1,0 +1,25 @@
+{
+  "tickets": [
+    {
+      "id": 1001,
+      "userId": 1,
+      "subject": "Welcome to Support",
+      "description": "This is a sample ticket to help you get started. You can create new tickets using the New Ticket button.",
+      "status": "Open",
+      "priority": "Low",
+      "createdAt": "2026-06-09T13:46:50.344Z",
+      "updatedAt": "2026-06-09T13:46:50.344Z"
+    },
+    {
+      "id": 1002,
+      "userId": 1,
+      "subject": "How do I renew my virtual mailbox?",
+      "description": "I need help with renewing my virtual mailbox service for my LLC.",
+      "status": "In Progress",
+      "priority": "Medium",
+      "createdAt": "2026-06-08T13:46:50.345Z",
+      "updatedAt": "2026-06-09T13:46:50.347Z"
+    }
+  ],
+  "messages": []
+}

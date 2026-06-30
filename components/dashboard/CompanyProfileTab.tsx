@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
-import { User, ChevronDown, Pencil, UserPlus, Users, Edit3, Save, X, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { User, ChevronDown, Pencil, UserPlus, Users, Edit3, Save, X, ShieldCheck, Loader2, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,42 +11,211 @@ const CompanyProfileTab: React.FC = () => {
   const [isEditingContact, setIsEditingContact] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [userData, setUserData] = useState<any>(null);
   
-  // Full Address State with all fields
+  // Fetch user profile data on mount
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Get user ID from localStorage
+        const userId = localStorage.getItem('userId');
+        const jwtToken = localStorage.getItem('jwtToken');
+        
+        if (!userId && !jwtToken) {
+          setLoading(false);
+          return;
+        }
+        
+// Try to fetch user profile with JWT in Authorization header
+        const headers: HeadersInit = {};
+        if (jwtToken) {
+          headers['Authorization'] = `Bearer ${jwtToken}`;
+        }
+
+        let url = '/api/user-profile';
+        if (userId && !jwtToken) {
+          url += `?userId=${encodeURIComponent(userId)}`;
+        }
+        
+        const res = await fetch(url, { headers });
+        const data = await res.json();
+        
+        if (data.success && data.user) {
+          setUserData(data.user);
+        } else {
+          // Fallback to localStorage data
+          const storedName = localStorage.getItem('vcFillingName') || 'User';
+          const storedEmail = localStorage.getItem('userEmail') || '';
+          setUserData({ name: storedName, email: storedEmail });
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        // Fallback to localStorage
+        const storedName = localStorage.getItem('vcFillingName') || 'User';
+        const storedEmail = localStorage.getItem('userEmail') || '';
+        setUserData({ name: storedName, email: storedEmail });
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchUserData();
+  }, []);
+
+// Use user data from API or localStorage
+  const userName = userData?.name || localStorage.getItem('vcFillingName') || 'User';
+  const userEmail = userData?.email || localStorage.getItem('userEmail') || '';
+  
+  // Full Address State with all fields - now using user email
   const [contactInfo, setContactInfo] = useState({
-    email: "frndzitme@gmail.com",
-    phone: "(315) 764-8283",
-    address: "312 Sw Greenwich Dr",
-    city: "Lees Summit",
-    state: "Missouri",
-    zip: "64082"
+    email: userEmail || "",
+    phone: userData?.phone || "",
+    address: userData?.address || "",
+    city: userData?.city || "",
+    state: userData?.state || "",
+    zip: userData?.zip || ""
   });
 
-  const [users, setUsers] = useState([
-    { id: 1, name: "John Doe", role: "Owner", access: "Full Access", email: "johndoe@gmail.com" }
-  ]);
+// Map role to access level
+  const mapRoleToAccess = (role: string) => {
+    switch (role) {
+      case 'admin': return 'Full Access';
+      case 'agent': return 'Billing Only';
+      default: return 'View Only';
+    }
+  };
 
-  const [userData, setUserData] = useState({ name: '', email: '', access: 'Full Access' });
+  // Initialize users list
+  const [users, setUsers] = useState<any[]>([]);
+  const [usersLoading, setUsersLoading] = useState(true);
+
+  // Fetch users from manage-access API
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const jwtToken = localStorage.getItem('jwtToken');
+        if (!jwtToken) {
+          setUsersLoading(false);
+          return;
+        }
+
+        const res = await fetch('/api/manage-access', {
+          headers: { 'Authorization': `Bearer ${jwtToken}` }
+        });
+        const data = await res.json();
+
+        if (data.success && data.users) {
+          const mappedUsers = data.users.map((u: any) => ({
+            id: u.id,
+            name: u.name,
+            email: u.email,
+            role: u.role,
+            access: mapRoleToAccess(u.role)
+          }));
+          setUsers(mappedUsers);
+        } else {
+          // Fallback to current user
+          setUsers([{ id: 1, name: userName, role: "Owner", access: "Full Access", email: userEmail }]);
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        setUsers([{ id: 1, name: userName, role: "Owner", access: "Full Access", email: userEmail }]);
+      } finally {
+        setUsersLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [userName, userEmail]);
+
+const [modalUserData, setModalUserData] = useState({ name: '', email: '', access: 'Full Access' });
 
   const openModal = (user: any = null) => {
     if (user) {
       setEditingUserId(user.id);
-      setUserData({ name: user.name, email: user.email, access: user.access });
+      setModalUserData({ name: user.name, email: user.email, access: user.access });
     } else {
       setEditingUserId(null);
-      setUserData({ name: '', email: '', access: 'Full Access' });
+      setModalUserData({ name: '', email: '', access: 'Full Access' });
     }
     setShowUserModal(true);
   };
 
-  const handleUserSubmit = () => {
-    if (!userData.name || !userData.email) return;
-    if (editingUserId) {
-      setUsers(users.map(u => u.id === editingUserId ? { ...u, ...userData } : u));
-    } else {
-      setUsers([...users, { ...userData, id: Date.now(), role: 'Member' }]);
+const handleUserSubmit = async () => {
+    if (!modalUserData.name || !modalUserData.email) return;
+    
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (!jwtToken) {
+      alert('Please login first');
+      return;
     }
-    setShowUserModal(false);
+    
+    setSaving(true);
+    try {
+      if (editingUserId) {
+        // Update existing user via API
+        const res = await fetch('/api/manage-access', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+          },
+          body: JSON.stringify({
+            userId: editingUserId,
+            name: modalUserData.name,
+            email: modalUserData.email,
+            access: modalUserData.access
+          })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          setUsers(users.map(u => u.id === editingUserId ? { ...u, ...modalUserData } : u));
+        } else {
+          alert('Failed to update user: ' + data.error);
+          setSaving(false);
+          return;
+        }
+      } else {
+        // Create new user via API
+        const res = await fetch('/api/manage-access', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
+          },
+          body: JSON.stringify({
+            name: modalUserData.name,
+            email: modalUserData.email,
+            access: modalUserData.access
+          })
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          setUsers([...users, { 
+            id: data.user.id, 
+            name: modalUserData.name, 
+            email: modalUserData.email, 
+            role: modalUserData.access === 'Full Access' ? 'admin' : modalUserData.access === 'Billing Only' ? 'agent' : 'user',
+            access: modalUserData.access 
+          }]);
+        } else {
+          alert('Failed to invite user: ' + data.error);
+          setSaving(false);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting user:', error);
+      alert('Error saving user');
+    } finally {
+      setSaving(false);
+      setShowUserModal(false);
+    }
   };
 
   return (
@@ -61,22 +230,70 @@ const CompanyProfileTab: React.FC = () => {
             </div>
             <span className="text-[20px] font-black tracking-[-0.02em] text-gray-900 uppercase">Contact Info</span>
           </CardTitle>
-          <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 cursor-pointer">
-            <div className="text-sm font-bold text-gray-700">Noraiz Husnain</div>
+<div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 cursor-pointer">
+            <div className="text-sm font-bold text-gray-700">{userName}</div>
             <ChevronDown className="w-4 h-4 text-gray-400" />
           </div>
         </CardHeader>
         
         <CardContent className="p-8">
-          <div className="flex gap-3 mb-8">
+<div className="flex gap-3 mb-8">
             {!isEditingContact ? (
               <Button onClick={() => setIsEditingContact(true)} className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold px-6 py-6 rounded-xl uppercase text-xs shadow-md">
                 <Pencil className="w-4 h-4 mr-2" /> Edit Contact Address
               </Button>
             ) : (
               <div className="flex gap-2">
-                <Button onClick={() => setIsEditingContact(false)} className="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-6 rounded-xl uppercase text-xs">
-                  <Save className="w-4 h-4 mr-2" /> Save Changes
+                <Button 
+                  onClick={async () => {
+                    setSaving(true);
+                    try {
+                      const userId = localStorage.getItem('userId');
+                      if (!userId) {
+                        alert('Please login first');
+                        setSaving(false);
+                        return;
+                      }
+                      
+                      // Call the update API
+                      const res = await fetch('/api/update-user', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          userId,
+                          name: userName,
+                          email: contactInfo.email,
+                          phone: contactInfo.phone,
+                          address: contactInfo.address,
+                          city: contactInfo.city,
+                          state: contactInfo.state,
+                          zip: contactInfo.zip
+                        })
+                      });
+                      
+                      const data = await res.json();
+                      if (data.success) {
+                        // Update localStorage with new values
+                        localStorage.setItem('vcFillingName', userName);
+                        localStorage.setItem('userEmail', contactInfo.email);
+                        setSaveSuccess(true);
+                        setIsEditingContact(false);
+                        setTimeout(() => setSaveSuccess(false), 3000);
+                      } else {
+                        alert('Failed to save: ' + data.message);
+                      }
+                    } catch (error) {
+                      console.error('Error saving:', error);
+                      alert('Error saving changes');
+                    } finally {
+                      setSaving(false);
+                    }
+                  }}
+                  disabled={saving}
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-6 rounded-xl uppercase text-xs"
+                >
+                  {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : saveSuccess ? <CheckCircle className="w-4 h-4 mr-2" /> : <Save className="w-4 h-4 mr-2" />}
+                  {saving ? 'Saving...' : saveSuccess ? 'Saved!' : 'Save Changes'}
                 </Button>
                 <Button onClick={() => setIsEditingContact(false)} variant="outline" className="px-6 py-6 rounded-xl font-bold uppercase text-xs">Cancel</Button>
               </div>
@@ -204,19 +421,19 @@ const CompanyProfileTab: React.FC = () => {
               </div>
             </CardHeader>
             <CardContent className="p-8 space-y-5 text-left">
-              <div className="space-y-2">
+<div className="space-y-2">
                 <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
-                <Input value={userData.name} onChange={(e) => setUserData({...userData, name: e.target.value})} placeholder="Enter name" className="h-12 rounded-xl font-bold" />
+                <Input value={modalUserData.name} onChange={(e) => setModalUserData({...modalUserData, name: e.target.value})} placeholder="Enter name" className="h-12 rounded-xl font-bold" />
               </div>
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
-                <Input value={userData.email} onChange={(e) => setUserData({...userData, email: e.target.value})} placeholder="email@example.com" className="h-12 rounded-xl font-bold" />
+                <Input value={modalUserData.email} onChange={(e) => setModalUserData({...modalUserData, email: e.target.value})} placeholder="email@example.com" className="h-12 rounded-xl font-bold" />
               </div>
               <div className="space-y-2">
                 <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Access Level</label>
                 <select 
-                  value={userData.access} 
-                  onChange={(e) => setUserData({...userData, access: e.target.value})}
+                  value={modalUserData.access} 
+                  onChange={(e) => setModalUserData({...modalUserData, access: e.target.value})}
                   className="w-full h-12 bg-white border border-gray-200 rounded-xl px-4 text-sm font-bold text-gray-700 outline-none focus:ring-2 focus:ring-orange-100 transition-all cursor-pointer appearance-none"
                 >
                   <option value="Full Access">Full Access (Admin)</option>
@@ -227,8 +444,8 @@ const CompanyProfileTab: React.FC = () => {
               <div className="bg-orange-50/50 p-4 rounded-2xl flex gap-3 border border-orange-100">
                 <ShieldCheck className="w-5 h-5 text-orange-500 flex-shrink-0" />
                 <p className="text-[11px] text-orange-700 font-bold leading-relaxed">
-                  {userData.access === 'Full Access' ? 'This user can manage company settings.' : 
-                   userData.access === 'Billing Only' ? 'User can only manage payments.' : 
+                  {modalUserData.access === 'Full Access' ? 'This user can manage company settings.' : 
+                   modalUserData.access === 'Billing Only' ? 'User can only manage payments.' : 
                    'User can only view profile.'}
                 </p>
               </div>

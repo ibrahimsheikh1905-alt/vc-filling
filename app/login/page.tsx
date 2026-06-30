@@ -5,9 +5,11 @@ import { AuthContext } from '@/contexts/auth';
 import { AuthContextType, Tokens, User } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useContext, useState } from 'react';
 
 const Login: React.FC = () => {
+  const router = useRouter();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [status, setStatus] = useState<string>('');
@@ -15,38 +17,50 @@ const Login: React.FC = () => {
 
   const authContext = useContext(AuthContext) as AuthContextType;
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setStatus('');
 
     try {
-      const storedUsers = localStorage.getItem('tempUsers');
-      const users: User[] = storedUsers ? JSON.parse(storedUsers) : [];
+      // Call the API to authenticate with server/Prisma
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const user = users.find((u: User) => u.email === email && u.password === password);
+      const data = await res.json();
 
-      if (!user) {
-        setStatus('Invalid email or password.');
+      if (!data.success) {
+        setStatus(data.error || 'Invalid email or password.');
         setLoading(false);
         return;
       }
 
-      const fakeJwt: string = `fake-jwt-${email}`;
-      const fakeRefresh: string = `fake-refresh-${email}`;
+// Check user role - only USER can login to web portal (case-insensitive)
+      const userRole = data.user.role?.toUpperCase();
+      if (userRole !== 'USER') {
+        setStatus('Access denied. User only. Please use admin portal.');
+        setLoading(false);
+        return;
+      }
 
-      localStorage.setItem('jwtToken', fakeJwt);
-      localStorage.setItem('refreshToken', fakeRefresh);
-      localStorage.setItem('vcFillingName', user.name);
+      // Allow USER role
+      localStorage.setItem('jwtToken', data.token);
+      localStorage.setItem('refreshToken', data.token);
+      localStorage.setItem('vcFillingName', data.user.name);
       localStorage.setItem('userEmail', email);
-
+      localStorage.setItem('userId', data.user.id);
+      
       await authContext.setTokenCookie({
-        jwtToken: fakeJwt,
-        refreshToken: fakeRefresh,
-        name: user.name,
+        jwtToken: data.token,
+        refreshToken: data.token,
+        name: data.user.name,
       } as Tokens);
-
-      setStatus('Login successful! Redirecting to dashboard...');
+      
+      router.push('/dashboard');
+      return;
     } catch (error) {
       setStatus('Login failed. Please try again.');
       console.error('Login error:', error);

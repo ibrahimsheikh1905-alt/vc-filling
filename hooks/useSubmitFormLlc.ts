@@ -207,18 +207,36 @@ export async function submitFormData(paymentData: PaymentData, captureId: string
     ),
   };
 
-  try {
-    const response = await axios.post(
+// Get userId from localStorage - auth context stores it directly as "userId"
+    // Fallback to userData for backwards compatibility
+    const userIdFromStorage = localStorage.getItem("userId");
+    const userData = JSON.parse(localStorage.getItem("userData") || "null");
+    const userId = userIdFromStorage || (userData?.id) || null;
+    
+    // Include userId in the form data sent to MySQL
+    const formDataWithUserId = {
+      ...formData,
+      userId: userId,
+    };
+    
+try {
+    // Get form data from localStorage for order
+    const step1Data = JSON.parse(localStorage.getItem("/form-a-llc/step-1") || "{}");
+    const step2Data = JSON.parse(localStorage.getItem("/form-a-llc/step-2") || "{}");
+    
+const response = await axios.post(
       "/api/mysql/form-llc",
-      formData,
+      formDataWithUserId,
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
+    
+// Save payment data
     await axios.post(
-      "/api/payment/",
+      "/api/payments",
       {
         paymentMethod:
           JSON.parse(localStorage.getItem("/forms/step-final") || "{}")
@@ -227,7 +245,7 @@ export async function submitFormData(paymentData: PaymentData, captureId: string
         email: paymentData.email,
         amount: paymentData.amount,
         orderId: paymentData.orderID,
-        transactionId: captureId, 
+        transactionId: captureId,
         paymentStatus: captureStatus,
       },
       {
@@ -236,6 +254,98 @@ export async function submitFormData(paymentData: PaymentData, captureId: string
         },
       }
     );
+    
+// Save order to database - get user from localStorage or use guest
+    // Get userId from localStorage - auth context stores it directly as "userId"
+    // Fallback to userData for backwards compatibility
+    const userIdFromStorage = localStorage.getItem("userId");
+    const userData = JSON.parse(localStorage.getItem("userData") || "null");
+    const userId = userIdFromStorage || (userData?.id) || null;
+    
+    // Get company name and state for order
+    const companyName = step2Data?.companyName || formData?.companyName || "New Company";
+    const stateName = step1Data?.stateName || formData?.stateName || "Unknown";
+    
+    // Save order
+    if (userId) {
+      await axios.post("/api/orders", {
+        userId: userId,
+        type: "LLC Formation",
+        company: companyName,
+        customer: paymentData.name || "",
+        state: stateName,
+        amount: paymentData.amount,
+        status: "Completed",
+      });
+    } else {
+      // Save order without userId for guest users
+      await axios.post("/api/orders", {
+        userId: null,
+        type: "LLC Formation",
+        company: companyName,
+        customer: paymentData.name || "",
+        state: stateName,
+        amount: paymentData.amount,
+        status: "Completed",
+      });
+    }
+    
+// Also save to Application table for admin Submission Manager
+  // First: Web API
+  await axios.post("/api/applications", {
+    userId: userId,
+    type: "LLC Formation",
+    company: companyName,
+    state: stateName,
+    status: "submitted",
+    details: JSON.stringify({
+      companyName: companyName,
+      packageType: formData?.packageType,
+      entityType: formData?.entityType,
+      stateName: stateName,
+      amount: paymentData.amount,
+      orderId: paymentData.orderID,
+      email: formData?.clientEmail,
+      phone: formData?.clientPhoneNumber,
+      address: companyAddressData?.streetAddress,
+      zipCode: companyAddressData?.zipCode,
+      // Save ownership/members data with multiple field names for compatibility
+      owners: formData?.members,
+      members: formData?.members,
+      memberDetails: formData?.members,
+      memberData: formData?.members,
+      president: formData?.president,
+      secretary: formData?.secretary,
+      treasurer: formData?.treasurer,
+      vicePresident: formData?.vicePresident,
+      submittedAt: new Date().toISOString()
+    })
+  });
+  
+  // Second: Admin API for Submission Manager
+  try {
+    await axios.post("http://localhost:3001/api/applications", {
+      userId: userId,
+      type: "LLC Formation",
+      company: companyName,
+      state: stateName,
+      status: "submitted",
+      details: JSON.stringify({
+        companyName: companyName,
+        packageType: formData?.packageType,
+        entityType: formData?.entityType,
+        stateName: stateName,
+        amount: paymentData.amount,
+        orderId: paymentData.orderID,
+        email: formData?.clientEmail,
+        phone: formData?.clientPhoneNumber,
+        submittedAt: new Date().toISOString()
+      })
+    });
+} catch (adminAppError: any) {
+    console.error("Admin Application API error:", adminAppError.message);
+  }
+    
     localStorage.removeItem("/forms/step-final");
     // Clear localStorage after successful submission
     localStorage.removeItem("/form-a-llc/step-1");

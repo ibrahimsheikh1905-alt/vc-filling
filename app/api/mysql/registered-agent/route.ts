@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { executeQuery } from "@/lib/dbConnect";
+import { prisma } from "@/lib/prisma";
 import getFormattedDate from "@/hooks/useGetDate";
 import { createUser, UserData } from "@/lib/createUser";
 import handleUsers from "@/lib/handleUsers";
@@ -29,8 +30,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Define the fields we expect in the same order as the SQL query
+// Define the fields we expect in the same order as the SQL query
     const fields = [
+      "user_id",
       "agent_change_option",
       "mobile_phone",
       "email",
@@ -58,7 +60,8 @@ export async function POST(req: NextRequest) {
       );
     `;
 
-    const values = [
+const values = [
+      data.userId ?? null,
       data.agentChangeOption ?? null,
       data.mobilePhone ?? null,
       data.email ?? null,
@@ -80,8 +83,9 @@ export async function POST(req: NextRequest) {
     const result = await executeQuery(query, values);
     const insertedId = result.insertId;
 
-    const newQuery = `INSERT INTO all_form_data (entity_type, company_name, designator, first_name, last_name, email, mobile_phone, usable_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+const newQuery = `INSERT INTO all_form_data (user_id, entity_type, company_name, designator, first_name, last_name, email, mobile_phone, usable_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     await executeQuery(newQuery, [
+      data.userId ?? null,
       data.entityType,
       data.companyName,
       data.designator,
@@ -92,6 +96,32 @@ export async function POST(req: NextRequest) {
       `registered_agent-${insertedId}`,
       getFormattedDate(),
     ]);
+
+// Also save to Prisma for dashboards
+    try {
+      const parsedUserId = data.userId ? parseInt(data.userId) : null;
+      await prisma.registeredAgent.create({
+        data: {
+          userId: parsedUserId,
+          companyName: data.companyName || "",
+          agentName: `${data.firstName || ""} ${data.lastName || ""}`.trim(),
+          agentEmail: data.email || "",
+          agentPhone: data.mobilePhone || null,
+          agentAddress: data.streetAddress ? `${data.streetAddress}${data.addressLine2 ? ', ' + data.addressLine2 : ''}, ${data.city}, ${data.state} ${data.zipCode}` : null,
+          state: data.stateOfService || "",
+          price: 149,
+          status: "Active",
+          startDate: new Date().toISOString(),
+          renewalDate: null,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      });
+      console.log("Saved to Prisma successfully");
+    } catch (prismaError) {
+      console.error("Error saving to Prisma:", prismaError);
+      // Continue even if Prisma fails - SQLite save succeeded
+    }
 
     return NextResponse.json({
       message: "Data inserted successfully.",
