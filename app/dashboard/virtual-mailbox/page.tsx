@@ -1,62 +1,58 @@
 "use client";
 
-import React from 'react';
-import VirtualMailboxTable from '@/components/dashboard/VirtualMailboxTable';
-import PromotionBanner from '@/components/dashboard/PromotionBanner';
-import HowItWorksSection from '@/components/dashboard/HowItWorksSection';
-import TipsGrid from '@/components/dashboard/TipsGrid';
-import VirtualMailboxBanner from '@/components/dashboard/Virtualmailboxbanner';
-import { Mail } from 'lucide-react';
+import React from "react";
+import VirtualMailboxTable from "@/components/dashboard/VirtualMailboxTable";
+import PromotionBanner from "@/components/dashboard/PromotionBanner";
+import HowItWorksSection from "@/components/dashboard/HowItWorksSection";
+import TipsGrid from "@/components/dashboard/TipsGrid";
+import VirtualMailboxBanner from "@/components/dashboard/Virtualmailboxbanner";
+import { Mail } from "lucide-react";
 
 export default function VirtualMailboxPage() {
   return (
-    <main className="flex-1 p-8 overflow-y-auto bg-gray-50 font-sans antialiased">
-      <div className="max-w-6xl mx-auto space-y-10">
-        
-        {/* Header - Simple & Normal Bold */}
+    <main className="flex-1 min-h-screen overflow-y-auto bg-slate-50 p-6 font-sans antialiased md:p-10">
+      <div className="mx-auto max-w-6xl space-y-10">
+
         <header className="mb-10">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 bg-orange-100 rounded-xl">
-                <Mail className="w-6 h-6 text-[#FF5722]" />
-              </div>
-              <span className="text-[11px] font-black text-gray-400 uppercase tracking-[0.3em]">
-                MAIL MANAGEMENT
-              </span>
+          <div className="flex items-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 shadow-sm">
+              <Mail className="h-7 w-7 text-cyan-600" />
             </div>
-            <h1 className="text-3xl font-black tracking-tight text-[#111827]">
-              Virtual Mailbox
-            </h1>
+
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.28em] text-cyan-600">
+                Incorp Bay Dashboard
+              </p>
+
+              <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-900">
+                Virtual Mailbox
+              </h1>
+
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+                Manage, receive and organize your business mail from one secure dashboard.
+              </p>
+            </div>
           </div>
         </header>
 
-        {/* Content Sections */}
-        <div className="space-y-12">
-          {/* Table Section */}
-<section className="space-y-8">
-             <VirtualMailboxTable />
-             <div className="pt-6 pb-4"></div>
-             <PromotionBanner />
-          </section>
+        <section className="space-y-8">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <VirtualMailboxTable />
+          </div>
 
-          {/* Info Section */}
-          <section className="pt-10 border-t border-gray-200">
-             <HowItWorksSection />
-             <div className="mt-12">
-                <TipsGrid />
-             </div>
-          </section>
+          <PromotionBanner />
+        </section>
 
-          <VirtualMailboxBanner />
-        </div>
+        <section className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <HowItWorksSection />
 
+          <div className="mt-12">
+            <TipsGrid />
+          </div>
+        </section>
 
-
-
-
-
-
+        <VirtualMailboxBanner />
       </div>
-   </main>
+    </main>
   );
 }

@@ -23,9 +23,9 @@ const ForeignQualificationForm = () => {
         {/* Back Button */}
         <button 
           onClick={() => router.back()}
-          className="flex items-center text-[13px] font-bold text-gray-900 mb-8 hover:text-orange-600 transition-colors"
+          className="flex items-center text-[13px] font-bold text-gray-900 mb-8 hover:text-cyan-600 transition-colors"
         >
-          <ChevronLeft className="w-4 h-4 text-orange-500 mr-1" /> Back
+          <ChevronLeft className="w-4 h-4 text-cyan-500 mr-1" /> Back
         </button>
 
         {/* Header Section */}
@@ -50,13 +50,13 @@ const ForeignQualificationForm = () => {
             {/* 1. Company Information Selection */}
             <div className="bg-white rounded-[20px] p-8 md:p-10 border border-gray-100 shadow-sm">
               <h3 className="text-[18px] font-bold text-gray-900 mb-6 tracking-tight">Company Information</h3>
-              <div className="border-2 border-orange-500 rounded-xl p-6 bg-white flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full border-2 border-orange-500 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+              <div className="border-2 border-cyan-500 rounded-xl p-6 bg-white flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
+                  <div className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
                 </div>
                 <div>
                   <h4 className="font-black text-gray-900 text-[14px] uppercase tracking-wider">NEW COMPANY</h4>
-                  <p className="text-gray-400 text-[12px]">A company previously incorporated outside of Bizee</p>
+                  <p className="text-gray-400 text-[12px]">A company previously incorporated outside of Incorp Bay</p>
                 </div>
               </div>
             </div>
@@ -67,7 +67,7 @@ const ForeignQualificationForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="col-span-full">
                    <label className="block text-[13px] font-bold text-gray-700 mb-2 italic">Entity Type</label>
-                   <select className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] bg-white outline-none focus:border-orange-500 italic">
+                   <select className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] bg-white outline-none focus:border-cyan-500 italic">
                      <option>Select Entity Type</option>
                    </select>
                    <p className="text-red-500 text-[11px] mt-1 italic font-bold">✘ Entity Type is required</p>
@@ -95,8 +95,8 @@ const ForeignQualificationForm = () => {
             <div className="bg-white rounded-[20px] p-8 md:p-10 border border-gray-100 shadow-sm">
               <h3 className="text-[18px] font-bold text-gray-900 mb-6 border-b border-gray-50 pb-4">Registered Agent Information</h3>
               <ul className="space-y-3 mb-8">
-                <li className="flex gap-2 text-[13px] text-gray-500 font-medium italic"><Check className="w-4 h-4 text-orange-500 flex-shrink-0"/> Every state requires all business entities to designate a registered agent.</li>
-                <li className="flex gap-2 text-[13px] text-gray-500 font-medium italic"><Check className="w-4 h-4 text-orange-500 flex-shrink-0"/> The appointed registered agent is required to be located in the state of qualification.</li>
+                <li className="flex gap-2 text-[13px] text-gray-500 font-medium italic"><Check className="w-4 h-4 text-cyan-500 flex-shrink-0"/> Every state requires all business entities to designate a registered agent.</li>
+                <li className="flex gap-2 text-[13px] text-gray-500 font-medium italic"><Check className="w-4 h-4 text-cyan-500 flex-shrink-0"/> The appointed registered agent is required to be located in the state of qualification.</li>
               </ul>
 
               <div className="bg-gray-50 rounded-xl p-5 flex gap-4 mb-8 border border-gray-100">
@@ -107,8 +107,8 @@ const ForeignQualificationForm = () => {
               <div className="space-y-6">
                 <p className="text-[13px] font-bold text-gray-800 tracking-tight">Typical documents received by your Registered Agent can include:</p>
                 <ul className="space-y-3 text-[13px] text-gray-500 italic ml-2">
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-orange-500 flex-shrink-0"/> Service of Process, i.e. notification of a pending lawsuit or court order</li>
-                  <li className="flex gap-2"><Check className="w-4 h-4 text-orange-500 flex-shrink-0"/> State correspondence, i.e. annual reports or statements</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 text-cyan-500 flex-shrink-0"/> Service of Process, i.e. notification of a pending lawsuit or court order</li>
+                  <li className="flex gap-2"><Check className="w-4 h-4 text-cyan-500 flex-shrink-0"/> State correspondence, i.e. annual reports or statements</li>
                 </ul>
               </div>
 
@@ -117,23 +117,23 @@ const ForeignQualificationForm = () => {
                 <div 
                   onClick={() => setActiveAgent('bizee')}
                   className={`rounded-xl p-5 flex items-center gap-3 bg-white cursor-pointer transition-all border-2 ${
-                    activeAgent === 'bizee' ? 'border-orange-500 shadow-md ring-1 ring-orange-50' : 'border-gray-100 opacity-60'
+                    activeAgent === 'bizee' ? 'border-cyan-500 shadow-md ring-1 ring-cyan-50' : 'border-gray-100 opacity-60'
                   }`}
                 >
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${activeAgent === 'bizee' ? 'border-orange-500' : 'border-gray-300'}`}>
-                    {activeAgent === 'bizee' && <div className="w-2.5 h-2.5 rounded-full bg-orange-500"/>}
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${activeAgent === 'bizee' ? 'border-cyan-500' : 'border-gray-300'}`}>
+                    {activeAgent === 'bizee' && <div className="w-2.5 h-2.5 rounded-full bg-cyan-500"/>}
                   </div>
-                  <span className="text-[12px] font-bold text-gray-900 italic">I would like Bizee to act as my registered agent.</span>
+                  <span className="text-[12px] font-bold text-gray-900 italic">I would like Incorp Bay to act as my registered agent.</span>
                 </div>
 
                 <div 
                   onClick={() => setActiveAgent('own')}
                   className={`rounded-xl p-5 flex items-center gap-3 bg-white cursor-pointer transition-all border-2 ${
-                    activeAgent === 'own' ? 'border-orange-500 shadow-md ring-1 ring-orange-50' : 'border-gray-100 opacity-60'
+                    activeAgent === 'own' ? 'border-cyan-500 shadow-md ring-1 ring-cyan-50' : 'border-gray-100 opacity-60'
                   }`}
                 >
-                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${activeAgent === 'own' ? 'border-orange-500' : 'border-gray-300'}`}>
-                    {activeAgent === 'own' && <div className="w-2.5 h-2.5 rounded-full bg-orange-500"/>}
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${activeAgent === 'own' ? 'border-cyan-500' : 'border-gray-300'}`}>
+                    {activeAgent === 'own' && <div className="w-2.5 h-2.5 rounded-full bg-cyan-500"/>}
                   </div>
                   <span className="text-[12px] font-bold text-gray-900 italic">I will provide my own registered agent.</span>
                 </div>
@@ -145,17 +145,17 @@ const ForeignQualificationForm = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
                   <div className="flex gap-4">
-                    <Zap className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                    <Zap className="w-6 h-6 text-cyan-500 flex-shrink-0" />
                     <div>
                       <h5 className="text-[14px] font-bold text-gray-900 mb-1">Worry Free Compliance</h5>
                       <p className="text-[12px] text-gray-500 leading-relaxed font-medium italic">
-                        Use our service to guarantee your companies state compliance requirements are met. The service renews automatically each year for $119. <span className="text-orange-500 cursor-pointer underline">View Terms</span>
+                        Use our service to guarantee your companies state compliance requirements are met. The service renews automatically each year for $119. <span className="text-cyan-500 cursor-pointer underline">View Terms</span>
                       </p>
                     </div>
                   </div>
 
                   <div className="flex gap-4">
-                    <DollarSign className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                    <DollarSign className="w-6 h-6 text-cyan-500 flex-shrink-0" />
                     <div>
                       <h5 className="text-[14px] font-bold text-gray-900 mb-1">Guaranteed Rates</h5>
                       <p className="text-[12px] text-gray-500 leading-relaxed font-medium italic">
@@ -165,7 +165,7 @@ const ForeignQualificationForm = () => {
                   </div>
 
                   <div className="flex gap-4">
-                    <ShieldCheck className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                    <ShieldCheck className="w-6 h-6 text-cyan-500 flex-shrink-0" />
                     <div>
                       <h5 className="text-[14px] font-bold text-gray-900 mb-1">All-Inclusive</h5>
                       <p className="text-[12px] text-gray-500 leading-relaxed font-medium italic">
@@ -175,7 +175,7 @@ const ForeignQualificationForm = () => {
                   </div>
 
                   <div className="flex gap-4">
-                    <MailX className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                    <MailX className="w-6 h-6 text-cyan-500 flex-shrink-0" />
                     <div>
                       <h5 className="text-[14px] font-bold text-gray-900 mb-1">Reduce Junk Mail</h5>
                       <p className="text-[12px] text-gray-500 leading-relaxed font-medium italic">
@@ -214,7 +214,7 @@ const ForeignQualificationForm = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-[#fcae91] hover:bg-orange-400 text-white font-black py-5 rounded-xl shadow-sm transition-all text-[16px] mb-6 uppercase tracking-wider">
+              <button className="w-full bg-[#06B6D4] hover:bg-cyan-600 text-white font-black py-5 rounded-xl shadow-sm transition-all text-[16px] mb-6 uppercase tracking-wider">
                 Complete & Pay
               </button>
 

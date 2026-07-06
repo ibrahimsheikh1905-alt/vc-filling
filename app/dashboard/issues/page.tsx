@@ -85,12 +85,12 @@ const PendingIssuePage = () => {
   // Show loading state
   if (loading) {
     return (
-      <main className="flex-1 p-8 bg-gray-50 font-sans antialiased">
+      <main className="flex-1 min-h-screen p-6 md:p-10 bg-slate-50 font-sans antialiased">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="flex flex-col items-center gap-4">
-              <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
-              <p className="text-gray-500 font-medium">Loading issues...</p>
+              <Loader2 className="w-10 h-10 text-cyan-500 animate-spin" />
+              <p className="text-slate-500 font-medium">Loading issues...</p>
             </div>
           </div>
         </div>
@@ -101,7 +101,7 @@ const PendingIssuePage = () => {
   // Show error state
   if (error) {
     return (
-      <main className="flex-1 p-8 bg-gray-50 font-sans antialiased">
+      <main className="flex-1 min-h-screen p-6 md:p-10 bg-slate-50 font-sans antialiased">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="flex flex-col items-center gap-4">
@@ -109,7 +109,7 @@ const PendingIssuePage = () => {
               <p className="text-red-500 font-medium">{error}</p>
               <button 
                 onClick={() => window.location.reload()} 
-                className="text-orange-500 font-bold hover:underline"
+                className="text-cyan-500 font-bold hover:underline"
               >
                 Try Again
               </button>
@@ -128,26 +128,26 @@ const PendingIssuePage = () => {
   // If no pending issues found (all approved)
   if (pendingIssues.length === 0) {
     return (
-      <main className="flex-1 p-8 bg-gray-50 font-sans antialiased">
+      <main className="flex-1 min-h-screen p-6 md:p-10 bg-slate-50 font-sans antialiased">
         <div className="max-w-5xl mx-auto">
           
           {/* Header */}
           <header className="mb-10">
             <button 
               onClick={() => router.push('/dashboard')}
-              className="flex items-center gap-2 text-gray-500 hover:text-orange-600 transition-colors mb-4"
+              className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 transition-colors mb-4"
             >
               <ArrowLeft className="w-4 h-4" />
               <span className="text-sm font-medium">Back to Dashboard</span>
             </button>
             
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">My Submissions</h1>
+            <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">My Submissions</h1>
             <div className="flex gap-6 mt-4">
-              <a href="mailto:info@vcfiling.com" className="flex items-center gap-2 text-sm text-gray-600 hover:text-orange-600 transition-colors">
+              <a href="mailto:info@incorpbay.com" className="flex items-center gap-2 text-sm text-slate-600 hover:text-cyan-600 transition-colors">
                 <Mail className="w-4 h-4" />
-                info@vcfiling.com
+                info@incorpbay.com
               </a>
-              <a href="tel:1-888-888-8888" className="flex items-center gap-2 text-sm text-gray-600 hover:text-orange-600 transition-colors">
+              <a href="tel:1-888-888-8888" className="flex items-center gap-2 text-sm text-slate-600 hover:text-cyan-600 transition-colors">
                 <PhoneCall className="w-4 h-4" />
                 1-888-888-8888
               </a>
@@ -155,18 +155,18 @@ const PendingIssuePage = () => {
           </header>
 
           {/* No Pending Issues - Success State */}
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
             <div className="p-12 text-center">
               <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-green-600" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900 mb-2">All Clear!</h2>
-              <p className="text-gray-500 font-medium">
+              <h2 className="text-xl font-bold text-slate-900 mb-2">All Clear!</h2>
+              <p className="text-slate-500 font-medium">
                 No pending submissions. Your applications are all approved.
               </p>
               <button 
                 onClick={() => router.push('/dashboard')}
-                className="mt-6 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl transition-colors"
+                className="mt-6 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-2xl transition-colors shadow-md shadow-cyan-100"
               >
                 Return to Dashboard
               </button>
@@ -181,26 +181,26 @@ const PendingIssuePage = () => {
   // Already filtered above
 
   return (
-    <main className="flex-1 p-8 bg-gray-50 font-sans antialiased">
+    <main className="flex-1 min-h-screen p-6 md:p-10 bg-slate-50 font-sans antialiased">
       <div className="max-w-5xl mx-auto">
         
         {/* Header */}
         <header className="mb-10">
           <button 
             onClick={() => router.push('/dashboard')}
-            className="flex items-center gap-2 text-gray-500 hover:text-orange-600 transition-colors mb-4"
+            className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 transition-colors mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-sm font-medium">Back to Dashboard</span>
           </button>
           
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">My Submissions</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">My Submissions</h1>
           <div className="flex gap-6 mt-4">
-            <a href="mailto:info@vcfiling.com" className="flex items-center gap-2 text-sm text-gray-600 hover:text-orange-600 transition-colors">
+            <a href="mailto:info@incorpbay.com" className="flex items-center gap-2 text-sm text-slate-600 hover:text-cyan-600 transition-colors">
               <Mail className="w-4 h-4" />
-              info@vcfiling.com
+              info@incorpbay.com
             </a>
-            <a href="tel:1-888-888-8888" className="flex items-center gap-2 text-sm text-gray-600 hover:text-orange-600 transition-colors">
+            <a href="tel:1-888-888-8888" className="flex items-center gap-2 text-sm text-slate-600 hover:text-cyan-600 transition-colors">
               <PhoneCall className="w-4 h-4" />
               1-888-888-8888
             </a>
@@ -210,14 +210,14 @@ const PendingIssuePage = () => {
         {/* Show all pending/submitted applications as a list */}
         <div className="space-y-4">
           {pendingIssues.map((issue: Issue) => (
-            <div key={issue.id} className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+            <div key={issue.id} className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
               <div className="grid grid-cols-1 lg:grid-cols-3">
                 
                 {/* Left Section (Details) */}
-                <div className="lg:col-span-2 p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-gray-100">
+                <div className="lg:col-span-2 p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-slate-100">
                   <div className={`flex items-center gap-2 mb-4 ${
                     issue.status === 'rejected' ? 'text-red-600' : 
-                    issue.status === 'submitted' ? 'text-blue-600' : 'text-orange-600'
+                    issue.status === 'submitted' ? 'text-blue-600' : 'text-cyan-600'
                   }`}>
                     {issue.status === 'rejected' ? (
                       <FileX className="w-5 h-5" />
@@ -232,19 +232,19 @@ const PendingIssuePage = () => {
                     </span>
                   </div>
                   
-                  <div className="space-y-6 text-gray-600 leading-relaxed">
+                  <div className="space-y-6 text-slate-600 leading-relaxed">
                     {(issue.rejectionReason || issue.details) ? (
                       <div className="space-y-4">
                         {issue.rejectionReason && (
-                          <div className="p-5 bg-orange-50/50 rounded-xl border border-orange-100">
-                            <p className="font-bold text-gray-900">
+                          <div className="p-5 bg-red-50/50 rounded-2xl border border-red-100">
+                            <p className="font-bold text-slate-900">
                               {issue.rejectionReason}
                             </p>
                           </div>
                         )}
                         {issue.details && (
-                          <div className="p-5 bg-gray-50/50 rounded-xl border border-gray-100">
-                            <p className="font-bold text-gray-900">
+                          <div className="p-5 bg-slate-50/50 rounded-xl border border-slate-100">
+                            <p className="font-bold text-slate-900">
                               {issue.details}
                             </p>
                           </div>
@@ -252,7 +252,7 @@ const PendingIssuePage = () => {
                       </div>
                     ) : (
                       <>
-                        <p className="font-semibold text-gray-800">Your application is being processed.</p>
+                        <p className="font-semibold text-slate-800">Your application is being processed.</p>
                         
                         <div className="mt-8 p-5 bg-blue-50/50 rounded-xl border border-blue-100 text-sm">
                           <p>
@@ -265,10 +265,10 @@ const PendingIssuePage = () => {
                 </div>
 
                 {/* Right Section (Order Info) */}
-                <div className="p-8 lg:p-10 bg-gray-50/30">
+                <div className="p-8 lg:p-10 bg-slate-50/30">
                   <div className={`flex items-center gap-2 mb-8 ${
                     issue.status === 'rejected' ? 'text-red-600' : 
-                    issue.status === 'submitted' ? 'text-blue-600' : 'text-orange-600'
+                    issue.status === 'submitted' ? 'text-blue-600' : 'text-cyan-600'
                   }`}>
                     {issue.status === 'rejected' ? (
                       <FileX className="w-5 h-5" />
@@ -285,31 +285,31 @@ const PendingIssuePage = () => {
                   
                   <div className="space-y-6">
                     <div>
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Reference No.</p>
-                      <p className="text-xl font-bold text-gray-900">#{issue.id}</p>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Reference No.</p>
+                      <p className="text-xl font-bold text-slate-900">#{issue.id}</p>
                     </div>
                     
                     <div>
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Filing Type</p>
-                      <p className="text-xl font-bold text-gray-900">{issue.type}</p>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Filing Type</p>
+                      <p className="text-xl font-bold text-slate-900">{issue.type}</p>
                     </div>
                     
                     <div>
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Company</p>
-                      <p className="text-lg font-bold text-gray-900">{issue.company || 'N/A'}</p>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Company</p>
+                      <p className="text-lg font-bold text-slate-900">{issue.company || 'N/A'}</p>
                     </div>
                     
                     <div>
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Filing State</p>
-                      <p className="text-xl font-bold text-gray-900">{issue.state}</p>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Filing State</p>
+                      <p className="text-xl font-bold text-slate-900">{issue.state}</p>
                     </div>
 
                     <div>
-                      <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Submitted Date</p>
-                      <p className="text-sm font-medium text-gray-900">{formatDate(issue.submittedAt)}</p>
+                      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Submitted Date</p>
+                      <p className="text-sm font-medium text-slate-900">{formatDate(issue.submittedAt)}</p>
                     </div>
                     
-                    <div className="pt-4 border-t border-gray-200">
+                    <div className="pt-4 border-t border-slate-200">
                       <div className="flex items-center gap-2 text-green-600">
                         <CheckCircle className="w-4 h-4" />
                         <span className="text-sm font-medium">Application Received</span>
@@ -324,8 +324,8 @@ const PendingIssuePage = () => {
         </div>
         
         {/* Footer Note */}
-        <div className="mt-6 text-center text-sm text-gray-500">
-          <p>If you have any questions, please contact support at <a href="mailto:info@vcfiling.com" className="text-orange-600 hover:underline">info@vcfiling.com</a></p>
+        <div className="mt-6 text-center text-sm text-slate-500">
+          <p>If you have any questions, please contact support at <a href="mailto:info@incorpbay.com" className="text-cyan-600 hover:underline">info@incorpbay.com</a></p>
         </div>
       </div>
     </main>

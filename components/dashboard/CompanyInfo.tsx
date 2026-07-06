@@ -62,7 +62,7 @@ interface AccordionItemProps {
 
 const AccordionItem = ({ title, isOpen, onToggle, children }: AccordionItemProps) => {
   return (
-    <div className="bg-white border border-gray-200 rounded-[22px] shadow-lg overflow-hidden mb-8 transition-all duration-300">
+    <div className="bg-white border border-slate-200 rounded-[22px] shadow-lg overflow-hidden mb-8 transition-all duration-300">
       <div 
         onClick={onToggle}
         className="flex items-center justify-between px-10 py-10 cursor-pointer hover:bg-gray-50/80 transition-colors"
@@ -75,8 +75,8 @@ const AccordionItem = ({ title, isOpen, onToggle, children }: AccordionItemProps
             {title}
           </h3>
         </div>
-        <div className={`w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-100 shadow-sm transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
-          <ChevronDown className="w-6 h-6 text-gray-500" />
+        <div className={`w-12 h-12 rounded-full bg-white flex items-center justify-center border border-slate-100 shadow-sm transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`}>
+          <ChevronDown className="w-6 h-6 text-slate-500" />
         </div>
       </div>
 
@@ -276,15 +276,15 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
     if (s === 'completed' || s === 'paid' || s === 'active' || s === 'good standing') {
       return 'bg-green-50 text-green-700';
     }
-    return 'bg-orange-50 text-orange-700';
+    return 'bg-cyan-50 text-cyan-700';
   };
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto p-16 bg-[#F9FAFB] min-h-screen font-sans flex items-center justify-center">
+      <div className="max-w-7xl mx-auto p-16 bg-slate-50 min-h-screen font-sans flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-orange-500 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg">Loading company information...</p>
+          <Loader2 className="w-12 h-12 animate-spin text-cyan-500 mx-auto mb-4" />
+          <p className="text-slate-500 text-lg">Loading company information...</p>
         </div>
       </div>
     );
@@ -292,10 +292,10 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto p-16 bg-[#F9FAFB] min-h-screen font-sans flex items-center justify-center">
+      <div className="max-w-7xl mx-auto p-16 bg-slate-50 min-h-screen font-sans flex items-center justify-center">
         <div className="text-center bg-white p-8 rounded-2xl shadow-lg border border-red-200">
           <p className="text-red-600 text-lg font-semibold">{error}</p>
-          <p className="text-gray-500 mt-2">Please login to view your company information.</p>
+          <p className="text-slate-500 mt-2">Please login to view your company information.</p>
         </div>
       </div>
     );
@@ -307,7 +307,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
   const companyState = companyData?.state || primaryOrder?.state || 'N/A';
 
   return (
-    <div className="max-w-7xl mx-auto p-16 bg-[#F9FAFB] min-h-screen font-sans">
+    <div className="max-w-7xl mx-auto p-16 bg-slate-50 min-h-screen font-sans">
       
       {/* 1.j Company Info */}
       <AccordionItem title="Company Info" isOpen={openSection === "Company Info"} onToggle={() => toggle("Company Info")}>
@@ -382,7 +382,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
               setSaveSuccess(false);
               setSaveError(null);
             }}
-            className="mt-8 flex items-center gap-4 bg-[#FFF5F2] text-[#FF5722] px-10 py-5 rounded-2xl text-[16px] font-black shadow-md hover:scale-105 transition-all"
+            className="mt-8 flex items-center gap-4 bg-cyan-50 text-cyan-600 px-10 py-5 rounded-2xl text-[16px] font-black shadow-md hover:scale-105 transition-all"
           >
             <Pencil className="w-5 h-5" /> Edit Contact Info
           </button>
@@ -405,7 +405,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
           {/* Always show the logged-in user as director 1 with their email */}
           {userData?.name && (
             <div className="flex items-start gap-8 group">
-              <div className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center text-[18px] font-black shrink-0 text-gray-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
+              <div className="w-12 h-12 rounded-full border-2 border-slate-200 flex items-center justify-center text-[18px] font-black shrink-0 text-slate-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
                 1
               </div>
               <div className="text-[17px] font-bold">
@@ -420,7 +420,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
           {/* Then show other directors from orders if any */}
           {directors.length > 1 && directors.slice(1).map((director, index) => (
             <div key={index + 1} className="flex items-start gap-8 group">
-              <div className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center text-[18px] font-black shrink-0 text-gray-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
+              <div className="w-12 h-12 rounded-full border-2 border-slate-200 flex items-center justify-center text-[18px] font-black shrink-0 text-slate-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
                 {index + 2}
               </div>
               <div className="text-[17px] font-bold">
@@ -433,7 +433,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
           ))}
           
           {!userData?.name && directors.length === 0 && (
-            <p className="text-gray-500">No directors found</p>
+            <p className="text-slate-500">No directors found</p>
           )}
         </div>
       </AccordionItem>
@@ -460,13 +460,13 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
             {/* Modal Header */}
-            <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+            <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100">
               <h2 className="text-[22px] font-black text-[#111827]">Edit Contact Info</h2>
               <button 
                 onClick={() => setShowEditModal(false)}
                 className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
               >
-                <X className="w-5 h-5 text-gray-600" />
+                <X className="w-5 h-5 text-slate-600" />
               </button>
             </div>
             
@@ -490,7 +490,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
                   type="text"
                   value={editForm.name}
                   onChange={(e) => setEditForm({...editForm, name: e.target.value})}
-                  className="w-full px-4 py-3.5 border border-gray-200 rounded-xl text-[15px] focus:outline-none focus:border-orange-500 transition-colors"
+                  className="w-full px-4 py-3.5 border border-slate-200 rounded-xl text-[15px] focus:outline-none focus:border-cyan-500 transition-colors"
                   placeholder="Your full name"
                 />
               </div>
@@ -501,7 +501,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
                   type="email"
                   value={editForm.email}
                   onChange={(e) => setEditForm({...editForm, email: e.target.value})}
-                  className="w-full px-4 py-3.5 border border-gray-200 rounded-xl text-[15px] focus:outline-none focus:border-orange-500 transition-colors"
+                  className="w-full px-4 py-3.5 border border-slate-200 rounded-xl text-[15px] focus:outline-none focus:border-cyan-500 transition-colors"
                   placeholder="your@email.com"
                 />
               </div>
@@ -512,7 +512,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
                   type="tel"
                   value={editForm.phone}
                   onChange={(e) => setEditForm({...editForm, phone: e.target.value})}
-                  className="w-full px-4 py-3.5 border border-gray-200 rounded-xl text-[15px] focus:outline-none focus:border-orange-500 transition-colors"
+                  className="w-full px-4 py-3.5 border border-slate-200 rounded-xl text-[15px] focus:outline-none focus:border-cyan-500 transition-colors"
                   placeholder="+1 (555) 000-0000"
                 />
               </div>
@@ -523,17 +523,17 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
                   type="text"
                   value={editForm.address}
                   onChange={(e) => setEditForm({...editForm, address: e.target.value})}
-                  className="w-full px-4 py-3.5 border border-gray-200 rounded-xl text-[15px] focus:outline-none focus:border-orange-500 transition-colors"
+                  className="w-full px-4 py-3.5 border border-slate-200 rounded-xl text-[15px] focus:outline-none focus:border-cyan-500 transition-colors"
                   placeholder="Your mailing address"
                 />
               </div>
             </div>
             
             {/* Modal Footer */}
-            <div className="flex gap-4 px-8 py-6 border-t border-gray-100">
+            <div className="flex gap-4 px-8 py-6 border-t border-slate-100">
               <button 
                 onClick={() => setShowEditModal(false)}
-                className="flex-1 px-6 py-3.5 border-2 border-gray-200 rounded-xl text-[15px] font-bold text-gray-600 hover:bg-gray-50 transition-colors"
+                className="flex-1 px-6 py-3.5 border-2 border-slate-200 rounded-xl text-[15px] font-bold text-slate-600 hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
@@ -588,7 +588,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
                   }
                 }}
                 disabled={saving}
-                className="flex-1 px-6 py-3.5 bg-orange-500 text-white rounded-xl text-[15px] font-bold hover:bg-orange-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-6 py-3.5 bg-cyan-500 text-white rounded-xl text-[15px] font-bold hover:bg-cyan-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>

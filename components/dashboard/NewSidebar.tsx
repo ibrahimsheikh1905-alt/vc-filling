@@ -183,7 +183,7 @@ const [loading, setLoading] = useState(true);
     
     return `flex items-center px-4 py-2.5 rounded-lg transition-all group relative ${
       isActive 
-      ? 'bg-orange-50 text-orange-600 font-semibold' 
+      ? 'bg-cyan-50 text-cyan-600 font-semibold' 
       : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium'
     }`;
   };
@@ -198,7 +198,7 @@ const [loading, setLoading] = useState(true);
       isActive = pathname === path;
     }
     return `w-5 h-5 mr-3 flex-shrink-0 transition-colors ${
-      isActive ? 'text-orange-500' : 'text-gray-400 group-hover:text-gray-600'
+      isActive ? 'text-cyan-500' : 'text-gray-400 group-hover:text-gray-600'
     }`;
   };
 
@@ -208,13 +208,13 @@ const [loading, setLoading] = useState(true);
     if (s === 'completed' || s === 'paid' || s === 'active') {
       return 'bg-green-50 text-green-700';
     }
-    return 'bg-orange-50 text-orange-700';
+    return 'bg-cyan-50 text-cyan-700';
   };
 
   if (loading) {
     return (
       <aside className="w-64 bg-white border-r border-gray-100 h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+        <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
       </aside>
     );
   }
@@ -223,7 +223,7 @@ const [loading, setLoading] = useState(true);
     <aside className="w-64 bg-white border-r border-gray-100 h-screen flex flex-col font-sans antialiased">
 <div className="p-5 border-b border-gray-50">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-orange-500 rounded-lg flex-shrink-0 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+          <div className="w-10 h-10 bg-[#06B6D4] rounded-lg flex-shrink-0 flex items-center justify-center text-white font-bold text-sm shadow-sm">
             {getInitials(userName)}
           </div>
           <div className="min-w-0">
@@ -251,7 +251,7 @@ const [loading, setLoading] = useState(true);
         <Link href="/dashboard/tasks" className={getLinkStyle('/dashboard/tasks')}>
           <Bolt className={getIconStyle('/dashboard/tasks')} />
           <span className="text-[13.5px]">My Tasks</span>
-          <span className="ml-auto bg-orange-500 text-white text-[10px] font-bold rounded-md px-1.5 py-0.5 shadow-sm">3</span>
+          <span className="ml-auto bg-[#06B6D4] text-white text-[10px] font-bold rounded-md px-1.5 py-0.5 shadow-sm">3</span>
         </Link>
 
 <Link href="/dashboard/issues" className={getLinkStyle('/dashboard/issues')}>

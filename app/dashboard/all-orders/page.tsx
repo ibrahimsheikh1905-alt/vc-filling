@@ -6,20 +6,35 @@ import React from "react";
 const AllOrders = () => {
   return (
     <NavigationWrapper>
-      <div className="flex min-h-screen bg-gray-100">
+      <div className="flex min-h-screen bg-slate-50">
         {/* Sidebar */}
         <Sidebar selected="All Orders" />
-        <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 sm:text-4xl sm:leading-10">
-              Your Orders
-            </h2>
-            <p className="mt-3 max-w-2xl mx-auto text-xl leading-7 text-gray-500 sm:mt-4">
-              Here are all your orders. You can view the details of each order
-              by clicking on the order number.
-            </p>
+
+        <div className="flex-1 px-6 py-14 lg:px-10">
+          <div className="mx-auto max-w-7xl">
+
+            {/* Header */}
+            <div className="mb-12 text-center">
+              <span className="inline-flex rounded-full bg-cyan-100 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-cyan-600">
+                Dashboard
+              </span>
+
+              <h1 className="mt-5 text-4xl font-black text-slate-900 lg:text-5xl">
+                Your Orders
+              </h1>
+
+              <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-500">
+                View all your orders, monitor their current status, and access
+                complete order details whenever you need them.
+              </p>
+            </div>
+
+            {/* Orders Table */}
+            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+              <DashboardTable />
+            </div>
+
           </div>
-          <DashboardTable />
         </div>
       </div>
     </NavigationWrapper>

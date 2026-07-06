@@ -22,9 +22,9 @@ const LicensePackageForm = () => {
         {/* Back Button */}
         <button 
           onClick={() => router.back()}
-          className="flex items-center text-[13px] font-bold text-gray-900 mb-8 hover:text-orange-600 transition-colors"
+          className="flex items-center text-[13px] font-bold text-gray-900 mb-8 hover:text-cyan-600 transition-colors"
         >
-          <ChevronLeft className="w-4 h-4 text-orange-500 mr-1" /> Back
+          <ChevronLeft className="w-4 h-4 text-cyan-500 mr-1" /> Back
         </button>
 
         {/* Header Section */}
@@ -43,13 +43,13 @@ const LicensePackageForm = () => {
             {/* 1. Company Selection */}
             <div className="bg-white rounded-[20px] p-8 border border-gray-100 shadow-sm">
               <h3 className="text-[18px] font-bold text-gray-900 mb-6 italic">Company Information</h3>
-              <div className="border-2 border-orange-500 rounded-xl p-6 bg-white flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full border-2 border-orange-500 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+              <div className="border-2 border-cyan-500 rounded-xl p-6 bg-white flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
+                  <div className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
                 </div>
                 <div>
                   <h4 className="font-black text-gray-900 text-[14px] uppercase tracking-wider">NEW COMPANY</h4>
-                  <p className="text-gray-400 text-[12px]">A company previously incorporated outside of Bizee</p>
+                  <p className="text-gray-400 text-[12px]">A company previously incorporated outside of Incorp Bay</p>
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@ const LicensePackageForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="col-span-full">
                    <label className="block text-[13px] font-bold text-gray-700 mb-2 italic">Entity Type</label>
-                   <select className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] bg-white italic outline-none focus:border-orange-500">
+                   <select className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] bg-white italic outline-none focus:border-cyan-500">
                      <option>Select Entity Type</option>
                    </select>
                 </div>
@@ -124,7 +124,7 @@ const LicensePackageForm = () => {
                 <textarea 
                   onChange={handleTextareaChange}
                   maxLength={200}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] min-h-[120px] outline-none focus:border-orange-500"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-3 text-[14px] min-h-[120px] outline-none focus:border-cyan-500"
                   placeholder="Please provide brief description of Business Purpose"
                 ></textarea>
               </div>
@@ -147,7 +147,7 @@ const LicensePackageForm = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-[#fcae91] hover:bg-orange-400 text-white font-black py-5 rounded-xl shadow-sm transition-all text-[16px] mb-6 uppercase tracking-wider">
+              <button className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-white font-black py-5 rounded-xl shadow-sm transition-all text-[16px] mb-6 uppercase tracking-wider">
                 Complete & Pay
               </button>
 
@@ -162,9 +162,9 @@ const LicensePackageForm = () => {
                 </div>
               </div>
 
-              <div className="bg-[#f0fdfc] border border-teal-50 rounded-xl p-5 flex gap-3">
-                <Info className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
-                <p className="text-[11px] leading-relaxed text-teal-800 font-medium italic">
+              <div className="bg-cyan-50 border border-cyan-100 rounded-xl p-5 flex gap-3">
+                <Info className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                <p className="text-[11px] leading-relaxed text-cyan-800 font-medium italic">
                   After clicking on &quot;Complete &amp; Pay&quot; button, please wait for your order to be processed and do not hit the browser &quot;Back&quot; button.
                 </p>
               </div>

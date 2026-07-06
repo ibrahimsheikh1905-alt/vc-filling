@@ -1,35 +1,47 @@
 "use client";
 
-import { ChevronDown, Calendar, ChevronUp } from 'lucide-react';
-import { useState } from 'react';
-import DetailItem from './DetailItem';
+import { ChevronDown, Calendar, ChevronUp } from "lucide-react";
+import { useState } from "react";
+import DetailItem from "./DetailItem";
 
 export default function ActiveTaskCard() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="bg-white border border-gray-100 rounded-[20px] shadow-sm overflow-hidden max-w-5xl">
-      <div 
+    <div className="max-w-5xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+      <div
         onClick={() => setIsExpanded(!isExpanded)}
-        className="p-8 flex items-center justify-between cursor-pointer hover:bg-gray-50/20 transition-colors"
+        className="flex cursor-pointer items-center justify-between p-8 transition-colors hover:bg-cyan-50"
       >
         <div className="flex items-center gap-5">
-          <div className="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center border border-orange-100">
-            <Calendar className="w-6 h-6 text-[#FF5722]" />
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-100 bg-cyan-50">
+            <Calendar className="h-7 w-7 text-cyan-600" />
           </div>
+
           <div>
-            <h3 className="font-bold text-[17px] text-gray-900 tracking-tight">Missouri: Annual Report</h3>
-            <p className="text-gray-500 text-sm font-medium mt-0.5">Frequency: <span className="text-gray-700">Annually</span></p>
+            <h3 className="text-lg font-black tracking-tight text-slate-900">
+              Missouri: Annual Report
+            </h3>
+
+            <p className="mt-1 text-sm font-medium text-slate-500">
+              Frequency:
+              <span className="ml-1 font-semibold text-slate-700">Annually</span>
+            </p>
           </div>
         </div>
-        <div className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400">
-          {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition hover:bg-cyan-100 hover:text-cyan-600">
+          {isExpanded ? (
+            <ChevronUp className="h-5 w-5" />
+          ) : (
+            <ChevronDown className="h-5 w-5" />
+          )}
         </div>
       </div>
-      
+
       {isExpanded && (
-        <div className="px-8 pb-10 pt-4 border-t border-gray-50 ml-16">
-          <ul className="space-y-3">
+        <div className="ml-20 border-t border-slate-100 px-8 pb-10 pt-6">
+          <ul className="space-y-4">
             <DetailItem label="Due Date" value="August 31st" />
             <DetailItem label="State Fee" value="$10" />
             <DetailItem label="Filing Fee" value="$99" />
@@ -39,5 +51,3 @@ export default function ActiveTaskCard() {
     </div>
   );
 }
-
-

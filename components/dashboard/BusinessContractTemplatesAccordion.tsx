@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import React, { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 interface ContractProps {
   title: string;
@@ -9,48 +9,53 @@ interface ContractProps {
   expandedTip?: string;
 }
 
-const BusinessContractTemplatesAccordion: React.FC<ContractProps> = ({ 
-  title, 
-  description, 
-  expandedTip = "Get access to this document along with 25+ high quality legal documents to assist with running your business." 
+const BusinessContractTemplatesAccordion: React.FC<ContractProps> = ({
+  title,
+  description,
+  expandedTip="Get access to this document along with 25+ high quality legal documents to assist with running your business."
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleOpen = () => setIsOpen(!isOpen);
+  const [isOpen,setIsOpen]=useState(false);
 
   return (
-    <div className={`bg-white rounded-xl border transition-all duration-200 ${isOpen ? 'border-orange-200 ring-1 ring-orange-50' : 'border-gray-200 hover:border-gray-300'} mb-4 max-w-4xl`}>
-      {/* Header Section */}
-      <div 
-        className="flex items-start justify-between p-6 cursor-pointer group" 
-        onClick={toggleOpen}
+    <div className={`mb-4 max-w-4xl rounded-2xl border bg-white transition-all duration-200 ${
+      isOpen
+        ? "border-cyan-200 ring-2 ring-cyan-100"
+        : "border-slate-200 hover:border-cyan-200"
+    }`}>
+      <div
+        onClick={()=>setIsOpen(!isOpen)}
+        className="group flex cursor-pointer items-start justify-between p-6"
       >
         <div className="flex-1 pr-4">
-          {/* Title - Normal Bold & Clean */}
-          <h2 className={`text-lg font-semibold transition-colors duration-200 ${isOpen ? 'text-orange-600' : 'text-gray-900'}`}>
+          <h2 className={`text-lg font-bold transition-colors ${
+            isOpen ? "text-cyan-600":"text-slate-900"
+          }`}>
             {title}
           </h2>
-          
-          {/* Description - Subtle & Professional */}
-          <p className="text-gray-500 text-sm mt-2 leading-relaxed font-normal">
+
+          <p className="mt-2 text-sm leading-relaxed text-slate-500">
             {description}
           </p>
         </div>
 
-        {/* Chevron - Minimal */}
-        <ChevronDown 
-          className={`w-5 h-5 mt-1 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-orange-500' : 'group-hover:text-gray-600'}`} 
+        <ChevronDown
+          className={`mt-1 h-5 w-5 transition-all duration-300 ${
+            isOpen
+              ? "rotate-180 text-cyan-500"
+              : "text-slate-400 group-hover:text-cyan-500"
+          }`}
         />
       </div>
 
-      {/* Expanded Content */}
-      <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="px-6 pb-6 pt-2 border-t border-gray-50">
-          <p className="text-sm text-gray-600 font-normal mb-5 leading-relaxed italic">
+      <div className={`overflow-hidden transition-all duration-300 ${
+        isOpen ? "max-h-96 opacity-100":"max-h-0 opacity-0"
+      }`}>
+        <div className="border-t border-slate-100 px-6 pb-6 pt-4">
+          <p className="mb-5 text-sm italic leading-relaxed text-slate-600">
             {expandedTip}
           </p>
-          
-          <button className="bg-orange-500 hover:bg-orange-600 text-white text-[13px] font-medium px-6 py-2.5 rounded-lg transition-all active:scale-95 shadow-sm">
+
+          <button className="rounded-xl bg-[#06B6D4] px-6 py-3 text-sm font-bold text-white shadow-md shadow-cyan-100 transition-all hover:bg-[#0891B2] hover:shadow-cyan-200 active:scale-95">
             Access All Documents — $150
           </button>
         </div>

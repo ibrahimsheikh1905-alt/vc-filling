@@ -225,8 +225,8 @@ const handleUserSubmit = async () => {
       <Card className="border-gray-100 shadow-sm rounded-[24px] overflow-hidden">
         <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 bg-white p-8">
           <CardTitle className="flex items-center gap-3">
-            <div className="bg-orange-50 p-2 rounded-xl">
-               <User className="w-5 h-5 text-orange-500" />
+            <div className="bg-cyan-50 p-2 rounded-xl">
+               <User className="w-5 h-5 text-cyan-500" />
             </div>
             <span className="text-[20px] font-black tracking-[-0.02em] text-gray-900 uppercase">Contact Info</span>
           </CardTitle>
@@ -239,7 +239,7 @@ const handleUserSubmit = async () => {
         <CardContent className="p-8">
 <div className="flex gap-3 mb-8">
             {!isEditingContact ? (
-              <Button onClick={() => setIsEditingContact(true)} className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold px-6 py-6 rounded-xl uppercase text-xs shadow-md">
+              <Button onClick={() => setIsEditingContact(true)} className="bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold px-6 py-6 rounded-xl uppercase text-xs shadow-md">
                 <Pencil className="w-4 h-4 mr-2" /> Edit Contact Address
               </Button>
             ) : (
@@ -367,12 +367,12 @@ const handleUserSubmit = async () => {
       <Card className="border-gray-100 shadow-sm rounded-[24px] overflow-hidden">
         <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 bg-white p-8">
           <CardTitle className="flex items-center gap-3">
-            <div className="bg-orange-50 p-2 rounded-xl">
-               <Users className="w-5 h-5 text-orange-500" />
+            <div className="bg-cyan-50 p-2 rounded-xl">
+               <Users className="w-5 h-5 text-cyan-500" />
             </div>
             <span className="text-[20px] font-black tracking-[-0.02em] text-gray-900 uppercase">Manage Access</span>
           </CardTitle>
-          <Button onClick={() => openModal()} variant="outline" className="border-2 border-orange-500 text-orange-500 hover:bg-orange-50 font-black rounded-xl px-5 h-11">
+          <Button onClick={() => openModal()} variant="outline" className="border-2 border-cyan-500 text-cyan-500 hover:bg-cyan-50 font-black rounded-xl px-5 h-11">
             <UserPlus className="w-4 h-4 mr-2 stroke-[3px]" /> ADD NEW USER
           </Button>
         </CardHeader>
@@ -395,7 +395,7 @@ const handleUserSubmit = async () => {
                     </span>
                   </TableCell>
                   <TableCell className="px-8 py-6 text-right">
-                    <Button onClick={() => openModal(user)} variant="ghost" className="h-10 w-10 p-0 rounded-xl hover:bg-orange-50 hover:text-orange-500">
+                    <Button onClick={() => openModal(user)} variant="ghost" className="h-10 w-10 p-0 rounded-xl hover:bg-cyan-50 hover:text-cyan-500">
                       <Edit3 className="w-4 h-4" />
                     </Button>
                   </TableCell>
@@ -408,7 +408,7 @@ const handleUserSubmit = async () => {
 
       {/* --- User Modal with White Background --- */}
       {showUserModal && (
-        <div className="fixed inset-0 bg-white/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <Card className="w-full max-w-md rounded-[32px] border border-gray-100 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.1)] animate-in fade-in zoom-in duration-200">
             <CardHeader className="p-8 border-b border-gray-50">
               <div className="flex justify-between items-center">
@@ -434,22 +434,22 @@ const handleUserSubmit = async () => {
                 <select 
                   value={modalUserData.access} 
                   onChange={(e) => setModalUserData({...modalUserData, access: e.target.value})}
-                  className="w-full h-12 bg-white border border-gray-200 rounded-xl px-4 text-sm font-bold text-gray-700 outline-none focus:ring-2 focus:ring-orange-100 transition-all cursor-pointer appearance-none"
+                  className="w-full h-12 bg-white border border-gray-200 rounded-xl px-4 text-sm font-bold text-gray-700 outline-none focus:ring-2 focus:ring-cyan-100 transition-all cursor-pointer appearance-none"
                 >
                   <option value="Full Access">Full Access (Admin)</option>
                   <option value="Billing Only">Billing & Payments Only</option>
                   <option value="View Only">View Only</option>
                 </select>
               </div>
-              <div className="bg-orange-50/50 p-4 rounded-2xl flex gap-3 border border-orange-100">
-                <ShieldCheck className="w-5 h-5 text-orange-500 flex-shrink-0" />
-                <p className="text-[11px] text-orange-700 font-bold leading-relaxed">
+              <div className="bg-cyan-50/50 p-4 rounded-2xl flex gap-3 border border-cyan-100">
+                <ShieldCheck className="w-5 h-5 text-cyan-500 flex-shrink-0" />
+                <p className="text-[11px] text-cyan-700 font-bold leading-relaxed">
                   {modalUserData.access === 'Full Access' ? 'This user can manage company settings.' : 
                    modalUserData.access === 'Billing Only' ? 'User can only manage payments.' : 
                    'User can only view profile.'}
                 </p>
               </div>
-              <Button onClick={handleUserSubmit} className="w-full bg-[#FF6B35] hover:bg-[#E64A19] text-white font-black py-7 rounded-2xl uppercase tracking-widest text-xs shadow-lg mt-4 transition-transform active:scale-95">
+              <Button onClick={handleUserSubmit} className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-white font-black py-7 rounded-2xl uppercase tracking-widest text-xs shadow-lg mt-4 transition-transform active:scale-95">
                 {editingUserId ? 'Save Changes' : 'Invite User'}
               </Button>
             </CardContent>

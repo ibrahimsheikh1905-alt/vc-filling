@@ -24,13 +24,13 @@ const IRSfillingform = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9FAFB] p-4 md:p-10 font-sans text-left">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-10 font-sans text-left">
       <div className="max-w-7xl mx-auto">
         
         {/* Back Button */}
         <button 
           onClick={() => router.back()}
-          className="flex items-center text-[13px] font-bold text-[#FF6B35] mb-6 hover:opacity-80 transition-all group"
+          className="flex items-center text-[13px] font-bold text-cyan-600 mb-6 hover:opacity-80 transition-all group"
         >
           <ChevronLeft className="w-4 h-4 mr-1 transition-transform group-hover:-translate-x-1" /> 
           Back
@@ -47,13 +47,13 @@ const IRSfillingform = () => {
             {/* 1. New Company Selection */}
             <div className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm">
               <h3 className="text-[16px] font-bold text-gray-800 mb-6 italic">Company Information</h3>
-              <div className="border-2 border-[#FF6B35] rounded-lg p-5 bg-white flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full border-2 border-[#FF6B35] flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FF6B35]" />
+              <div className="border-2 border-cyan-500 rounded-lg p-5 bg-white flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#06B6D4]" />
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 text-[12px] uppercase">NEW COMPANY</h4>
-                  <p className="text-gray-400 text-[11px] italic">A company previously incorporated outside of Bizee</p>
+                  <p className="text-gray-400 text-[11px] italic">A company previously incorporated outside of Incorp Bay</p>
                 </div>
               </div>
             </div>
@@ -93,15 +93,15 @@ const IRSfillingform = () => {
               <div className="mt-8">
                 <label className="block text-[12px] font-bold text-gray-700 mb-4 italic">Has the IRS issued and EIN for this entity?</label>
                 <div className="grid grid-cols-2 gap-4">
-                  <button onClick={() => setHasEIN(true)} className={`border-2 rounded-lg p-4 flex items-center gap-3 ${hasEIN === true ? 'border-[#FF6B35]' : 'border-gray-200'}`}>
-                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${hasEIN === true ? 'border-[#FF6B35]' : 'border-gray-300'}`}>
-                      {hasEIN === true && <div className="w-2 h-2 rounded-full bg-[#FF6B35]" />}
+                  <button onClick={() => setHasEIN(true)} className={`border-2 rounded-lg p-4 flex items-center gap-3 ${hasEIN === true ? 'border-cyan-500' : 'border-gray-200'}`}>
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${hasEIN === true ? 'border-cyan-500' : 'border-gray-300'}`}>
+                      {hasEIN === true && <div className="w-2 h-2 rounded-full bg-[#06B6D4]" />}
                     </div>
                     <span className="text-[13px] font-bold">Yes</span>
                   </button>
-                  <button onClick={() => setHasEIN(false)} className={`border-2 rounded-lg p-4 flex items-center gap-3 ${hasEIN === false ? 'border-[#FF6B35]' : 'border-gray-200'}`}>
-                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${hasEIN === false ? 'border-[#FF6B35]' : 'border-gray-300'}`}>
-                      {hasEIN === false && <div className="w-2 h-2 rounded-full bg-[#FF6B35]" />}
+                  <button onClick={() => setHasEIN(false)} className={`border-2 rounded-lg p-4 flex items-center gap-3 ${hasEIN === false ? 'border-cyan-500' : 'border-gray-200'}`}>
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${hasEIN === false ? 'border-cyan-500' : 'border-gray-300'}`}>
+                      {hasEIN === false && <div className="w-2 h-2 rounded-full bg-[#06B6D4]" />}
                     </div>
                     <span className="text-[13px] font-bold">No</span>
                   </button>
@@ -145,11 +145,11 @@ const IRSfillingform = () => {
               
               <div 
                 onClick={handleRepSelect}
-                className={`border-2 rounded-lg p-5 flex justify-between items-center mb-8 cursor-pointer transition-all ${isRepSelected ? 'border-[#FF6B35] bg-[#FFF8F5]' : 'border-gray-200 bg-gray-50'}`}
+                className={`border-2 rounded-lg p-5 flex justify-between items-center mb-8 cursor-pointer transition-all ${isRepSelected ? 'border-cyan-500 bg-cyan-50' : 'border-gray-200 bg-gray-50'}`}
               >
                 <div className="flex items-center gap-3">
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${isRepSelected ? 'border-[#FF6B35]' : 'border-gray-300'}`}>
-                        {isRepSelected && <div className="w-2.5 h-2.5 rounded-full bg-[#FF6B35]" />}
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${isRepSelected ? 'border-cyan-500' : 'border-gray-300'}`}>
+                        {isRepSelected && <div className="w-2.5 h-2.5 rounded-full bg-[#06B6D4]" />}
                     </div>
                     <span className="text-[13px] font-bold text-gray-800 italic">Noraiz Husnain</span>
                 </div>
@@ -194,7 +194,7 @@ const IRSfillingform = () => {
               </div>
 
              {/* Submit Order Button with Original Shade & Shadow */}
-              <button className="w-full bg-[#FF6B35] hover:bg-[#E85A24] text-white font-bold py-4 rounded-xl shadow-lg shadow-orange-100 transition-all text-[14px] mt-8 mb-6 uppercase tracking-[2px] active:scale-95">
+              <button className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-4 rounded-xl shadow-lg shadow-cyan-100 transition-all text-[14px] mt-8 mb-6 uppercase tracking-[2px] active:scale-95">
                 Submit Order
               </button>
               <div className="flex flex-col items-center">
@@ -203,9 +203,9 @@ const IRSfillingform = () => {
                 </div>
                 <p className="text-[10px] text-gray-400 font-bold italic mb-6">4.75 based on 60,000+ reviews</p>
                 
-                <div className="bg-[#f0fdfc] border border-teal-50 rounded-2xl p-5 flex gap-3 w-full">
-                  <Info className="w-5 h-5 text-teal-600 flex-shrink-0 mt-0.5" />
-                  <p className="text-[10px] leading-relaxed text-teal-800 font-medium italic">
+                <div className="bg-cyan-50 border border-cyan-100 rounded-2xl p-5 flex gap-3 w-full">
+                  <Info className="w-5 h-5 text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-[10px] leading-relaxed text-cyan-800 font-medium italic">
                     After clicking on "Submit Order" button, please wait for your order to be processed.
                   </p>
                 </div>

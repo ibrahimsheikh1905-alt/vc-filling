@@ -283,11 +283,11 @@ const handleSubmit = async (e: React.FormEvent) => {
       case 'open':
         return 'bg-green-100 text-green-700';
       case 'closed':
-        return 'bg-gray-100 text-gray-700';
+        return 'bg-gray-100 text-slate-700';
       case 'in progress':
         return 'bg-blue-100 text-blue-700';
       default:
-        return 'bg-gray-100 text-gray-700';
+        return 'bg-gray-100 text-slate-700';
     }
   };
 
@@ -296,11 +296,11 @@ const handleSubmit = async (e: React.FormEvent) => {
       case 'high':
         return 'text-red-600';
       case 'medium':
-        return 'text-orange-600';
+        return 'text-cyan-600';
       case 'low':
-        return 'text-gray-600';
+        return 'text-slate-600';
       default:
-        return 'text-gray-600';
+        return 'text-slate-600';
     }
   };
 
@@ -331,8 +331,8 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#F9FAFB] p-4 md:p-12 font-sans flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+      <main className="min-h-screen bg-slate-50 p-4 md:p-12 font-sans flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
       </main>
     );
   }
@@ -340,18 +340,18 @@ const handleSubmit = async (e: React.FormEvent) => {
   // Chat view
   if (selectedTicket) {
     return (
-      <main className="min-h-screen bg-[#F9FAFB] p-4 md:p-12 font-sans">
-        <div className="max-w-4xl mx-auto h-[calc(100vh-8rem)] bg-white border border-gray-200 rounded-2xl shadow-sm flex flex-col">
+      <main className="min-h-screen bg-slate-50 p-4 md:p-12 font-sans">
+        <div className="max-w-4xl mx-auto h-[calc(100vh-8rem)] bg-white border border-slate-200 rounded-3xl shadow-sm flex flex-col">
           
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
+          <div className="flex items-center justify-between p-4 border-b border-slate-200">
             <div className="flex items-center gap-3">
               <button onClick={handleBackToList} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <ArrowLeft className="w-5 h-5 text-gray-600" />
+                <ArrowLeft className="w-5 h-5 text-slate-600" />
               </button>
               <div>
-                <h2 className="font-bold text-gray-900">{selectedTicket.subject}</h2>
-                <p className="text-xs text-gray-500">Ticket #{selectedTicket.id}</p>
+                <h2 className="font-bold text-slate-900">{selectedTicket.subject}</h2>
+                <p className="text-xs text-slate-500">Ticket #{selectedTicket.id}</p>
               </div>
             </div>
             <span className={`px-2 py-1 rounded-full text-xs font-bold ${getStatusColor(selectedTicket.status)}`}>
@@ -363,25 +363,25 @@ const handleSubmit = async (e: React.FormEvent) => {
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {loadingMessages ? (
               <div className="flex items-center justify-center h-full">
-                <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
+                <Loader2 className="w-6 h-6 animate-spin text-cyan-500" />
               </div>
             ) : messages.length === 0 ? (
               <div className="text-center py-8">
                 <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                <p className="text-gray-500">No messages yet. Start the conversation!</p>
+                <p className="text-slate-500">No messages yet. Start the conversation!</p>
               </div>
             ) : (
               <>
                 {/* Chat messages only - description shown in header instead */}
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`rounded-2xl p-3 max-w-[80%] ${
+                    <div className={`rounded-3xl p-3 max-w-[80%] ${
                       msg.sender === 'user' 
-                        ? 'bg-orange-500 text-white rounded-tr-md' 
-                        : 'bg-gray-100 text-gray-800 rounded-tl-md'
+                        ? 'bg-[#06B6D4] text-white rounded-tr-md' 
+                        : 'bg-gray-100 text-slate-800 rounded-tl-md'
                     }`}>
                       <p className="text-sm">{msg.message}</p>
-                      <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-orange-200' : 'text-gray-400'}`}>
+                      <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-orange-200' : 'text-slate-400'}`}>
                         {formatMessageTime(msg.createdAt)}
                       </p>
                     </div>
@@ -394,25 +394,25 @@ const handleSubmit = async (e: React.FormEvent) => {
 
 {/* Message Input - Disabled when ticket is Closed */}
           {selectedTicket.status === 'Closed' ? (
-            <div className="p-4 border-t border-gray-200 bg-gray-50">
-              <div className="flex items-center justify-center py-4 text-gray-400">
+            <div className="p-4 border-t border-slate-200 bg-slate-50">
+              <div className="flex items-center justify-center py-4 text-slate-400">
                 <p className="text-sm font-bold">This ticket is closed - No more messages can be sent</p>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-200">
+            <form onSubmit={handleSendMessage} className="p-4 border-t border-slate-200">
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type your message..."
-                  className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="flex-1 px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 />
                 <button
                   type="submit"
                   disabled={sendingMessage || !newMessage.trim()}
-                  className="bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-xl transition-colors disabled:opacity-50"
+                  className="bg-[#06B6D4] hover:bg-[#0891B2] text-white p-3 rounded-xl transition-colors disabled:opacity-50"
                 >
                   {sendingMessage ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -431,18 +431,18 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   // Ticket list view
   return (
-    <main className="min-h-screen bg-[#F9FAFB] p-4 md:p-12 font-sans text-[#111827]">
+    <main className="min-h-screen bg-slate-50 p-4 md:p-12 font-sans text-[#111827]">
       <div className="max-w-4xl mx-auto space-y-8">
         
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <MessageCircle className="w-8 h-8 text-gray-800" />
+            <MessageCircle className="w-8 h-8 text-slate-800" />
             <h1 className="text-2xl font-bold">Support Tickets</h1>
           </div>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl transition-colors"
+            className="flex items-center gap-2 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-3 px-6 rounded-xl transition-colors"
           >
             <Plus className="w-5 h-5" />
             New Ticket
@@ -451,12 +451,12 @@ const handleSubmit = async (e: React.FormEvent) => {
 
         {/* New Ticket Form */}
         {showForm && (
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+          <div className="bg-white border border-slate-200 rounded-3xl shadow-sm p-8">
             <h2 className="text-xl font-bold mb-6">Create New Ticket</h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Subject
                 </label>
                 <input
@@ -465,20 +465,20 @@ const handleSubmit = async (e: React.FormEvent) => {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                   placeholder="Brief description of your issue"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Priority
                 </label>
                 <select
                   name="priority"
                   value={formData.priority}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
                 >
                   <option value="Low">Low - General Question</option>
                   <option value="Medium">Medium - Issue Affecting Work</option>
@@ -487,7 +487,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 mb-2">
                   Description
                 </label>
                 <textarea
@@ -496,7 +496,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent resize-none"
                   placeholder="Describe your problem in detail..."
                 />
               </div>
@@ -505,7 +505,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl transition-colors disabled:opacity-50"
+                  className="flex items-center justify-center gap-2 bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-3 px-8 rounded-xl transition-colors disabled:opacity-50"
                 >
                   {submitting ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -519,7 +519,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-8 rounded-xl transition-colors"
+                  className="flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-slate-700 font-bold py-3 px-8 rounded-xl transition-colors"
                 >
                   Cancel
                 </button>
@@ -529,13 +529,13 @@ const handleSubmit = async (e: React.FormEvent) => {
         )}
 
 {/* Tickets List */}
-        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
           {tickets.length === 0 ? (
             <div className="p-12 text-center">
               <MessageCircle className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-              <h3 className="text-lg font-bold text-gray-700 mb-2">No tickets yet</h3>
-              <p className="text-gray-500">Create a new ticket if you need help with anything.</p>
-              <p className="text-xs text-gray-400 mt-4">Debug: userId={userId}, tickets loaded from API/localStorage</p>
+              <h3 className="text-lg font-bold text-slate-700 mb-2">No tickets yet</h3>
+              <p className="text-slate-500">Create a new ticket if you need help with anything.</p>
+              <p className="text-xs text-slate-400 mt-4">Debug: userId={userId}, tickets loaded from API/localStorage</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-100">
@@ -543,11 +543,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <div 
                   key={ticket.id} 
                   onClick={() => handleSelectTicket(ticket)}
-                  className="p-6 hover:bg-gray-50 transition-colors cursor-pointer"
+                  className="p-6 hover:bg-slate-50 transition-colors cursor-pointer"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <h3 className="font-bold text-gray-900">{ticket.subject}</h3>
+                      <h3 className="font-bold text-slate-900">{ticket.subject}</h3>
                       <span className={`px-2 py-1 rounded-full text-xs font-bold ${getStatusColor(ticket.status)}`}>
                         {ticket.status}
                       </span>
@@ -556,8 +556,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                       {ticket.priority}
                     </span>
                   </div>
-                  <p className="text-gray-600 text-sm mb-3 line-clamp-2">{ticket.description}</p>
-                  <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <p className="text-slate-600 text-sm mb-3 line-clamp-2">{ticket.description}</p>
+                  <div className="flex items-center gap-2 text-xs text-slate-400">
                     <Clock className="w-4 h-4" />
                     <span>Created: {formatDate(ticket.createdAt)}</span>
                     <span className="text-gray-300">|</span>

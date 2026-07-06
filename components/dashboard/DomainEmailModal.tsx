@@ -1,96 +1,98 @@
 "use client";
 
-import React from 'react';
-import { X, CheckCircle2, Mail } from 'lucide-react';
+import React from "react";
+import { X, CheckCircle2, Mail } from "lucide-react";
 
 interface DomainEmailModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function DomainEmailModal({ 
-  isOpen, 
-  onClose 
+export default function DomainEmailModal({
+  isOpen,
+  onClose,
 }: DomainEmailModalProps) {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm" 
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      
-      {/* Super Compact Container: max-w-xl (576px) centers everything perfectly */}
-      <div className="relative bg-white w-full max-w-xl mx-auto rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+
+      {/* Super Compact Container */}
+      <div className="relative mx-auto w-full max-w-xl overflow-hidden rounded-[32px] bg-white shadow-2xl animate-in zoom-in-95 duration-300">
         <button
           onClick={onClose}
-          className="absolute z-20 top-5 right-5 text-gray-400 hover:text-gray-600 transition-colors p-1"
+          className="absolute right-5 top-5 z-20 rounded-full p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
         >
-          <X className="w-6 h-6" />
+          <X className="h-6 w-6" />
         </button>
 
         {/* MAIN CENTERING CONTAINER */}
-        <div className="flex flex-col items-center justify-center p-8 lg:p-10 w-full">
-          
-          {/* Top Left Decorative Visual - Compact & Balanced */}
-          <div className="w-full flex justify-center mb-8 relative">
-            {/* Background Decorative Element */}
-            <div className="absolute top-0 left-0 bg-[#EBFBF5] w-[160px] h-[160px] rounded-bl-[150px] z-0 -translate-x-10 -translate-y-8" />
+        <div className="flex w-full flex-col items-center justify-center p-8 lg:p-10">
+          {/* Top Left Decorative Visual */}
+          <div className="relative mb-8 flex w-full justify-center">
+            <div className="absolute left-0 top-0 z-0 h-[160px] w-[160px] -translate-x-10 -translate-y-8 rounded-bl-[150px] bg-cyan-50" />
 
-            {/* Float-able icon box */}
-            <div className="relative z-10 bg-white/95 w-[150px] py-6 px-4 rounded-[20px] shadow-md border border-gray-50 flex flex-col items-center justify-center -translate-x-10">
-              <Mail className="w-14 h-14 text-emerald-500 mb-3 shrink-0 stroke-[1.5px]" />
-              <h3 className="text-xs font-bold text-gray-900 text-center leading-tight">
+            <div className="relative z-10 flex w-[150px] -translate-x-10 flex-col items-center justify-center rounded-[20px] border border-cyan-100 bg-white/95 px-4 py-6 shadow-md">
+              <Mail className="mb-3 h-14 w-14 shrink-0 text-cyan-500 stroke-[1.5px]" />
+
+              <h3 className="text-center text-xs font-bold leading-tight text-slate-900">
                 Domain & <br /> Email
               </h3>
             </div>
           </div>
 
-          {/* CONTENT BLOCK - Centered alignment */}
-          <div className="w-full flex flex-col items-center text-center max-w-[380px]">
+          {/* CONTENT BLOCK */}
+          <div className="flex w-full max-w-[380px] flex-col items-center text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full text-[10px] font-bold text-emerald-700 mb-4 uppercase tracking-wider">
-              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-cyan-700">
+              <div className="h-1.5 w-1.5 rounded-full bg-cyan-500" />
               Free With Your Package
             </div>
 
-            {/* Heading Section */}
-            <h2 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">
+            <h2 className="mb-2 text-2xl font-black tracking-tight text-slate-900">
               Professional Presence
             </h2>
-            <p className="text-gray-600 text-sm font-medium mb-8 leading-relaxed">
+
+            <p className="mb-8 text-sm font-medium leading-relaxed text-slate-600">
               Get your custom domain and professional email setup instantly.
             </p>
 
-            {/* Benefits List - Perfectly Centered list with left-aligned items */}
-            <div className="space-y-4 mb-10 w-full flex flex-col items-center">
+            <div className="mb-10 flex w-full flex-col items-center space-y-4">
               {[
                 { title: "Custom Domain", desc: "yourcompany.com ready to use" },
-                { title: "Professional Email", desc: "info@yourcompany.com included" }
+                { title: "Professional Email", desc: "info@yourcompany.com included" },
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3 w-full max-w-[270px]">
-                  <CheckCircle2 className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <h4 className="font-bold text-gray-900 text-[14px] leading-tight">{item.title}</h4>
-                    <p className="text-gray-400 text-[11px] mt-0.5">{item.desc}</p>
+                <div key={i} className="flex w-full max-w-[270px] items-start gap-3">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 flex-shrink-0 text-cyan-500" />
+
+                  <div className="flex-1 text-left">
+                    <h4 className="text-[14px] font-bold leading-tight text-slate-900">
+                      {item.title}
+                    </h4>
+                    <p className="mt-0.5 text-[11px] text-slate-400">
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Action Buttons - Full width within centered block */}
-            <div className="flex flex-col gap-2.5 w-full">
+            <div className="flex w-full flex-col gap-2.5">
               <button
                 onClick={onClose}
-                className="w-full bg-[#FF4500] hover:bg-[#E53E00] text-white font-bold py-3.5 px-6 rounded-2xl text-[15px] transition-all active:scale-95 shadow-md shadow-orange-100"
+                className="w-full rounded-2xl bg-[#06B6D4] px-6 py-3.5 text-[15px] font-bold text-white shadow-md shadow-cyan-100 transition-all hover:bg-[#0891B2] active:scale-95"
               >
                 Get Started
               </button>
+
               <button
                 onClick={onClose}
-                className="w-full border border-gray-100 hover:bg-gray-50 text-gray-400 font-bold py-3.5 px-6 rounded-2xl text-[15px] transition-all"
+                className="w-full rounded-2xl border border-slate-200 px-6 py-3.5 text-[15px] font-bold text-slate-400 transition-all hover:bg-cyan-50 hover:text-cyan-600"
               >
                 Maybe Later
               </button>

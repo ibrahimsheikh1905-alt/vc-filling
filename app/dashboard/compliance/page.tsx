@@ -1,31 +1,40 @@
 "use client";
 
-import React from 'react';
-import ComplianceTasks from '@/components/dashboard/ComplianceTasks';
-import { ShieldAlert } from 'lucide-react';
+import React from "react";
+import ComplianceTasks from "@/components/dashboard/ComplianceTasks";
+import { ShieldCheck } from "lucide-react";
 
 const CompliancePage = () => {
   return (
-    <main className="flex-1 min-h-screen p-6 md:p-12 overflow-y-auto bg-[#F9FAFB] font-sans antialiased">
+    <main className="flex-1 min-h-screen bg-slate-50 p-6 md:p-12 overflow-y-auto font-sans antialiased">
+      {/* Header */}
       <header className="mb-10">
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-3 mb-2">
-            {/* Upper Icon - Now bigger and better padded */}
-            <div className="p-2 bg-orange-100 rounded-xl">
-               <ShieldAlert className="w-6 h-6 text-[#FF5722]" />
+        <div className="flex flex-col gap-3">
+
+          {/* Badge */}
+          <div className="flex items-center gap-3">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 shadow-sm">
+              <ShieldCheck className="h-7 w-7 text-cyan-600" />
             </div>
-            <span className="text-[11px] font-black text-gray-400 uppercase tracking-[0.3em]">
-              Compliance
-            </span>
+
+            <div>
+
+
+              <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-900">
+                Compliance Tasks
+              </h1>
+            </div>
           </div>
-          
-          <h1 className="text-3xl font-black tracking-tight text-[#111827]">
-            Compliance Tasks
-          </h1>
+
+          <p className="max-w-2xl text-base leading-7 text-slate-500">
+            Stay on top of your business compliance requirements. Complete
+            pending tasks on time to keep your company in good standing.
+          </p>
         </div>
       </header>
 
-      <div className="max-w-5xl">
+      {/* Content */}
+      <div className="max-w-5xl rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <ComplianceTasks />
       </div>
     </main>

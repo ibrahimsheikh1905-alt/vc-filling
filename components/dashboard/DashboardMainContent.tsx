@@ -13,8 +13,8 @@ const DashboardMainContent: React.FC = () => {
       {/* Header */}
       <header className="mb-10">
         <div className="flex items-center gap-3.5">
-          <div className="bg-orange-50 p-2 rounded-xl">
-            <LayoutDashboard className="w-7 h-7 text-orange-500" />
+          <div className="bg-[#ECFEFF] p-2 rounded-xl">
+  <LayoutDashboard className="w-7 h-7 text-[#06B6D4]" />
           </div>
           <div>
             <h1 className="text-[32px] font-bold tracking-[-0.03em] text-gray-900 leading-none">

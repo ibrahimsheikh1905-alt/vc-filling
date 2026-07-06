@@ -149,7 +149,7 @@ export default function ComplianceTasks() {
       <div className="space-y-8 font-sans antialiased text-left relative p-8 bg-gray-50 min-h-screen">
         <div className="flex items-center justify-center min-h-[300px]">
           <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-10 h-10 text-[#FF5722] animate-spin" />
+            <Loader2 className="w-10 h-10 text-cyan-500 animate-spin" />
             <p className="text-gray-500 font-medium">Loading compliance tasks...</p>
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function ComplianceTasks() {
             <p className="text-red-500 font-medium">{error}</p>
             <button 
               onClick={() => window.location.reload()} 
-              className="text-[#FF5722] font-bold hover:underline"
+              className="text-cyan-500 font-bold hover:underline"
             >
               Try Again
             </button>
@@ -192,7 +192,7 @@ export default function ComplianceTasks() {
             
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="text-orange-500 bg-orange-50 p-0.5 rounded-full hover:bg-orange-100 transition-colors"
+              className="text-cyan-500 bg-cyan-50 p-0.5 rounded-full hover:bg-cyan-100 transition-colors"
             >
               <AlertCircle className="w-3.5 h-3.5" />
             </button>
@@ -224,7 +224,7 @@ export default function ComplianceTasks() {
           <div className="pt-2">
             <button 
               onClick={() => router.push('/dashboard/annual-report')} 
-              className="w-full bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-orange-100"
+              className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-cyan-100"
             >
               {activeReports.length > 0 ? 'Start Filing' : 'View Reports'} <ArrowRight className="w-4 h-4 stroke-[3px]" />
             </button>
@@ -286,8 +286,7 @@ export default function ComplianceTasks() {
 
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="w-full py-4 mt-4 bg-[#FFF5F2] text-[#FF5722] font-bold rounded-2xl hover:bg-orange-100 transition-colors text-lg"
-              >
+className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hover:bg-cyan-200 transition-colors text-lg"              >
                 Close
               </button>
             </div>
@@ -302,8 +301,8 @@ export default function ComplianceTasks() {
           className="p-8 flex items-center justify-between cursor-pointer hover:bg-gray-50/20 transition-colors"
         >
           <div className="flex items-center gap-5">
-            <div className="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center border border-orange-100">
-              <CheckCircle2 className="w-6 h-6 text-[#FF5722]" />
+            <div className="w-12 h-12 bg-cyan-50 rounded-2xl flex items-center justify-center border border-cyan-100">
+              <CheckCircle2 className="w-6 h-6 text-cyan-500" />
             </div>
             <div>
               <h3 className="font-bold text-[17px] text-gray-900 tracking-tight">
@@ -324,7 +323,7 @@ export default function ComplianceTasks() {
             <ul className="space-y-4">
               <li className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                  <Calendar className="w-5 h-5 text-[#FF5722]" />
+                  <Calendar className="w-5 h-5 text-cyan-500" />
                 </div>
                 <div>
 <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">Due Date</p>
@@ -346,7 +345,7 @@ export default function ComplianceTasks() {
               )}
               <li className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
                 <span className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                  <Shield className="w-5 h-5 text-[#FF5722]" />
+                  <Shield className="w-5 h-5 text-cyan-500" />
                 </span>
                 <div>
                   <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">State Fee</p>
@@ -355,7 +354,7 @@ export default function ComplianceTasks() {
               </li>
               <li className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                  <FileText className="w-5 h-5 text-[#FF5722]" />
+                  <FileText className="w-5 h-5 text-cyan-500" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">Filing Fee</p>
@@ -376,8 +375,8 @@ export default function ComplianceTasks() {
       </div>
 
       {/* 3. Upgrade Banner */}
-      <div className="relative bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-[24px] p-10 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-6 py-1 rounded-full border border-orange-200 text-orange-600 font-black text-sm uppercase tracking-wider">
+      <div className="relative bg-gradient-to-r from-cyan-50 to-sky-50 border border-cyan-200 rounded-[24px] p-10 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-6 py-1 rounded-full border border-cyan-200 text-cyan-600 font-black text-sm uppercase tracking-wider">
           BEST DEAL
         </div>
         <div className="flex flex-col lg:flex-row gap-12 items-start lg:items-center pt-8">
@@ -396,7 +395,7 @@ export default function ComplianceTasks() {
               "Foreign Qualification", "Dissolution", "Reinstatement", "Change of Registered Agent"
             ].map((item, index) => (
               <div key={index} className="flex items-center gap-3 p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
-                <div className="w-5 h-5 bg-[#FF5722] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-5 h-5 bg-[#06B6D4] rounded-full flex items-center justify-center flex-shrink-0">
                   <CheckCircle2 className="w-3 h-3 text-white stroke-[3px]" />
                 </div>
                 <span className="font-semibold text-gray-800 text-sm whitespace-nowrap">{item}</span>
@@ -406,7 +405,7 @@ export default function ComplianceTasks() {
         </div>
         
         <div className="flex justify-center pt-8">
-            <button onClick={() => router.push('/dashboard/annual-report')} className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-4 px-12 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 text-lg">
+            <button onClick={() => router.push('/dashboard/annual-report')} className="bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-4 px-12 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 text-lg">
             Buy Now <ArrowRight className="w-5 h-5" />
           </button>
         </div>
@@ -415,7 +414,7 @@ export default function ComplianceTasks() {
       {/* 4. Filing History Footer */}
       <div className="bg-white border border-gray-100 rounded-[24px] p-8 flex items-center justify-between max-w-4xl">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-md">
+          <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-sky-500 rounded-2xl flex items-center justify-center shadow-md">
             <History className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -423,7 +422,7 @@ export default function ComplianceTasks() {
             <p className="text-gray-600 font-medium">To see the documents you have already filed, visit your Order History</p>
           </div>
         </div>
-        <button onClick={() => router.push('/dashboard/226041533405')} className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-3 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all">
+        <button onClick={() => router.push('/dashboard/226041533405')} className="bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-3 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all">
           Go to Order History
         </button>
       </div>

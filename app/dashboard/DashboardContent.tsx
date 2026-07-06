@@ -1,11 +1,11 @@
 "use client";
 
-import React from 'react';
-import ComplianceCard from '@/components/dashboard/ComplianceCard';
-import UnclaimedServiceRow from '@/components/dashboard/UnclaimedServiceRow';
-import RecommendationCards from '@/components/dashboard/RecommendationCards';
-import CarouselIndicators from '@/components/dashboard/CarouselIndicators';
-import { Zap } from 'lucide-react';
+import React from "react";
+import ComplianceCard from "@/components/dashboard/ComplianceCard";
+import UnclaimedServiceRow from "@/components/dashboard/UnclaimedServiceRow";
+import RecommendationCards from "@/components/dashboard/RecommendationCards";
+import CarouselIndicators from "@/components/dashboard/CarouselIndicators";
+import { Zap } from "lucide-react";
 
 interface UnclaimedService {
   title: string;
@@ -14,57 +14,64 @@ interface UnclaimedService {
 
 const unclaimedServices: UnclaimedService[] = [
   {
-    title: 'Build Website',
-    description: 'Launch an engaging, mobile-ready site to showcase your business.'
+    title: "Build Website",
+    description: "Launch an engaging, mobile-ready site to showcase your business.",
   },
   {
-    title: 'Claim Your, Domain, Email',
-    description: 'A custom domain and professional email show you mean business.'
+    title: "Claim Your Domain & Email",
+    description: "A custom domain and professional email show you mean business.",
   },
   {
-    title: 'Safeguard Your Business',
-    description: 'Insurance coverage designed for small businesses, don\'t skip this step.'
-  }
+    title: "Safeguard Your Business",
+    description: "Insurance coverage designed for small businesses. Don't skip this step.",
+  },
 ];
 
 const DashboardContent: React.FC = () => {
   return (
-    <main className="flex-1 p-8 overflow-y-auto bg-[#F9FAFB] font-sans antialiased">
-      {/* Header - Compliance Style Label aur Heading */}
+    <main className="flex-1 min-h-screen overflow-y-auto bg-slate-50 p-6 font-sans antialiased md:p-10">
       <header className="mb-12">
-        <div className="flex items-center gap-3">
-          <div className="bg-orange-50 p-1.5 rounded-lg">
-            <Zap className="w-6 h-6 text-orange-500 fill-orange-500" />
+        <div className="flex items-center gap-4">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 shadow-sm">
+            <Zap className="h-7 w-7 fill-cyan-500 text-cyan-500" />
           </div>
-          <div className="space-y-1">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] leading-none">
-              Overview
+
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-[0.28em] text-cyan-600">
+              Incorp Bay Dashboard
             </p>
-            <h1 className="text-[28px] font-black tracking-[-0.03em] text-gray-900 uppercase">
-              MY TASKS
+
+            <h1 className="mt-2 text-4xl font-black uppercase tracking-tight text-slate-900">
+              My Tasks
             </h1>
+
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+              Stay on top of your business tasks, compliance and recommended services.
+            </p>
           </div>
         </div>
       </header>
 
-      {/* Compliance Tasks Section */}
-      <div className="mb-14">
-        <h2 className="text-[22px] font-bold text-gray-900 tracking-tight mb-6">
+      <section className="mb-14">
+        <h2 className="mb-6 text-2xl font-black text-slate-900">
           Compliance Tasks
         </h2>
-        <ComplianceCard />
-      </div>
 
-      {/* Unclaimed Services Section */}
-      <div className="mb-14">
-        <h2 className="text-[22px] font-bold text-gray-900 tracking-tight mb-6">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <ComplianceCard />
+        </div>
+      </section>
+
+      <section className="mb-14">
+        <h2 className="mb-6 text-2xl font-black text-slate-900">
           Unclaimed Services
         </h2>
-        <div className="bg-white shadow-sm border border-gray-100 rounded-[24px] overflow-hidden">
-          <div className="divide-y divide-gray-50">
+
+        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+          <div className="divide-y divide-slate-100">
             {unclaimedServices.map((service, index) => (
-              <div key={index} className="transition-colors hover:bg-gray-50/50">
-                <UnclaimedServiceRow 
+              <div key={index} className="transition hover:bg-cyan-50">
+                <UnclaimedServiceRow
                   title={service.title}
                   description={service.description}
                 />
@@ -72,18 +79,19 @@ const DashboardContent: React.FC = () => {
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Recommendations Section */}
-      <div className="pb-10">
-        <h2 className="text-[22px] font-bold text-gray-900 tracking-tight mb-8">
+      <section className="pb-10">
+        <h2 className="mb-8 text-2xl font-black text-slate-900">
           Recommendations
         </h2>
+
         <RecommendationCards />
+
         <div className="mt-8 flex justify-center">
-           <CarouselIndicators />
+          <CarouselIndicators />
         </div>
-      </div>
+      </section>
     </main>
   );
 };

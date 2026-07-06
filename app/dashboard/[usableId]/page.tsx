@@ -104,7 +104,7 @@ const fetchOrders = async () => {
         return 'text-green-600';
       case 'pending':
       case 'processing':
-        return 'text-orange-600';
+        return 'text-cyan-600';
       case 'cancelled':
       case 'failed':
         return 'text-red-600';
@@ -114,7 +114,7 @@ const fetchOrders = async () => {
   };
 
   return (
-    <main className="min-h-screen bg-[#F9FAFB] p-4 md:p-12 font-sans text-[#111827]">
+    <main className="min-h-screen bg-slate-50 p-4 md:p-12 font-sans text-[#111827]">
       <div className="max-w-6xl mx-auto space-y-10">
         
         {/* Order History Section */}
@@ -127,10 +127,10 @@ const fetchOrders = async () => {
           <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
             {loading ? (
               <div className="flex items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
               </div>
             ) : error ? (
-              <div className="py-12 text-center text-red-500">{error}</div>
+              <div className="py-12 text-center text-cyan-500">{error}</div>
             ) : orders.length === 0 ? (
               <div className="py-12 text-center text-gray-400">No orders found</div>
             ) : (
@@ -157,9 +157,9 @@ const fetchOrders = async () => {
                         <td className="px-6 py-6 text-center">
                           <button 
                             onClick={() => handleViewReceipt(order)}
-                            className="p-2 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                            className="p-2 bg-cyan-50 rounded-lg hover:bg-cyan-100 transition-colors"
                           >
-                            <FileText className="w-5 h-5 text-red-500" />
+                            <FileText className="w-5 h-5 text-cyan-500" />
                           </button>
                         </td>
                         <td className="px-6 py-6 text-sm text-gray-600 font-medium">{formatDate(order.date)}</td>
@@ -227,7 +227,7 @@ const fetchOrders = async () => {
                 {/* Total & Action */}
                 <div className="flex flex-col items-end gap-6 pt-6 border-t border-gray-100">
                   <p className="text-xl font-bold text-gray-900">Total: <span className="text-2xl font-black ml-2">${selectedOrder?.amount || 0}</span></p>
-                  <button onClick={() => window.print()} className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-orange-200 transition-all active:scale-95">
+                  <button onClick={() => window.print()} className="bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-cyan-200 transition-all active:scale-95">
                     Print Receipt
                   </button>
 
@@ -246,7 +246,7 @@ function ReceiptRow({ label, price, hasCheck }: { label: string, price?: string,
     <div className="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
       <span className="text-[14px] text-gray-500 font-medium">{label}</span>
       {hasCheck ? (
-        <CheckCircle2 className="w-5 h-5 text-orange-500" />
+        <CheckCircle2 className="w-5 h-5 text-cyan-500" />
       ) : (
         <span className="text-[14px] font-bold text-gray-400">{price}</span>
       )}

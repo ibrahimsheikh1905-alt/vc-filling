@@ -1,105 +1,97 @@
 "use client";
 
-import React from 'react';
-import { X, CheckCircle2, Globe } from 'lucide-react';
+import React from "react";
+import { X, CheckCircle2, Globe } from "lucide-react";
 
 interface BuildWebsiteModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function BuildWebsiteModal({ 
-  isOpen, 
-  onClose 
+export default function BuildWebsiteModal({
+  isOpen,
+  onClose,
 }: BuildWebsiteModalProps) {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm" 
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      
-      {/* Width fixed: max-w-xl (576px) perfectly fits the design and centers it */}
-      <div className="relative bg-white w-full max-w-xl mx-auto rounded-[32px] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+
+      <div className="relative mx-auto w-full max-w-xl overflow-hidden rounded-[32px] bg-white shadow-2xl animate-in zoom-in-95 duration-300">
         <button
           onClick={onClose}
-          className="absolute z-20 top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors p-1"
+          className="absolute right-6 top-6 z-20 rounded-full p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
         >
-          <X className="w-6 h-6" />
+          <X className="h-6 w-6" />
         </button>
 
-        {/* --- MAIN CENTERING CONTAINER --- */}
-        {/* Isme main 'flex-col items-center' lagaya hai taaki sab perfect center mein ho */}
-        <div className="flex flex-col items-center justify-center p-8 lg:p-10 w-full">
-          
-          {/* Top Left Decorative Visual: Chota aur symmetry ke saath */}
-          {/* Isko static position kiya hai taaki form centered rahe */}
-          <div className="w-full flex justify-center mb-8 relative">
-            {/* Background Light Blue Box */}
-            <div className="absolute top-0 left-0 bg-[#F3F7FF] w-[180px] h-[180px] rounded-bl-[200px] z-0 -translate-x-12 -translate-y-10" />
+        <div className="flex w-full flex-col items-center justify-center p-8 lg:p-10">
+          {/* Top Visual */}
+          <div className="relative mb-8 flex w-full justify-center">
+            <div className="absolute left-0 top-0 z-0 h-[180px] w-[180px] -translate-x-12 -translate-y-10 rounded-bl-[200px] bg-cyan-50" />
 
-            {/* Float-able icon box - matching image symmetry */}
-            <div className="relative z-10 bg-white/95 w-[160px] py-7 px-4 rounded-[20px] shadow-md border border-gray-50 flex flex-col items-center justify-center -translate-x-14">
-              <Globe className="w-16 h-16 text-blue-500 mb-3 shrink-0 stroke-[1.5px]" />
-              <h3 className="text-sm font-bold text-gray-900 text-center leading-tight">
+            <div className="relative z-10 flex w-[160px] -translate-x-14 flex-col items-center justify-center rounded-[20px] border border-cyan-100 bg-white/95 px-4 py-7 shadow-md">
+              <Globe className="mb-3 h-16 w-16 shrink-0 text-cyan-500 stroke-[1.5px]" />
+
+              <h3 className="text-center text-sm font-bold leading-tight text-slate-900">
                 Build Your <br /> Website
               </h3>
             </div>
           </div>
 
-          {/* --- CENTERING THE CONTENT BLOCK --- */}
-          {/* Poore content block ko center-aligned karne ke liye */}
-          <div className="w-full flex flex-col items-center text-center max-w-[400px]">
+          <div className="flex w-full max-w-[400px] flex-col items-center text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full text-[10px] font-bold text-emerald-700 mb-4 uppercase tracking-wider">
-              <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-cyan-700">
+              <div className="h-1.5 w-1.5 rounded-full bg-cyan-500" />
               Free With Your Package
             </div>
 
-            {/* Main Text */}
-            <h2 className="text-3xl font-black text-gray-900 mb-2 tracking-tight">
+            <h2 className="mb-2 text-3xl font-black tracking-tight text-slate-900">
               Get Online Today
             </h2>
-            <p className="text-gray-600 text-sm font-medium mb-8 leading-relaxed max-w-[320px]">
+
+            <p className="mb-8 max-w-[320px] text-sm font-medium leading-relaxed text-slate-600">
               Launch a professional website in minutes.
             </p>
 
-            {/* Benefits List - Tightening spacing and keeping left-aligned benefits content, but list overall is centered */}
-            <div className="space-y-4 mb-10 w-full flex flex-col items-center">
+            <div className="mb-10 flex w-full flex-col items-center space-y-4">
               {[
                 { title: "Mobile Responsive", desc: "Perfect on all screens" },
-                { title: "SEO Optimized", desc: "Rank higher on Google" }
+                { title: "SEO Optimized", desc: "Rank higher on Google" },
               ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3 w-full max-w-[280px]">
-                  <CheckCircle2 className="w-5 h-5 text-orange-500 mt-1 flex-shrink-0" />
-                  <div className="text-left flex-1">
-                    <h4 className="font-bold text-gray-900 text-[14px] leading-tight">{item.title}</h4>
-                    <p className="text-gray-400 text-[11px] mt-0.5">{item.desc}</p>
+                <div key={i} className="flex w-full max-w-[280px] items-start gap-3">
+                  <CheckCircle2 className="mt-1 h-5 w-5 flex-shrink-0 text-cyan-500" />
+
+                  <div className="flex-1 text-left">
+                    <h4 className="text-[14px] font-bold leading-tight text-slate-900">
+                      {item.title}
+                    </h4>
+                    <p className="mt-0.5 text-[11px] text-slate-400">
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* --- Buttons perfectly aligned with text padding --- */}
-            {/* Buttons ab text ke saath aligned hain aur width 100% hai text constraints ke andar */}
-            <div className="flex flex-col gap-2 w-full">
-              <button
-                className="w-full bg-[#FF4500] hover:bg-[#E53E00] text-white font-bold py-3.5 px-6 rounded-2xl text-[15px] transition-all active:scale-95 shadow-md shadow-orange-100 hover:shadow-orange-200"
-              >
+            <div className="flex w-full flex-col gap-2">
+              <button className="w-full rounded-2xl bg-[#06B6D4] px-6 py-3.5 text-[15px] font-bold text-white shadow-md shadow-cyan-100 transition-all hover:bg-[#0891B2] hover:shadow-cyan-200 active:scale-95">
                 Start Building
               </button>
+
               <button
                 onClick={onClose}
-                className="w-full border border-gray-100 hover:bg-gray-50 text-gray-400 font-bold py-3.5 px-6 rounded-2xl text-[15px] transition-all"
+                className="w-full rounded-2xl border border-slate-200 px-6 py-3.5 text-[15px] font-bold text-slate-400 transition-all hover:bg-cyan-50 hover:text-cyan-600"
               >
                 Maybe Later
               </button>
             </div>
           </div>
-
         </div>
       </div>
     </div>
