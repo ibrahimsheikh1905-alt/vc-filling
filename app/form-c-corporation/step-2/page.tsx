@@ -78,6 +78,17 @@ const StepTwo = () => {
     setServiceType();
   }, []);
 
+  const entityTypeLabel = (() => {
+    try {
+      const raw = localStorage.getItem(pathname.replace(/step-\d+.*/, "step-1"));
+      if (!raw) return "Business";
+      const parsed = JSON.parse(raw) as any;
+      return parsed?.entityType ?? "Business";
+    } catch {
+      return "Business";
+    }
+  })();
+
   if (!isMounted) {
     return null;
   }
@@ -96,14 +107,7 @@ const StepTwo = () => {
                   <div className="flex gap-4">
                     <div className="flex-grow">
                       <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
-                        {
-                          JSON.parse(
-                            localStorage.getItem(
-                              pathname.replace(/step-\d+.*/, "step-1")
-                            ) as string
-                          ).entityType
-                        }{" "}
-                        Name
+                        {entityTypeLabel} Name
                         <InformationCircleIcon className="w-4 h-4 text-blue-500 ml-1 cursor-help" />
                       </label>
                       <input

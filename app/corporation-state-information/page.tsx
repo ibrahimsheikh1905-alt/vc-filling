@@ -1,27 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import NavigationWrapper from "@/components/NavigationWrapper";
-
+// @ts-ignore - no first-party types; @types/svg-maps__usa can be added separately if desired
+import usaMap from "@svg-maps/usa";
 
 // ── Icons ───────────────────────────────────────────────────────────────────────
 const ChevronDown = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={18} height={18}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    className="h-[18px] w-[18px]"
+  >
     <path d="M6 9l6 6 6-6" />
   </svg>
 );
+
 const ArrowRight = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={16} height={16}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    className="h-4 w-4"
+  >
     <path d="M5 12h14M12 5l7 7-7 7" />
   </svg>
 );
+
 const ArrowUpRight = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={16} height={16}>
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    className="h-4 w-4"
+  >
     <path d="M7 17l10-10M7 7h10v10" />
   </svg>
 );
+
 const StarIcon = () => (
-  <svg viewBox="0 0 24 24" fill="#FF9A1F" width={15} height={15}>
+  <svg viewBox="0 0 24 24" className="h-[15px] w-[15px] fill-amber-400">
     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
   </svg>
 );
@@ -43,13 +65,35 @@ const states = [
   "West Virginia", "Wisconsin", "Wyoming",
 ];
 
+// Maps full state name -> USPS abbreviation used by react-usa-map's data-name attr
+const ABBR_BY_NAME: Record<string, string> = {
+  Alabama: "AL", Alaska: "AK", Arizona: "AZ", Arkansas: "AR",
+  California: "CA", Colorado: "CO", Connecticut: "CT", Delaware: "DE",
+  Florida: "FL", Georgia: "GA", Hawaii: "HI", Idaho: "ID",
+  Illinois: "IL", Indiana: "IN", Iowa: "IA", Kansas: "KS",
+  Kentucky: "KY", Louisiana: "LA", Maine: "ME", Maryland: "MD",
+  Massachusetts: "MA", Michigan: "MI", Minnesota: "MN", Mississippi: "MS",
+  Missouri: "MO", Montana: "MT", Nebraska: "NE", Nevada: "NV",
+  "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM", "New York": "NY",
+  "North Carolina": "NC", "North Dakota": "ND", Ohio: "OH", Oklahoma: "OK",
+  Oregon: "OR", Pennsylvania: "PA", "Rhode Island": "RI", "South Carolina": "SC",
+  "South Dakota": "SD", Tennessee: "TN", Texas: "TX", Utah: "UT",
+  Vermont: "VT", Virginia: "VA", Washington: "WA", "Washington DC": "DC",
+  "West Virginia": "WV", Wisconsin: "WI", Wyoming: "WY",
+};
+
+// Reverse lookup: abbreviation -> full state name (used when hovering the map itself)
+const NAME_BY_ABBR: Record<string, string> = Object.fromEntries(
+  Object.entries(ABBR_BY_NAME).map(([name, abbr]) => [abbr, name])
+);
+
 const resources = [
-  { title: "Understanding Filing Fees", gradient: "linear-gradient(145deg,#8b5a2b,#3e2a1a)" },
-  { title: "Navigating Filing Times", gradient: "linear-gradient(145deg,#6b6b6b,#2a2a2a)" },
-  { title: "Business Name Search", gradient: "linear-gradient(145deg,#7a8b5a,#2e3a1a)" },
-  { title: "Filing Annual Reports", gradient: "linear-gradient(145deg,#5a2b6b,#1a0a2a)" },
-  { title: "State LLC Filing Tips", gradient: "linear-gradient(145deg,#8b6b3a,#3a2a0a)" },
-  { title: "File in Another Country", gradient: "linear-gradient(145deg,#3a5a8b,#0a1a3a)" },
+  { title: "Understanding Filing Fees", gradient: "from-cyan-200 to-cyan-700" },
+  { title: "Navigating Filing Times", gradient: "from-slate-300 to-cyan-900" },
+  { title: "Business Name Search", gradient: "from-cyan-100 to-cyan-600" },
+  { title: "Filing Annual Reports", gradient: "from-cyan-300 to-slate-900" },
+  { title: "State LLC Filing Tips", gradient: "from-cyan-200 to-cyan-800" },
+  { title: "File in Another Country", gradient: "from-sky-300 to-cyan-900" },
 ];
 
 const faqs = [
@@ -69,263 +113,195 @@ const faqs = [
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function CorpFormationByStatePage() {
-  const [selectedState, setSelectedState] = useState<string>("Massachusetts");
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-return (
+  // Resolve a full state name from whatever id/name format the map data uses
+  // (svg-maps packages vary between "AL", "al", "us-al", "alabama", etc.)
+  const resolveStateName = (rawId?: string, rawName?: string): string | null => {
+    if (rawName) {
+      const exact = states.find((s) => s.toLowerCase() === rawName.toLowerCase());
+      if (exact) return exact;
+    }
+    if (rawId) {
+      const cleaned = rawId.replace(/^us[-_]?/i, "").toUpperCase();
+      if (NAME_BY_ABBR[cleaned]) return NAME_BY_ABBR[cleaned];
+      const bySlug = states.find(
+        (s) => s.toLowerCase().replace(/\s+/g, "-") === rawId.toLowerCase()
+      );
+      if (bySlug) return bySlug;
+    }
+    return null;
+  };
+
+  // Precompute each map location alongside its resolved full state name
+  const mapLocations = useMemo(() => {
+    return (usaMap?.locations || []).map((loc: any) => ({
+      ...loc,
+      stateName: resolveStateName(loc.id, loc.name),
+    }));
+  }, []);
+
+  const handleLocationMouseOver = (stateName: string | null) => {
+    if (stateName) setHoveredState(stateName);
+  };
+
+  const handleLocationMouseOut = () => setHoveredState(null);
+
+  return (
     <NavigationWrapper>
-      <div style={{ fontFamily: "'Inter','Helvetica Neue',Arial,sans-serif", color: "#1a1a2e", background: "#fff", margin: 0, padding: 0 }}>
-
-      {/* ── BREADCRUMB ── */}
-      <div style={{ padding: "14px 80px 0", fontSize: 13, color: "#999", maxWidth: 1200, margin: "0 auto" }}>
-        <span style={{ color: "#FF4A00", cursor: "pointer" }}>Incorp Bay</span>
-        <span style={{ margin: "0 6px" }}>›</span>
-        <span style={{ color: "#FF4A00" }}>Corp Formation By State</span>
-      </div>
-
-      {/* ── HERO + MAP ── */}
-      <section style={{ textAlign: "center", padding: "30px 24px 70px", maxWidth: 900, margin: "0 auto" }}>
-        <h1 style={{ fontSize: 40, fontWeight: 800, lineHeight: 1.18, margin: "0 0 22px", color: "#0d0d1a" }}>
-          Want To Learn More <span style={{ color: "#FF4A00" }}>About Corporations In Your State?</span>
-        </h1>
-        <p style={{ fontSize: 16, lineHeight: 1.7, color: "#555", maxWidth: 700, margin: "0 auto 50px" }}>
-          With different rules and regulations for incorporation in every state, starting a business can be a pretty confusing process. That's why we've organized all corporation requirements by state in one handy place — right here!
-        </p>
-
-{/* US Outline Map */}
-        <div
-          style={{ position: "relative", display: "flex", justifyContent: "center", marginTop: 10 }}
-          onMouseLeave={() => setHoveredState(null)}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "#ecfeff",
-              border: "1px solid #a5f3fc",
-              borderRadius: 999,
-              padding: "8px 16px",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              fontWeight: 700,
-              fontSize: 13,
-              color: "#0e7490",
-              boxShadow: "0 8px 24px rgba(6,182,212,0.12)",
-              zIndex: 10,
-            }}
-          >
-            {hoveredState || selectedState} <ArrowRight />
-          </div>
-
-          <svg
-            viewBox="0 0 960 560"
-            width="100%"
-            height="380"
-            style={{ maxWidth: 780, marginTop: 22 }}
-            aria-label="United States map outline"
-          >
-            <g fill="none" stroke="#cbd5e1" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              {/* Contiguous United States outline */}
-              <path d="M132 178 L154 150 L204 139 L263 146 L329 158 L392 166 L458 163 L520 171 L581 164 L633 177 L682 169 L742 181 L789 207 L824 239 L850 278 L831 302 L841 337 L809 348 L779 340 L751 360 L717 356 L686 373 L645 364 L606 381 L551 369 L501 384 L444 370 L383 380 L331 359 L281 363 L229 346 L180 321 L151 283 L123 259 L111 220 Z" />
-
-              {/* West coast / Pacific states */}
-              <path d="M154 150 L160 204 L142 257 L157 313" />
-              <path d="M204 139 L201 202 L180 254 L184 323" />
-              <path d="M263 146 L260 218 L240 284 L229 346" />
-              <path d="M160 204 L260 218" />
-              <path d="M142 257 L240 284" />
-
-              {/* Mountain states */}
-              <path d="M329 158 L324 232 L319 308 L331 359" />
-              <path d="M392 166 L392 237 L386 310 L383 380" />
-              <path d="M458 163 L454 237 L451 315 L444 370" />
-              <path d="M260 218 L454 237" />
-              <path d="M240 284 L451 315" />
-              <path d="M319 308 L451 315" />
-
-              {/* Plains */}
-              <path d="M520 171 L520 239 L517 311 L501 384" />
-              <path d="M581 164 L575 231 L572 299 L551 369" />
-              <path d="M454 237 L575 231" />
-              <path d="M451 315 L572 299" />
-              <path d="M520 239 L633 238" />
-              <path d="M517 311 L645 311" />
-
-              {/* Midwest / Mississippi valley */}
-              <path d="M633 177 L633 238 L645 311 L645 364" />
-              <path d="M682 169 L681 226 L686 286 L686 373" />
-              <path d="M742 181 L731 231 L717 286 L717 356" />
-              <path d="M633 238 L731 231" />
-              <path d="M645 311 L717 286" />
-
-              {/* Southeast */}
-              <path d="M686 373 L704 323 L751 360" />
-              <path d="M717 356 L732 316 L779 340" />
-              <path d="M751 360 L765 408 L793 438 L811 430 L798 390 L809 348" />
-              <path d="M645 364 L686 373 L717 356" />
-              <path d="M606 381 L645 364" />
-
-              {/* Northeast */}
-              <path d="M742 181 L773 186 L789 207" />
-              <path d="M773 186 L780 222 L824 239" />
-              <path d="M731 231 L780 222" />
-              <path d="M717 286 L776 278 L824 239" />
-              <path d="M776 278 L850 278" />
-              <path d="M789 207 L827 188 L850 205 L824 239" />
-              <path d="M827 188 L849 160 L870 182 L850 205" />
-              <path d="M850 205 L888 207 L870 230 L824 239" />
-
-              {/* State separator detail lines */}
-              <path d="M204 139 L240 185" opacity="0.65" />
-              <path d="M281 363 L286 315" opacity="0.65" />
-              <path d="M329 158 L392 166" opacity="0.65" />
-              <path d="M392 237 L520 239" opacity="0.65" />
-              <path d="M501 384 L517 311" opacity="0.65" />
-              <path d="M581 164 L633 177" opacity="0.65" />
-              <path d="M645 311 L686 286" opacity="0.65" />
-              <path d="M717 286 L732 316" opacity="0.65" />
-              <path d="M776 278 L779 340" opacity="0.65" />
-              <path d="M809 348 L831 302" opacity="0.65" />
-            </g>
-
-            {/* subtle cyan selected-state marker */}
-            <g
-              onMouseEnter={() => setHoveredState(selectedState)}
-              style={{ cursor: "pointer" }}
-            >
-              <circle cx="780" cy="222" r="9" fill="#06B6D4" opacity="0.92" />
-              <circle cx="780" cy="222" r="18" fill="#06B6D4" opacity="0.16" />
-            </g>
-
-            {/* Alaska */}
-            <g fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" transform="translate(88 380)">
-              <path d="M10 72 L34 48 L73 36 L117 50 L137 83 L110 105 L66 102 L34 91 Z" />
-              <path d="M85 105 L119 125 M51 103 L23 119 M125 84 L158 91" />
-            </g>
-
-            {/* Hawaii */}
-            <g fill="none" stroke="#cbd5e1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" transform="translate(280 442)">
-              <path d="M0 20 C10 12 22 13 30 20" />
-              <path d="M45 26 C56 18 70 21 76 31" />
-              <path d="M93 36 C103 29 116 31 122 42" />
-              <path d="M140 52 C154 43 170 48 178 61" />
-            </g>
-          </svg>
+      <div className="m-0 min-h-screen bg-white p-0 font-sans text-[#1a1a2e]">
+        {/* ── BREADCRUMB ── */}
+        <div className="mx-auto max-w-[1200px] px-6 pt-3.5 text-[13px] text-slate-400 md:px-20">
+          <span className="cursor-pointer text-cyan-500">Incorp Bay</span>
+          <span className="mx-1.5">›</span>
+          <span className="text-cyan-500">Corp Formation By State</span>
         </div>
-      </section>
 
-      {/* ── PICK A STATE GRID ── */}
-      <section style={{ padding: "0 80px 80px", maxWidth: 1100, margin: "0 auto" }}>
-        <h2 style={{ textAlign: "center", fontSize: 32, fontWeight: 800, marginBottom: 36 }}>Pick a state, any state!</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14 }}>
-          {states.map((s) => {
-            const isSelected = s === selectedState;
-            return (
-              <button
-                key={s}
-                onClick={() => setSelectedState(s)}
-                style={{
-                  textAlign: "left",
-                  padding: "16px 20px",
-                  borderRadius: 10,
-                  border: "1px solid transparent",
-                  background: isSelected ? "#ffd9c2" : "#fff3ef",
-                  color: "#cc4400",
-                  fontWeight: 500,
-                  fontSize: 14,
-                  cursor: "pointer",
-                  transition: "background 0.15s",
-                }}
+        {/* ── HERO + MAP ── */}
+        <section className="mx-auto max-w-[900px] px-6 pb-[70px] pt-[30px] text-center">
+          <h1 className="m-0 mb-[22px] text-[40px] font-extrabold leading-[1.18] text-[#0d0d1a]">
+            Want To Learn More <span className="text-cyan-500">About Corporations In Your State?</span>
+          </h1>
+          <p className="mx-auto mb-[50px] max-w-[700px] text-base leading-[1.7] text-[#555]">
+            With different rules and regulations for incorporation in every state, starting a business can be a pretty confusing process. That's why we've organized all corporation requirements by state in one handy place — right here!
+          </p>
+
+          {/* Real US states map (@svg-maps/usa), hover + click enabled */}
+          <div className="relative mt-2.5 flex justify-center">
+            <div className="pointer-events-none absolute left-1/2 top-0 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-[13px] font-bold text-cyan-700 shadow-[0_8px_24px_rgba(6,182,212,0.12)]">
+              {hoveredState || "Hover a state"} <ArrowRight />
+            </div>
+
+            <div className="mt-[22px] w-full max-w-[780px]">
+              <svg
+                viewBox={usaMap?.viewBox || "0 0 959 593"}
+                className="h-[420px] w-full"
+                role="img"
+                aria-label="United States map"
               >
-                {s}
-              </button>
-            );
-          })}
-        </div>
-      </section>
+                {mapLocations.map((loc: any) => {
+                  const isHovered = loc.stateName === hoveredState;
+                  return (
+                    <path
+                      key={loc.id}
+                      d={loc.path}
+                      onMouseEnter={() => handleLocationMouseOver(loc.stateName)}
+                      onMouseLeave={handleLocationMouseOut}
+                      className={`cursor-default transition-[fill,stroke,stroke-width] duration-150 ease-in-out ${
+                        isHovered
+                          ? "fill-cyan-100 stroke-cyan-500 [stroke-width:2]"
+                          : "fill-slate-50 stroke-slate-300 [stroke-width:1.4]"
+                      }`}
+                    >
+                      <title>{loc.stateName || loc.name}</title>
+                    </path>
+                  );
+                })}
+              </svg>
+            </div>
+          </div>
+        </section>
 
-      {/* ── WHICH STATE SHOULD YOU CHOOSE ── */}
-      <section style={{ padding: "0 80px 60px", maxWidth: 1000, margin: "0 auto" }}>
-        <h2 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 18px", lineHeight: 1.2 }}>Which State Should You Choose?</h2>
-        <p style={{ fontSize: 15, lineHeight: 1.75, color: "#444", marginBottom: 18, maxWidth: 760 }}>
-          Remember, you don't necessarily need to form your corporation in the state where you live. Some states, such as Wyoming, Nevada and Delaware, have business-friendly rules and cheap filing fees that inspire out-of-state entrepreneurs choose to file their corporations there.
-        </p>
-        <p style={{ fontSize: 15, lineHeight: 1.75, color: "#444", maxWidth: 760 }}>
-          Explore the resources below to learn more about the state-by-state specifics of forming a corporation.
-        </p>
-      </section>
+        {/* ── PICK A STATE GRID ── */}
+        <section className="mx-auto max-w-[1100px] px-6 pb-20 md:px-20">
+          <h2 className="mb-9 text-center text-[32px] font-extrabold">Pick a state, any state!</h2>
+          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+            {states.map((s) => {
+              const isHovered = s === hoveredState;
+              return (
+                <button
+                  key={s}
+                  onMouseEnter={() => setHoveredState(s)}
+                  onMouseLeave={() => setHoveredState(null)}
+                  className={`cursor-default rounded-[10px] border px-5 py-4 text-left text-sm font-medium transition-colors duration-150 ${
+                    isHovered
+                      ? "border-cyan-500 bg-cyan-50 text-cyan-700"
+                      : "border-transparent bg-cyan-50/60 text-cyan-700/80"
+                  }`}
+                  type="button"
+                >
+                  {s}
+                </button>
+              );
+            })}
+          </div>
+        </section>
 
-      {/* ── ADDITIONAL CORPORATION RESOURCES ── */}
-      <section style={{ padding: "30px 80px 90px", maxWidth: 1200, margin: "0 auto" }}>
-        <h2 style={{ textAlign: "center", fontSize: 32, fontWeight: 800, margin: "0 0 16px" }}>Additional Corporation Resources</h2>
-        <p style={{ textAlign: "center", fontSize: 15, color: "#555", maxWidth: 620, margin: "0 auto 48px" }}>
-          Want to learn even more about forming a corporation in your state? Check out these handy resources from Incorp Bay:
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
-          {resources.map((r) => (
-            <div key={r.title} style={{ cursor: "pointer" }}>
-              <div style={{
-                width: "100%",
-                height: 190,
-                borderRadius: 14,
-                background: r.gradient,
-                marginBottom: 14,
-              }} />
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 15, fontWeight: 600, color: "#0d0d1a" }}>
-                {r.title} <ArrowUpRight />
+        {/* ── WHICH STATE SHOULD YOU CHOOSE ── */}
+        <section className="mx-auto max-w-[1000px] px-6 pb-[60px] md:px-20">
+          <h2 className="m-0 mb-[18px] text-[32px] font-extrabold leading-[1.2]">Which State Should You Choose?</h2>
+          <p className="mb-[18px] max-w-[760px] text-[15px] leading-[1.75] text-[#444]">
+            Remember, you don't necessarily need to form your corporation in the state where you live. Some states, such as Wyoming, Nevada and Delaware, have business-friendly rules and cheap filing fees that inspire out-of-state entrepreneurs choose to file their corporations there.
+          </p>
+          <p className="max-w-[760px] text-[15px] leading-[1.75] text-[#444]">
+            Explore the resources below to learn more about the state-by-state specifics of forming a corporation.
+          </p>
+        </section>
+
+        {/* ── ADDITIONAL CORPORATION RESOURCES ── */}
+        <section className="mx-auto max-w-[1200px] px-6 pb-[90px] pt-[30px] md:px-20">
+          <h2 className="m-0 mb-4 text-center text-[32px] font-extrabold">Additional Corporation Resources</h2>
+          <p className="mx-auto mb-12 max-w-[620px] text-center text-[15px] text-[#555]">
+            Want to learn even more about forming a corporation in your state? Check out these handy resources from Incorp Bay:
+          </p>
+          <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
+            {resources.map((r) => (
+              <div key={r.title} className="cursor-pointer">
+                <div className={`mb-3.5 h-[190px] w-full rounded-[14px] bg-gradient-to-br ${r.gradient}`} />
+                <div className="flex items-center gap-2 text-[15px] font-semibold text-[#0d0d1a]">
+                  {r.title} <ArrowUpRight />
+                </div>
               </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="mx-auto max-w-[820px] px-6 pb-[90px] md:px-20">
+          <h2 className="m-0 mb-[30px] text-[32px] font-extrabold leading-[1.2]">Frequently Asked Questions About LLCs</h2>
+          {faqs.map((faq, i) => (
+            <div key={i} className="border-b border-[#e5e5e5] py-5">
+              <button
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                className="flex w-full cursor-pointer items-center justify-between gap-3.5 bg-transparent p-0 text-left"
+                type="button"
+              >
+                <span className="flex items-baseline gap-3">
+                  <span className="text-[15px] font-bold text-cyan-500">{i + 1}</span>
+                  <span className="text-base font-bold text-[#0d0d1a]">{faq.q}</span>
+                </span>
+                <span className={`shrink-0 text-slate-500 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}>
+                  <ChevronDown />
+                </span>
+              </button>
+              {openFaq === i && (
+                <p className="ml-7 mt-3.5 text-[15px] leading-[1.7] text-[#555]">{faq.a}</p>
+              )}
             </div>
           ))}
-        </div>
-      </section>
+        </section>
 
-      {/* ── FAQ ── */}
-      <section style={{ padding: "0 80px 90px", maxWidth: 820, margin: "0 auto" }}>
-        <h2 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 30px", lineHeight: 1.2 }}>Frequently Asked Questions About LLCs</h2>
-        {faqs.map((faq, i) => (
-          <div key={i} style={{ borderBottom: "1px solid #e5e5e5", padding: "20px 0" }}>
-            <button
-              onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              style={{ width: "100%", background: "none", border: "none", textAlign: "left", cursor: "pointer", display: "flex", alignItems: "center", gap: 14, padding: 0, justifyContent: "space-between" }}
-            >
-              <span style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-                <span style={{ color: "#FF4A00", fontWeight: 700, fontSize: 15 }}>{i + 1}</span>
-                <span style={{ fontSize: 16, fontWeight: 700, color: "#0d0d1a" }}>{faq.q}</span>
-              </span>
-              <span style={{ transform: openFaq === i ? "rotate(180deg)" : "none", transition: "transform 0.2s", flexShrink: 0, color: "#888" }}>
-                <ChevronDown />
-              </span>
-            </button>
-            {openFaq === i && (
-              <p style={{ fontSize: 15, color: "#555", marginTop: 14, marginLeft: 28, lineHeight: 1.7 }}>{faq.a}</p>
-            )}
+        {/* ── FORM YOUR FREE CORPORATION CTA ── */}
+        <section className="mx-auto max-w-[760px] px-6 pb-[100px] text-center">
+          <div className="mb-[26px] inline-flex items-center gap-1.5 rounded-[20px] border border-[#ddd] px-3.5 py-1.5 text-[13px] font-medium">
+            <span>Excellent <strong>4.7</strong> out of 5</span>
+            <StarIcon />
+            <span className="font-bold text-[#00B67A]">Trustpilot</span>
           </div>
-        ))}
-      </section>
-
-      {/* ── FORM YOUR FREE CORPORATION CTA ── */}
-      <section style={{ textAlign: "center", padding: "0 24px 100px", maxWidth: 760, margin: "0 auto" }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid #ddd", borderRadius: 20, padding: "6px 14px", fontSize: 13, fontWeight: 500, marginBottom: 26 }}>
-          <span>Excellent <strong>4.7</strong> out of 5</span>
-          <StarIcon />
-          <span style={{ color: "#00B67A", fontWeight: 700 }}>Trustpilot</span>
-        </div>
-        <h2 style={{ fontSize: 38, fontWeight: 800, margin: "0 0 14px", lineHeight: 1.2 }}>
-          Form Your<br /><span style={{ color: "#FF4A00" }}>Free Corporation Now</span>
-        </h2>
-        <p style={{ fontSize: 15, color: "#555", maxWidth: 560, margin: "0 auto 30px", lineHeight: 1.7 }}>
-          Creating your own business from scratch is no small feat, but it's not impossible. Break down your work into bite-sized chunks with our checklist.
-        </p>
-        <a href="#" style={{ display: "inline-block", background: "#FF4A00", color: "#fff", padding: "16px 38px", borderRadius: 50, fontWeight: 700, fontSize: 14, textDecoration: "none", letterSpacing: 0.4 }}>
-          GET STARTED NOW
-        </a>
-</section>
-
-
+          <h2 className="m-0 mb-3.5 text-[38px] font-extrabold leading-[1.2]">
+            Form Your<br /><span className="text-cyan-500">Free Corporation Now</span>
+          </h2>
+          <p className="mx-auto mb-[30px] max-w-[560px] text-[15px] leading-[1.7] text-[#555]">
+            Creating your own business from scratch is no small feat, but it's not impossible. Break down your work into bite-sized chunks with our checklist.
+          </p>
+          <a
+            href="#"
+            className="inline-block rounded-full bg-cyan-500 px-[38px] py-4 text-sm font-bold tracking-[0.4px] text-white no-underline shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600"
+          >
+            GET STARTED NOW
+          </a>
+        </section>
       </div>
     </NavigationWrapper>
   );

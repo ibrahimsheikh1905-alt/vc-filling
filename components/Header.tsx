@@ -22,15 +22,49 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/app-sidebar";
 // import { UserCircleIcon } from "@heroicons/react/24/solid";
 
+
+const StartupCentralPromoCard = ({ image = "/startup-central-menu.webp" }: { image?: string }) => {
+  return (
+    <li className="list-none">
+      <Link
+        href="/Startup-Central"
+        className="flex flex-col overflow-hidden rounded-xl border border-cyan-200 bg-gradient-to-br from-cyan-50 via-white to-cyan-100 shadow-sm transition hover:border-cyan-300 hover:shadow-md"
+      >
+        <div className="relative h-24 w-full shrink-0 bg-cyan-50">
+          <Image
+            src={image}
+            alt="Incorp Bay Startup Central"
+            fill
+            className="object-cover"
+          />
+        </div>
+
+        <div className="flex items-center justify-between gap-2 px-4 py-3">
+          <div className="min-w-0">
+            <p className="text-sm font-extrabold leading-none text-slate-900">
+              Incorp Bay&apos;s
+            </p>
+            <p className="mt-1 truncate text-xl font-black leading-none text-cyan-600">
+              Startup Central
+            </p>
+          </div>
+
+          <ChevronRightIcon className="h-5 w-5 shrink-0 text-cyan-600" />
+        </div>
+      </Link>
+    </li>
+  );
+};
+
 const NavigationMenuDemo = () => {
   const router = useRouter();
   const { isAuthenticated, name, Logout: handleLogout } = useAuth();
-  
+
   const handleLogoutClick = async () => {
     await handleLogout();
     router.push('/login');
   };
-  
+
   return (
     <Headroom style={{ zIndex: 999 }}>
       <div className="bg-white">
@@ -45,7 +79,7 @@ const NavigationMenuDemo = () => {
                 src={"/logo.png"}
                 width={100}
                 height={20}
-                alt="VC Filling Logo"
+                alt="incorp bay Logo"
               />
             </Link>
           </div>
@@ -69,13 +103,13 @@ const NavigationMenuDemo = () => {
                 </svg>
               </Link>
             </div>
-<SidebarProvider>
+            <SidebarProvider>
               <AppSidebar />
               <div className="lg:hidden ">
                 <SidebarTrigger />
               </div>
             </SidebarProvider>
-            
+
             {/* Login/Logout Button - Desktop */}
             <div className="max-sm:hidden flex items-center gap-4">
               {isAuthenticated ? (
@@ -91,7 +125,7 @@ const NavigationMenuDemo = () => {
               ) : (
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+                  className="px-4 py-2 text-sm font-medium text-white bg-cyan-500 hover:bg-cyan-600 rounded-lg transition"
                 >
                   Login
                 </Link>
@@ -114,8 +148,8 @@ const NavigationMenuDemo = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Services</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="grid items-center grid-cols-3 gap-3 p-6 md:w-[70vw] lg:w-[80vw]">
-                      <ul className="p-6 border-r-2 border-gray-200">
+                    <div className="grid items-start grid-cols-3 gap-4 p-5 md:w-[64vw] lg:w-[68vw]">
+                      <ul className="p-4 border-r-2 border-gray-200 space-y-1">
                         <ListItem href="/form-a-llc/" title="Form an LLC">
                           The most popular choice for business owners.
                         </ListItem>
@@ -137,8 +171,9 @@ const NavigationMenuDemo = () => {
                         >
                           A business that makes the world a better place.
                         </ListItem>
+                        <StartupCentralPromoCard image="/startup-central-menu.webp" />
                       </ul>
-                      <ul className="p-6">
+                      <ul className="p-4 space-y-1">
                         <ListItemTiny href="/amendment/" title="Amendment">
                           Amendment
                         </ListItemTiny>
@@ -191,7 +226,7 @@ const NavigationMenuDemo = () => {
                           Business License or Permit
                         </ListItemTiny>
                       </ul>
-                      <ul className="p-6">
+                      <ul className="p-4 space-y-1">
                         <ListItemTiny
                           href="/annual-report/"
                           title="Submit an Annual Report"
@@ -199,10 +234,10 @@ const NavigationMenuDemo = () => {
                           Submit an Annual Report
                         </ListItemTiny>
                         <ListItemTiny
-                          href="/tax-consultation/"
-                          title="Get a Free Tax Consultation"
+                          href="/form-2553/"
+                          title="Form-2553"
                         >
-                          Get a Free Tax Consultation
+                          Form-2553( S Crop Tax)
                         </ListItemTiny>
                         <ListItemTiny
                           href="/trademark/"
@@ -247,31 +282,8 @@ const NavigationMenuDemo = () => {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>Resource Centre</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="grid items-center grid-cols-3 gap-3 p-6 md:w-[70vw] lg:w-[80vw]">
-                      <ul className="p-6 border-r-2 border-gray-200">
-                        <ListItem href="/form-a-llc/" title="Form an LLC">
-                          The most popular choice for business owners.
-                        </ListItem>
-                        <ListItem
-                          href="/form-c-corporation/"
-                          title="Form a C Corporation."
-                        >
-                          Big business? Opt for a C Group.
-                        </ListItem>
-                        <ListItem
-                          href="/form-s-corporation/"
-                          title="Form an S Corporation"
-                        >
-                          Save money on taxes as your business grows.
-                        </ListItem>
-                        <ListItem
-                          href="/start-a-nonprofit"
-                          title="Form a Nonprofit"
-                        >
-                          A business that makes the world a better place.
-                        </ListItem>
-                      </ul>
-                      <ul className="p-6">
+                    <div className="grid grid-cols-2 items-start gap-4 p-5 md:w-[56vw] lg:w-[60vw] ml-auto max-w-[760px]">
+                      <ul className="p-4 space-y-1">
                         <ListItemTiny
                           href="/testing/"
                           title="how to become an entrepreneur"
@@ -302,59 +314,31 @@ const NavigationMenuDemo = () => {
                         <ListItemTiny href="/state-info/" title="state-info">
                           LLC Information By State
                         </ListItemTiny>
-                        <ListItemTiny href="/form-2553/" title="Form-2553">
-                          Form-2553( S Crop Tax)
-                        </ListItemTiny>
-                        {/* <ListItemTiny href="/about-us" title="about-us">
-                          About Us
-                        </ListItemTiny> */}
-                        {/* <ListItemTiny href="/makes-dif" title="makes-dif">
-                          What Makes Us Different
-                        </ListItemTiny> */}
                       </ul>
-                      <ul className="p-6">
-                        <ListItemTiny href="/inc-now-VC/" title="incfile is VC">
-                          incfile is now VC Filling
-                        </ListItemTiny>
+
+                      <ul className="p-4 space-y-1">
                         <ListItemTiny href="/contact/" title="contact">
                           Contact
                         </ListItemTiny>
+
                         <ListItemTiny
-                          href="/book-consult/"
-                          title="Bookkeeping Consultation"
+                          href="/tax-consultation/"
+                          title="Get a Free Consultation"
                         >
-                          Bookkeeping Consultation
+                          Get a Free Consultation
                         </ListItemTiny>
+
                         <ListItemTiny href="/article" title="Article">
                           Article
                         </ListItemTiny>
-                        <ListItemTiny href="/boi-repo/" title="boi-repo">
-                          BOI Report
-                        </ListItemTiny>
-                        {/* <ListItemTiny
-                          href="/form-c-corporation/"
-                          title="Form a C Corporation."
-                        >
-                          Dissolve Your Company
-                        </ListItemTiny>
-                        <ListItemTiny
-                          href="/form-s-corporation/"
-                          title="Form an S Corporation"
-                        >
-                          Get Reinstated
-                        </ListItemTiny>
-                        <ListItemTiny
-                          href="/start-a-nonprofit"
-                          title="Form a Nonprofit"
-                        >
-                          Get an EIN / TAX Number
-                        </ListItemTiny> */}
+
+                        <StartupCentralPromoCard image="/startup-central-resource.webp" />
                       </ul>
                     </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link href="/" legacyBehavior passHref>
+                  <Link href="/about-us" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
@@ -365,51 +349,6 @@ const NavigationMenuDemo = () => {
               </NavigationMenuList>
             </NavigationMenu>
           </div>
-
-          {/* <div className="">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <Link href="tel:1 (888) 462-3454" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
-                        />
-                      </svg>
-                      1 (888) 462-3454
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  {!isAuthenticated ? (
-                    <Link href="/login" legacyBehavior passHref>
-                      <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
-                      >
-                        Login
-                      </NavigationMenuLink>
-                    </Link>
-                  ) : (
-                    <Link href="/dashboard" legacyBehavior passHref>
-                      <UserIcon className="size-6 cursor-pointer" />
-                    </Link>
-                  )}
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div> */}
         </div>
       </div>
     </Headroom>
@@ -434,7 +373,7 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="group-hover:text-primary text-xl font-extrabold leading-none">
+          <div className="group-hover:text-cyan-500 text-xl font-extrabold leading-none">
             {title}
           </div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
@@ -458,13 +397,13 @@ const ListItemTiny = React.forwardRef<
           href={href}
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground  hover:bg-gray-100  hover:text-primary",
+            "block select-none space-y-1 rounded-md p-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground  hover:bg-gray-100  hover:text-cyan-500",
             className
           )}
           {...props}
         >
           <div className="text-base font-normal leading-none flex gap-2 flex-wrap items-center">
-            <ChevronRightIcon className="size-4 text-primary" />
+            <ChevronRightIcon className="size-4 text-cyan-500" />
             {children}
           </div>
         </Link>

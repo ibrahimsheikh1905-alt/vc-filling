@@ -21,13 +21,13 @@ import { Item } from "@radix-ui/react-navigation-menu";
 const TaxConsultation = () => {
   return (
     <NavigationWrapper>
-      <div className="md:mx-20 max-sm:mx-5">
+      <div className="font-sans md:mx-20 max-sm:mx-5">
         <div className="bg-[url('/about-us/ab.webp')] md:w-full md:bg-cover max-sm:mb-9 md:mb-24 md:px-8 px-2 text-white md:py-16 rounded-xl my-2 mx-5 mt-16">
           <div className="">
             <p className="text-white font-bold py-9 uppercase pl-5">about us</p>
 
             <h1 className="font-bold text-6xl uppercase md:mt-80 pl-5">
-              <span className="text-primary ">OUR</span>
+              <span className="text-cyan-500 ">OUR</span>
             </h1>
             <h2 className="font-bold text-6xl pl-5 uppercase max-sm:my-3">
               story
@@ -40,13 +40,13 @@ const TaxConsultation = () => {
           <div className="font-bold ">
             <h3 className="font-bold text-3xl uppercase ">Bootstrapped</h3>
             <h3 className="text-3xl uppercase">
-              <span className="text-primary">Beginnings</span>
+              <span className="text-cyan-500">Beginnings</span>
             </h3>
           </div>
           {/* right side section  */}
           <div className="md:mx-20">
             <p>
-              VC FILING journey started 20 years ago in the spare bedroom of our
+              Incorp Bay journey started 20 years ago in the spare bedroom of our
               co-founder Kyle Lavender&apos;s apartment. With limited resources,
               every dollar was stretched, and every task was done by hand.
             </p>
@@ -56,7 +56,7 @@ const TaxConsultation = () => {
               to the state to ensure every business formation was handled with
               care and precision.
             </p>
-            <div className="bg-black text-white py-8 rounded-xl">
+            <div className="bg-slate-950 text-white py-8 rounded-xl border border-cyan-500/20 shadow-lg shadow-cyan-500/10">
               <h3 className="text-2xl mx-14">
                 We were a small, determined team of entrepreneurs who understood
                 the challenges of starting a business because we were living
@@ -89,7 +89,7 @@ const TaxConsultation = () => {
               <span className="text-white">A Bold</span>
             </h3>
             <h3 className="text-7xl font-extrabold">
-              <span className="text-primary">MOVE</span>
+              <span className="text-cyan-500">MOVE</span>
             </h3>
           </div>
         </div>
@@ -99,16 +99,16 @@ const TaxConsultation = () => {
           <div className="font-bold ">
             <h3 className="font-bold text-3xl uppercase ">Redefining</h3>
             <h3 className="text-3xl uppercase">
-              <span className="text-primary">the industry</span>
+              <span className="text-cyan-500">the industry</span>
             </h3>
           </div>
           {/* right side section  */}
           <div className="md:mx-20 ">
             <p className="md:text-2xl ">
-              In <span className="font-semibold">2019</span>, VC FILING took a{" "}
+              In <span className="font-semibold">2019</span>, Incorp Bay took a{" "}
               <span className="font-semibold ">bold step</span> that would
               redefine the industry by{" "}
-              <span className="text-primary font-semibold">
+              <span className="text-cyan-500 font-semibold">
                 becoming one of the first companies in the world to offer a $0
                 LLC formation service (plus state fees)
               </span>{" "}
@@ -146,7 +146,7 @@ const TaxConsultation = () => {
               <span className="text-white">THE</span>
             </h3>
             <h3 className="md:text-7xl max-sm:text-4xl font-extrabold">
-              <span className="text-primary">EVOLUTION</span>
+              <span className="text-cyan-500">EVOLUTION</span>
             </h3>
           </div>
         </div>
@@ -159,7 +159,7 @@ const TaxConsultation = () => {
             <div className="font-bold ">
               <h3 className="font-bold text-3xl uppercase ">From Incfile</h3>
               <h3 className="text-3xl uppercase">
-                <span className="text-primary">to VC FILING</span>
+                <span className="text-cyan-500">to Incorp Bay</span>
               </h3>
             </div>
             {/* right side section  */}
@@ -170,11 +170,11 @@ const TaxConsultation = () => {
                   name Incfile no longer captured the breadth of services we
                   offered or our commitment to innovation.
                 </span>{" "}
-                This led to our evolution into VC FILING—a name that better
+                This led to our evolution into Incorp Bay—a name that better
                 reflects our mission and the needs of modern entrepreneurs.
               </p>
               <p className="py-7">
-                VC FILING represents a new chapter in our journey, one where we
+                Incorp Bay represents a new chapter in our journey, one where we
                 continue to{" "}
                 <span className="font-semibold">
                   provide expert-guided, transparent, and affordable services
@@ -193,7 +193,7 @@ const TaxConsultation = () => {
                 <span className="text-white uppercase">Entrepre­neurial</span>
               </h3>
               <h3 className="md:text-9xl max-sm:text-4xl font-extrabold uppercase">
-                <span className="text-primary">Journey</span>
+                <span className="text-cyan-500">Journey</span>
               </h3>
             </div>
           </div>
@@ -202,15 +202,15 @@ const TaxConsultation = () => {
         <div className="md:flex gap-2 md:mx-40">
           {/* left side part  */}
           <div className="font-bold ">
-            <h3 className="font-bold text-3xl uppercase ">the vc filing</h3>
+            <h3 className="font-bold text-3xl uppercase ">the incorp bay</h3>
             <h3 className="text-3xl uppercase">
-              <span className="text-primary">Difference</span>
+              <span className="text-cyan-500">Difference</span>
             </h3>
           </div>
           {/* right side section  */}
           <div className="md:mx-20">
             <p className="pb-5">
-              At VC FILING, we understand the pain points of bootstrapping a
+              At Incorp Bay, we understand the pain points of bootstrapping a
               business because we&apos;ve been there ourselves.{" "}
               <span className="font-semibold">
                 {" "}
@@ -221,7 +221,7 @@ const TaxConsultation = () => {
               designed to help you turn your vision into reality.
             </p>
 
-            <div className="bg-black text-white py-8 rounded-xl">
+            <div className="bg-slate-950 text-white py-8 rounded-xl border border-cyan-500/20 shadow-lg shadow-cyan-500/10">
               <h3 className="text-2xl mx-14">
                 We were a small, determined team of entrepreneurs who understood
                 the challenges of starting a business because we were living
@@ -246,7 +246,7 @@ const TaxConsultation = () => {
               </span>
             </p>
             <p className="py-5">
-              We hope you choose VC FILING as your partner in business as you
+              We hope you choose Incorp Bay as your partner in business as you
               embark on this new adventure of entrepreneurship.{" "}
               <span className="font-semibold">
                 Together, we can build something incredible.
@@ -255,9 +255,9 @@ const TaxConsultation = () => {
           </div>
         </div>
         {/* new section start  */}
-        <div className="md:mx-40 bg-slate-200 rounded-xl mt-8 mb-10 py-10">
+        <div className="md:mx-40 bg-cyan-50 rounded-xl mt-8 mb-10 py-10 border border-cyan-100">
           <h3 className="font-bold uppercase text-center pt-10 pb-8 text-3xl">
-            <span className="text-primary">incorporate now</span>
+            <span className="text-cyan-500">incorporate now</span>
             <h2 className="font-extrabold md:text-5xl max-sm:text-4xl pt-5">
               Ready to
             </h2>
@@ -266,7 +266,7 @@ const TaxConsultation = () => {
             </h2>
           </h3>
           <p className="text-center">
-            Kickstart Your Dream Business with VC FILING Now.
+            Kickstart Your Dream Business with Incorp Bay Now.
           </p>
           {/* new part section  */}
           <div className="md:flex gap-5 justify-center items-center py-10 max-sm:mx-2 ">
@@ -279,11 +279,11 @@ const TaxConsultation = () => {
               </div>
               <div>
                 <div className="flex gap-1 ">
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
                 </div>
               </div>
               <div>
@@ -308,11 +308,11 @@ const TaxConsultation = () => {
               </div>
               <div>
                 <div className="flex gap-1 ">
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
+                  <StarIcon className="w-5 h-5 text-cyan-500" />
                 </div>
               </div>
               <div>
@@ -330,7 +330,7 @@ const TaxConsultation = () => {
           </div>
           <div className="flex justify-center items-center md:pb-16 max-sm:pb-5">
             <Link
-              className="px-9 py-5 bg-primary text-white border border-primary rounded-[30px] font-bold "
+              className="px-9 py-5 bg-cyan-500 text-white border border-cyan-500 rounded-[30px] font-bold hover:bg-cyan-600 hover:border-cyan-600 transition duration-300 ease-in-out"
               href={"/form-a-llc/"}
             >
               START NOW

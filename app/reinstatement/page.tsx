@@ -185,7 +185,7 @@ export default function ReinstatementPage() {
     WHY_ITEMS.length,
   );
 
-return (
+  return (
     <NavigationWrapper>
       <div className="min-h-screen bg-white text-[#1a1a1a]">
       {/* HERO */}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import NavigationWrapper from "@/components/NavigationWrapper";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,7 +15,6 @@ import {
   ChevronDown,
   CheckCircle2,
 } from "lucide-react";
-import NavigationWrapper from "@/components/NavigationWrapper";
 
 // ---------- Shared data ----------
 

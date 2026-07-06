@@ -89,8 +89,11 @@ const setTokenCookie = async (tokens: Tokens) => {
     return { jwtToken, refreshToken, name };
   };
 
-const Logout = async () => {
-    const success = await useLogout();
+  // Avoid calling hooks inside arbitrary callbacks.
+  const logoutFn = () => useLogout();
+
+  const Logout = async () => {
+    const success = await logoutFn();
     if (success) {
       localStorage.clear();
       setToken(null);

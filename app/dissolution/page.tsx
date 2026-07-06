@@ -216,7 +216,7 @@ export default function IncorpBayDissolutionPage() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-return (
+  return (
     <NavigationWrapper>
     <main style={{ color: "#1E293B", background: "white" }}>
 

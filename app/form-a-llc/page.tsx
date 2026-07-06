@@ -1,705 +1,525 @@
-import { CheckBadgeIcon, StarIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+"use client";
+
+import { useState } from "react";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
-const FreeLLC = () => {
+// ── Small icons ─────────────────────────────────────────────────────────────
+const ChevronDown = ({ open }: { open: boolean }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    className={`h-5 w-5 shrink-0 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+  >
+    <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const PlayIcon = () => (
+  <svg viewBox="0 0 24 24" fill="white" className="h-7 w-7">
+    <path d="M8 5v14l11-7z" />
+  </svg>
+);
+
+const StarRow = ({ count = 5 }: { count?: number }) => (
+  <div className="flex gap-0.5">
+    {Array.from({ length: count }).map((_, i) => (
+      <svg key={i} viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-[#00B67A]">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      </svg>
+    ))}
+  </div>
+);
+
+// ── Reusable accordion ──────────────────────────────────────────────────────
+type AccordionItem = { q: string; a: string; badge?: string | number };
+
+function Accordion({
+  items,
+  variant = "plain",
+}: {
+  items: AccordionItem[];
+  variant?: "plain" | "card";
+}) {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <div className={variant === "card" ? "flex flex-col gap-3" : "divide-y divide-gray-200"}>
+      {items.map((item, i) => {
+        const isOpen = open === i;
+        return (
+          <div
+            key={item.q}
+            className={
+              variant === "card"
+                ? "rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm"
+                : "py-4"
+            }
+          >
+            <button
+              type="button"
+              onClick={() => setOpen(isOpen ? null : i)}
+              className="flex w-full items-center justify-between gap-4 text-left"
+            >
+              <span className="flex items-center gap-3 text-[15px] font-semibold text-[#0d0d1a]">
+                {item.badge !== undefined && (
+                  <span className="text-[#06B6D4]">{item.badge}</span>
+                )}
+                {item.q}
+              </span>
+              <ChevronDown open={isOpen} />
+            </button>
+            {isOpen && (
+              <p className="mt-3 text-sm leading-relaxed text-gray-500">{item.a}</p>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ── Data ──────────────────────────────────────────────────────────────────
+const guideQuestions: AccordionItem[] = [
+  {
+    q: "What Is an LLC?",
+    a: "A limited liability company (LLC) is a business structure that separates your personal assets from your company's debts and legal obligations, while letting profits pass through to your personal tax return.",
+  },
+  {
+    q: "Is Starting an LLC Right for You?",
+    a: "If you want liability protection without the paperwork load of a corporation, an LLC is usually the simplest fit for freelancers, small teams, and growing startups alike.",
+  },
+];
+
+const formSteps: AccordionItem[] = [
+  {
+    q: "Name Your LLC",
+    a: "Choose a name that's distinguishable from other registered businesses in your state and includes a required designator like 'LLC' or 'Limited Liability Company.'",
+  },
+  {
+    q: "Provide an Address",
+    a: "You'll need a physical business address for your formation documents — a home address, office, or virtual mailbox all work depending on your state's rules.",
+  },
+  {
+    q: "Assign a Registered Agent",
+    a: "Your registered agent accepts legal and state mail on behalf of your LLC during business hours. This can be you, a trusted contact, or a professional service.",
+  },
+  {
+    q: "Provide Names and Addresses of LLC Members",
+    a: "Most states require you to list the LLC's owners (members) and their addresses as part of the formation paperwork.",
+  },
+  {
+    q: "State the Purpose of Your LLC",
+    a: "A short statement describing what your business does. Many states accept a broad, general-purpose statement rather than a detailed description.",
+  },
+  {
+    q: "File the Articles of Organization",
+    a: "This is the official document that creates your LLC. File it with your state's business filing office along with the required fee, and your LLC is legally formed.",
+  },
+];
+
+const llcTypes: AccordionItem[] = [
+  { q: "Single-Member LLC", a: "An LLC owned by one person, taxed by default as a sole proprietorship while still offering liability protection." },
+  { q: "Multiple-Member LLC", a: "Owned by two or more members, typically taxed as a partnership unless the members elect otherwise." },
+  { q: "Member-Managed LLC", a: "All owners share in the day-to-day management and decision-making of the business." },
+  { q: "Manager-Managed LLC", a: "Owners appoint one or more managers — who may or may not be members — to run daily operations." },
+  { q: "Series LLC", a: "A single LLC that can create separate 'series' underneath it, each with its own assets and liability protection, available in select states." },
+  { q: "Professional LLC", a: "Designed for licensed professionals such as accountants or architects, subject to extra state licensing rules." },
+  { q: "Family LLC", a: "Typically used to hold and transfer family assets or businesses across generations with added liability protection." },
+  { q: "L3C (Low-Profit Limited Liability Company)", a: "A hybrid structure for mission-driven businesses that prioritize a social goal while still operating for modest profit." },
+];
+
+const pros = [
+  { title: "Limited Liability Protection", detail: "Your personal assets are generally shielded from business debts and lawsuits." },
+  { title: "Pass-Through Taxation", detail: "Business income passes through to your personal return, avoiding corporate-level tax." },
+  { title: "Flexible Management", detail: "Run the business yourself or appoint managers — an LLC adapts to how you want to operate." },
+  { title: "No Ownership Restrictions", detail: "Partner with anyone, including foreign nationals, and add as many members as you need." },
+  { title: "Minimal Compliance", detail: "Far fewer ongoing formalities than a corporation — often just an annual report." },
+  { title: "Versatile Tax Status", detail: "Elect to be taxed as a sole proprietor, partnership, or S corp, whichever benefits your business most." },
+];
+
+const cons = [
+  { title: "Franchise Taxes", detail: "Some states charge flat or income-based franchise fees on LLCs that sole proprietors don't pay." },
+  { title: "Self-Employment Taxes", detail: "Active members typically owe self-employment tax on their share of the profits." },
+  { title: "Investor Restrictions", detail: "LLCs can't issue stock, which can make them less attractive to venture investors." },
+  { title: "Less Familiar Structure", detail: "Some banks, landlords, and partners are more used to working with corporations." },
+];
+
+const faqs: AccordionItem[] = [
+  { q: "Do I Need to Form an LLC to Start a Business?", a: "No — you can operate as a sole proprietorship without any state filing. An LLC simply adds a legal separation between you and your business." },
+  { q: "What Does It Cost to Own an LLC?", a: "Costs vary by state and typically include a one-time formation fee plus an annual or biennial report fee, which can range from under $50 to a few hundred dollars." },
+  { q: "Is an LLC a Corporation?", a: "No. An LLC is its own distinct structure — it offers liability protection like a corporation but with the simpler tax treatment of a sole proprietorship or partnership." },
+  { q: "How Do I File an Amendment for an LLC?", a: "You'll file an amendment form with your state's business filing office whenever key details change, such as your LLC's name, address, or members." },
+  { q: "How Do LLC Taxes Work?", a: "By default, LLCs are 'pass-through' entities — profits and losses flow to the members' personal tax returns. Members can also elect corporate tax treatment if it benefits them." },
+];
+
+const pricingPlans = [
+  {
+    name: "Basic",
+    price: "$0",
+    note: "+ state fee",
+    payment: "One-time payment",
+    blurb: "Everything you need to get your LLC filed at the lowest possible price.",
+    featured: false,
+  },
+  {
+    name: "Standard",
+    price: "$199",
+    note: "+ state fee",
+    payment: "One-time payment",
+    blurb: "Comprehensive, fast-tracked filing to get your business started sooner.",
+    featured: false,
+  },
+  {
+    name: "Premium",
+    price: "$299",
+    note: "+ state fee",
+    payment: "One-time payment",
+    blurb: "Our full-service package with everything included for the best value.",
+    featured: true,
+  },
+];
+
+// ── Component ────────────────────────────────────────────────────────────
+export default function LlcLandingPage() {
   return (
     <NavigationWrapper>
-      <div className=" my-16 flex flex-col-reverse md:flex-row">
-        <div className=" md:text-left">
-          <h1 className="md:text-5xl text-3xl font-bold  pt-20 md:pl-20 max-sm:mx-5">
-            Form Your Free LLC
-          </h1>
-          <h2 className="md:text-5xl text-3xl font-bold  md:pl-20 max-sm:mx-5">
-            and Kickstart Your
-          </h2>
-          <h2 className="md:text-5xl text-3xl font-bold   md:pl-20 max-sm:mx-5">
-            Dream Business
-          </h2>
-          <h2 className="md:text-5xl text-3xl font-bold   md:pl-20 max-sm:mx-5">
-            With VC Filling
-          </h2>
-          <h2 className=" md:pl-20 py-10 pb-24 max-sm:mx-5">
-            Easy, stress free, and personalized business formation for clever
-            people with big ideas.
-          </h2>
-          <Link
-            className="px-10 md:ml-20 py-5 bg-primary text-white border border-primary rounded-[30px] max-sm:mx-5 "
-            href="/form-a-llc/step-1"
-          >
-            Form Your Free LLC Now
-          </Link>
-        </div>
-        <Image
-          src="/free-llc/LLC green.jpg"
-          alt="Free LLC"
-          width={850}
-          height={850}
-        />
-      </div>
+      <div className="bg-white font-sans text-[#1a1a2e]">
+        {/* ── HERO ── */}
+        <section className="mx-auto max-w-[1200px] px-6 pt-10 md:px-16">
+          <div className="mb-4 flex items-center gap-2 text-[13px] font-medium text-gray-600">
+            <span>Excellent <strong>4.7</strong> out of 5</span>
+            <StarRow />
+            <span className="font-bold text-[#00B67A]">Trustpilot</span>
+          </div>
 
-      <div className="max-w-7xl mx-auto ">
-        <div className="flex gap-4 items-center justify-center md:my-16 md:py-7 max-sm:py-9 mx-3 md:flex-row flex-col">
-          <Image src="/main/vcicon.jpg" alt="image" width={200} height={200} />
-          <div className="mx-5">
-            <h3 className="md:text-5xl text-3xl font-bold py-2 uppercase">
-              Join <span className="text-primary">1,000,000+</span>
-              <br /> Entrepreneurs <br />
-              like you
-            </h3>
-            <p className="">
-              Entrepreneurship is booming - and we&apos;re happy to be <br />{" "}
-              one of America&apos;s fastest growing companies.
-            </p>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:flex   max-sm:flex-col-reverse   gap-10 items-center md:py-16 mx-5">
-          <Image
-            src="/free-llc/Save Time Money.webp"
-            alt="Free LLC"
-            width={600}
-            height={600}
-          />
-          <div className=" md:text-left md:w-1/2 md:px-16">
-            <h3 className="text-3xl font-medium md:py-10 ">
-              Forming an LLC Can Be Daunting and Expensive
-            </h3>
-            <p className=" max-sm:py-3">
-              There&apos;s a lot that goes into filing an LLC. With various
-              state requirements, multiple steps and a lot of important
-              documentation, even the smallest mistake can end up costing you.
-              That&apos;s where we come in.
-            </p>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:flex    gap-10 items-center md:py-16 max-sm:mx-5">
-          <div className=" md:text-left md:w-1/2 md:px-16">
-            <h3 className="text-3xl font-medium md:py-10 max-sm:py-5">
-              Save Money and Time With VC FILING $0 (+ State Fee) LLC
-              Registration
-            </h3>
-            <p className=" ">
-              <span className="font-bold">Some providers charge $150+</span> for
-              LLC formation, but our streamlined processes keep costs down so
-              you get the most bang for your buck. Register your LLC for $0 (+
-              the state fee) and free up time to focus on other things.
-            </p>
-          </div>
-          <Image
-            src="/free-llc/Save Time Money.webp"
-            alt="Free LLC"
-            width={600}
-            height={600}
-          />
-        </div>
-        {/* new section start  */}
-        <div className="md:flex  max-sm:mx-5  gap-10 items-center md:py-16 mx-5">
-          <div className=" md:text-left md:w-1/2 md:px-16">
-            <h3 className="text-3xl font-medium md:py-10 max-sm:py-5 ">
-              Discover the Benefits of Forming Your LLC With VC Filling
-            </h3>
-            <p className=" ">
-              Since 2004, we&apos;ve helped 1,000,000+ entrepreneurs and small
-              business owners form and grow their businesses. Get industry
-              leading support (and a host of other amazing benefits!) to start
-              your business with confidence.
-            </p>
-          </div>
-          <div>
-            <Image
-              className=" py-5"
-              src="/free-llc/discoverBenefits.webp"
-              alt="Free LLC"
-              width={500}
-              height={500}
-            />
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:grid grid-cols-2 gap-5 md:my-16 md:py-24 max-sm:mx-5">
-          {/* left side  */}
-          <div className="">
-            {/* writing section  */}
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Free LLC Filing, Only Pay the State Fee
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Low-cost, personalized business formation. Because when
-                you&apos;re starting a business, every dollar counts.
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+            <div>
+              <h1 className="mb-4 text-[38px] font-extrabold leading-[1.15] text-[#0d0d1a] md:text-[44px]">
+                Start an LLC: Step-by-Step Guide
+              </h1>
+              <p className="mb-6 max-w-[520px] text-[15px] leading-relaxed text-gray-500">
+                Welcome to your ultimate guide to forming an LLC, tailored specifically for aspiring
+                startup founders. If you're feeling overwhelmed by the intricacies of business
+                structure, you're not alone — let's demystify the process and help you understand why
+                an LLC might be the perfect choice for your startup.
               </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Free Registered Agent for the First Year
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Access your complete and easy-to-use Registered Agent service
-                free for a full year ($119/annually after that).
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  No Hidden Fees, No Contracts
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Get the best user experience and unparalleled value for money.
-                Nobody gives you more for less.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  24/7 Fast and Friendly Customer Service
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Talk to a dedicated incorporation specialist, not a salesperson,
-                and get lifetime customer support.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Modern, Simple, Personalized Dashboard
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Your business essentials all in one place. Access everything you
-                need, whenever you need it.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Save Money on Taxes With IRS Form 2553
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Choose S Corp election so that your LLC is treated as an S Corp
-                for tax filing purposes.
-              </p>
-            </div>
-          </div>
-          {/* right side  */}
-          <div className="">
-            {/* writing section start  */}
-            <div className="">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Prepare & File Your Articles of Organization
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Every VC FILING formation package includes assistance drafting,
-                preparing, and filing Articles of Organization.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Entrepreneurship Made Easy
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Get a business banking account, domain name, and business email
-                fast with the Premium package.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Grow Your Business With Tailored Services
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Get set up with additional business services from within your
-                business dashboard, when you need them.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Never Miss an Important Due Date
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Get text and email notifications, order updates, and free
-                lifetime compliance alerts within your dashboard.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Customizable Business Contract Templates
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Ensure that all your contracts, documents, and forms are
-                watertight without the expense of hiring a lawyer.
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:my-16">
-          <h2 className="text-5xl  max-sm:text-4xl font-bold text-center md:py-10 max-sm:py-5 md:px-20 uppercase max-sm:mx-5">
-            How to File Your Free LLC <br /> Online with VC Filling in <br />
-            <span className="text-primary">3 simple steps</span>
-          </h2>
-          <div className="flex flex-col-reverse md:flex-row  gap-10 items-center py-10">
-            <Image
-              src="/free-llc/step-1.webp"
-              alt="Free LLC"
-              width={500}
-              height={500}
-              className="md:w-1/2"
-            />
-            <div className="text-center md:text-left md:w-1/2 md:px-16 mx-5">
-              <p className="text-primary text-sm uppercase font-bold">
-                first step
-              </p>
-              <h3 className="text-3xl font-medium pb-10 ">
-                Choose a Business Name
-              </h3>
-              <p className=" ">
-                Your business name says a lot about you and helps establish your
-                presence in the marketplace. Make sure to pick a name
-                that&apos;s memorable and unique. Get help finding the perfect
-                name with our Business Name Generator.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col-reverse md:flex-row-reverse  gap-10 items-center py-10 mx-5">
-            <Image
-              src="/free-llc/step-2.jpg"
-              alt="Free LLC"
-              width={500}
-              height={500}
-              className="md:w-1/2"
-            />
-            <div className="text-center md:text-left md:w-1/2 md:px-16 mx-5">
-              <p className="text-primary text-sm uppercase font-bold">
-                Second step
-              </p>
-              <h3 className="text-3xl font-medium pb-10 ">
-                Choose the Package That Meets Your Needs
-              </h3>
-              <p className=" ">
-                Whether you only need the basics or want more robust business
-                support, VC Filling has the ideal business formation package to
-                help you start and grow your business.
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col-reverse md:flex-row  gap-10 items-center md:py-10 mx-6">
-            <Image
-              src="/free-llc/step-3.jpg"
-              alt="Free LLC"
-              width={500}
-              height={500}
-              className="md:w-1/2"
-            />
-            <div className="text-center md:text-left md:w-1/2 md:px-16">
-              <p className="text-primary text-sm uppercase font-bold">
-                Third step
-              </p>
-              <h3 className="text-3xl font-medium pb-10 mx-5 ">
-                Tell Us About Your Business
-              </h3>
-              <p className=" ">
-                Fill in the simple online order forms and provide us with the
-                details of your business and the services that you need.
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:flex flex-col gap-5 max-sm:mx-5">
-          {/* left side  */}
-          <div className="md:grid grid-cols-2 gap-5">
-            <div className="border-2 rounded-xl p-5 my-5">
-              <div className="max-sm:flex pl-6 pt-5 ">
-                <CheckBadgeIcon className="w-10 h-10 text-primary  mb-3" />
-              </div>
-              <div>
-                <h3 className="font-bold text-2xl py-4">
-                  Review Your Order Details
-                </h3>
-                <p>
-                  You&apos;ll get access to your own simple and intuitive
-                  business dashboard where you can review your order details and
-                  ensure everything is correct.
-                </p>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href="#pricing"
+                  className="inline-block rounded-full bg-[#06B6D4] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]"
+                >
+                  Get Started
+                </a>
+                <a
+                  href="#reviews"
+                  className="inline-block rounded-full border border-gray-300 px-7 py-3 text-sm font-bold text-[#0d0d1a] transition hover:border-[#06B6D4] hover:text-[#06B6D4]"
+                >
+                  See What Others Say About Incorp Bay
+                </a>
               </div>
             </div>
-            {/* right side  */}
-            <div className="border-2 rounded-xl p-5 my-5">
-              <div className="max-sm:flex pl-6 pt-5">
-                <CheckBadgeIcon className="w-10 h-10 text-primary  mb-3" />
-              </div>
-              <div>
-                <h3 className="font-bold text-2xl py-4">
-                  Receive Your Filed Documents in Your Dashboard
-                </h3>
-                <p>
-                  Your filed articles and any additional documents and services
-                  are easily accessible from within your custom business
-                  dashboard. You&apos;ll get notifications once they&apos;re
-                  ready.
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* bottom section  */}
-          <div className="flex justify-center items-center mx-5">
-            <Link
-              className="md:px-12 md:py-5 max-sm:text-center py-2 px-3  bg-primary mb-10 text-white border border-primary rounded-[30px] "
-              href="/form-a-llc/step-1"
-            >
-              Want to Know More About Starting an LLC?
-            </Link>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:my-36 max-sm:my-5 max-sm:mx-5 ">
-          <h2 className="text-5xl max-sm:text-3xl font-bold text-center">
-            Loved by 1,000,000+
-          </h2>
-          <h2 className="text-5xl font-bold max-sm:text-3xl text-center">
-            Entrepreneurs Across All 50 States
-          </h2>
-        </div>
-        {/* new part start  */}
 
-        {/* new section start   */}
-        <div className="md:flex gap-12 justify-center max-sm:text-center md:my-24 max-sm:my-5 max-sm:mx-5">
-          <div className="  md:text-left md:px-10 ">
-            <h3 className="text-5xl max-sm:text-3xl  font-bold">
-              Join the{" "}
-              <span className="text-primary font-bold">1,000,000+</span>
-            </h3>
-            <h3 className="text-5xl max-sm:text-3xl font-bold">businesses</h3>
-            <p className=" py-3">
-              That trust Incfile to start, manage and grow their business
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-800 to-slate-950">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <button
+                  type="button"
+                  aria-label="Play video"
+                  className="flex h-16 w-16 items-center justify-center rounded-full bg-white/20 backdrop-blur transition hover:bg-white/30"
+                >
+                  <PlayIcon />
+                </button>
+              </div>
+              <div className="absolute bottom-4 left-5 right-5 text-lg font-extrabold uppercase leading-tight text-white md:text-2xl">
+                How to Start a Business
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-y border-gray-100 py-4 text-center text-[13px] font-semibold">
+            <span className="text-[#06B6D4]">Bootstrapped</span>
+            <span className="text-gray-300">•</span>
+            <span className="text-[#06B6D4]">Founder Led</span>
+            <span className="text-gray-300">•</span>
+            <span className="text-[#06B6D4]">Independently Owned Since 2004</span>
+            <span className="text-gray-300">•</span>
+            <span>With <span className="text-[#06B6D4]">Over 1,000,000 Entrepreneurs</span> Served!</span>
+          </div>
+        </section>
+
+        {/* ── PRICING ── */}
+        <section id="pricing" className="mx-auto max-w-[1000px] px-6 py-16 md:px-16">
+          <div className="rounded-3xl bg-[#f7f7f9] p-8 md:p-12">
+            <h2 className="mb-3 text-center text-[30px] font-extrabold leading-tight">
+              Launch Your LLC with Confidence
+            </h2>
+            <p className="mx-auto mb-8 max-w-[600px] text-center text-[15px] leading-relaxed text-gray-500">
+              Starting your LLC is a crucial step in your entrepreneurial journey. With Incorp Bay, you
+              get the guidance, support, and resources needed to make the process seamless and
+              stress-free.
             </p>
+
+            <div className="mx-auto mb-8 max-w-[640px] rounded-xl border border-gray-200 bg-white px-6 py-4 text-center text-[13px] text-gray-500">
+              Pick the package that works best for your business format or period. Each package is
+              eligible for <span className="font-semibold text-[#0d0d1a]">one free year of Registered Agent service</span> from Incorp Bay.
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+              {pricingPlans.map((plan) => (
+                <div
+                  key={plan.name}
+                  className={`relative rounded-2xl border p-6 ${
+                    plan.featured
+                      ? "border-[#06B6D4] bg-[#06B6D4] text-white shadow-lg"
+                      : "border-gray-200 bg-white"
+                  }`}
+                >
+                  <div
+                    className={`mb-3 inline-block rounded-full px-3 py-1 text-[11px] font-bold ${
+                      plan.featured ? "bg-white/20 text-white" : "bg-cyan-50 text-[#06B6D4]"
+                    }`}
+                  >
+                    {plan.name}
+                  </div>
+                  <div className="mb-1 text-3xl font-extrabold">
+                    {plan.price}
+                    <span className="text-sm font-medium"> {plan.note}</span>
+                  </div>
+                  <div
+                    className={`mb-4 text-xs ${plan.featured ? "text-white/80" : "text-gray-400"}`}
+                  >
+                    {plan.payment}
+                  </div>
+                  <p className={`text-[13px] leading-relaxed ${plan.featured ? "text-white/90" : "text-gray-500"}`}>
+                    {plan.blurb}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 text-center">
+              <button
+                type="button"
+                className="rounded-full bg-[#06B6D4] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]"
+              >
+                Compare Packages
+              </button>
+            </div>
           </div>
-          <div className="flex justify-center items-center">
-            <Link
-              className="md:px-12 md:py-5 max-sm:px-24 max-sm:py-2 bg-primary text-white border border-primary rounded-[30px] "
-              href="/form-a-llc/step-1"
-            >
-              Get Started Now
-            </Link>
+        </section>
+
+        {/* ── COMPREHENSIVE GUIDE ── */}
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 text-center md:px-16">
+          <p className="mb-2 text-[13px] font-bold uppercase tracking-wide text-[#06B6D4]">
+            Key Questions and Answers
+          </p>
+          <h2 className="mb-10 text-[30px] font-extrabold">A Comprehensive Guide for Startups</h2>
+          <div className="grid grid-cols-1 items-center gap-10 text-left md:grid-cols-2">
+            <Accordion items={guideQuestions} />
+            <div className="mx-auto flex h-[280px] w-[200px] items-center justify-center rounded-3xl bg-gradient-to-b from-gray-50 to-gray-100 shadow-inner">
+              <div className="w-[160px] rounded-2xl bg-white p-3 shadow-md">
+                <div className="mb-2 h-2 w-1/2 rounded bg-gray-200" />
+                <div className="mb-1 h-2 w-full rounded bg-cyan-100" />
+                <div className="h-2 w-2/3 rounded bg-gray-100" />
+              </div>
+            </div>
           </div>
-        </div>
-        {/* new section start  */}
-        <div className="max-sm:bg-slate-50 rounded-xl mx-5">
-          <div className="md:grid grid-cols-2 gap-5 md:mt-36 max-sm:mx-5">
-            <div className=" md:text-left  md:px-16">
-              <h2 className="text-5xl max-sm:text-3xl max-sm:mx-5 font-bold md:my-8 max-sm:py-2">
+        </section>
+
+        {/* ── FORM MY LLC STEPS ── */}
+        <section className="mx-auto max-w-[820px] px-6 pb-16 text-center md:px-16">
+          <h2 className="mb-3 text-[30px] font-extrabold">Form My LLC</h2>
+          <p className="mx-auto mb-8 max-w-[560px] text-[15px] leading-relaxed text-gray-500">
+            Entrepreneurship is booming, and we're proud to help fuel it. Here's how you can start
+            your LLC in six straightforward steps:
+          </p>
+          <Accordion items={formSteps.map((s, i) => ({ ...s, badge: i + 1 }))} />
+        </section>
+
+        {/* ── TYPES OF LLCs ── */}
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 text-center md:px-16">
+          <h2 className="mb-3 text-[30px] font-extrabold">Types of LLCs</h2>
+          <p className="mx-auto mb-10 max-w-[560px] text-[15px] leading-relaxed text-gray-500">
+            Understanding the different types of LLCs can help you choose the right one for your
+            startup.
+          </p>
+          <div className="grid grid-cols-1 items-center gap-10 text-left md:grid-cols-2">
+            <Accordion items={llcTypes} />
+            <div className="mx-auto flex h-[300px] w-[220px] items-center justify-center rounded-3xl bg-gray-50">
+              <div className="w-[170px] rounded-2xl border border-gray-200 bg-white p-4 shadow-md">
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#06B6D4] text-[10px] text-white">✓</span>
+                  <div className="h-2 w-16 rounded bg-gray-200" />
+                </div>
+                <div className="mb-1.5 h-2 w-full rounded bg-gray-100" />
+                <div className="mb-1.5 h-2 w-full rounded bg-gray-100" />
+                <div className="h-2 w-2/3 rounded bg-gray-100" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── BENEFITS PROS / CONS ── */}
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <div className="rounded-3xl border border-gray-200 bg-[#fafafa] p-8 md:p-12">
+            <h2 className="mb-3 text-center text-[30px] font-extrabold">Benefits of an LLC</h2>
+            <p className="mx-auto mb-10 max-w-[620px] text-center text-[15px] leading-relaxed text-gray-500">
+              Every savvy entrepreneur knows that weighing the pros and cons is essential. Let's dive
+              into why an LLC could be your startup's best friend.
+            </p>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cyan-50 text-lg font-bold text-[#06B6D4]">+</span>
+                  <h3 className="text-lg font-extrabold">Pros</h3>
+                </div>
+                <ul className="flex flex-col gap-4">
+                  {pros.map((p) => (
+                    <li key={p.title}>
+                      <div className="text-sm font-bold text-[#0d0d1a]">{p.title}</div>
+                      <p className="text-[13px] leading-relaxed text-gray-500">{p.detail}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-2xl border border-gray-200 bg-white p-6">
+                <div className="mb-4 flex items-center gap-2">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-lg font-bold text-gray-700">–</span>
+                  <h3 className="text-lg font-extrabold">Cons</h3>
+                </div>
+                <ul className="flex flex-col gap-4">
+                  {cons.map((c) => (
+                    <li key={c.title}>
+                      <div className="text-sm font-bold text-[#0d0d1a]">{c.title}</div>
+                      <p className="text-[13px] leading-relaxed text-gray-500">{c.detail}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── SUPPORT CALLOUT ── */}
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-md">
+              <div className="mb-3 text-sm font-bold text-[#0d0d1a]">Form Your Business</div>
+              <div className="mb-2 h-2 w-full rounded bg-gray-100" />
+              <div className="mb-2 h-2 w-2/3 rounded bg-gray-100" />
+              <div className="mb-4 h-2 w-1/2 rounded bg-gray-100" />
+              <div className="rounded-lg bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-500">
+                Total Due Now: $0
+              </div>
+              <button className="mt-4 w-full rounded-full bg-gray-200 py-2.5 text-xs font-bold text-gray-500">
+                Place an Order
+              </button>
+            </div>
+            <div>
+              <p className="mb-2 text-[13px] font-bold uppercase tracking-wide text-[#06B6D4]">
+                What to Expect
+              </p>
+              <h3 className="mb-3 text-2xl font-extrabold leading-snug">
+                From Incorp Bay Services and Support
+              </h3>
+              <p className="mb-5 text-[15px] leading-relaxed text-gray-500">
+                Join the entrepreneurs who've chosen us to streamline their business formation
+                process, backed by a team that actually knows the paperwork.
+              </p>
+              <a
+                href="#pricing"
+                className="inline-block rounded-full bg-[#06B6D4] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]"
+              >
+                Form Your LLC Now
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* ── REVIEWS ── */}
+        <section id="reviews" className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <div className="mb-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div>
+              <h2 className="mb-3 text-[28px] font-extrabold leading-tight">
                 See What Our Clients Have to Say…
               </h2>
-              <p className="md:my-8 max-sm:py-2">
-                &quot;Having these online resources, with VC Filling, cuts out
-                all the stress from having to think that I have to do that by
-                myself.&quot;
-              </p>
-              <p className=" font-medium md:my-8 max-sm:mx-5 max-sm:pb-2">
-                Ashley, Hijita Chocolate
-              </p>
+              <button className="rounded-full bg-[#06B6D4] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#0891B2]">
+                Check Out More Reviews
+              </button>
             </div>
-            <div className="max-sm:mx-5">
-              <Image
-                className=""
-                src="/free-llc/seeWhat.webp"
-                alt="Free LLC"
-                width={500}
-                height={500}
-              />
+            <div className="flex gap-3">
+              {["Michael", "Christine", "Priya"].map((name) => (
+                <div key={name} className="w-[150px] rounded-xl border border-gray-200 bg-white p-3 shadow-sm">
+                  <div className="mb-1 text-xs font-bold text-[#0d0d1a]">{name}</div>
+                  <StarRow />
+                  <p className="mt-2 line-clamp-3 text-[11px] leading-snug text-gray-400">
+                    Fully is amazing, made the whole process painless.
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* customer review section start  */}
-          <div className="md:flex   md:py-10   gap-8 md:mx-20 mx-5 max-sm:py-5 max-sm:mx-5  ">
-            <div className="max-sm:mx-5 max-sm:border-4 rounded-xl px-3 py-2 my-2">
-              <h2 className="text-2xl ">Deana A.</h2>
-
-              <div className="flex gap-1 pt-5 pb-3">
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-              </div>
-              <p className="">
-                VC Filing is the best! Professional & always available to answer
-                all my questions. I&apos;m so grateful.
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
+            <div className="aspect-[4/3] w-full rounded-2xl bg-gradient-to-br from-cyan-100 to-cyan-50" />
+            <div>
+              <p className="mb-2 text-[13px] font-bold uppercase tracking-wide text-[#06B6D4]">
+                Support
               </p>
-              <p className="font-semibold md:py-5 max-sm:py-2">
-                MS, UNITED STATES
+              <p className="mb-5 text-[15px] leading-relaxed text-gray-500">
+                These reviews are only a snapshot of the thousands of positive reviews we've
+                received. We offer support from a team that's seen every kind of formation situation
+                — from simple typos to unusual edge cases even state offices didn't anticipate.
               </p>
-            </div>
-
-            {/* part2 review */}
-            <div className="max-sm:mx-5 max-sm:border-4 rounded-xl px-3 py-2 my-2">
-              <h2 className="text-2xl ">SCOTT B.</h2>
-              <div className="flex gap-1 pt-5 pb-3">
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-              </div>
-              <p className="">
-                VC Filing has been great to work with. Their prices are
-                reasonable and they exceed expectations.
-              </p>
-              <p className="font-semibold md:py-5 max-sm:py-2">
-                MS, UNITED STATES
-              </p>
-            </div>
-
-            {/* part 3 review  */}
-            <div className="max-sm:mx-5 max-sm:border-4 rounded-xl px-3 py-2 my-2">
-              <h2 className="text-2xl">Adam S</h2>
-              <div className="flex gap-1 pt-5 pb-3">
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-                <StarIcon className="w-5 h-5 text-primary" />
-              </div>
-              <p className="">
-                Easy, smooth, one of the best business decisions I&apos;ve ever
-                made, was to utilize VC Filing
-              </p>
-              <p className="font-semibold md:py-5 max-sm:py-2">
-                CA, UNITED STATES
-              </p>
+              <button className="rounded-full bg-[#06B6D4] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#0891B2]">
+                Contact Incorp Bay Support
+              </button>
             </div>
           </div>
-        </div>
-        {/* faq section start  */}
-        <div className="md:my-16 md:px-10 mx-5">
-          <h2 className="text-5xl max-sm:text-3xl font-bold  md:text-left ">
-            Common Questions About
-          </h2>
-          <h2 className="text-5xl max-sm:text-3xl font-bold  md:text-left mb-6">
-            Starting an LLC
-          </h2>
-          <Accordion type="single" collapsible className="">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Can I Get an LLC for Free?</AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Yes! With our $0 LLC package, you only pay the fees required
-                  by your state. VC Filling&apos;s filing services are free.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>
-                How Much Does Your Service Cost?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Our Basic Package is $0 + state fee and includes the basics
-                  needed to form your LLC.
-                </p>{" "}
-                <p className="my-2">
-                  Our Standard Package is $199 + state fee. It&apos;s our most
-                  popular option with a comprehensive feature set to get your
-                  business started.
-                </p>
-                <p className="my-2">
-                  The Premium Package is $299 + state fee. It&apos;s our best
-                  value package offering a full suite of features. It includes
-                  all of the Standard benefits plus Business Contract Templates,
-                  Expedited Filing, and Domain Name + Business Email.
-                </p>{" "}
-                <p className="my-2">
-                  When you register your LLC with us, our Registered Agent
-                  service is free for the first year and is only $119 per year
-                  after that.
-                </p>
-                <p className="my-2">
-                  For more information on our services and prices, visit our how
-                  it works page.
-                </p>{" "}
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>
-                Are There Specific Rules for My State?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Each state has specific requirements regarding registered
-                  agents, naming rules, business licenses etc. Learn more about
-                  LLCs in your state and read our free LLC state guides here.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger>
-                What&apos;s My State&apos;s Filing Fee for LLCs?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Filing costs to form an LLC can vary from state to state. Use
-                  our free filing fees tool to easily compare state fees before
-                  you start your business.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-5">
-              <AccordionTrigger>Are There Any Hidden Costs?</AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  No! We pride ourselves on transparency and there are no hidden
-                  costs associated with forming your business. With our $0 LLC
-                  package, you just pay the fee required by your state. This is
-                  the state fee for forming an LLC that you&apos;d need to pay
-                  even if you were doing the entire process on your own. Some
-                  states charge online processing fees to file your paperwork,
-                  but those fees come from the state, not from VC Filling. VC
-                  Filling&apos;s services are entirely free if you choose the $0
-                  LLC package.
-                </p>
-                <p className="my-2">
-                  Our mission is to provide you with a superior and modern
-                  experience at an unparalleled value. Think of us as your
-                  business guide. We make registering a company as easy and
-                  low-cost as possible, so you can focus on the important
-                  things.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-6">
-              <AccordionTrigger>
-                How Long Does It Take to File an LLC Online?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  VC Filling&apos;s standard processing time to pass your data
-                  onto the relevant state is one day.
-                </p>
-                <p className="my-2">
-                  State filing times vary from three to twelve weeks. You can
-                  pay an expedited fee for VC Filling to process your paperwork
-                  faster (included in the Premium package). Sometimes your state
-                  may also offer expedited processing through their systems too
-                  — if so, we&apos;ll let you know it&apos;s an option. Easily
-                  compare state filing times with VC Filling.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-7">
-              <AccordionTrigger>
-                Do You Have Any Guides or Resources for Getting Started?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Yes, we have lots of helpful content! Download our complete
-                  LLC guide or learn more about LLCs on our site. Check out our
-                  Blog for in-depth information on every aspect of planning,
-                  starting and growing your business.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-8">
-              <AccordionTrigger>
-                Do You Provide Hands-On Support?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Absolutely! We believe in educating our customers and
-                  providing a variety of guidance throughout the formation
-                  process and beyond.
-                </p>
-                <p className="my-2">
-                  If you need additional support, you can contact us via Help
-                  Chat in your personalized dashboard and we do offer customer
-                  service to assist with any transactional questions.
-                </p>
-                <p className="my-2">
-                  If you&apos;d prefer to speak to an incorporation specialist
-                  over the phone, get in touch at 844-830-8267 Monday - Friday
-                  from 9 a.m. to 6 p.m. CST.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-        {/* new section start review   */}
-        <div className="flex justify-center items-center pb-4 max-sm:pt-5">
-          <StarIcon
-            className="min-h-10 max-h-10 min-w-10 max-w-10"
-            color="#39b54a"
-          />
-        </div>
-        {/* n ew section  start  */}
-        <p className="text-center">19,443 Customer Rating</p>
-        <div className="flex justify-center items-center pb-5">
-          <div className="flex gap-1 pt-5">
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
+        </section>
+
+        {/* ── STATE-BY-STATE ── */}
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
+            <div>
+              <p className="mb-2 text-[13px] font-bold uppercase tracking-wide text-[#06B6D4]">
+                Formation and Compliance
+              </p>
+              <h3 className="mb-3 text-2xl font-extrabold leading-snug">State-by-State LLC Rules</h3>
+              <p className="text-[15px] leading-relaxed text-gray-500">
+                From filing costs to processing times, and from accepted name designations to
+                compliance requirements, check out our comprehensive state-by-state guides to LLC
+                formation and compliance.
+              </p>
+            </div>
+            <div className="aspect-[4/3] w-full rounded-2xl bg-gradient-to-br from-slate-800 to-slate-950" />
           </div>
-        </div>
-        {/* new section start  */}
-        <div className="text-center md:pb-24 mx-5">
-          <h2 className="md:text-5xl font-bold text-2xl uppercase ">
-            Form Your
-          </h2>
-          <h2 className="md:text-5xl font-bold text-2xl  uppercase">
-            <span className="text-primary">Free LLC Now</span>
-          </h2>
-          <p className="md:py-4 max-sm:py-3 max-sm:mx-5 ">
-            Kickstart Your Dream Business with VC FILING Now
-          </p>
-          <div className="flex justify-center items-center py-5">
-            <Link
-              className="px-10  py-5 bg-primary text-white border border-primary rounded-[30px] "
-              href="/form-a-llc/step-1"
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="mx-auto max-w-[820px] px-6 pb-16 md:px-16">
+          <h2 className="mb-8 text-[30px] font-extrabold">Frequently Asked Questions</h2>
+          <Accordion items={faqs} />
+        </section>
+
+        {/* ── FINAL CTA ── */}
+        <section className="mx-auto max-w-[900px] px-6 pb-24 md:px-16">
+          <div className="relative overflow-hidden rounded-3xl bg-[#f7f7f9] px-8 py-14 text-center">
+            <h2 className="mb-3 text-[30px] font-extrabold">
+              Ready to Start <span className="text-[#06B6D4]">Your LLC?</span>
+            </h2>
+            <p className="mx-auto mb-6 max-w-[480px] text-[15px] leading-relaxed text-gray-500">
+              Join the entrepreneurs who trust Incorp Bay to help launch and grow their businesses.
+            </p>
+            <a
+              href="#pricing"
+              className="inline-block rounded-full bg-[#06B6D4] px-8 py-3.5 text-sm font-bold text-white transition hover:bg-[#0891B2]"
             >
-              FORM YOUR FREE LLC NOW
-            </Link>
+              Get Started
+            </a>
           </div>
-        </div>
+        </section>
       </div>
     </NavigationWrapper>
   );
-};
-
-export default FreeLLC;
+}

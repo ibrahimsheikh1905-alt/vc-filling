@@ -11,8 +11,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import NavigationWrapper from "@/components/NavigationWrapper";
 import { statesInUS } from "@/data";
+import NavigationWrapper from "@/components/NavigationWrapper";
 
 const entityTypes = ["LLC", "C-Corporation", "Partnership", "Nonprofit"];
 
@@ -601,3 +601,4 @@ const Amendment = () => {
 };
 
 export default Amendment;
+

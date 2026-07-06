@@ -52,24 +52,42 @@ const Footer = () => {
           <div>
             <p className="pb-3 font-bold text-xl uppercase pt-6">Resources</p>
             <ul>
-              <li className="text-gray-500">How to became an entrepreneur</li>
-              <li className="text-gray-500">Business structure</li>
-              <li className="text-gray-500">Name generator</li>
-              <li className="text-gray-500">Name Search</li>
+              <Link href={"/testing/"}>
+                <li className="text-gray-500">How to became an entrepreneur</li>
+              </Link>
+              <Link href={"/business-structure/"}>
+                <li className="text-gray-500">Business structure</li>
+              </Link>
+              <Link href={"/name-generator/"}>
+                <li className="text-gray-500">Name generator</li>
+              </Link>
+              <Link href={"/name-search"}>
+                <li className="text-gray-500">Name Search</li>
+              </Link>
             </ul>
           </div>
         </div>
+
         <div className="md:col-span-1 gap-5">
           <div>
             <p className="pb-3 font-bold text-xl uppercase pt-6">Services</p>
             <ul>
-              <li className="text-gray-500">Amendment</li>
-              <li className="text-gray-500">Registered Agent </li>
-              <li className="text-gray-500">Virtual address </li>
-              <li className="text-gray-500">Certificate of good standing</li>
+              <Link href={"/amendment/"}>
+                <li className="text-gray-500">Amendment</li>
+              </Link>
+              <Link href={"/registered-agent/"}>
+                <li className="text-gray-500">Registered Agent</li>
+              </Link>
+              <Link href={"/virtual-address/"}>
+                <li className="text-gray-500">Virtual address</li>
+              </Link>
+              <Link href={"/cert-good-standing/"}>
+                <li className="text-gray-500">Certificate of good standing</li>
+              </Link>
             </ul>
           </div>
         </div>
+
         <div className="md:col-span-1 gap-5">
           <div>
             <p className="pb-3 font-bold text-xl uppercase pt-6">Quick Links</p>
@@ -77,18 +95,32 @@ const Footer = () => {
               <Link href={"/"}>
                 <li className="text-gray-500">Home</li>
               </Link>
-              <li className="text-gray-500">Review Entity Types</li>
-              <li className="text-gray-500">Manage Your Company</li>
-              <li className="text-gray-500">Check Order Status</li>
+              <Link href={"/"}>
+                <li className="text-gray-500">Review Entity Types</li>
+              </Link>
+              <Link href={"/dashboard"}>
+                <li className="text-gray-500">Manage Your Company</li>
+              </Link>
+              <Link href={"/dashboard"}>
+                <li className="text-gray-500">Check Order Status</li>
+              </Link>
             </ul>
           </div>
           <div>
             <p className="pb-3 font-bold text-xl uppercase pt-6">Support</p>
             <ul>
-              <li className="text-gray-500">Contact</li>
-              <li className="text-gray-500">Affiliates</li>
-              <li className="text-gray-500">Sitemap</li>
-              <li className="text-gray-500">Cancellation Policy</li>
+              <Link href={"/contact/"}>
+                <li className="text-gray-500">Contact</li>
+              </Link>
+              <Link href={"/"}>
+                <li className="text-gray-500">Affiliates</li>
+              </Link>
+              <Link href={"/"}>
+                <li className="text-gray-500">Sitemap</li>
+              </Link>
+              <Link href={"/"}>
+                <li className="text-gray-500">Cancellation Policy</li>
+              </Link>
             </ul>
           </div>
         </div>

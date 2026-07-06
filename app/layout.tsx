@@ -11,7 +11,7 @@ import AppSidebar from "@/components/app-sidebar";
 const font = Lora({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-lora",
+  variable: "--font-poppins",
   weight: ["400", "500", "600", "700"],
 });
 

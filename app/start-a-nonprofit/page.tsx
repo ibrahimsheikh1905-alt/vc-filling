@@ -1,695 +1,576 @@
-import { CheckBadgeIcon, StarIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+"use client";
+
+import { useState } from "react";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
-const FreeLLC = () => {
+const StarRow = () => (
+  <div className="flex gap-0.5">
+    {Array.from({ length: 5 }).map((_, i) => (
+      <svg key={i} viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-[#00B67A]">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      </svg>
+    ))}
+  </div>
+);
+
+const ChevronDown = ({ open }: { open: boolean }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={2}
+    className={`h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+  >
+    <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} className="h-4 w-4">
+    <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const PlayIcon = () => (
+  <svg viewBox="0 0 24 24" fill="white" className="h-7 w-7">
+    <path d="M8 5v14l11-7z" />
+  </svg>
+);
+
+type QA = { q: string; a: string };
+
+function Accordion({ items }: { items: QA[] }) {
+  const [open, setOpen] = useState<number | null>(null);
+
+  return (
+    <div className="divide-y divide-slate-200">
+      {items.map((item, index) => {
+        const isOpen = open === index;
+        return (
+          <div key={item.q} className="py-5">
+            <button
+              type="button"
+              onClick={() => setOpen(isOpen ? null : index)}
+              className="flex w-full items-center justify-between gap-5 text-left"
+            >
+              <span className="text-[15px] font-semibold text-slate-950">{item.q}</span>
+              <ChevronDown open={isOpen} />
+            </button>
+
+            {isOpen && (
+              <p className="mt-3 text-sm leading-7 text-slate-500">{item.a}</p>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+const painPoints = [
+  {
+    title: "Nonprofit Formation Can Be Intimidating, Time Consuming and Costly",
+    text: "Filing for nonprofits is hard. Each nonprofit has different goals, structures and regulations that need to be followed — making it difficult to get 501(c)(3) tax-exempt status.",
+    icon: "!",
+  },
+  {
+    title: "Save Time, Money & Stress with Incorp Bay’s $0 Nonprofit Formation",
+    text: "Some providers charge $300+ just to start. We offer truly free nonprofit formation. Streamlined processes keep costs down so you can focus on what matters most — your mission.",
+    icon: "⏱",
+  },
+];
+
+const filingRows = [
+  {
+    label: "Free Nonprofit Filing",
+    badge: "Free",
+    text: "Low-cost, personalized business formation. Because when you’re starting a business, every dollar counts.",
+  },
+  {
+    label: "Articles of Organization",
+    text: "Every Incorp Bay formation package includes assistance drafting, preparing and filing Articles of Organization.",
+  },
+  {
+    label: "Business Contract Templates",
+    text: "Ensure that all your contracts, documents and forms are rock solid without the expense of hiring a lawyer.",
+  },
+  {
+    label: "EIN Business Tax",
+    text: "Included free in our Gold and Platinum formation packages. Get your EIN within 1 business day.",
+  },
+];
+
+const supportRows = [
+  {
+    label: "Free 1st-Year Registered Agent",
+    badge: "Free",
+    text: "Access your complete and easy-to-use Registered Agent service free for a full year ($149 annually after that).",
+  },
+  {
+    label: "No Hidden Fees, No Contracts",
+    text: "Get the best user experience and unparalleled value for money. Nobody gives you more for less.",
+  },
+  {
+    label: "Personalized Dashboard",
+    text: "Your business essentials all in one place. Access everything you need, whenever you need it.",
+  },
+  {
+    label: "Friendly Customer Service",
+    text: "Talk to a dedicated incorporation specialist, not a salesperson, and get lifetime customer support.",
+  },
+  {
+    label: "On-Time Due Date Alerts",
+    text: "Get text and email notifications, order updates and free lifetime compliance alerts within your dashboard.",
+  },
+];
+
+const businessRows = [
+  {
+    label: "Entrepreneurship Made Easy",
+    text: "Get a Business Banking Account, domain name and business email fast with the Platinum package.",
+  },
+  {
+    label: "Customized Business Growth",
+    text: "Get set up with additional business services from within your business dashboard.",
+  },
+];
+
+const steps = [
+  {
+    number: "01",
+    title: "Choose the Right Type of Nonprofit Organization",
+    text: "There are four main types of nonprofits. Each type has slightly different goals and corporation structures, but all are tax-exempt. They include Public Charities, 501(c)(3) Organizations, Social Advocacy Organizations, Foundations and Trade & Professional Organizations.",
+    visual: "LLC • C Corporation • Non Profit • S Corporation",
+  },
+  {
+    number: "02",
+    title: "Choose the Package that Meets Your Needs",
+    text: "Whether you only need the basics or want more robust business support, Incorp Bay has the ideal formation package to help you start and grow a nonprofit organization.",
+    visual: "PREMIUM • Full-service formation",
+  },
+  {
+    number: "03",
+    title: "Tell Us About Your Nonprofit",
+    text: "Fill in the simple online order form and provide us with the details of your nonprofit and the services that you need, so we can prepare and file your incorporation documents.",
+    visual: "ACME • Submit",
+  },
+];
+
+const afterOrder = [
+  {
+    title: "Review Your Order Details",
+    text: "Access your intuitive and easy-to-use business dashboard where you can review your order details and ensure everything is in order.",
+  },
+  {
+    title: "Receive Your Documents",
+    text: "Your filed articles and any additional documents and services are easily accessible from within your custom business dashboard. You’ll get notifications once they’re ready.",
+  },
+];
+
+const faqs = [
+  { q: "Can I Form a Nonprofit For Free?", a: "Yes. With Incorp Bay, your nonprofit formation can start at $0 plus state fees. Optional upgrades are available if you want extra support and services." },
+  { q: "How Much Does Your Service Cost?", a: "The Basic package starts at $0 plus state fees. Additional packages and add-ons are clearly shown before checkout." },
+  { q: "Which Type of Nonprofit Organization is Right for Me?", a: "That depends on your mission and activities. Common nonprofit structures include public charities, foundations, social advocacy organizations and professional associations." },
+  { q: "Are There Specific Rules For My State?", a: "Yes. Nonprofit rules, filing fees and requirements vary by state. Incorp Bay helps guide you through the requirements for your filing state." },
+  { q: "What’s My State’s Filing Fee for Nonprofit Organizations?", a: "State filing fees vary widely and depend on where you file. Your exact fee is shown during the order process." },
+  { q: "Are There any Hidden Costs?", a: "No. Pricing is shown upfront. Optional services are clearly presented before you place your order." },
+  { q: "How Long Does It Take to Form a Nonprofit Online?", a: "Formation timing depends on the state processing speed. Many states process filings in a few business days, while others take longer." },
+  { q: "Do You Have Any Guides or Resources for Getting Started?", a: "Yes. Incorp Bay provides nonprofit formation resources, guides and support to help you get started confidently." },
+  { q: "Do You Provide Hands-On Support?", a: "Yes. You get real support from knowledgeable specialists who can help with your formation process." },
+];
+
+const reviews = [
+  {
+    name: "Md. Shafiqul Islam",
+    text: "Oliver O. was amazing. Oliver helped resolving Registered Agent issues.",
+  },
+  {
+    name: "Isabel Cárdenas",
+    text: "I had a great experience. I’m so glad that Roy was able to help me promptly with all my questions and concerns.",
+  },
+  {
+    name: "William Lopez",
+    text: "Gus helped me out and answered all my questions. Thanks to him and everyone else involved.",
+  },
+];
+
+const TRACK_SPACING = 150;
+const ICON_CENTER = 16;
+
+function ExpertGuide() {
+  return (
+    <section className="mx-auto max-w-[1000px] px-6 py-16 md:px-16">
+      <style jsx>{`
+        @keyframes nonprofitLineFill {
+          0% {
+            transform: scaleY(0);
+          }
+          55% {
+            transform: scaleY(1);
+          }
+          100% {
+            transform: scaleY(1);
+          }
+        }
+
+        .nonprofit-line-fill {
+          transform-origin: top;
+          animation: nonprofitLineFill 4.8s ease-in-out infinite;
+        }
+      `}</style>
+
+      <h2 className="mb-12 text-center text-[30px] font-extrabold leading-tight text-slate-950">
+        Incorp Bay Is Your Expert Guide for
+        <br />
+        Formation
+      </h2>
+
+      <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+        <div className="relative">
+          {/* Grey line: starts from center of first icon and ends at center of second icon */}
+          <div className="absolute left-4 top-4 h-[150px] w-1 -translate-x-1/2 overflow-hidden rounded-full bg-slate-100">
+            <div className="nonprofit-line-fill h-full w-full rounded-full bg-cyan-500 shadow-[0_0_14px_rgba(6,182,212,0.75)]" />
+          </div>
+
+          {painPoints.map((item, index) => (
+            <div
+              key={item.title}
+              className={`relative z-10 flex gap-4 ${index === 0 ? "min-h-[150px]" : ""}`}
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-cyan-500 bg-cyan-50 text-sm font-bold text-cyan-600 shadow-md ring-4 ring-cyan-100">
+                {item.icon}
+              </span>
+
+              <div>
+                <h3 className="text-sm font-extrabold leading-snug text-cyan-500">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-slate-500">
+                  {item.text}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex justify-center">
+          <div className="relative w-full max-w-[360px] rounded-3xl bg-slate-50 p-6 shadow-sm">
+            <div className="absolute -right-4 top-8 h-32 w-24 rounded-2xl bg-white shadow-md" />
+            <div className="relative rounded-2xl bg-white p-6 shadow-xl">
+              <div className="mb-4 flex items-center justify-between text-xs font-bold text-slate-700">
+                <span>Form Your Business</span>
+                <span className="text-cyan-500">Incorp Bay</span>
+              </div>
+
+              {["Business Name", "Entity Type", "Country"].map((item) => (
+                <div key={item} className="mb-3">
+                  <p className="mb-1 text-[10px] font-semibold text-slate-400">{item}</p>
+                  <div className="h-8 rounded-full bg-slate-100" />
+                </div>
+              ))}
+
+              <div className="mb-4 flex gap-2">
+                {["LLC", "501(c)(3)", "501(c)(4)", "NPO"].map((item) => (
+                  <span
+                    key={item}
+                    className={`rounded-full px-3 py-1 text-[10px] font-bold ${
+                      item === "501(c)(3)" ? "bg-cyan-500 text-white" : "bg-slate-100 text-slate-500"
+                    }`}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+
+              <div className="mb-3 flex items-center justify-between rounded-xl bg-cyan-50 px-4 py-3">
+                <span className="text-xs font-bold text-slate-700">Total Due Now</span>
+                <span className="text-lg font-extrabold text-cyan-500">$0</span>
+              </div>
+
+              <button className="w-full rounded-full bg-cyan-500 py-3 text-xs font-bold uppercase text-white shadow-lg shadow-cyan-500/25">
+                Place an Order
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeatureBlock({
+  title,
+  rows,
+}: {
+  title: string;
+  rows: { label: string; text: string; badge?: string }[];
+}) {
+  return (
+    <div className="grid grid-cols-1 gap-6 border-b border-slate-200 py-10 last:border-b-0 md:grid-cols-[190px_1fr]">
+      <h3 className="text-sm font-extrabold leading-tight text-slate-950">{title}</h3>
+      <div className="space-y-8">
+        {rows.map((row) => (
+          <div key={row.label} className="grid grid-cols-1 gap-2 md:grid-cols-[220px_1fr]">
+            <div className="flex items-start gap-2 text-sm font-bold text-slate-950">
+              <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-cyan-500 text-white">
+                <CheckIcon />
+              </span>
+              <span>
+                {row.label}
+                {row.badge && (
+                  <span className="ml-2 rounded-full bg-cyan-50 px-2 py-0.5 text-[10px] font-bold text-cyan-600">
+                    {row.badge}
+                  </span>
+                )}
+              </span>
+            </div>
+            <p className="text-[13px] leading-relaxed text-slate-500">{row.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function NonprofitLandingPage() {
   return (
     <NavigationWrapper>
-      <div className=" my-16 flex flex-col-reverse md:flex-row">
-        <div className=" md:text-left">
-          <h1 className="md:text-5xl text-3xl font-bold pt-10 md:pl-20 max-sm:mx-5">
-            Form An S Corp For
-          </h1>
-          <h2 className="md:text-5xl text-3xl font-bold  md:pl-20 max-sm:mx-5">
-            Free And Kickstart
-          </h2>
-          <h2 className="md:text-5xl text-3xl font-bold  md:pl-20 max-sm:mx-5">
-            Your Business with
-          </h2>
-          <h2 className="md:text-5xl text-3xl font-bold  md:pl-20 max-sm:mx-5">
-            VC FILING
-          </h2>
-          <h2 className="text-xl md:pl-20 py-10 pb-24 max-sm:mx-5">
-            Stress-free S Corp formation to save money on your taxes as your
-            business grows.
-          </h2>
-          <Link
-            className="px-10 md:ml-20 py-5 bg-primary text-white border border-primary rounded-[30px] max-sm:mx-5"
-            href="/start-a-nonprofit/step-1"
-          >
-            START NOW
-          </Link>
-        </div>
-        <Image
-          src="/free-llc/LLC green.jpg"
-          alt="Free LLC"
-          width={850}
-          height={850}
-        />
-      </div>
+      <main className="bg-white font-sans text-slate-950">
+        <section className="mx-auto max-w-[1200px] px-6 pt-10 md:px-16">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
+            <div>
+              <div className="mb-4 flex items-center gap-2 text-[13px] font-medium text-slate-600">
+                <span>Excellent <strong>4.7</strong> out of 5</span>
+                <StarRow />
+                <span className="font-bold text-[#00B67A]">Trustpilot</span>
+              </div>
 
-      <div className="max-w-7xl mx-auto ">
-        <div className="flex gap-4 items-center justify-center my-16 py-7 mx-3 md:flex-row flex-col">
-          <Image src="/main/vcicon.jpg" alt="image" width={200} height={200} />
-          <div className="mx-5">
-            <h3 className="md:text-5xl text-3xl font-bold py-2 uppercase">
-              Join <span className="text-primary">1,000,000+</span>
-              <br /> Entrepreneurs <br />
-              like you
-            </h3>
-            <p className="text-xl">
-              Entrepreneurship is booming - and we&apos;re happy to be <br />{" "}
-              one of America&apos;s fastest growing companies.
-            </p>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:flex max-sm:flex-col-reverse  gap-10 items-center md:py-16 mx-5">
-          <Image
-            src="/form-s-corporation/fi1.webp"
-            alt="Free LLC"
-            width={600}
-            height={600}
-          />
-          <div className=" md:text-left md:w-1/2 md:px-16">
-            <h3 className="text-4xl font-medium md:py-10">
-              Forming an S Corp Can Be Complicated and Expensive
-            </h3>
-            <p className="text-xl max-sm:py-3 ">
-              S Corp registration is a complex process as federal and state
-              governments require you to meet various conditions, rules and
-              regulations. And all it takes is one simple mistake for your
-              request to be rejected.
-            </p>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="flex flex-col-reverse md:flex-row  gap-10 items-center max-sm:pb-9 md:py-16 max-sm:mx-5">
-          <div className=" md:text-left md:w-1/2 md:px-16">
-            <h3 className="text-4xl font-medium md:py-10 max-sm:py-5 ">
-              Save Money & Time With VC FILING&apos; Free S Corp Formation
-            </h3>
-            <p className="text-xl ">
-              <span className="font-bold">
-                While some providers charge $149+
-              </span>{" "}
-              we don&apos;t charge a thing. Streamlined processes keep our costs
-              down, so we can pass the savings back to you. Form your S Corp
-              with us for free and spend your valuable time and money on what
-              really matters - growing your business.
-            </p>
-          </div>
-          <Image
-            src="/free-llc/Save Time Money.webp"
-            alt="Free LLC"
-            width={600}
-            height={600}
-          />
-        </div>
-        {/* new section start  */}
-        <div className="md:flex  max-sm:mx-5  gap-10 items-center md:py-16 mx-5 ">
-          <div className=" md:text-left md:w-1/2 md:px-16">
-            <h3 className="text-4xl font-medium md:py-10  max-sm:py-5">
-              Discover the Benefits of Forming Your S Corp with VC FILING
-            </h3>
-            <p className="text-xl ">
-              Since 2004, we&apos;ve helped 1 000,000+ entrepreneurs and small
-              business owners form and grow their businesses. Get industry
-              leading support (and a host of other amazing benefits!) to start
-              your business with confidence.
-            </p>
-          </div>
-          <Image
-            className=" py-5"
-            src="/free-llc/discoverBenefits.webp"
-            alt="Free LLC"
-            width={500}
-            height={500}
-          />
-        </div>
-        {/* new section start  */}
-        <div className="md:grid grid-cols-2 gap-5 md:my-16 md:py-24 max-sm:mx-5 max-sm:pt-5">
-          {/* left side  */}
-          <div>
-            {/* writing section  */}
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Get Your EIN Business Tax Number Fast
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Included free in our Standard and Premium formation packages;
-                Get your EIN within 1 business day.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Claim Your Free 1-Hour Tax Consultation
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Talk to a business tax expert for free with our Standard and
-                Premium formation packages.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Prepare & File Your Articles of Incorporation
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Every VC FILING formation package includes help drafting,
-                preparing and filing Articles of Incorporation.on.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Experience Entrepreneurship Made Easy
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Get a business banking account, domain name and email fast with
-                the Premium package.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Grow Your Business with Tailored Services
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Choose any additional S Corp services from within your business
-                dashboard if and when you need them.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Stay on Top of Important Due Dates
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Receive email & text notifications, order updates and free
-                lifetime compliance alerts within your dashboard.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Customizable Business Contract Templates
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Ensure that all your contracts, documents and forms are
-                watertight, without the cost of hiring a lawyer.
-              </p>
-            </div>
-          </div>
-          {/* right side  */}
-          <div>
-            {/* writing section start  */}
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Free S Corp Filing, Only Pay the State Fee
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Get economical, personalized S Corp formation. When you&apos;re
-                starting a business, every dollar counts.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Easily Devise Your Corporation Bylaws
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                No need to hire an attorney. Create your corporation bylaws
-                using our nonprofit incorporation kit.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Free Registered Agent for the First Year
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Get access to your easy-to-use Registered Agent service free for
-                a full year ($119/annually after that).
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  No Hidden Fees, No Contracts, Ever
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Nobody gives you more for less. Get unprecedented value for your
-                money and the best user experience.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Fast and Friendly Customer Service, 24/7
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Benefit from lifetime customer support. Talk to dedicated
-                incorporation specialists, not salespeople.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Modern & Simple Personalized Dashboard
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                All your business essentials, all in one place. Access
-                everything you need, whenever you need it.
-              </p>
-            </div>
-            <div className="my-5">
-              <div className="flex gap-3">
-                <CheckBadgeIcon className="min-w-7 max-w-7 min-h-7 max-h-7 text-primary" />
-                <h3 className="font-bold text-2xl">
-                  Save Money on Taxes with IRS Form 2553
-                </h3>
-              </div>
-              <p className="md:mx-8 py-4">
-                Choose S Corp election and benefit from savings on your
-                businesses taxes.
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:my-16">
-          <h2 className="text-5xl max-sm:text-4xl font-bold text-center  md:px-20 uppercase max-sm:mx-5">
-            How to form a S corpotation
-          </h2>
-          <h2 className="text-5xl max-sm:text-4xl font-bold text-center  uppercase max-sm:mx-5">
-            with VC FILING in{" "}
-            <span className="text-primary">3 simple steps</span>
-          </h2>
-          <div className="flex flex-col-reverse md:flex-row  gap-10 items-center py-10">
-            <Image
-              src="/free-llc/step-1.webp"
-              alt="Free LLC"
-              width={500}
-              height={500}
-              className="md:w-1/2"
-            />
-            <div className=" md:text-left md:w-1/2 md:px-16 mx-5">
-              <p className="text-primary text-sm uppercase font-bold">
-                first step
-              </p>
-              <h3 className="text-4xl  md:pb-10 max-sm:pb-3 font-bold ">
-                Choose Your Incorporation State
-              </h3>
-              <p className="text-xl ">
-                Rules and regulations vary by state, so make sure you know what
-                state you want your business to be in to meet your needs. You
-                don&apos;t have to choose the state you live in, either!
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-col-reverse md:flex-row-reverse  gap-10 items-center py-10 mx-5">
-            <Image
-              src="/free-llc/step-2.jpg"
-              alt="Free LLC"
-              width={500}
-              height={500}
-              className="md:w-1/2"
-            />
-            <div className=" md:text-left md:w-1/2 md:px-16 max-sm:pb-2">
-              <p className="text-primary text-sm uppercase font-bold">
-                Second step
-              </p>
-              <h3 className="text-4xl font-bold md:pb-10 max-sm:pb-3 ">
-                Choose Ideal Package for Your Situation
-              </h3>
-              <p className="text-xl ">
-                Whether you only need the basics or want more extensive business
-                support, VC FILING has the ideal business formation package to
-                help you start and grow your corporation.
-              </p>
-            </div>
-          </div>
-          {/* third step */}
-          <div className="flex flex-col-reverse md:flex-row  gap-10 items-center py-10 mx-5">
-            <Image
-              src="/form-c-corporation/bi.webp"
-              alt="Free LLC"
-              width={500}
-              height={500}
-              className="md:w-1/2"
-            />
-            <div className=" md:text-left md:w-1/2 md:px-16">
-              <p className="text-primary text-sm uppercase font-bold py-3">
-                Third step
-              </p>
-              <h3 className="text-4xl font-bold md:pb-10 max-sm:pb-3  ">
-                Tell Us About Your S Corporation
-              </h3>
-              <p className="text-xl ">
-                Whether you only need the basics or want more extensive business
-                support, VC FILING has the ideal business formation package to
-                help you start and grow your corporation.
-              </p>
-            </div>
-          </div>
-        </div>
-        {/* new section start  */}
-        <h3 className="text-5xl max-sm:text-4xl font-bold text-center mx-5 md:py-5 max-sm:py-5">
-          You&apos;ve placed your order, now what?
-        </h3>
-        {/* new section start  */}
-        <div className="md:flex flex-col gap-5 max-sm:mx-5">
-          {/* left side  */}
-          <div className="md:grid grid-cols-2 gap-5">
-            <div className="border-2 rounded-xl p-5 my-5">
-              <div className="max-sm:flex pl-6 pt-5 ">
-                <CheckBadgeIcon className="w-10 h-10 text-primary  mb-3" />
-              </div>
-              <div>
-                <h3 className="font-bold text-2xl py-4">
-                  Review Your Order Details
-                </h3>
-                <p>
-                  Access to your intuitive and easy-to-use business dashboard
-                  where you can review your order details and ensure everything
-                  is as it should be.
-                </p>
-              </div>
-            </div>
-            {/* right side  */}
-            <div className="border-2 rounded-xl p-5 my-5">
-              <div className="max-sm:flex pl-6 pt-5">
-                <CheckBadgeIcon className="w-10 h-10 text-primary  mb-3" />
-              </div>
-              <div>
-                <h3 className="font-bold text-2xl py-4">
-                  Receive Your Filed Documents in Your Dashboard
-                </h3>
-                <p>
-                  Your filed articles and any additional documents and services
-                  are easily accessible from within your custom business
-                  dashboard. You&apos;ll get notifications once they&apos;re
-                  ready.
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* bottom section  */}
-          <div className="flex justify-center items-center mx-5">
-            <Link
-              className="md:px-12 md:py-5 max-sm:text-center py-2 px-3  bg-primary mb-10 text-white border border-primary rounded-[30px] "
-              href="#"
-            >
-              DOWNLOAD OUR WHY FORM A S CROP GUIDE NOW
-            </Link>
-          </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:my-36 max-sm:mx-5 ">
-          <h2 className="text-5xl max-sm:text-4xl font-bold text-center">
-            Loved by 1,000,000+
-          </h2>
-          <h2 className="text-5xl max-sm:text-4xl font-bold text-center">
-            Entrepreneurs Across All 50 States
-          </h2>
-        </div>
-        {/* new section start   */}
-        <div className="md:flex gap-12 justify-center max-sm:text-center max-sm:py-8 md:my-24 max-sm:mx-5">
-          <div className="  md:text-left md:px-10 ">
-            <h3 className="text-5xl max-sm:text-4xl  font-bold">
-              Join the{" "}
-              <span className="text-primary font-bold">1,000,000+</span>{" "}
-              businesses
-            </h3>
+              <h1 className="mb-4 text-[38px] font-extrabold leading-[1.15] text-slate-950 md:text-[44px]">
+                Start a Nonprofit
+                <br />
+                with <span className="text-cyan-500">Incorp Bay</span>
+              </h1>
 
-            <p className=" py-3">
-              That trust VC FILING to start, manage and grow their business
-            </p>
+              <p className="mb-6 max-w-[470px] text-[15px] leading-relaxed text-slate-500">
+                Simple, stress-free and personalized nonprofit formation for people driven to do good.
+              </p>
+
+              <a
+                href="#pricing"
+                className="inline-block rounded-full bg-cyan-500 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600"
+              >
+                START NOW
+              </a>
+            </div>
+
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-700 to-slate-950 shadow-xl">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="h-36 w-36 rounded-full bg-cyan-500/20 blur-2xl" />
+              </div>
+              <div className="relative flex h-full items-center justify-center text-center text-lg font-bold text-white/80">
+                Nonprofit Founder Hero
+              </div>
+            </div>
           </div>
-          <div className="flex justify-center items-center">
-            <Link
-              className="md:px-12 md:py-5 max-sm:px-10 py-2  bg-primary text-white border border-primary rounded-[30px] "
-              href="/form-c-corporation/step-1"
-            >
-              Get Started Now
-            </Link>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-y border-slate-100 py-4 text-center text-[13px] font-semibold">
+            <span>Bootstrapped, Founder Led, Independently Owned</span>
+            <span className="rounded bg-cyan-50 px-2 py-0.5 font-extrabold text-cyan-600">Since 2004</span>
+            <span>With</span>
+            <span className="rounded bg-cyan-50 px-2 py-0.5 font-extrabold text-cyan-600">Over 1,000,000 Entrepreneurs</span>
+            <span>Served!</span>
           </div>
-        </div>
-        {/* new section start  */}
-        <div className="md:flex gap-5 md:mt-36 max-sm:mx-5">
-          <div className=" md:text-left  md:px-16">
-            <h2 className="text-5xl max-sm:text-4xl  font-bold">
-              See What Our Clients
+        </section>
+
+        <ExpertGuide />
+
+        <section id="pricing" className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm md:p-12">
+            <h2 className="mb-3 text-[30px] font-extrabold leading-tight">
+              Discover the Benefits of Forming a
+              <br />
+              Nonprofit With <span className="text-cyan-500">Incorp Bay</span>
             </h2>
-            <h2 className="text-5xl max-sm:text-4xl  font-bold ">
-              Have to Say…
+            <p className="mx-auto mb-8 max-w-[620px] text-[15px] leading-relaxed text-slate-500">
+              Since 2004, we’ve helped 1,000,000+ entrepreneurs and small business owners form and grow their businesses.
+              Get industry-leading support and a host of other benefits to start your business with confidence.
+            </p>
+
+            <button className="rounded-full bg-cyan-500 px-8 py-3 text-sm font-bold uppercase text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600">
+              FORM YOUR NONPROFIT NOW
+            </button>
+
+            <div className="mx-auto mt-12 max-w-[760px] rounded-2xl bg-slate-50 p-5">
+              <div className="rounded-xl bg-white p-5 shadow-sm">
+                <div className="mb-4 flex items-center gap-3 text-sm font-bold text-slate-800">
+                  <span className="h-8 w-8 rounded-full bg-cyan-500" />
+                  Creating a website for your business can be easier than you think.
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="h-24 rounded-xl bg-slate-100" />
+                  <div className="h-24 rounded-xl bg-cyan-50" />
+                  <div className="h-24 rounded-xl bg-slate-100" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <div className="rounded-3xl border border-slate-200 bg-white p-8 md:p-12">
+            <FeatureBlock title="Registration and formalities" rows={filingRows} />
+            <FeatureBlock title="Office support and administrative assistance" rows={supportRows} />
+            <FeatureBlock title="Business development and management" rows={businessRows} />
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <h2 className="mb-10 text-[30px] font-extrabold leading-tight">
+            How to Form a Nonprofit with Incorp Bay in 3 Simple Steps
+          </h2>
+
+          <div className="space-y-5">
+            {steps.map((step, index) => (
+              <div
+                key={step.number}
+                className="grid grid-cols-1 items-center gap-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:grid-cols-[1fr_300px]"
+              >
+                <div>
+                  <div className="mb-2 text-sm font-extrabold text-cyan-500">{step.number}</div>
+                  <h3 className="mb-2 text-lg font-bold text-slate-950">{step.title}</h3>
+                  <p className="text-[13px] leading-relaxed text-slate-500">{step.text}</p>
+                </div>
+
+                <div className="flex h-36 items-center justify-center rounded-xl bg-slate-50 p-5">
+                  <div className="rounded-xl bg-white px-6 py-4 text-center text-sm font-extrabold text-slate-700 shadow-lg">
+                    {step.visual}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8 text-center md:p-12">
+            <h2 className="mb-8 text-[30px] font-extrabold leading-tight">
+              What Happens After You Place Your
+              <br />
+              Order?
             </h2>
-            <p className="text-xl  md:my-8 max-sm:py-4">
-              “One of the things I really appreciated with Bizee is that it took
-              care of everything for me.”
-            </p>
-            <p className="text-xl font-medium md:my-8">
-              Khadijah Suleman, Aloaye Clothing LLC
-            </p>
-          </div>
-          <Image
-            className=""
-            src="/form-c-corporation/video.webp"
-            alt="Free LLC"
-            width={500}
-            height={500}
-          />
-        </div>
 
-        {/* customer review section start  */}
-        <div className="md:flex   md:py-10   gap-8 md:mx-20 mx-5 max-sm:py-5 max-sm:mx-5  ">
-          <div className="max-sm:mx-5 max-sm:border-4 rounded-xl px-3 py-2 my-2">
-            <h2 className="text-2xl ">Deana A.</h2>
-
-            <div className="flex gap-1 pt-5 pb-3">
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
+            <div className="mx-auto mb-8 grid max-w-[650px] grid-cols-1 gap-4 md:grid-cols-2">
+              {afterOrder.map((item) => (
+                <div key={item.title} className="rounded-xl bg-white p-5 shadow-sm">
+                  <div className="mx-auto mb-2 flex h-5 w-5 items-center justify-center rounded-full bg-cyan-50 text-cyan-500">
+                    <CheckIcon />
+                  </div>
+                  <h3 className="text-sm font-extrabold text-slate-950">{item.title}</h3>
+                  <p className="mt-2 text-[12px] leading-relaxed text-slate-500">{item.text}</p>
+                </div>
+              ))}
             </div>
-            <p className="">
-              They literally do almost everything for you, including state
-              annual filing. SO easy to use for first-time business owners.
-            </p>
-            <p className="font-semibold md:py-5 max-sm:py-2">
-              MS, UNITED STATES
-            </p>
-          </div>
 
-          {/* part2 review */}
-          <div className="max-sm:mx-5 max-sm:border-4 rounded-xl px-3 py-2 my-2">
-            <h2 className="text-2xl ">SCOTT B.</h2>
-            <div className="flex gap-1 pt-5 pb-3">
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-            </div>
-            <p className="">
-              Always easy, always fantastic. Used this company for over 5 years.
-              Thanks for a great company.
-            </p>
-            <p className="font-semibold md:py-5 max-sm:py-2">
-              MS, UNITED STATES
-            </p>
-          </div>
+            <button className="rounded-full bg-cyan-500 px-8 py-3 text-xs font-bold uppercase text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600">
+              FORM YOUR NONPROFIT
+            </button>
 
-          {/* part 3 review  */}
-          <div className="max-sm:mx-5 max-sm:border-4 rounded-xl px-3 py-2 my-2">
-            <h2 className="text-2xl">Adam S</h2>
-            <div className="flex gap-1 pt-5 pb-3">
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
-              <StarIcon className="w-5 h-5 text-primary" />
+            <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div className="h-32 rounded-xl bg-white shadow-sm" />
+              <div className="h-32 rounded-xl bg-white shadow-sm" />
+              <div className="h-32 rounded-xl bg-white shadow-sm" />
             </div>
-            <p className="">
-              Was able to create my business in less than 30 minutes! Incredibly
-              easy, intuitive and straight forward. Amazing!
-            </p>
-            <p className="font-semibold md:py-5 max-sm:py-2">
-              CA, UNITED STATES
-            </p>
           </div>
-        </div>
-        {/* faq section start  */}
-        <div className="my-16 md:px-10 mx-5">
-          <h2 className="text-5xl max-sm:text-4xl font-bold  md:text-left ">
-            Common Questions About
-          </h2>
-          <h2 className="text-5xl max-sm:text-4xl font-bold  md:text-left mb-6">
-            Forming an S Corp
-          </h2>
-          <Accordion type="single" collapsible className="text-xl">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>
-                Can I Start an S Crop for Free?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Yes! With our $0 S Corp formation package, you only pay the
-                  fees required by your state. VC FILING&apos; filing services
-                  are free.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>
-                How Much Does Your Service Cost?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Since 2004 we&apos;ve been honing & perfecting our service.
-                  Our tech-enabled process efficiencies mean that we can keep
-                  the costs down and pass this incredible value on to you. The
-                  result is low-cost yet personalized business formation with
-                  friendly and fast service.
-                </p>{" "}
-                <p className="my-2">
-                  The Basic Package costs $0 + state fee and includes the basics
-                  needed to start a C Corporation.
-                </p>
-                <p className="my-2">
-                  The Standard Package is $149 + state fee. It&apos;s the option
-                  most clients choose and boasts a comprehensive feature set to
-                  get your business started. Your EIN Business Tax number is
-                  included (whilst most other incorporation services charge an
-                  extra fee on top of their equivalent package price for this).
-                  The Standard package also includes IRS Form 2553, Corporation
-                  Bylaws, Operating Agreement, Banking Resolution, Lifetime
-                  Company Alerts, Online Access Dashboard, Unlimited Phone and
-                  Email Support, Business Banking Account & Business Tax
-                  Consultation.
-                </p>{" "}
-                <p className="my-2">
-                  The Premium Package is our best value package at $299 + state
-                  fee and it offers a full suite of features. Premium includes
-                  all of the Standard benefits plus Business Contract Templates,
-                  Expedited Filing and Domain Name plus Business Email
-                </p>
-                <p className="my-2">
-                  When you form your Nonprofit with us, our Registered Agent
-                  service is free for the first year and is only $119 per year
-                  after that.
-                </p>{" "}
-                <p className="my-2">
-                  For more information on our services and prices, visit our{" "}
-                  <span className="text-primary">how it works page.</span>
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>
-                Are There Specific Rules for My State?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Each state has specific rules and requirements regarding
-                  Registered Agents, naming rules, business licenses, etc. Find
-                  out more about S Corps in your state and review our{" "}
-                  <span className="text-primary">
-                    business entity comparison
-                  </span>{" "}
-                  chart to learn about liability protection, business fees and
-                  tax.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger>
-                What&apos;s My State&apos;s Filling Fee For S Crops?
-              </AccordionTrigger>
-              <AccordionContent>
-                <p className="my-2">
-                  Filing costs to form an S Corp can vary from state to state.
-                  Use our{" "}
-                  <span className="text-primary">free filing fees chart</span>{" "}
-                  to easily compare state fees before you start your business.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
-        {/* new section start review   */}
-        <div className="flex justify-center items-center pb-4">
-          <StarIcon
-            className="min-h-10 max-h-10 min-w-10 max-w-10"
-            color="#39b54a"
-          />
-        </div>
-        {/* n ew section  start  */}
-        <p className="text-center">19,443 Customer Rating</p>
-        <div className="flex justify-center items-center pb-5">
-          <div className="flex gap-1 pt-5">
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
-            <StarIcon className="w-5 h-5 text-primary" />
+        </section>
+
+        <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
+          <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-[280px_1fr]">
+            <div>
+              <div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-slate-600">
+                <span>Excellent <strong>4.7</strong> out of 5</span>
+                <StarRow />
+              </div>
+              <h2 className="mb-5 text-[28px] font-extrabold leading-tight">
+                See What Our
+                <br />
+                Clients Have to Say…
+              </h2>
+              <button className="rounded-full bg-cyan-500 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600">
+                CHECK OUT MORE REVIEWS
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {reviews.map((review) => (
+                <div key={review.name} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-md">
+                  <div className="mb-2 text-sm font-bold text-slate-950">{review.name}</div>
+                  <StarRow />
+                  <p className="mt-3 text-[12px] leading-relaxed text-slate-500">{review.text}</p>
+                  <div className="mt-4 text-[11px] font-bold text-[#00B67A]">★ Trustpilot</div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        {/* new section start  */}
-        <div className="text-center md:pb-24 mx-5">
-          <h2 className="md:text-5xl font-bold text-2xl uppercase ">
-            Form Your
-          </h2>
-          <h2 className="md:text-5xl font-bold text-2xl  uppercase">
-            S Corporation
-          </h2>
-          <h2 className="md:text-5xl font-bold text-2xl  uppercase">
-            <span className="text-primary">for free (+ State Fees)</span>
-          </h2>
-          <p className="md:py-4 max-sm:py-3 max-sm:mx-5 ">
-            Kickstart Your Dream Business with VC FILING Now
-          </p>
-          <div className="flex justify-center items-center py-5">
-            <Link
-              className="px-10  py-5 bg-primary text-white border border-primary rounded-[30px] "
-              href="/form-c-corporation/step-1"
-            >
-              START NOW
-            </Link>
+        </section>
+
+        <section className="mx-auto max-w-[900px] px-6 pb-16 md:px-16">
+          <div className="relative overflow-hidden rounded-3xl border border-cyan-100 bg-cyan-50/40 px-8 py-14 text-center">
+            <div className="pointer-events-none absolute inset-0 opacity-20">
+              <svg viewBox="0 0 900 240" className="h-full w-full">
+                <path d="M0 220 C160 60 300 260 470 80 C610 -60 750 90 900 20" fill="none" stroke="#06B6D4" strokeWidth="1" />
+                <path d="M0 50 C130 120 300 0 480 120 C650 240 750 120 900 180" fill="none" stroke="#06B6D4" strokeWidth="1" />
+              </svg>
+            </div>
+
+            <div className="relative z-10">
+              <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-cyan-500 shadow-sm">
+                <CheckIcon />
+              </div>
+
+              <p className="mb-2 text-[13px] font-bold text-cyan-500">Start. Manage. Grow.</p>
+              <h2 className="mx-auto max-w-[520px] text-[30px] font-extrabold leading-tight">
+                Chosen by <span className="text-cyan-500">1,000,000+</span>
+                <br />
+                entrepreneurs across all 50 states
+              </h2>
+              <p className="mt-3 text-[13px] text-slate-500">
+                Join more than 1,000,000 businesses that trust Incorp Bay.
+              </p>
+              <button className="mt-7 rounded-full bg-cyan-500 px-7 py-3 text-xs font-bold text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600">
+                GET STARTED
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
+        </section>
+
+        <section className="mx-auto max-w-[900px] px-6 pb-16 md:px-16">
+          <h2 className="mb-8 text-[30px] font-extrabold leading-tight">
+            Common Questions About Forming
+            <br />
+            a Nonprofit Organization
+          </h2>
+          <Accordion items={faqs} />
+        </section>
+
+        <section className="mx-auto max-w-[900px] px-6 pb-24 md:px-16">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 px-8 py-14 text-white shadow-2xl">
+            <div className="absolute inset-0 bg-cyan-500/20" />
+            <div className="relative z-10 max-w-sm">
+              <h2 className="text-[32px] font-extrabold leading-tight">
+                Form Your
+                <br />
+                Nonprofit For $0
+              </h2>
+              <p className="mt-3 text-sm text-white/80">
+                Kickstart Your Dream Business with Incorp Bay Now.
+              </p>
+              <button className="mt-7 rounded-full bg-cyan-500 px-7 py-3 text-xs font-bold uppercase text-white transition hover:bg-cyan-600">
+                START NOW
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
     </NavigationWrapper>
   );
-};
-
-export default FreeLLC;
+}

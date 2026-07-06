@@ -15,6 +15,7 @@ import {
   ChevronDown,
   Star
 } from 'lucide-react';
+
 import NavigationWrapper from "@/components/NavigationWrapper";
 
 const MapIllustration = () => (
