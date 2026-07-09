@@ -20,9 +20,7 @@ type Inputs = {
 const StepFour = () => {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [verificationStatus, setVerificationStatus] = useState("");
+
 
   const router = useRouter();
   const {
@@ -36,35 +34,20 @@ const StepFour = () => {
     router.push(pathname.replace(/step-\d+.*/, "step-5"));
   };
 
+  // Email/OTP system removed for this flow.
+  // Step 4 is now a simple contact info step.
+  const isOtpSent = false;
+  const otp = "";
+  const verificationStatus = "";
   const sendOtp = async () => {
-    try {
-      // Make API call to send OTP to the user's email
-      await axios.post("/api/send-otp", { email: formData.clientEmail });
-      setIsOtpSent(true);
-      setVerificationStatus("OTP sent to your email!");
-    } catch (error) {
-      setVerificationStatus("Failed to send OTP.");
-    }
+    // no-op
+  };
+  const verifyOtp = async () => {
+    // no-op
   };
 
-  const verifyOtp = async () => {
-    try {
-      // Make API call to verify the OTP
-      const response = await axios.post("/api/verify-otp", {
-        email: formData.clientEmail,
-        otp: Number(otp),
-      });
-      if (response.data.success) {
-        setVerificationStatus("Email verified successfully!");
-        updateFormData({ emailVerified: true });
-        // onEmailVerified(true); // Move to the next step
-      } else {
-        setVerificationStatus("Incorrect OTP.");
-      }
-    } catch (error) {
-      setVerificationStatus("Verification failed.");
-    }
-  };
+
+
   const [formData, updateFormData] = useLocalStorageForm({
     clientFirstName: "",
     clientLastName: "",
@@ -97,6 +80,8 @@ const StepFour = () => {
                 Please provide the name of the person responsible for this order
                 whom we may contact if additional information is needed.
               </p>
+
+
               <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="w-1/2">
@@ -169,7 +154,8 @@ const StepFour = () => {
                               onChange: (e) =>
                                 updateFormData({ clientEmail: e.target.value }),
                             })}
-                            readOnly={formData.emailVerified}
+                            readOnly={false}
+
                             className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
                               formData.emailVerified ? "bg-gray-100" : ""
                             }`}
@@ -177,30 +163,17 @@ const StepFour = () => {
                           {!formData.emailVerified && (
                             <button
                               type="button"
-                              onClick={sendOtp}
+                              onClick={() => updateFormData({ emailVerified: true })}
                               className="mt-3 rounded-xl border border-primary px-2 py-1"
                             >
                               Verify Email
                             </button>
+
                           )}
                         </>
                       ) : (
                         <div className="">
-                          <input
-                            type="number"
-                            placeholder="Enter OTP"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                            required
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                          />
-                          <button
-                            type="button"
-                            onClick={verifyOtp}
-                            className="mt-3 rounded-xl border border-primary px-2 py-1"
-                          >
-                            Verify OTP
-                          </button>
+
                         </div>
                       )}
                       <p>{verificationStatus}</p>

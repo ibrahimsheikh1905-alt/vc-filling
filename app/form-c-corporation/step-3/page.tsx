@@ -56,11 +56,15 @@ const StepThree = () => {
 
   useEffect(() => {
     setIsMounted(true);
+    const step1Raw = localStorage.getItem(
+      pathname.replace(/step-\d+.*/, "step-1")
+    );
+    const step1Parsed = step1Raw ? JSON.parse(step1Raw) : null;
+
     updateFormData({
-      stateFromStepOne: JSON.parse(
-        localStorage.getItem(pathname.replace(/step-\d+.*/, "step-1")) as string
-      ).stateName,
+      stateFromStepOne: step1Parsed?.stateName ?? "",
     });
+
     const setServiceType = () => {
       localStorage.setItem("serviceType", "form-c-corporation");
     };

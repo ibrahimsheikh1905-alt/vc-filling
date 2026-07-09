@@ -2,8 +2,10 @@
 
 import { useMemo, useState } from "react";
 import NavigationWrapper from "@/components/NavigationWrapper";
+import { useRouter } from "next/navigation";
 // @ts-ignore - no first-party types; @types/svg-maps__usa can be added separately if desired
 import usaMap from "@svg-maps/usa";
+
 
 // ── Icons ───────────────────────────────────────────────────────────────────────
 const ChevronDown = () => (
@@ -113,8 +115,19 @@ const faqs = [
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function CorpFormationByStatePage() {
+  const router = useRouter();
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const toStateSlug = (stateName: string) => {
+    // Normalize spaces and punctuation; route examples: Alabama -> alabama, Washington DC -> washington-dc
+    return stateName.toLowerCase().trim().replace(/\s+/g, "-").replace(/\./g, "");
+  };
+
+  const goToState = (stateName: string) => {
+    router.push(`/corporation-state-information/${toStateSlug(stateName)}`);
+  };
+
 
   // Resolve a full state name from whatever id/name format the map data uses
   // (svg-maps packages vary between "AL", "al", "us-al", "alabama", etc.)
@@ -188,7 +201,11 @@ export default function CorpFormationByStatePage() {
                       d={loc.path}
                       onMouseEnter={() => handleLocationMouseOver(loc.stateName)}
                       onMouseLeave={handleLocationMouseOut}
-                      className={`cursor-default transition-[fill,stroke,stroke-width] duration-150 ease-in-out ${
+                      onClick={() => {
+                        if (!loc.stateName) return;
+                        goToState(loc.stateName);
+                      }}
+                      className={`cursor-pointer transition-[fill,stroke,stroke-width] duration-150 ease-in-out ${
                         isHovered
                           ? "fill-cyan-100 stroke-cyan-500 [stroke-width:2]"
                           : "fill-slate-50 stroke-slate-300 [stroke-width:1.4]"
@@ -214,7 +231,8 @@ export default function CorpFormationByStatePage() {
                   key={s}
                   onMouseEnter={() => setHoveredState(s)}
                   onMouseLeave={() => setHoveredState(null)}
-                  className={`cursor-default rounded-[10px] border px-5 py-4 text-left text-sm font-medium transition-colors duration-150 ${
+                  onClick={() => goToState(s)}
+                  className={`cursor-pointer rounded-[10px] border px-5 py-4 text-left text-sm font-medium transition-colors duration-150 ${
                     isHovered
                       ? "border-cyan-500 bg-cyan-50 text-cyan-700"
                       : "border-transparent bg-cyan-50/60 text-cyan-700/80"

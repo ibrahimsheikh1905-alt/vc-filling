@@ -339,9 +339,9 @@ export default function VirtualAddress() {
               </div>
 
               <div className="flex gap-4 items-start">
-                <div className="mt-0.5 text-rose-500 shrink-0">
-                  <XCircle className="w-5 h-5 fill-rose-50"/>
-                </div>
+              <div className="mt-0.5 text-black shrink-0">
+  <XCircle className="w-5 h-5 fill-gray-100" />
+</div>
                 <div>
                   <h4 className="text-sm font-bold text-[#1E293B] mb-1">What it isn't:</h4>
                   <p className="text-sm text-gray-500 leading-relaxed">
@@ -428,28 +428,62 @@ export default function VirtualAddress() {
             </div>
           </div>
         </section>
+{/* ── SECTION 5: IMPORTANT NOTICE ────────────────────────── */}
+<section className="py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+  <div className="relative overflow-hidden rounded-2xl border border-cyan-100 bg-white shadow-xl">
 
-        {/* ── SECTION 5: WARNING STRIP ────────────────────────── */}
-        <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-          <div className="bg-amber-50 rounded-xl border border-amber-200 p-4 sm:p-5 flex items-center gap-4">
-            <div className="p-2 bg-amber-100 rounded-lg text-amber-700 shrink-0">
-              <AlertTriangle className="w-5 h-5"/>
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <span className="bg-amber-600 text-white text-sm font-semibold px-3 py-0.5 rounded-full">
-                  No Packages
-                </span>
-                <span className="text-sm font-bold text-amber-900">Accepted</span>
-              </div>
-              <p className="text-sm text-amber-800 leading-relaxed">
-                Please Note: Our virtual address service handles letters and large envelopes only.{' '}
-                <span className="text-amber-950 font-semibold">We do not accept packages of any size.</span>
-              </p>
-            </div>
-          </div>
-        </section>
+    {/* Gradient Top Border */}
+    <div className="h-1.5 w-full bg-gradient-to-r from-[#244EB6] via-[#2B93C9] to-[#33D1CC]" />
 
+    <div className="p-6 flex flex-col sm:flex-row items-start gap-5">
+
+      {/* Icon (No Gradient) */}
+      <div className="shrink-0 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 border border-slate-200 shadow-sm">
+        <AlertTriangle className="h-7 w-7 text-[#06B6D4] stroke-[2.5]" />
+      </div>
+
+      {/* Content */}
+      <div className="flex-1">
+
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+
+          <span className="rounded-full bg-[#1E293B] px-4 py-1 text-xs font-bold uppercase tracking-[0.18em] text-white">
+            IMPORTANT NOTICE
+          </span>
+
+          <span className="text-xl font-bold text-[#1E293B]">
+            Packages Are Not Accepted
+          </span>
+
+        </div>
+
+        <p className="text-[15px] leading-7 text-gray-600">
+          Our{" "}
+          <span className="font-semibold text-[#1E293B]">
+            Virtual Address Service
+          </span>{" "}
+          is designed exclusively for{" "}
+          <span className="font-semibold text-[#1E293B]">
+            letters, legal mail, and large envelopes.
+          </span>
+        </p>
+
+        <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <p className="text-[15px] leading-7 text-gray-700">
+            <span className="font-bold text-[#1E293B]">
+              Please Note:
+            </span>{" "}
+            For security and operational reasons,
+            <span className="font-semibold text-[#1E293B]">
+              {" "}packages of any size cannot be received, signed for, or stored.
+            </span>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
         {/* ── SECTION 6: FAQ ──────────────────────────────────── */}
         <section className="py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
           <span className="block text-xs font-semibold uppercase tracking-widest text-[#06B6D4] mb-3">Got questions?</span>

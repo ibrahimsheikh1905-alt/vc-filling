@@ -111,19 +111,55 @@ const currentFullPath = typeof window !== 'undefined' ? window.location.pathname
   // Get data from localStorage using tryGetFormData
   const step1Data = tryGetFormData("/step-1");
   const step3Data = tryGetFormData("/step-3");
+  const step4Data = tryGetFormData("/step-4");
   const step5Data = tryGetFormData("/step-5");
   const step6Data = tryGetFormData("/step-6");
+  const step7Data = tryGetFormData("/step-7");
+  const step8Data = tryGetFormData("/step-8");
+  const step9Data = tryGetFormData("/step-9");
+  const step10Data = tryGetFormData("/step-10");
+  const step11Data = tryGetFormData("/step-11");
   const step12Data = tryGetFormData("/step-12");
+
+
+
   
-// Extract values from the data
-  const packageType = step1Data?.packageType;
+  // Extract values from the data
+  // C-Corporation flow me step-1 file/folder exist nahi karta, isliye packageType/stateName infer step-6/3 se karna better hai.
+const packageType = (() => {
+    // C-Corporation: packageType should come from step-1/step-3 saved data,
+    // not default to Basic.
+    if (serviceType === "form-c-corporation" || pathname.includes("/form-c-corporation")) {
+      if (step6Data?.premiumServicePackage) return "Premium";
+      // Prefer saved packageType from storage
+      return step1Data?.packageType || step3Data?.packageType || "Basic";
+    }
+
+    // Other services
+    return step1Data?.packageType || "Basic";
+  })();
+
+
   // For registered-agent, use stateOfService field; for others, use stateName or stateOfFormation
   // For foreign-qualification, use stateOfService as it's the "State of Service" (the state where you want to do business)
   let stateName = step1Data?.stateName || step1Data?.stateOfFormation || step1Data?.stateOfService;
+
+  // C-Corporation: always use a single source of truth first to avoid fee mismatch across renders.
+  // Step-2 directly reads `stateFromStepOne` from step-3.
+  if (serviceType === "form-c-corporation" || pathname.includes("/form-c-corporation")) {
+    stateName =
+      step3Data?.stateFromStepOne ??
+      step1Data?.stateName ??
+      step1Data?.stateOfFormation ??
+      step1Data?.stateOfService ??
+      "";
+  }
+
   // For foreign-qualification, prioritize stateOfService (the state seeking authority)
   if (serviceType === "foreign-qualification") {
     stateName = step1Data?.stateOfService || step1Data?.stateOfFormation || step1Data?.stateName;
   }
+
   // Get entityType and validate it - don't show state names as entity type
   const rawEntityType = step1Data?.entityType;
   // Valid entity types for foreign-qualification
@@ -147,70 +183,23 @@ const currentFullPath = typeof window !== 'undefined' ? window.location.pathname
   const licenseType = step12Data?.licenseType;
 
 useEffect(() => {
-    // Set state fee using hardcoded values (API doesn't have states table)
-    const setStateFeeFromFallback = () => {
-      if (!stateName) {
-        return;
-      }
-      
-      // Comprehensive fallback state fees for all US states
-      const fallbackFees: Record<string, number> = {
-        "California": 249,
-        "Texas": 199,
-        "Florida": 199,
-        "New York": 200,
-        "Delaware": 179,
-        "Nevada": 175,
-        "Arizona": 149,
-        "Colorado": 149,
-        "Georgia": 199,
-        "Washington": 180,
-        "Illinois": 199,
-        "Ohio": 199,
-        "North Carolina": 199,
-        "Michigan": 199,
-        "New Jersey": 199,
-        "Virginia": 199,
-        "Massachusetts": 199,
-        "Tennessee": 199,
-        "Indiana": 199,
-        "Missouri": 199,
-        "Maryland": 199,
-        "Wisconsin": 199,
-        "Minnesota": 199,
-        "South Carolina": 199,
-        "Alabama": 199,
-        "Louisiana": 199,
-        "Kentucky": 199,
-        "Oregon": 199,
-        "Oklahoma": 199,
-        "Connecticut": 199,
-        "Utah": 199,
-        "Iowa": 199,
-        "Arkansas": 199,
-        "Mississippi": 199,
-        "Kansas": 199,
-        "New Mexico": 199,
-        "Nebraska": 199,
-        "West Virginia": 199,
-        "Idaho": 199,
-        "Hawaii": 199,
-        "Maine": 199,
-        "Montana": 199,
-        "Rhode Island": 199,
-        "South Dakota": 199,
-        "North Dakota": 199,
-        "Alaska": 199,
-        "Vermont": 199,
-        "Wyoming": 199,
-        "District of Columbia": 199,
-      };
-      
-      const fee = fallbackFees[stateName] || 149;
-      setStateFee(fee);
-    };
+    // Set state fee using the shared helper.
+    // Your UI feedback indicates this was not matching for some states (e.g. Indiana),
+    // likely due to mismatched fallback fee map.
+    if (!stateName) {
+      setStateFee(0);
+      return;
+    }
 
-    setStateFeeFromFallback();
+    try {
+      // Some step screens store state with different casing.
+      // Normalize for the helper to match keys.
+      const normalized = stateName.trim();
+      const fee = getStateFee(normalized);
+      setStateFee(fee);
+    } catch {
+      setStateFee(0);
+    }
   }, [stateName]);
 
 useEffect(() => {
@@ -389,7 +378,7 @@ useEffect(() => {
 {/* Show state fee - for registered-agent show as total (includes service), for others show separately */}
         <div className="flex justify-between">
           <span>{stateName ? stateName + ' State Fee' : 'State Fee'}:</span>
-          <span>${serviceType === "registered-agent" && stateName ? getStateFee(stateName) : (stateFee || 0)}</span>
+          <span>${stateFee || 0}</span>
         </div>
         {serviceType === "registered-agent" && (
           <div className="text-xs text-gray-500 text-center">

@@ -23,6 +23,7 @@ const StepSix: React.FC = () => {
     premiumServicePackage: false,
   });
   const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     setIsMounted(true);
     const setServiceType = () => {
@@ -34,6 +35,7 @@ const StepSix: React.FC = () => {
   if (!isMounted) {
     return null;
   }
+
   const services: ServiceItem[] = [
     {
       icon: <FileText className="w-6 h-6 text-gray-600" />,
@@ -67,18 +69,22 @@ const StepSix: React.FC = () => {
               <h2 className="text-2xl font-bold mb-2">
                 Premium Service Package
               </h2>
+
               <p className="text-lg mb-6">
                 Upgrade for only <span className="font-semibold">$99</span> to
                 receive these 2 premium services —{" "}
                 <span className="font-semibold">up to $190 value!</span>
               </p>
+
               <h3 className="text-xl font-semibold mb-4">
                 Premium Service Package
               </h3>
+
               <div className="space-y-6">
                 {services.map((service, index) => (
                   <div key={index} className="flex space-x-4">
                     <div className="flex-shrink-0 mt-1">{service.icon}</div>
+
                     <div className="flex-grow">
                       <div className="flex justify-between items-start mb-2">
                         <h4 className="text-lg font-semibold">
@@ -88,12 +94,15 @@ const StepSix: React.FC = () => {
                           ${service.price}
                         </span>
                       </div>
+
                       <p className="text-gray-600 mb-2">
                         {service.description}
                       </p>
+
                       {service.details && (
                         <p className="text-gray-600 mb-2">{service.details}</p>
                       )}
+
                       <div className="mt-2">
                         <h5 className="font-semibold mb-1">Why You Need It:</h5>
                         <p className="text-gray-600">{service.whyYouNeedIt}</p>
@@ -103,33 +112,35 @@ const StepSix: React.FC = () => {
                 ))}
               </div>
             </div>
-            <div className="flex justify-between mt-12">
+
+            <div className="flex flex-wrap items-center justify-between mt-12 gap-4">
               <Link
                 href="/form-c-corporation/step-5"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] hover:bg-primary/90 transition"
               >
                 Back
               </Link>
-              <Link
-                href="/form-c-corporation/step-7"
-                onClick={() => updateFormData({ premiumServicePackage: true })}
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
-              >
-                GET UPGRADE & BONUS
-              </Link>
-            </div>
-            <div className="flex justify-end cursor-pointer">
-              <Link href="/form-c-corporation/step-7">
-                <p
-                  onClick={() =>
-                    updateFormData({ premiumServicePackage: false })
-                  }
+
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/form-c-corporation/step-7"
+                  onClick={() => updateFormData({ premiumServicePackage: false })}
+                  className="px-8 py-2 border border-gray-300 text-gray-700 rounded-[30px] hover:bg-gray-100 transition"
                 >
-                  No thanks, I will pass on this opportunity.
-                </p>
-              </Link>
+                  No Thanks
+                </Link>
+
+                <Link
+                  href="/form-c-corporation/step-7"
+                  onClick={() => updateFormData({ premiumServicePackage: true })}
+                  className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] hover:bg-primary/90 transition"
+                >
+                  GET UPGRADE & BONUS
+                </Link>
+              </div>
             </div>
           </div>
+
           <div>
             <OrderSummary />
           </div>

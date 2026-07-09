@@ -1,12 +1,7 @@
-# Web Dashboard - Company Name & Status Implementation
+# Web TODO
 
-## Task
-Fetch Company Name and Status from database and display in dashboard sidebar and My Company section
+- [ ] Fix S-Corp package prefill: ensure packageType persisted in localStorage for OrderSummary
+  - [ ] Update `web/app/package-main/page.tsx` handleGetStarted() storage writes for S-Corporation
+  - [ ] Ensure both `/form-s-corporation/step-1` and `/form-s-corporation/step-3` get `packageType` + `stateFromStepOne`/`stateName`
+  - [ ] Verify OrderSummary uses saved packageType for `/form-s-corporation/step-2` and shows Standard/Basic correctly
 
-## Implementation Steps
-
-- [x] Analyze codebase and create plan
-- [x] Create new API endpoint `/api/company-data` to fetch company info from database
-- [x] Update NewSidebar.tsx to display Company Name and Status
-- [x] Update MyCompanySection.tsx to fetch real company data from database
-- [x] Test the implementation

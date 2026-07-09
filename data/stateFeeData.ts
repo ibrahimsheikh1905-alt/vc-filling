@@ -54,5 +54,14 @@ export const stateFees: Record<string, number> = {
 };
 
 export const getStateFee = (state: string): number => {
-  return stateFees[state] || 149; // Default fee if state not found
+  const normalized = state?.trim();
+  if (!normalized) return 149;
+
+  // Some flows may persist state as lower/upper case or with extra spaces.
+  const key = Object.keys(stateFees).find(
+    (k) => k.toLowerCase() === normalized.toLowerCase()
+  );
+
+  if (key) return stateFees[key];
+  return 149; // Default fee if state not found
 };

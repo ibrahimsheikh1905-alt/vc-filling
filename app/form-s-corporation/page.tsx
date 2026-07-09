@@ -235,7 +235,7 @@ export default function SCorpLandingPage() {
                 Stress-free S Corp formation to save money on your taxes as your business grows.
               </p>
               <a
-                href="#pricing"
+                href="/package-main?entity=S-Corporation"
                 className="inline-block rounded-full bg-[#06B6D4] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]"
               >
                 Start Now
@@ -337,9 +337,12 @@ export default function SCorpLandingPage() {
             <p className="mx-auto mb-6 max-w-[600px] text-[15px] leading-relaxed text-gray-500">
               Since 2004, we’ve helped 1,000,000+ entrepreneurs and small business owners form and grow their businesses. Get industry-leading support and a host of other benefits to start your business with confidence.
             </p>
-            <button className="mb-10 rounded-full bg-[#06B6D4] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]">
+            <a
+              href="/package-main?entity=S-Corporation"
+              className="mb-10 inline-flex items-center justify-center rounded-full bg-[#06B6D4] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]"
+            >
               FORM YOUR S CORP NOW
-            </button>
+            </a>
             <div className="mx-auto flex max-w-[720px] items-center gap-3 rounded-2xl bg-white p-4 shadow-md">
               <span className="sr-only">Incorp Bay Dashboard KV S-Corp</span>
               <div className="h-32 w-1/3 rounded-xl bg-gray-100" />
@@ -468,7 +471,7 @@ export default function SCorpLandingPage() {
               Kickstart Your Dream Business with Incorp Bay Now.
             </p>
             <a
-              href="#pricing"
+              href="/package-main?entity=S-Corporation"
               className="mt-8 inline-block rounded-full bg-[#06B6D4] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]"
             >
               Start Now

@@ -26,28 +26,44 @@ type Inputs = {
 const StepTwo = () => {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
-  const [keywords, setKeywords] = useState([]);
+  const [keywords, setKeywords] = useState<Array<{ label: string; value: any }>>([]);
+
   const [getLoading, setLoading] = useState(false);
   useLayoutEffect(() => {
     const fetchKeywords = async () => {
       try {
         setLoading(true);
         const response = await fetch("/api/industry-keywords");
+        if (!response.ok) {
+          console.warn("industry-keywords fetch failed:", response.status);
+        }
         const data = await response.json();
-        const keywordData = data.map((key: Keyword) => ({
-          label: key.keyword,
-          value: key.id,
-        }));
+
+
+        if (!Array.isArray(data)) {
+          console.warn("/api/industry-keywords did not return array:", data);
+          setKeywords([]);
+          return;
+        }
+
+        const keywordData = data
+          .map((key: any) => ({
+            label: key?.keyword,
+            value: key?.id,
+          }))
+          .filter((x: any) => x.label && x.value !== undefined);
+
         setKeywords(keywordData);
-        // console.log(keywordData);
       } catch (error) {
         console.error("Failed to fetch industry keywords:", error);
+        setKeywords([]);
       } finally {
         setLoading(false);
       }
     };
     fetchKeywords();
   }, []);
+
 
   const router = useRouter();
   const {
@@ -60,7 +76,8 @@ const StepTwo = () => {
     setLoading(true);
     updateFormData(data);
     setLoading(false);
-    router.push(pathname.replace(/step-\d+.*/, "step-3"));
+    // Always navigate to the next step explicitly
+    router.push("/form-c-corporation/step-3");
   };
 
   const [formData, updateFormData] = useLocalStorageForm({
@@ -246,7 +263,7 @@ const StepTwo = () => {
               {/* navigation */}
               <div className="flex justify-between mt-12">
                 <Link
-                  href="/form-c-corporation/step-1"
+                  href="/package-main?entity=C-Corporation"
                   className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
                 >
                   Back

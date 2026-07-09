@@ -8,8 +8,11 @@ import {
   MapPinIcon,
   HomeModernIcon,
 } from "@heroicons/react/24/solid";
+
 import useLocalStorageForm from "@/hooks/useLocalStorage";
 import { countries } from "@/data";
+
+
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { usePathname, useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -79,17 +82,24 @@ const StepFive = () => {
     },
   };
   useEffect(() => {
-    updateFormData({
-      stateFromStepOne: JSON.parse(
-        localStorage.getItem(pathname.replace(/step-\d+.*/, "step-1")) as string
-      )?.stateName,
-    });
-    if (formData.addressOption === "own") {
-      updateFormData({
-        state: formData.stateFromStepOne,
-      });
+    const step1Raw = localStorage.getItem(
+      pathname.replace(/step-\d+.*/, "step-1")
+    );
+    const step1Parsed = step1Raw ? JSON.parse(step1Raw) : null;
+
+    const stateFromStepOne = step1Parsed?.stateName ?? "";
+
+    // store only the stateName from step-1 (used for display and recommended address)
+    updateFormData({ stateFromStepOne });
+
+    // Only auto-fill `state` when user is on OWN address AND state is currently empty.
+    // This prevents overwriting user selection with placeholder/empty values.
+    if (formData.addressOption === "own" && !formData.state) {
+      updateFormData({ state: stateFromStepOne });
     }
   }, [formData.addressOption]);
+
+
   useEffect(() => {
     setIsMounted(true);
     const setServiceType = () => {
@@ -347,14 +357,31 @@ const StepFive = () => {
                           value={formData.state}
                           {...register("state", {
                             required: formData.addressOption === "own",
-                            disabled: true,
                           })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         >
-                          <option value={formData.state}>
-                            {formData.state}
+                          <option value="" disabled>
+                            Select State
                           </option>
+                          {/* US States dropdown (static list) */}
+                          {[
+                            "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia",
+                            "Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts",
+                            "Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
+                            "New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota",
+                            "Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"
+                          ].map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
+
+
+
+
                         </select>
+
+
                         {errors.state && (
                           <span className="text-red-500">
                             State is required

@@ -45,7 +45,7 @@ const TaxConsultation = () => {
         {/* new section start  */}
         <div className="text-center pt-5">
           <h1 className="font-bold md:text-6xl max-sm:text-4xl uppercase">
-            What Makes Us <span className="text-primary">Different</span>
+            What Makes Us <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent">Different</span>
           </h1>
           <p className="pt-4">
             We&apos;re built by entrepreneurs, for entrepreneurs. No hidden
@@ -57,12 +57,12 @@ const TaxConsultation = () => {
         <div className="border-t-2 border-b-2 text-center text-xl font-bold">
           <h3 className="py-3">
             Bootstrapped, Founder Led, Independently Owned{" "}
-            <span className="text-primary bg-green-100 px-1 rounded-xl">
+            <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent bg-slate-100 px-1 rounded-xl">
               {" "}
               Since 2004
             </span>{" "}
             with{" "}
-            <span className="text-primary bg-green-100 px-1 rounded-xl">
+            <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent bg-slate-100 px-1 rounded-xl">
               Over 1,000,000 Entrepreneurs
             </span>{" "}
             Served!
@@ -71,14 +71,14 @@ const TaxConsultation = () => {
         {/* mew section start  */}
         <div className="bg-[url('/mak-dif/bg2.webp')] md:w-full md:bg-cover max-sm:bg-cover  max-sm:mb-9 md:mb-24 md:px-8 px-2 text-white md:py-16 rounded-xl my-2  mt-16 relative">
           <div className=" my-3">
-            <CurrencyDollarIcon className="min-h-9 min-w-9 max-h-9 max-w-9 text-primary border-2  border-green-500 rounded" />
+            <CurrencyDollarIcon className="min-h-9 min-w-9 max-h-9 max-w-9 text-[#2B93C9] border-2 border-[#2B93C9] rounded" />
           </div>
-          <div className=" pb-96  border-l-4 border-green-300 flex justify-center items-center"></div>
+          <div className=" pb-96  border-l-4 border-[#33D1CC] flex justify-center items-center"></div>
           <h3 className=" text-black font-bold text-3xl uppercase">
             A One-Time Fee,
           </h3>
           <h3 className=" font-bold text-3xl uppercase">
-            <span className="text-primary bg-green-50 rounded-xl px-1">
+            <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent bg-slate-100 rounded-xl px-1">
               {" "}
               No Strings Attached
             </span>
@@ -109,8 +109,8 @@ const TaxConsultation = () => {
               VC FILING
             </h3>
             <h3 className="font-extrabold md:text-5xl max-sm:text-4xl">
-              <span className="text-primary bg-green-50 px-1">
-                Stands Apart
+              <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent px-1">
+                Built Different
               </span>
             </h3>
             {/* second section  */}
@@ -138,7 +138,7 @@ const TaxConsultation = () => {
             <p>
               Being privately held and 100% bootstrapped means we&apos;re free
               to do things differently.{" "}
-              <span className="text-primary font-bold">
+              <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent font-bold">
                 We&apos;re not beholden to private equity, investors, or
                 aggressive growth metrics.
               </span>
@@ -164,14 +164,14 @@ const TaxConsultation = () => {
               <span className="text-white">THE</span>
             </h3>
             <h3 className="md:text-7xl font-extrabold max-sm:text-5xl">
-              <span className="text-primary">EVOLUTION</span>
+              <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent">OUR JOURNEY</span>
             </h3>
           </div>
         </div>
         {/* new section  start  */}
         <div className="md:mx-40 bg-slate-200 rounded-xl mt-8 mb-10 md:py-10">
           <h3 className="font-bold uppercase text-center pt-10 pb-8 text-3xl">
-            <span className="text-primary">incorporate now</span>
+            <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent">START YOUR BUSINESS TODAY</span>
             <h2 className="font-extrabold md:text-5xl pt-5 max-sm:text-4xl ">
               Ready to
             </h2>
@@ -193,11 +193,11 @@ const TaxConsultation = () => {
               </div>
               <div>
                 <div className="flex gap-1 ">
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
                 </div>
               </div>
               <div>
@@ -222,11 +222,11 @@ const TaxConsultation = () => {
               </div>
               <div>
                 <div className="flex gap-1 ">
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
-                  <StarIcon className="w-5 h-5 text-primary" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
+                  <StarIcon className="w-5 h-5 text-[#2B93C9]" />
                 </div>
               </div>
               <div>
@@ -244,10 +244,10 @@ const TaxConsultation = () => {
           </div>
           <div className="flex justify-center items-center md:pb-16 max-sm:pb-5 max-sm:mt-7">
             <Link
-              className="px-9 py-5 bg-primary text-white border border-primary rounded-[30px] font-bold  "
+              className="px-9 py-5 bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] text-white border border-[#2B93C9] rounded-[30px] font-bold shadow-lg transition-all duration-300 hover:brightness-110 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]"
               href={"/form-a-llc/"}
             >
-              START NOW
+              GET STARTED
             </Link>
           </div>
         </div>

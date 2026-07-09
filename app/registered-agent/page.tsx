@@ -146,7 +146,7 @@ const RegisteredAgent = () => {
             </p>
             {/* Button 2 Updated with same Hover effect as START NOW */}
             <Link
-              href="/startup-central"
+              href="/Startup-Central"
               className="group relative bg-[#06B6D4] text-white px-8 py-4 rounded-[30px] inline-block overflow-hidden hover:shadow-[0_8px_30px_rgba(6,182,212,0.4)] transition-all duration-300"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -206,61 +206,82 @@ const RegisteredAgent = () => {
         <div className="h-px mx-5 bg-gradient-to-r from-transparent via-[#06B6D4]/30 to-transparent mb-6" />
 
         {/* ─── VIDEO FAQ ────────────────────────────────────────── */}
-        <div className="py-16 mx-5">
-          <span className="block text-center text-xs font-semibold uppercase tracking-widest text-[#06B6D4] mb-3">
-            Learn more
-          </span>
-          <h2 className="text-center text-4xl font-bold text-[#1E293B]">
-            Why You Need A Registered Agent
-          </h2>
-          <p className="text-center text-gray-500 py-3 max-w-xl mx-auto">
-            A registered agent ensures you never miss crucial legal documents and compliance notices.
-          </p>
+<div className="py-16 mx-5">
+  <span className="block text-center text-xs font-semibold uppercase tracking-widest text-black mb-3">
+    Learn more
+  </span>
 
-          <div className="grid md:grid-cols-2 gap-10 items-center pt-10">
-            <div>
-              <p className="text-[#06B6D4] font-semibold text-sm uppercase tracking-wide mb-2">What you need to know</p>
-              <h3 className="text-2xl font-bold pb-6 text-[#1E293B] leading-snug">
-                Key questions and answers about Registered Agents
-              </h3>
+  <h2 className="text-center text-4xl font-bold text-[#1E293B]">
+    Why You Need A Registered Agent
+  </h2>
 
-              <Accordion type="single" collapsible>
-                <AccordionItem value="video-1">
-                  <AccordionTrigger className="hover:text-[#06B6D4] text-left">
-                    Does My Business Need a Registered Agent?
-                  </AccordionTrigger>
-                  <AccordionItem value="video-1">
-                    <AccordionContent className="text-gray-500">
-                      Yes, most states require businesses to have a registered agent. Operating without one can put your LLC at risk of losing good standing.
-                    </AccordionContent>
-                  </AccordionItem>
-                </AccordionItem>
+  <p className="text-center text-gray-500 py-3 max-w-xl mx-auto">
+    A registered agent ensures you never miss crucial legal documents and
+    compliance notices.
+  </p>
 
-                <AccordionItem value="video-2">
-                  <AccordionTrigger className="hover:text-[#06B6D4] text-left">
-                    Why Use a Registered Agent Service?
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-500">
-                    A professional service ensures documents are received and processed promptly, protecting your privacy and keeping your business compliant.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
+  <div className="grid md:grid-cols-2 gap-10 items-center pt-10">
+    {/* Left */}
+    <div>
+      <p className="text-black font-semibold text-sm uppercase tracking-wide mb-2">
+        What you need to know
+      </p>
 
-            <div className="relative group rounded-2xl overflow-hidden bg-[#1E293B]">
-              <Image
-                src="/free-llc/seeWhat.webp"
-                alt="Registered Agent Video"
-                width={650}
-                height={380}
-                className="opacity-80 group-hover:opacity-70 transition-opacity duration-300"
-              />
-              <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#06B6D4] hover:bg-[#0891b2] text-white rounded-full w-16 h-16 flex justify-center items-center shadow-[0_0_0_8px_rgba(6,182,212,0.25)] hover:shadow-[0_0_0_12px_rgba(6,182,212,0.2)] transition-all duration-300">
-                <PlayIcon className="h-8 w-8 ml-1" />
-              </button>
-            </div>
-          </div>
-        </div>
+      <h3 className="text-2xl font-bold pb-6 text-[#1E293B] leading-snug">
+        Key questions and answers about Registered Agents
+      </h3>
+
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="video-1" className="border-b border-black">
+          <AccordionTrigger className="text-left hover:text-black">
+            Does My Business Need a Registered Agent?
+          </AccordionTrigger>
+
+          <AccordionContent className="text-gray-500">
+            Yes, most states require businesses to have a registered agent.
+            Operating without one can put your LLC at risk of losing good
+            standing.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="video-2" className="border-b border-black">
+          <AccordionTrigger className="text-left hover:text-black">
+            Why Use a Registered Agent Service?
+          </AccordionTrigger>
+
+          <AccordionContent className="text-gray-500">
+            A professional service ensures documents are received and processed
+            promptly, protecting your privacy and keeping your business
+            compliant.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </div>
+
+    {/* Right */}
+    <div className="relative group rounded-2xl overflow-hidden bg-[#1E293B]">
+      <Image
+        src="/free-llc/seeWhat.webp"
+        alt="Registered Agent Video"
+        width={650}
+        height={380}
+        className="opacity-80 group-hover:opacity-70 transition-opacity duration-300"
+      />
+
+      <button
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+        bg-black hover:bg-gray-800
+        text-white rounded-full w-16 h-16
+        flex justify-center items-center
+        shadow-[0_0_0_8px_rgba(0,0,0,0.20)]
+        hover:shadow-[0_0_0_12px_rgba(0,0,0,0.15)]
+        transition-all duration-300"
+      >
+        <PlayIcon className="h-8 w-8 ml-1" />
+      </button>
+    </div>
+  </div>
+</div>
 
         {/* ─── SERVICE BOX ──────────────────────────────────────── */}
         <div className="relative bg-[#1E293B] rounded-3xl p-10 mx-5 text-center overflow-hidden">

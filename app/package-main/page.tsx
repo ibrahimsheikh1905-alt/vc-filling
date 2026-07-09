@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import NavigationWrapper from "@/components/NavigationWrapper";
+import { getStateFee } from "@/data/stateFeeData";
 
 const ChevronDown = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={18} height={18}>
@@ -34,16 +35,12 @@ const states = [
   "Wisconsin","Wyoming"
 ];
 
-const stateFees: Record<string, number> = {
-  Alabama: 236, Alaska: 250, Arizona: 50, Arkansas: 45, California: 70, Colorado: 50, Connecticut: 120,
-  Delaware: 90, Florida: 125, Georgia: 100, Hawaii: 50, Idaho: 100, Illinois: 150, Indiana: 95, Iowa: 50,
-  Kansas: 160, Kentucky: 40, Louisiana: 100, Maine: 175, Maryland: 100, Massachusetts: 500, Michigan: 50,
-  Minnesota: 155, Mississippi: 50, Missouri: 50, Montana: 35, Nebraska: 100, Nevada: 425, "New Hampshire": 100,
-  "New Jersey": 125, "New Mexico": 50, "New York": 200, "North Carolina": 125, "North Dakota": 135,
-  Ohio: 99, Oklahoma: 100, Oregon: 100, Pennsylvania: 125, "Rhode Island": 150, "South Carolina": 110,
-  "South Dakota": 150, Tennessee: 300, Texas: 236, Utah: 70, Vermont: 125, Virginia: 100, Washington: 200,
-  "West Virginia": 100, Wisconsin: 130, Wyoming: 100,
-};
+  // NOTE: pricing/state fee must come from the shared source of truth.
+  // OrderSummary uses getStateFee() from web/data/stateFeeData.ts.
+  // If we keep a second local map here, it can easily mismatch.
+  // Keep this constant ONLY if you have already verified it matches stateFeeData.ts.
+  // For now, we remove the local map and use getStateFee below.
+
 
 
 const packagePrices: Record<EntityType, Record<PackageType, number>> = {
@@ -172,7 +169,7 @@ export default function FormationPricingPage() {
   }, [searchParams]);
 
   const activeEntity: EntityType | null = entities.includes(entity as EntityType) ? (entity as EntityType) : null;
-  const stateFee = state ? stateFees[state] ?? 236 : 236;
+  const stateFee = state ? getStateFee(state) : 0;
   const packagePrice = activeEntity ? packagePrices[activeEntity][selectedPackage] : 0;
 
   const addonsTotal = useMemo(() => {
@@ -202,14 +199,144 @@ export default function FormationPricingPage() {
       return;
     }
 
+    // Persist selection so OrderSummary on the next step can render the correct total.
+    try {
+      localStorage.setItem("serviceType", entity);
+
+      // OrderSummary for C-Corporation:
+      // - stateName is taken from step3Data?.stateFromStepOne
+      // - packageType is derived from step1Data?.packageType (unless premiumServicePackage exists in step6)
+      // Your issue (Standard selecting but Basic showing) happens when OrderSummary
+      // can't see the saved packageType for the step keys it reads.
+
+      const nextStateName = state;
+      const nextPackageType = selectedPackage; // Basic/Standard/Premium
+
+      // Keys that OrderSummary will try:
+      //  - baseFormPath (computed from serviceType) + "/step-1"
+      //    i.e. /form-c-corporation/step-1
+      //  - baseFormPath (computed from serviceType) + "/step-3"
+      //    i.e. /form-c-corporation/step-3
+      const step1Key = "/form-c-corporation/step-1";
+      const step3Key = "/form-c-corporation/step-3";
+
+      const step1Raw = localStorage.getItem(step1Key);
+      const step1Parsed = step1Raw ? JSON.parse(step1Raw) : {};
+      localStorage.setItem(
+        step1Key,
+        JSON.stringify({
+          ...step1Parsed,
+          stateName: nextStateName,
+          packageType: nextPackageType,
+          entityType: entity,
+        })
+      );
+
+      const step3Raw = localStorage.getItem(step3Key);
+      const step3Parsed = step3Raw ? JSON.parse(step3Raw) : {};
+      localStorage.setItem(
+        step3Key,
+        JSON.stringify({
+          ...step3Parsed,
+          stateFromStepOne: nextStateName,
+          // also store packageType here as a backup
+          packageType: nextPackageType,
+          entityType: entity,
+        })
+      );
+
+      // Additionally store under the plain step keys (OrderSummary's pathname-based fallbacks)
+      // so it still works even if baseFormPath mapping differs.
+      localStorage.setItem(
+        "/step-1",
+        JSON.stringify({
+          ...JSON.parse(localStorage.getItem("/step-1") || "{}"),
+          stateName: nextStateName,
+          packageType: nextPackageType,
+          entityType: entity,
+        })
+      );
+      localStorage.setItem(
+        "/step-3",
+        JSON.stringify({
+          ...JSON.parse(localStorage.getItem("/step-3") || "{}"),
+          stateFromStepOne: nextStateName,
+          packageType: nextPackageType,
+          entityType: entity,
+        })
+      );
+    } catch {
+      // ignore storage errors
+    }
+
+
     // Route to the correct entity flow start page.
     switch (entity) {
       case "C-Corporation":
         router.push("/form-c-corporation/step-2");
         return;
+
       case "S-Corporation":
-        router.push("/form-s-corporation/step-1");
+        // Ensure OrderSummary can read the selected package for S-Corporation immediately after redirect.
+        // Step data keys that OrderSummary tries: /form-s-corporation/step-1 and /form-s-corporation/step-3.
+        try {
+          const nextPackageType = selectedPackage;
+          const nextStateName = state;
+          const scStep1Key = "/form-s-corporation/step-1";
+          const scStep3Key = "/form-s-corporation/step-3";
+
+          const scStep1Raw = localStorage.getItem(scStep1Key);
+          const scStep1Parsed = scStep1Raw ? JSON.parse(scStep1Raw) : {};
+          localStorage.setItem(
+            scStep1Key,
+            JSON.stringify({
+              ...scStep1Parsed,
+              stateName: nextStateName,
+              packageType: nextPackageType,
+              entityType: entity,
+            })
+          );
+
+          const scStep3Raw = localStorage.getItem(scStep3Key);
+          const scStep3Parsed = scStep3Raw ? JSON.parse(scStep3Raw) : {};
+          localStorage.setItem(
+            scStep3Key,
+            JSON.stringify({
+              ...scStep3Parsed,
+              stateFromStepOne: nextStateName,
+              stateName: nextStateName,
+              packageType: nextPackageType,
+              entityType: entity,
+            })
+          );
+
+          // Also store under the plain step keys so pathname-based fallbacks work.
+          localStorage.setItem(
+            "/step-1",
+            JSON.stringify({
+              ...JSON.parse(localStorage.getItem("/step-1") || "{}"),
+              stateName: nextStateName,
+              packageType: nextPackageType,
+              entityType: entity,
+            })
+          );
+          localStorage.setItem(
+            "/step-3",
+            JSON.stringify({
+              ...JSON.parse(localStorage.getItem("/step-3") || "{}"),
+              stateFromStepOne: nextStateName,
+              stateName: nextStateName,
+              packageType: nextPackageType,
+              entityType: entity,
+            })
+          );
+        } catch {
+          // ignore storage errors
+        }
+
+        router.push("/form-s-corporation/step-2");
         return;
+
       case "LLC":
         router.push("/form-c-corporation/step-2");
         return;

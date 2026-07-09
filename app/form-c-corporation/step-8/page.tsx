@@ -84,14 +84,21 @@ const StepEight = () => {
     
   }, []);
   useEffect(() => {
-    updateFormData({
-      entityType: JSON.parse(
-        localStorage.getItem("/form-c-corporation/step-1") as string
-      ).entityType,
-      stateFromStepOne: JSON.parse(
-        localStorage.getItem("/form-c-corporation/step-1") as string
-      ).stateName,
-    });
+    try {
+      const raw = localStorage.getItem("/form-c-corporation/step-1");
+      const parsed = raw ? (JSON.parse(raw) as any) : null;
+
+      updateFormData({
+        entityType: parsed?.entityType ?? "",
+        stateFromStepOne: parsed?.stateName ?? "",
+      });
+    } catch {
+      // If localStorage is missing/invalid, keep defaults to avoid runtime crash.
+      updateFormData({
+        entityType: "",
+        stateFromStepOne: "",
+      } as any);
+    }
   }, [updateFormData]);
 
   if (!isMounted) {

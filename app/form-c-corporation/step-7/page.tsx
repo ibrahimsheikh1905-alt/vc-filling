@@ -99,16 +99,20 @@ const StepSeven = () => {
   // const entityType = JSON.parse(localStorage.getItem("/form-a-llc/step-1") as string).entityType;
   useEffect(() => {
     setIsMounted(true);
+    const step1Raw = localStorage.getItem(
+      pathname.replace(/step-\d+.*/, "step-1")
+    );
+    const step2Raw = localStorage.getItem(
+      pathname.replace(/step-\d+.*/, "step-2")
+    );
+
+    const step1Parsed = step1Raw ? (JSON.parse(step1Raw) as any) : null;
+    const step2Parsed = step2Raw ? (JSON.parse(step2Raw) as any) : null;
+
     updateFormData({
-      entityType: JSON.parse(
-        localStorage.getItem(pathname.replace(/step-\d+.*/, "step-1")) as string
-      ).entityType,
-      companyName: JSON.parse(
-        localStorage.getItem(pathname.replace(/step-\d+.*/, "step-2")) as string
-      ).companyName,
-      designator: JSON.parse(
-        localStorage.getItem(pathname.replace(/step-\d+.*/, "step-2")) as string
-      ).designator,
+      entityType: step1Parsed?.entityType ?? "",
+      companyName: step2Parsed?.companyName ?? "",
+      designator: step2Parsed?.designator ?? "",
     });
     const setServiceType = () => {
       localStorage.setItem("serviceType", "form-c-corporation");

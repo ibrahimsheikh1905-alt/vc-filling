@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/accordion";
 import { statesInUS } from "@/data";
 import NavigationWrapper from "@/components/NavigationWrapper";
+import { Inter } from "next/font/google";
 
 const entityTypes = ["LLC", "C-Corporation", "Partnership", "Nonprofit"];
 
@@ -71,11 +72,15 @@ const stateFees: Record<string, number> = {
 
 const serviceFee = 99;
 
-// Track geometry constants — must match the step item classes below:
-// min-h-[120px] + mb-12 (48px) = 168px per item spacing
+// Timeline geometry
 // icon is w-12 h-12 = 48px, center = 24px
-const ITEM_SPACING = 168; // px
-const ICON_CENTER = 24;   // px (half of 48px icon)
+const ICON_CENTER = 24; // px
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
 
 const Amendment = () => {
   const [selectedState, setSelectedState] = useState("");
@@ -85,6 +90,8 @@ const Amendment = () => {
   const [mounted, setMounted] = useState(false);
 
   const whyFilingRef = useRef<HTMLDivElement>(null);
+  const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [trackHeightPx, setTrackHeightPx] = useState(0);
 
   const currentStateFee =
     selectedState && stateFees[selectedState] ? stateFees[selectedState] : 0;
@@ -156,10 +163,26 @@ const Amendment = () => {
     },
   ];
 
-  // Track height in px: from center of icon 1 to center of icon 4
-  const totalSteps = stepsData.length;
-  const trackHeightPx = (totalSteps - 1) * ITEM_SPACING;
-  // Cyan fill height in px — capped at trackHeightPx
+  useEffect(() => {
+    const updateTrackHeight = () => {
+      const firstStep = stepRefs.current[0];
+      const lastStep = stepRefs.current[stepsData.length - 1];
+
+      if (!firstStep || !lastStep) return;
+
+      const firstCenter = firstStep.offsetTop + ICON_CENTER;
+      const lastCenter = lastStep.offsetTop + ICON_CENTER;
+
+      setTrackHeightPx(Math.max(lastCenter - firstCenter, 0));
+    };
+
+    updateTrackHeight();
+    window.addEventListener("resize", updateTrackHeight);
+
+    return () => window.removeEventListener("resize", updateTrackHeight);
+  }, [mounted, stepsData.length]);
+
+  // Fill height in px — capped at actual measured track height
   const fillHeightPx = (Math.min(timelineProgress, 100) / 100) * trackHeightPx;
 
   const faqData = [
@@ -193,6 +216,7 @@ const Amendment = () => {
 
   return (
     <NavigationWrapper>
+      <div className={inter.className}>
       {/* Hero Section */}
       <div className="my-16 flex flex-col-reverse md:flex-row items-center justify-between gap-8">
         <div className="md:text-left max-sm:mx-5 w-full md:w-1/2">
@@ -354,10 +378,8 @@ const Amendment = () => {
 
               {/* Grey background track: starts at center of icon 1, ends at center of icon 4 */}
               <div
-                className="absolute w-1 bg-slate-100 rounded-full z-0"
+                className="absolute left-6 top-10 w-1 -translate-x-1/2 bg-slate-100 rounded-full z-0"
                 style={{
-                  left: `${ICON_CENTER}px`,
-                  top: `${ICON_CENTER}px`,
                   height: `${trackHeightPx}px`,
                 }}
               >
@@ -375,6 +397,9 @@ const Amendment = () => {
                 return (
                   <div
                     key={idx}
+                    ref={(el) => {
+                      stepRefs.current[idx] = el;
+                    }}
                     className="relative flex flex-row items-start w-full min-h-[120px] mb-12 last:mb-0 z-10"
                   >
                     <div
@@ -554,7 +579,7 @@ const Amendment = () => {
 
           <Accordion type="single" collapsible className="text-xl w-full">
             {faqData.map((faq) => (
-              <AccordionItem key={faq.id} value={faq.id}>
+              <AccordionItem key={faq.id} value={faq.id} className="border-b border-black">
                 <AccordionTrigger className="text-left font-medium py-4 text-[#1E293B] hover:text-[#06B6D4] transition duration-200 ease-in-out">
                   {faq.question}
                 </AccordionTrigger>
@@ -595,6 +620,7 @@ const Amendment = () => {
             </Link>
           </div>
         </div>
+      </div>
       </div>
     </NavigationWrapper>
   );
