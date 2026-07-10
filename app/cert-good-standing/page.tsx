@@ -749,7 +749,7 @@ import NavigationWrapper from "@/components/NavigationWrapper";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import {
   Star,
   Shield,
@@ -762,7 +762,7 @@ import {
 } from "lucide-react";
 
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400","500","600","700"],
 });
@@ -817,6 +817,7 @@ const whyChoose = [
     id: 1,
     title: "Straightforward Pricing",
     desc: "No subscriptions, no hidden fees, no surprises — just honest, transparent costs.",
+    // icon intentionally omitted; section renders a fallback number when icon is missing
   },
   {
     id: 2,
@@ -893,7 +894,7 @@ function Hero() {
   };
   
   return (
-    <section className="relative grid grid-cols-1 items-center gap-12 overflow-hidden px-6 py-16 md:grid-cols-2 md:px-16 md:py-24">
+    <section className="relative overflow-hidden px-6 py-12 md:px-16 md:py-14">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.03]"
         style={{
@@ -904,7 +905,8 @@ function Hero() {
       />
       <div className="pointer-events-none absolute -top-32 right-0 h-96 w-96 rounded-full bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]/10 blur-[90px]" />
 
-      <div className="relative z-10">
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 md:grid-cols-2">
+        <div>
         <Badge>
           <span>Excellent 4.7 out of 5</span>
           <Star className="h-4 w-4 fill-[#2B93C9] text-[#2B93C9]" />
@@ -915,7 +917,7 @@ function Hero() {
           Get Your <span className={LOGO_GRADIENT_TEXT}>Certificate of Good Standing</span>
         </h1>
 
-        <p className="mt-6 max-w-md text-xl text-gray-500 leading-relaxed">
+        <p className="mt-6 max-w-md text-xl text-black leading-relaxed">
           A Certificate of Good Standing confirms your business complies with
           state regulations. Get yours quickly and easily.
         </p>
@@ -975,9 +977,10 @@ function Hero() {
   </button>
 </div>
 
-      </div>
+        </div>
 
-      <div className="relative z-10">
+      <div>
+        <div className="relative mx-auto max-w-md">
         <div className="absolute inset-0 -z-10 scale-95 rounded-3xl bg-gradient-to-br from-[#06B6D4]/8 to-[#06B6D4]/4" />
         <div className="mx-auto max-w-md -rotate-2 rounded-xl border-[14px] border-[#1E293B] bg-white p-8 shadow-2xl">
           <div className="border-l-4 border-[#2B93C9] pl-4">
@@ -1021,6 +1024,8 @@ function Hero() {
             </div>
           </div>
         </div>
+        </div>
+      </div>
       </div>
     </section>
   );
@@ -1030,7 +1035,7 @@ function Hero() {
 
 function TrustSection() {
   return (
-    <section className="px-6 py-16 md:px-16 bg-[#F8FAFC]">
+    <section className="px-6 py-12 md:px-16 md:py-14 bg-[White]">
       <p className="text-center text-base md:text-xl font-bold text-slate-700 max-w-4xl mx-auto leading-relaxed">
         Bootstrapped, Founder Led, Independently Owned{" "}
         <span className="bg-slate-50 px-2 py-0.5 rounded-lg font-extrabold bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent whitespace-nowrap shadow-sm">
@@ -1043,11 +1048,11 @@ function TrustSection() {
         Served!
       </p>
 
-      <div className="mx-auto mt-12 max-w-6xl rounded-3xl bg-[#ECEFF1]/50 p-8 md:p-12">
-        <h2 className="text-center text-4xl font-bold text-[#1E293B] max-w-4xl mx-auto leading-tight">
+      <div className="mx-auto mt-8 max-w-6xl rounded-3xl bg-[#ECEFF1]/50 p-8 md:p-12">
+        <h2 className={`text-center text-4xl font-bold max-w-4xl mx-auto leading-tight `}>
   Prove Your Business is in Good Standing
 </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-center text-sm font-medium text-slate-500">
+        <p className="mx-auto mt-4 max-w-2xl text-center text-sm font-medium text-black">
           Required for business expansions, loan applications, and verifying your company's legitimacy
         </p>
 
@@ -1105,7 +1110,9 @@ function TrustSection() {
                 </div>
               </div>
             </div>
-            <p className="mt-6 text-sm font-semibold text-slate-400 invisible select-none">Spacer</p>
+             <p className="mt-6 text-sm font-bold text-slate-800">
+             Open Business <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent">Bank Accounts</span>
+            </p>
           </div>
 
           {/* Card 3 */}
@@ -1136,14 +1143,34 @@ function TrustSection() {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-6xl items-center gap-4 rounded-2xl border border-slate-200/60 bg-white px-6 py-4 text-sm font-medium text-slate-700 shadow-sm">
-        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-slate-100 bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent">
-          <CheckCircle2 className="h-5 w-5 fill-current text-white" style={{ stroke: "#06B6D4" }} />
-        </div>
-        <p className="leading-relaxed text-slate-800">
-          You can file the necessary forms yourself or let <span className="font-bold text-slate-900">Incorp Bay</span> handle the paperwork for you efficiently and cost-effectively.
-        </p>
-      </div>
+      <div className="mx-auto mt-6 flex max-w-6xl items-center justify-Left gap-4 rounded-2xl border border-slate-200/60 bg-white px-6 py-4 text-sm font-medium text-slate-700 shadow-sm text-center">
+  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center">
+    <CheckCircle2
+      className="h-6 w-6"
+      style={{
+        stroke: "url(#logoGradient)",
+        fill: "none",
+      }}
+    />
+    <svg width="0" height="0">
+      <defs>
+        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#244EB6" />
+          <stop offset="50%" stopColor="#2B93C9" />
+          <stop offset="100%" stopColor="#33D1CC" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <p className="leading-relaxed text-slate-800">
+    You can file the necessary forms yourself or let{" "}
+    <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text font-bold text-transparent">
+      Incorp Bay
+    </span>{" "}
+    handle the paperwork for you efficiently and cost-effectively.
+  </p>
+</div>
     </section>
   );
 }
@@ -1194,16 +1221,16 @@ function WhenSection() {
   const currentActiveStep = getActiveStep();
 
   return (
-    <section className="bg-white py-16">
-      <div className="text-center px-4 mb-16">
-        <h2 className="text-center text-4xl md:text-4xl font-bold text-[#1E293B] max-w-4xl mx-auto leading-tight">
+    <section className="bg-white px-6 py-10 md:px-16 md:py-12">
+      <div className="text-center mb-8">
+        <h2 className={`text-center text-4xl md:text-4xl font-bold max-w-4xl mx-auto leading-tight `}>
   When Do You Need a Certificate of <br className="hidden md:inline" /> Good Standing?
 </h2>
       </div>
  
-      <div className="md:flex gap-10 items-center mx-5 max-w-6xl lg:mx-auto">
+      <div className="md:flex gap-10 items-center mx-auto max-w-6xl">
         <div className="w-full md:w-1/2 md:px-16">
-          <div className="relative w-full flex flex-col py-6">
+          <div className="relative w-full flex flex-col py-2">
 
             {/* Grey background track: starts at center of icon 1, ends at center of icon 4 */}
             <div
@@ -1243,19 +1270,11 @@ function WhenSection() {
                   </div>
 
                   <div className="w-full pl-16 text-left">
-                    <h4
-                      className={`md:text-xl text-lg font-bold transition-colors duration-300 ${
-                        isCurrent ? "text-[#2B93C9]" : isPassed ? "text-[#2B93C9]/70" : "text-slate-400"
-                      }`}
-                    >
+                    <h4 className={`md:text-xl text-lg font-bold ${LOGO_GRADIENT_TEXT}`}>
                       {step.title}
                     </h4>
 
-                    <p
-                      className={`md:text-base text-sm mt-1 leading-relaxed transition-all duration-300 ${
-                        isCurrent ? "text-slate-700 opacity-100" : "text-slate-400/70 opacity-60"
-                      }`}
-                    >
+                    <p className="md:text-base text-sm mt-1 leading-relaxed text-black">
                       {step.desc}
                     </p>
                   </div>
@@ -1294,13 +1313,16 @@ function WhyChooseSection() {
 
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
+
       const elapsed = timestamp - startTime;
       const progress = (elapsed % duration) / duration;
+
       setProgressPercent(progress * 100);
       animationFrameId = requestAnimationFrame(animate);
     };
 
     animationFrameId = requestAnimationFrame(animate);
+
     return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
@@ -1310,36 +1332,49 @@ function WhyChooseSection() {
   const getActiveStep = () => {
     const stepRange = 100 / totalSteps;
     const currentStep = Math.floor(clampedProgress / stepRange) + 1;
+
     return Math.min(currentStep, totalSteps);
   };
 
   const currentActiveStep = getActiveStep();
 
   return (
-    <section className="px-6 py-16 md:px-16 bg-white">
-      <span className={`block text-center text-xs font-semibold uppercase tracking-widest mb-3 ${LOGO_GRADIENT_TEXT}`}>
+    <section className="bg-white px-6 py-10 md:px-16 md:py-12">
+      <span
+        className={`mb-3 block text-center text-xs font-semibold uppercase tracking-widest ${LOGO_GRADIENT_TEXT}`}
+      >
         Trusted by millions
       </span>
-      <h2 className="text-center text-4xl font-bold text-[#1E293B]">
+
+      <h2 className="text-center text-4xl font-bold">
         Why Choose Us?
       </h2>
 
-      <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 items-center gap-12 md:grid-cols-2">
-        
+      <div className="mx-auto mt-8 grid max-w-5xl grid-cols-1 items-center gap-12 md:grid-cols-2">
         {/* Left Side Graphics Deck */}
-        <div className="relative mx-auto w-full max-w-sm">
+        <div className="relative mx-auto w-full max-w-sm pb-12 md:pb-0">
           <div className="h-48 rounded-2xl bg-[#1E293B]" />
+
           <div className="absolute -top-6 left-1/2 w-72 -translate-x-1/2 rounded-xl bg-white p-5 shadow-xl">
             <p className="text-xs text-slate-400">Total Taxes</p>
-            <p className="text-2xl font-bold text-[#1E293B]">$12,128</p>
+
+            <p className="text-2xl font-bold text-[#1E293B]">
+              $12,128
+            </p>
+
             <div className="mt-3 h-16 rounded-lg bg-gradient-to-t from-[#2B93C9]/15 to-transparent" />
           </div>
+
           <div className="absolute -bottom-10 left-1/2 w-72 -translate-x-1/2 rounded-xl bg-white p-4 shadow-lg">
-            <p className="text-xs font-semibold text-[#1E293B]">Documents</p>
+            <p className="text-xs font-semibold text-[#1E293B]">
+              Documents
+            </p>
+
             <div className="mt-2 flex items-center justify-between text-xs text-slate-500">
               <span>Annual Report</span>
               <span>06/08/2024</span>
             </div>
+
             <div className="mt-1 flex items-center justify-between text-xs text-slate-500">
               <span>Tax Filings</span>
               <span>01/24/2024</span>
@@ -1349,25 +1384,26 @@ function WhyChooseSection() {
 
         {/* Right Content Engine */}
         <div className="w-full md:px-4">
-          <div className="relative w-full flex flex-col py-6">
-
-            {/* Grey track: starts at center of icon 1, ends exactly at center of icon 4 */}
+          <div className="relative flex w-full flex-col py-2">
             <div
-              className="absolute w-1 bg-slate-100 rounded-full z-0"
+              className="absolute z-0 w-1 rounded-full bg-slate-100"
               style={{
                 left: "24px",
                 top: `${ICON_CENTER}px`,
                 height: `${trackHeightPx}px`,
               }}
             >
-              {/* Cyan fill: grows in px, capped at trackHeightPx */}
               <div
-                className={`${LOGO_GRADIENT_VERTICAL} w-full rounded-full origin-top`}
-                style={{ height: `${fillHeightPx}px` }}
+                className={`${LOGO_GRADIENT_VERTICAL} w-full origin-top rounded-full`}
+                style={{
+                  height: `${fillHeightPx}px`,
+                }}
               />
             </div>
 
             {whyChoose.map((step, idx) => {
+              // whyChoose items don't include an icon; keep types safe
+              const StepIcon = (step as { icon?: React.ComponentType<any> }).icon;
               const stepNumber = idx + 1;
               const isPassed = idx < currentActiveStep;
               const isCurrent = currentActiveStep === stepNumber;
@@ -1375,32 +1411,37 @@ function WhyChooseSection() {
               return (
                 <div
                   key={step.id}
-                  className="relative flex flex-row items-start w-full min-h-[120px] mb-12 last:mb-0 z-10 select-none"
+                  className="relative z-10 mb-12 flex min-h-[120px] w-full select-none flex-row items-start last:mb-0"
                 >
                   <div
-                    className={`absolute left-0 top-0 w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-300 z-10 font-bold text-sm ${
+                    className={`absolute left-0 top-0 z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-300 ${
                       isPassed
-                        ? "bg-slate-50 border-[#2B93C9] text-[#2B93C9] shadow-md scale-105"
-                        : "bg-white border-slate-300 text-slate-400"
-                    } ${isCurrent ? "ring-4 ring-[#33D1CC]/20" : ""}`}
+                        ? "scale-105 border-[#2B93C9] bg-slate-50 text-[#2B93C9] shadow-md"
+                        : "border-slate-300 bg-white text-slate-400"
+                    } ${
+                      isCurrent ? "ring-4 ring-[#33D1CC]/20" : ""
+                    }`}
                   >
-                    {step.id}
+                    {StepIcon ? (
+                      <StepIcon
+                        className="h-5 w-5"
+                        strokeWidth={2.5}
+                      />
+                    ) : (
+                      <span className="text-sm font-bold">
+                        {stepNumber}
+                      </span>
+                    )}
                   </div>
 
                   <div className="w-full pl-16 text-left">
                     <h4
-                      className={`md:text-xl text-lg font-bold transition-colors duration-300 ${
-                        isCurrent ? "text-[#2B93C9]" : isPassed ? "text-[#2B93C9]/70" : "text-slate-400"
-                      }`}
+                      className={`text-lg font-bold md:text-xl ${LOGO_GRADIENT_TEXT}`}
                     >
                       {step.title}
                     </h4>
 
-                    <p
-                      className={`md:text-base text-sm mt-1 leading-relaxed transition-all duration-300 ${
-                        isCurrent ? "text-slate-700 opacity-100" : "text-slate-400/70 opacity-60"
-                      }`}
-                    >
+                    <p className="mt-1 text-sm leading-relaxed text-black md:text-base">
                       {step.desc}
                     </p>
                   </div>
@@ -1409,7 +1450,6 @@ function WhyChooseSection() {
             })}
           </div>
         </div>
-
       </div>
     </section>
   );
@@ -1421,12 +1461,12 @@ function FAQSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="px-6 py-16 md:px-16">
+    <section className="px-6 py-12 md:px-16 md:py-14">
       <div className="mx-auto max-w-2xl">
         <p className={`text-xs font-semibold uppercase tracking-widest ${LOGO_GRADIENT_TEXT}`}>
           Key Considerations
         </p>
-        <h2 className="mt-2 text-4xl font-bold text-[#1E293B]">
+        <h2 className={`mt-2 text-4xl font-bold `}>
           Common Questions About Obtaining a Certificate of Good Standing
         </h2>
 
@@ -1468,7 +1508,7 @@ function CTASection() {
   };
 
   return (
-    <section className="px-6 py-10 md:px-16 md:py-12">
+    <section className="px-6 py-8 md:px-16 md:py-10">
       <div
         className={`${LOGO_GRADIENT} relative mx-auto max-w-4xl overflow-hidden rounded-[32px] border border-white/10 px-8 py-8 text-center shadow-2xl sm:px-10`}
       >
@@ -1631,7 +1671,7 @@ function CTASection() {
 export default function CertificateLandingPage() {
   return (
     <NavigationWrapper>
-      <div className={`${inter.className} min-h-screen bg-white text-[#1E293B]`}>
+      <div className={`${spaceGrotesk.className} min-h-screen bg-white text-[#1E293B]`}>
         <Hero />
         <TrustSection />
         <WhenSection />
