@@ -260,13 +260,13 @@ accent: "Through Incorp Bay",
 
 return (
     <NavigationWrapper>
-<main className="min-h-screen bg-white text-[#1a1a1a]">
+<main className="min-h-screen bg-white text-[#1E293B]">
       <section className="mx-auto flex max-w-7xl flex-wrap items-center gap-14 px-8 py-16">
         <div className="flex-1 basis-[400px]">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 px-3.5 py-1.5 text-[13px] font-medium">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 px-3.5 py-1.5 text-[13px] font-normal">
             Excellent 4.7 out of 5 <StarIcon /> Trustpilot
           </div>
-          <h1 className="mb-5 max-w-2xl text-4xl font-extrabold leading-tight text-slate-950 md:text-5xl">
+          <h1 className="mb-5 max-w-2xl text-4xl font-bold leading-tight text-slate-950 md:text-5xl">
 Get Your EIN Fast with Incorp Bay: Simple, Quick, and Hassle-Free
           </h1>
           <p className="mb-8 max-w-lg text-base leading-7 text-slate-600">
@@ -314,7 +314,7 @@ Incorp Bay&apos;s<br />Startup Central
 
       <section className="mb-16 bg-slate-50 px-8 py-16">
         <div className="mx-auto max-w-7xl">
-          <h2 className="mb-4 text-center text-4xl font-extrabold">How to Get a Tax ID Number</h2>
+          <h2 className="mb-4 text-center text-4xl font-bold">How to Get a Tax ID Number</h2>
           <p className="mx-auto mb-12 max-w-2xl text-center text-base leading-7 text-slate-500">
 Get your EIN (Tax ID) fast with Incorp Bay — easy, convenient, and delivered electronically within one business day.
           </p>
@@ -341,7 +341,7 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
       </section>
 
       <section className="mx-auto mb-20 max-w-7xl px-6 md:px-16">
-        <h2 className="mx-auto mb-14 max-w-4xl text-center text-4xl font-black leading-tight tracking-tight text-[#0f0f1a] md:text-5xl">
+        <h2 className="mx-auto mb-14 max-w-4xl text-center text-4xl font-bold leading-tight tracking-tight text-[#1E293B] md:text-5xl">
           Do You Need a Federal EIN for Your Business Entity?
         </h2>
 
@@ -504,7 +504,7 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
       <section className="mx-auto flex max-w-7xl flex-wrap gap-12 px-8">
         <aside className="basis-[260px]">
           <div className="sticky top-24 rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
-            <div className="mb-4 text-base font-black text-[#1a1a1a]">Table of Contents</div>
+            <div className="mb-4 text-base font-bold text-[#1E293B]">Table of Contents</div>
             <ul className="space-y-1">
               {tocItems.map((item, i) => {
                 const isActive = activeTOC === i;
@@ -532,13 +532,13 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
 
         <article className="min-w-0 flex-1 basis-[600px] space-y-16 pb-16">
           <div ref={createSectionRef(0)} className="scroll-mt-28">
-          <h2 className="mb-5 text-3xl font-extrabold">Do I Need an EIN for my LLC? (Plus Other Important FAQs)</h2>
+          <h2 className="mb-5 text-3xl font-bold">Do I Need an EIN for my LLC? (Plus Other Important FAQs)</h2>
           <p className="mb-5 text-[15px] leading-7 text-slate-700">You&apos;ve done all the legwork to form your business, but you&apos;re still left wondering, &quot;Do I need an Employer Identification Number (EIN) for my LLC?&quot; The short answer is that you might. An EIN is a nine-digit federal tax identification number used by the Internal Revenue Service (IRS) to identify business entities.</p>
           <p className="mb-10 text-[15px] leading-7 text-slate-700">In this guide, you&apos;ll learn whether or not your LLC needs an EIN and why it would be beneficial to secure one, even if it&apos;s not mandated. Got questions? This guide covers all the FAQs so you don&apos;t miss a thing.</p>
           </div>
 
           <div ref={createSectionRef(1)} className="scroll-mt-28">
-          <h2 className="mb-4 text-3xl font-extrabold">What Is an EIN? Is It the Same as an LLC?</h2>
+          <h2 className="mb-4 text-3xl font-bold">What Is an EIN? Is It the Same as an LLC?</h2>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">An EIN is not the same as an LLC (Limited Liability Company).</p>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">An EIN, also known as a federal identification number or business tax ID, is a tax identity. The IRS assigns EINs to distinguish unique business entities, including sole proprietors, LLCs, corporations, partnerships, and nonprofit organizations.</p>
           <p className="mb-4 text-[15px] leading-7 text-slate-700"><span className="font-bold" style={gradientText}>What is an LLC?</span> An LLC is a type of legal business entity created by state statutes. It&apos;s the fastest and easiest legal structure for your business to adopt. An LLC provides legal coverage of assets and liabilities as well as pass-through taxation.</p>
@@ -546,7 +546,7 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
           </div>
 
           <div ref={createSectionRef(2)} className="scroll-mt-28">
-          <h2 className="mb-4 text-3xl font-extrabold">If I Have an LLC, Do I Need an EIN?</h2>
+          <h2 className="mb-4 text-3xl font-bold">If I Have an LLC, Do I Need an EIN?</h2>
           <p className="mb-3.5 text-[15px] leading-7 text-slate-700">If you have an LLC, you might need an EIN. Your LLC will require an EIN if any of the following scenarios apply:</p>
           <ul className="mb-5 list-disc space-y-1.5 pl-5">
             {needList.map((item) => <li key={item} className="text-sm font-normal leading-6 text-slate-700">{item}</li>)}
@@ -565,7 +565,7 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
           </div>
 
           <div ref={createSectionRef(3)} className="scroll-mt-28">
-          <h2 className="mb-4 text-3xl font-extrabold">Benefits of Having an EIN</h2>
+          <h2 className="mb-4 text-3xl font-bold">Benefits of Having an EIN</h2>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">There are several business-related benefits of having an EIN for your LLC. Let&apos;s say you&apos;re running a new LLC and have no intention of hiring employees or setting up a retirement plan; therefore, you don&apos;t need an EIN. But should you get one? The answer is a resounding yes. An EIN does much more than just serve as a business tax identifier.</p>
           <p className="mb-3.5 text-[15px] leading-7 text-slate-700">Even if obtaining an EIN is not mandated for you by the IRS, there are many benefits of getting an EIN for your LLC:</p>
           <ul className="mb-5 list-disc space-y-1.5 pl-5">
@@ -575,7 +575,7 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
           </div>
 
           <div ref={createSectionRef(4)} className="scroll-mt-28">
-          <h2 className="mb-4 text-3xl font-extrabold">Is an EIN the Same as an SSN for an LLC?</h2>
+          <h2 className="mb-4 text-3xl font-bold">Is an EIN the Same as an SSN for an LLC?</h2>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">The main difference between a Social Security number (SSN) and an EIN is that an SSN is for individuals, while an EIN is for businesses. The IRS tracks your business&apos;s filings using an EIN. Many small business owners find it helpful to think of an EIN as an SSN for their business.</p>
 
           <h3 className="mb-3.5 text-2xl font-bold">Should I Use an SSN or an EIN for Taxes?</h3>
@@ -602,7 +602,7 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
           </div>
 
           <div ref={createSectionRef(5)} className="scroll-mt-28">
-          <h2 className="mb-4 text-3xl font-extrabold">What Do I Need to Get an EIN for My LLC?</h2>
+          <h2 className="mb-4 text-3xl font-bold">What Do I Need to Get an EIN for My LLC?</h2>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">In order to obtain a new EIN, an SS-4 application form is required. To complete this application without any issues, you must have the following information available:</p>
           <ol className="mb-10 list-decimal space-y-2.5 pl-5">
             {einRequirements.map((item) => <li key={item.b} className="text-sm font-normal leading-6 text-slate-700"><strong className="font-bold">{item.b}:</strong> <span className="font-normal">{item.t}</span></li>)}
@@ -610,7 +610,7 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
           </div>
 
           <div ref={createSectionRef(6)} className="scroll-mt-28">
-          <h2 className="mb-4 text-3xl font-extrabold">How to Apply for an EIN</h2>
+          <h2 className="mb-4 text-3xl font-bold">How to Apply for an EIN</h2>
 through Incorp Bay's EIN filing service.
           <p className="mb-7 text-[15px] leading-7 text-slate-700">To file directly with the IRS, complete the <span className="font-bold" style={gradientText}>online application form</span> between Monday and Friday, 7 a.m. to 10 p.m. EST. The IRS issues the EIN upon submission and verification of the form — this usually just takes a few minutes. However, the online application is only available for LLCs with a domestic, U.S.-based address.</p>
 
@@ -629,25 +629,25 @@ through Incorp Bay's EIN filing service.
               ))}
             </div>
 <div className="mt-5 flex items-center justify-between">
-              <span className="rounded-full bg-cyan-500 px-3.5 py-1 text-sm font-extrabold text-white">incorp bay</span>
-              <span className="text-[11px] uppercase tracking-widest text-slate-400">Easy as Incorp Bay</span>
+              <span className="rounded-full px-3.5 py-1 text-sm font-bold text-white" style={{ background: LOGO_GRADIENT }}>incorp bay</span>
+              <span className="text-[11px] font-normal uppercase tracking-widest text-slate-400">Easy as Incorp Bay</span>
             </div>
           </div>
 
           <p className="mb-4 text-[15px] leading-7 text-slate-700">To apply by fax, complete the SS-4 form and fax it to 855-641-6935. The fax line is open all seven days of the week, 24/7. Faxed EIN requests have a turnaround time of four business days.</p>
           <p className="mb-2 text-[15px] leading-7 text-slate-700">Domestic LLCs can mail the hard copy of form SS-4 to the following address:</p>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">Internal Revenue Service Attn: EIN Operation Cincinnati, OH 45999</p>
-          <p className="mb-4 text-[15px] leading-7 text-cyan-700">The processing time for mailed applications ranges between four to five weeks.</p>
+          <p className="mb-4 text-[15px] leading-7 text-slate-700">The processing time for mailed applications ranges between four to five weeks.</p>
           <p className="mb-10 text-[15px] leading-7 text-slate-700">LLC owners with international addresses and no legal U.S. address or a responsible party that can file on their behalf need to call 267-941-1099 between 6 a.m. and 11 p.m. EST, Monday through Friday, to get their EIN.</p>
           </div>
 
           <div ref={createSectionRef(7)} className="scroll-mt-28">
-          <h2 className="mb-4 text-3xl font-extrabold">What to Do After Getting an EIN</h2>
-          <p className="mb-10 text-[15px] leading-7 text-slate-700">Your EIN is active and ready as soon as you receive it from the IRS. Use it to open a dedicated <span className="text-cyan-700">business bank account</span>, secure funding, or hire employees.</p>
+          <h2 className="mb-4 text-3xl font-bold">What to Do After Getting an EIN</h2>
+          <p className="mb-10 text-[15px] leading-7 text-slate-700">Your EIN is active and ready as soon as you receive it from the IRS. Use it to open a dedicated <span className="font-bold" style={gradientText}>business bank account</span>, secure funding, or hire employees.</p>
           </div>
 
           <div ref={createSectionRef(8)} className="scroll-mt-28">
-          <h2 className="mb-4 text-3xl font-extrabold">Will I Ever Need to Change My EIN?</h2>
+          <h2 className="mb-4 text-3xl font-bold">Will I Ever Need to Change My EIN?</h2>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">Yes, there might be cases where you&apos;ll need to change your EIN. If you&apos;re changing ownership or the type of business structure you operate, you will need to apply for a new EIN.</p>
           <p className="mb-2.5 text-[15px] leading-7 text-slate-700">Here are a few scenarios that require changing your EIN:</p>
           <ul className="mb-5 list-disc space-y-1.5 pl-5">
@@ -657,7 +657,7 @@ through Incorp Bay's EIN filing service.
           </div>
 
           <div ref={createSectionRef(9)} className="scroll-mt-28">
-          <h2 className="mb-6 text-3xl font-extrabold">Frequently Asked Questions</h2>
+          <h2 className="mb-6 text-3xl font-bold">Frequently Asked Questions</h2>
           <h3 className="mb-2.5 text-xl font-bold">Does EIN Mean You Own a Business?</h3>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">Yes, having an EIN means you own a business, as it&apos;s administered by the IRS to identify business entities for tax purposes. But keep in mind that acquiring an EIN as a sole proprietor does not make your business a legitimate business entity. To form a legal business entity that provides liability and assets protection, like an LLC or corporation, you must register with your state.</p>
 
@@ -670,7 +670,7 @@ through Incorp Bay's EIN filing service.
           </div>
 
           <div ref={createSectionRef(10)} className="scroll-mt-28">
-<h2 className="mb-4 text-3xl font-extrabold">Establish Your Business With an EIN</h2>
+<h2 className="mb-4 text-3xl font-bold">Establish Your Business With an EIN</h2>
           <p className="mb-7 text-[15px] leading-7 text-slate-700">Obtaining an EIN is an excellent way to establish and grow your business. To obtain an EIN, you must form a legal business entity, which guarantees the safety of your business and its assets. Incorp Bay offers a standalone EIN service, or our Standard and Premium Packages include this service for free. Join over 1 million thriving business owners who use Incorp Bay as their go-to source.</p>
           <PrimaryButton>GET IN TOUCH TODAY</PrimaryButton>
           </div>
@@ -680,8 +680,8 @@ through Incorp Bay's EIN filing service.
       <section className="bg-slate-50 px-8 py-14">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-10">
           <div className="flex-1 basis-[280px]">
-            <div className="mb-2 text-[13px] font-bold text-cyan-600">EIN Tax ID Number</div>
-            <h2 className="mb-3 text-4xl font-extrabold">Obtain An EIN /<br />Tax ID Number</h2>
+            <div className="mb-2 text-[13px] font-bold" style={gradientText}>EIN Tax ID Number</div>
+            <h2 className="mb-3 text-4xl font-bold">Obtain An EIN /<br />Tax ID Number</h2>
             <p className="mb-6 text-[15px] leading-7 text-slate-500">Save your time. We&apos;ll handle the paperwork. <strong className="text-slate-900">Only $70.</strong></p>
             <PrimaryButton>ORDER NOW</PrimaryButton>
           </div>
