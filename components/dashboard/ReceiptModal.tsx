@@ -3,6 +3,9 @@
 import React from 'react';
 import { Printer, Download, X, CheckCircle2 } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface ReceiptModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -63,7 +66,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) => {
               <Receipt className="w-6 h-6 text-red-500" />
             </div>
             <div>
-              <h2 className="text-2xl font-black text-gray-900">Receipt #226041533405</h2>
+              <h2 className="text-2xl font-bold text-gray-900">Receipt #226041533405</h2>
               <p className="text-sm text-gray-500">NONPROFIT FILING (MO)</p>
             </div>
           </div>
@@ -108,9 +111,13 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         <div className="p-6 border-t border-gray-100 bg-gray-50 flex gap-4 justify-end">
-          <button onClick={handleDownload} className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition-all">
-            <Download className="w-4 h-4" />
-            Download PDF
+          <button onClick={handleDownload} className={`${LOGO_GRADIENT} group relative overflow-hidden px-6 py-3 text-white font-bold rounded-full shadow-md transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}>
+            <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+            <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+            <span className="relative z-10 flex items-center gap-2">
+              <Download className="w-4 h-4" />
+              Download PDF
+            </span>
           </button>
           <button onClick={handlePrint} className="flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl shadow-md transition-all">
             <Printer className="w-4 h-4" />

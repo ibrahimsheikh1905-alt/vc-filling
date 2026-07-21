@@ -111,7 +111,7 @@ const StepSeven = () => {
       ).designator,
     });
     const setServiceType = () => {
-      localStorage.setItem("serviceType", "Nonprofit");
+      localStorage.setItem("serviceType", "form-nonprofit");
     };
     setServiceType();
   }, []);

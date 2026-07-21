@@ -3,6 +3,9 @@ import OrderSummary from "@/components/OrderSummary";
 import React, { useEffect, useState } from "react";
 import useLocalStorageForm from "@/hooks/useLocalStorage";
 import { submitFormData } from "@/hooks/useSubmitFormLlc";
+import { submitFormSCorpData } from "@/hooks/useSubmitFormSCorp";
+import { submitFormCCorpData } from "@/hooks/useSubmitFormCCorp";
+import { submitFormNonprofitData } from "@/hooks/useSubmitFormNonprofit";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import NavigationWrapper from "@/components/NavigationWrapper";
@@ -40,8 +43,19 @@ const StepFinal = ({ referrer }: { referrer: string }) => {
   const [cardName, setCardName] = useState("");
   const [cvv, setCvv] = useState("");
 
-  const serviceType = localStorage.getItem("serviceType");
-  
+  // Older/alias values that some pages set for serviceType before it was
+  // standardized to the "form-*" keys used by pathMap and the submit switch below.
+  const serviceTypeAliases: Record<string, string> = {
+    "LLC": "form-llc",
+    "C-Corporation": "form-c-corporation",
+    "S-Corporation": "form-s-corporation",
+    "Nonprofit": "form-nonprofit",
+  };
+  const rawServiceType = localStorage.getItem("serviceType");
+  const serviceType = rawServiceType
+    ? serviceTypeAliases[rawServiceType] || rawServiceType
+    : rawServiceType;
+
   // Determine the correct form path based on service type
   const getFormPath = () => {
     if (serviceType) {
@@ -49,6 +63,7 @@ const StepFinal = ({ referrer }: { referrer: string }) => {
         'form-llc': '/form-a-llc/step-1',
         'form-c-corporation': '/form-c-corporation/step-1',
         'form-s-corporation': '/form-s-corporation/step-1',
+        'form-nonprofit': '/start-a-nonprofit/step-1',
         'amendment': '/amendment/step-1',
         'annual-report': '/annual-report/step-1',
         'business-license': '/business-license/step-1',
@@ -161,6 +176,15 @@ const StepFinal = ({ referrer }: { referrer: string }) => {
     switch (serviceType) {
       case "form-llc":
         res = await submitFormData(paymentData, paymentData.orderID, "completed");
+        break;
+      case "form-s-corporation":
+        res = await submitFormSCorpData(paymentData, paymentData.orderID, "completed");
+        break;
+      case "form-c-corporation":
+        res = await submitFormCCorpData(paymentData, paymentData.orderID, "completed");
+        break;
+      case "form-nonprofit":
+        res = await submitFormNonprofitData(paymentData, paymentData.orderID, "completed");
         break;
       case "amendment":
         res = await submitAmendmentFormData(paymentData, paymentData.orderID, "completed");

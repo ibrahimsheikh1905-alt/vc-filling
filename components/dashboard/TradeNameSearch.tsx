@@ -2,9 +2,12 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  ChevronLeft, Star, Info, Check, ShieldCheck, Zap, DollarSign, MailX 
+import {
+  ChevronLeft, Star, Info, Check, ShieldCheck, Zap, DollarSign, MailX
 } from 'lucide-react';
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
 
 const TradeNameSearchForm = () => {
   const router = useRouter();
@@ -24,14 +27,14 @@ const TradeNameSearchForm = () => {
         {/* Back Button */}
         <button 
           onClick={() => router.back()}
-          className="flex items-center text-[13px] font-bold text-gray-900 mb-8 hover:text-orange-600 transition-colors"
+          className="flex items-center text-[13px] font-bold text-gray-900 mb-8 hover:text-cyan-600 transition-colors"
         >
-          <ChevronLeft className="w-4 h-4 text-orange-500 mr-1" /> Back
+          <ChevronLeft className="w-4 h-4 text-cyan-500 mr-1" /> Back
         </button>
 
         {/* Header Section */}
         <div className="mb-10 max-w-4xl">
-          <h1 className="text-3xl font-black text-gray-900 mb-6 tracking-tight">Trade Name Search</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-6 tracking-tight">Trade Name Search</h1>
           <p className="text-[14px] leading-relaxed text-gray-500 font-medium italic">
             Protecting your trademark can really pay dividends. Not only is it a valuable property asset, but it's also your brand, your reputation. The reputation you have established is associated with these different brand elements - your name, your logo, and tagline - and the reason why people buy from you.
           </p>
@@ -45,12 +48,12 @@ const TradeNameSearchForm = () => {
             {/* 1. Company Selection */}
             <div className="bg-white rounded-[20px] p-8 md:p-10 border border-gray-100 shadow-sm">
               <h3 className="text-[18px] font-bold text-gray-900 mb-6 italic">Company Information</h3>
-              <div className="border-2 border-orange-500 rounded-xl p-6 bg-white flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full border-2 border-orange-500 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+              <div className="rounded-xl border-2 border-transparent bg-[linear-gradient(white,white)_padding-box,linear-gradient(90deg,#244EB6,#2B93C9,#33D1CC)_border-box] p-6 flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-[#2B93C9] flex items-center justify-center">
+                  <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`} />
                 </div>
                 <div>
-                  <h4 className="font-black text-gray-900 text-[14px] uppercase tracking-wider">NEW COMPANY</h4>
+                  <h4 className="font-bold text-gray-900 text-[14px] uppercase tracking-wider">NEW COMPANY</h4>
                   <p className="text-gray-400 text-[12px]">A company previously incorporated outside of Bizee</p>
                 </div>
               </div>
@@ -91,12 +94,12 @@ const TradeNameSearchForm = () => {
                   <div 
                     key={type}
                     onClick={() => setTrademarkType(type)}
-                    className={`border-2 rounded-xl py-4 px-5 flex items-center gap-3 cursor-pointer transition-all ${
-                      trademarkType === type ? 'border-orange-500 ring-1 ring-orange-100 shadow-sm' : 'border-gray-100 opacity-60'
+                    className={`rounded-xl py-4 px-5 flex items-center gap-3 cursor-pointer transition-all border-2 ${
+                      trademarkType === type ? 'border-transparent bg-[linear-gradient(white,white)_padding-box,linear-gradient(90deg,#244EB6,#2B93C9,#33D1CC)_border-box] shadow-md shadow-[#2B93C9]/10' : 'border-gray-100 opacity-60'
                     }`}
                   >
-                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${trademarkType === type ? 'border-orange-500' : 'border-gray-300'}`}>
-                      {trademarkType === type && <div className="w-2.5 h-2.5 rounded-full bg-orange-500"/>}
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${trademarkType === type ? 'border-[#2B93C9]' : 'border-gray-300'}`}>
+                      {trademarkType === type && <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`}/>}
                     </div>
                     <span className="text-[13px] font-bold text-gray-900 italic">{type}</span>
                   </div>
@@ -138,7 +141,7 @@ const TradeNameSearchForm = () => {
                         key={opt}
                         onClick={() => setUsingMark(opt)}
                         className={`border-2 rounded-xl py-3 px-6 text-center cursor-pointer font-bold italic text-[13px] transition-all ${
-                          usingMark === opt ? 'border-orange-500 text-gray-900' : 'border-gray-100 text-gray-400'
+                          usingMark === opt ? 'border-[#2B93C9] text-gray-900' : 'border-gray-100 text-gray-400'
                         }`}
                       >
                         {opt}
@@ -148,29 +151,29 @@ const TradeNameSearchForm = () => {
                 </div>
 
                 <div className="flex items-center gap-3 pt-6">
-                  <input type="checkbox" className="w-5 h-5 accent-orange-500 rounded border-gray-300" />
-                  <p className="text-[12px] font-medium text-gray-600 italic">By clicking this checkbox, I have read <span className="text-orange-500 underline cursor-pointer">the acknowledgement</span>.</p>
+                  <input type="checkbox" className="w-5 h-5 accent-cyan-500 rounded border-gray-300" />
+                  <p className="text-[12px] font-medium text-gray-600 italic">By clicking this checkbox, I have read <span className="text-cyan-500 underline cursor-pointer">the acknowledgement</span>.</p>
                 </div>
               </div>
             </div>
 
             {/* 4. Why Use Us Section */}
             <div className="bg-white rounded-[20px] p-8 md:p-10 border border-gray-100 shadow-sm">
-              <h4 className="text-[16px] font-black text-gray-900 tracking-tight mb-8 italic">Why use us as your registered agent?</h4>
+              <h4 className="text-[16px] font-bold text-gray-900 tracking-tight mb-8 italic">Why use us as your registered agent?</h4>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10">
                 <div className="flex gap-4">
-                  <Zap className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                  <Zap className="w-6 h-6 text-cyan-500 flex-shrink-0" />
                   <div>
                     <h5 className="text-[14px] font-bold text-gray-900 mb-1 italic">Worry Free Compliance</h5>
                     <p className="text-[11px] text-gray-500 leading-relaxed font-medium italic">
-                      Use our service to guarantee your companies state compliance requirements are met. The service renews automatically each year for $119. <span className="text-orange-500 cursor-pointer underline">View Terms</span>
+                      Use our service to guarantee your companies state compliance requirements are met. The service renews automatically each year for $119. <span className="text-cyan-500 cursor-pointer underline">View Terms</span>
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
-                  <DollarSign className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                  <DollarSign className="w-6 h-6 text-cyan-500 flex-shrink-0" />
                   <div>
                     <h5 className="text-[14px] font-bold text-gray-900 mb-1 italic">Guaranteed Rates</h5>
                     <p className="text-[11px] text-gray-500 leading-relaxed font-medium italic">
@@ -180,7 +183,7 @@ const TradeNameSearchForm = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <ShieldCheck className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                  <ShieldCheck className="w-6 h-6 text-cyan-500 flex-shrink-0" />
                   <div>
                     <h5 className="text-[14px] font-bold text-gray-900 mb-1 italic">All-Inclusive</h5>
                     <p className="text-[11px] text-gray-500 leading-relaxed font-medium italic">
@@ -190,7 +193,7 @@ const TradeNameSearchForm = () => {
                 </div>
 
                 <div className="flex gap-4">
-                  <MailX className="w-6 h-6 text-orange-500 flex-shrink-0" />
+                  <MailX className="w-6 h-6 text-cyan-500 flex-shrink-0" />
                   <div>
                     <h5 className="text-[14px] font-bold text-gray-900 mb-1 italic">Reduce Junk Mail</h5>
                     <p className="text-[11px] text-gray-500 leading-relaxed font-medium italic">
@@ -205,29 +208,31 @@ const TradeNameSearchForm = () => {
           {/* RIGHT SIDE: ORDER SUMMARY */}
           <aside className="lg:sticky lg:top-8 z-30">
             <div className="bg-white rounded-[24px] border border-gray-100 shadow-2xl p-8">
-              <h3 className="text-[20px] font-black text-gray-900 mb-8 tracking-tighter italic">Order Summary</h3>
+              <h3 className="text-[20px] font-bold text-gray-900 mb-8 tracking-tighter italic">Order Summary</h3>
               
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between text-[13px] font-bold text-gray-400 uppercase tracking-tighter">
                   <span>Package Fee</span>
-                  <span className="text-gray-900 font-black text-[15px]">$149</span>
+                  <span className="text-gray-900 font-bold text-[15px]">$149</span>
                 </div>
                 <div className="flex justify-between text-[13px] font-bold text-gray-400 uppercase tracking-tighter">
                   <span>Attorney Fee</span>
-                  <span className="text-gray-900 font-black text-[15px]">$250</span>
+                  <span className="text-gray-900 font-bold text-[15px]">$250</span>
                 </div>
                 <div className="flex justify-between text-[13px] font-bold text-gray-400 uppercase tracking-tighter border-b border-gray-50 pb-6">
                   <span>Federal Fee*</span>
-                  <span className="text-gray-900 font-black text-[15px]">$350</span>
+                  <span className="text-gray-900 font-bold text-[15px]">$350</span>
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <span className="text-[20px] font-black text-gray-900 tracking-tighter italic">Total</span>
-                  <span className="text-4xl font-black text-gray-900 tracking-tighter">${baseTotal}</span>
+                  <span className="text-[20px] font-bold text-gray-900 tracking-tighter italic">Total</span>
+                  <span className="text-4xl font-bold text-gray-900 tracking-tighter">${baseTotal}</span>
                 </div>
               </div>
 
-              <button className="w-full bg-[#fcae91] hover:bg-orange-400 text-white font-black py-5 rounded-xl shadow-sm transition-all text-[16px] mb-6 uppercase tracking-wider">
-                Complete & Pay
+              <button className={`${LOGO_GRADIENT} group relative w-full overflow-hidden text-white font-bold py-5 rounded-full shadow-sm transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-[16px] mb-6 uppercase tracking-wider`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Complete & Pay</span>
               </button>
 
               <div className="flex flex-col items-center mb-6">
@@ -235,7 +240,7 @@ const TradeNameSearchForm = () => {
                   {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
                 </div>
                 <p className="text-[11px] text-gray-400 font-bold italic text-center">4.75 based on 60,000+ reviews on</p>
-                <div className="flex gap-4 mt-3 opacity-40 grayscale font-black text-[10px] uppercase tracking-widest">
+                <div className="flex gap-4 mt-3 opacity-40 grayscale font-bold text-[10px] uppercase tracking-widest">
                    <span>Trustpilot</span>
                    <span>Shopper Approved</span>
                 </div>

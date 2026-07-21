@@ -1,6 +1,9 @@
 import React from 'react';
 import { Globe, Bell, Mail, FileText, UserX, ShieldCheck } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const TipsGrid = () => {
   const tips = [
     { icon: <Globe />, text: "This is truly a virtual address. Please do not show up in person for any reason." },
@@ -23,10 +26,10 @@ const TipsGrid = () => {
         {tips.map((tip, idx) => (
           <div 
             key={idx} 
-            className="flex gap-5 p-6 md:p-8 bg-white rounded-[28px] border border-gray-100 shadow-sm hover:border-orange-200 hover:shadow-md transition-all duration-300 items-start"
+            className="flex gap-5 p-6 md:p-8 bg-white rounded-[28px] border border-gray-100 shadow-sm hover:border-cyan-200 hover:shadow-md transition-all duration-300 items-start"
           >
             {/* Icon Wrapper with Brand Colors */}
-            <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center shrink-0 text-[#FF5722]">
+            <div className={`${LOGO_GRADIENT} w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 text-white`}>
               {React.cloneElement(tip.icon, { size: 24, strokeWidth: 2 })}
             </div>
             

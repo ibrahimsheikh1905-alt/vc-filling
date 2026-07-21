@@ -3,6 +3,13 @@
 import React from "react";
 import { X, CheckCircle2, Globe } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 interface BuildWebsiteModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -46,12 +53,12 @@ export default function BuildWebsiteModal({
 
           <div className="flex w-full max-w-[400px] flex-col items-center text-center">
             {/* Badge */}
-            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-cyan-700">
-              <div className="h-1.5 w-1.5 rounded-full bg-cyan-500" />
+            <div className={`mb-4 inline-flex items-center gap-1.5 rounded-full border border-[#2B93C9]/20 ${LOGO_GRADIENT_SOFT} ${LOGO_GRADIENT_TEXT} px-3 py-1 text-[10px] font-bold uppercase tracking-wider`}>
+              <div className={`${LOGO_GRADIENT} h-1.5 w-1.5 rounded-full`} />
               Free With Your Package
             </div>
 
-            <h2 className="mb-2 text-3xl font-black tracking-tight text-slate-900">
+            <h2 className="mb-2 text-3xl font-bold tracking-tight text-slate-900">
               Get Online Today
             </h2>
 
@@ -80,8 +87,10 @@ export default function BuildWebsiteModal({
             </div>
 
             <div className="flex w-full flex-col gap-2">
-              <button className="w-full rounded-2xl bg-[#06B6D4] px-6 py-3.5 text-[15px] font-bold text-white shadow-md shadow-cyan-100 transition-all hover:bg-[#0891B2] hover:shadow-cyan-200 active:scale-95">
-                Start Building
+              <button className={`${LOGO_GRADIENT} group relative w-full overflow-hidden rounded-full px-6 py-3.5 text-[15px] font-bold text-white shadow-md shadow-cyan-100 transition-all duration-300 hover:scale-[1.03] hover:brightness-110 hover:shadow-cyan-200`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Start Building</span>
               </button>
 
               <button

@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Star, Info, User, ChevronDown, ChevronUp } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const EINTAXIDNumber = () => {
   const router = useRouter();
   const [idType, setIdType] = useState<"SSN" | "ITIN">("SSN");
@@ -49,7 +52,7 @@ const EINTAXIDNumber = () => {
 
               <div className="flex items-center gap-4 rounded-lg border-2 border-cyan-500 bg-white p-5">
                 <div className="flex h-5 w-5 items-center justify-center rounded-full border-2 border-cyan-500">
-                  <div className="h-2.5 w-2.5 rounded-full bg-cyan-500" />
+                  <div className={`h-2.5 w-2.5 rounded-full ${LOGO_GRADIENT}`} />
                 </div>
 
                 <div>
@@ -150,7 +153,7 @@ const EINTAXIDNumber = () => {
                   <div className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${
                     idType === "SSN" ? "border-cyan-500" : "border-slate-300"
                   }`}>
-                    {idType === "SSN" && <div className="h-2 w-2 rounded-full bg-cyan-500" />}
+                    {idType === "SSN" && <div className={`h-2 w-2 rounded-full ${LOGO_GRADIENT}`} />}
                   </div>
                   <span className="text-[13px] font-bold italic">SSN</span>
                 </button>
@@ -164,7 +167,7 @@ const EINTAXIDNumber = () => {
                   <div className={`flex h-4 w-4 items-center justify-center rounded-full border-2 ${
                     idType === "ITIN" ? "border-cyan-500" : "border-slate-300"
                   }`}>
-                    {idType === "ITIN" && <div className="h-2 w-2 rounded-full bg-cyan-500" />}
+                    {idType === "ITIN" && <div className={`h-2 w-2 rounded-full ${LOGO_GRADIENT}`} />}
                   </div>
                   <span className="text-[13px] font-bold italic">ITIN</span>
                 </button>
@@ -194,11 +197,13 @@ const EINTAXIDNumber = () => {
 
               <div className="flex items-end justify-between border-t border-slate-100 pt-6">
                 <span className="text-[18px] font-bold italic text-slate-900">Total</span>
-                <span className="text-[30px] font-black leading-none text-slate-900">$119</span>
+                <span className="text-[30px] font-bold leading-none text-slate-900">$119</span>
               </div>
 
-              <button className="mt-8 w-full rounded-xl bg-cyan-500 py-4 text-[14px] font-bold uppercase tracking-[2px] text-white shadow-lg shadow-cyan-100 transition-all hover:bg-cyan-600">
-                Complete & Pay
+              <button className={`${LOGO_GRADIENT} group relative mt-8 w-full overflow-hidden rounded-full py-4 text-[14px] font-bold uppercase tracking-[2px] text-white shadow-lg shadow-cyan-100 transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Complete & Pay</span>
               </button>
             </div>
           </aside>

@@ -5,6 +5,9 @@ import CompanyProfileTab from "@/components/dashboard/CompanyProfileTab";
 import PaymentMethodsTab from "@/components/dashboard/PaymentMethodsTab";
 import { Settings } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState<"company" | "payment">("company");
 
@@ -14,13 +17,13 @@ const SettingsPage = () => {
 
         <header className="mb-10">
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 shadow-sm">
-              <Settings className="h-7 w-7 text-cyan-600" />
+            <div className={`${LOGO_GRADIENT} flex h-14 w-14 items-center justify-center rounded-2xl shadow-md shadow-[#2B93C9]/25`}>
+              <Settings className="h-7 w-7 text-white" />
             </div>
 
             <div>
 
-              <h1 className="mt-2 text-4xl font-black uppercase tracking-tight text-slate-900">
+              <h1 className="mt-2 text-4xl font-bold uppercase tracking-tight text-slate-900">
                 Settings
               </h1>
 
@@ -36,7 +39,7 @@ const SettingsPage = () => {
             onClick={() => setActiveTab("company")}
             className={`flex-1 rounded-xl px-6 py-3 text-sm font-bold transition-all ${
               activeTab === "company"
-                ? "bg-cyan-500 text-white shadow-md"
+                ? `${LOGO_GRADIENT} text-white shadow-md`
                 : "text-slate-500 hover:bg-cyan-50 hover:text-cyan-600"
             }`}
           >
@@ -47,7 +50,7 @@ const SettingsPage = () => {
             onClick={() => setActiveTab("payment")}
             className={`flex-1 rounded-xl px-6 py-3 text-sm font-bold transition-all ${
               activeTab === "payment"
-                ? "bg-cyan-500 text-white shadow-md"
+                ? `${LOGO_GRADIENT} text-white shadow-md`
                 : "text-slate-500 hover:bg-cyan-50 hover:text-cyan-600"
             }`}
           >

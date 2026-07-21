@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import NavigationWrapper from "@/components/NavigationWrapper";
+import { useRouter } from "next/navigation";
 // @ts-ignore - no first-party types; @types/svg-maps__usa can be added separately if desired
 import usaMap from "@svg-maps/usa";
+
 
 // ── Icons ───────────────────────────────────────────────────────────────────────
 const ChevronDown = () => (
@@ -48,6 +50,28 @@ const StarIcon = () => (
   </svg>
 );
 
+
+const BRAND_GRADIENT =
+  "linear-gradient(90deg,#244EB6 0%,#2B93C9 50%,#33D1CC 100%)";
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const gradientTextStyle: React.CSSProperties = {
+  background: BRAND_GRADIENT,
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  color: "transparent",
+};
+
+const gradientButtonStyle: React.CSSProperties = {
+  background: BRAND_GRADIENT,
+  color: "#fff",
+  border: "none",
+  boxShadow: "0 10px 28px rgba(43,147,201,.25)",
+};
+
 // ── Data ──────────────────────────────────────────────────────────────────────
 const states = [
   "Alabama", "Alaska", "Arizona", "Arkansas",
@@ -65,7 +89,7 @@ const states = [
   "West Virginia", "Wisconsin", "Wyoming",
 ];
 
-// Maps full state name -> USPS abbreviation used to match the map's location ids
+// Maps full state name -> USPS abbreviation used by react-usa-map's data-name attr
 const ABBR_BY_NAME: Record<string, string> = {
   Alabama: "AL", Alaska: "AK", Arizona: "AZ", Arkansas: "AR",
   California: "CA", Colorado: "CO", Connecticut: "CT", Delaware: "DE",
@@ -88,12 +112,12 @@ const NAME_BY_ABBR: Record<string, string> = Object.fromEntries(
 );
 
 const resources = [
-  { title: "Understanding Filing Fees", gradient: "from-cyan-100 to-cyan-700" },
-  { title: "Navigating Filing Times", gradient: "from-slate-300 to-slate-900" },
-  { title: "Business Name Search", gradient: "from-teal-100 to-cyan-900" },
-  { title: "Filing Annual Reports", gradient: "from-sky-200 to-cyan-950" },
-  { title: "State LLC Filing Tips", gradient: "from-cyan-200 to-cyan-900" },
-  { title: "File in Another Country", gradient: "from-cyan-300 to-slate-950" },
+  { title: "Understanding Filing Fees", gradient: "from-cyan-200 to-cyan-700" },
+  { title: "Navigating Filing Times", gradient: "from-slate-300 to-cyan-900" },
+  { title: "Business Name Search", gradient: "from-cyan-100 to-cyan-600" },
+  { title: "Filing Annual Reports", gradient: "from-cyan-300 to-slate-900" },
+  { title: "State LLC Filing Tips", gradient: "from-cyan-200 to-cyan-800" },
+  { title: "File in Another Country", gradient: "from-sky-300 to-cyan-900" },
 ];
 
 const faqs = [
@@ -113,8 +137,23 @@ const faqs = [
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function LlcFormationByStatePage() {
+  const router = useRouter();
+
+  const handleGetStarted = () => {
+    router.push("/llc");
+  };
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const toStateSlug = (stateName: string) => {
+    // Normalize spaces and punctuation; route examples: Alabama -> alabama, Washington DC -> washington-dc
+    return stateName.toLowerCase().trim().replace(/\s+/g, "-").replace(/\./g, "");
+  };
+
+  const goToState = (stateName: string) => {
+    router.push(`/state-info/${toStateSlug(stateName)}`);
+  };
+
 
   // Resolve a full state name from whatever id/name format the map data uses
   // (svg-maps packages vary between "AL", "al", "us-al", "alabama", etc.)
@@ -152,24 +191,27 @@ export default function LlcFormationByStatePage() {
     <NavigationWrapper>
       <div className="m-0 min-h-screen bg-white p-0 font-sans text-[#1a1a2e]">
         {/* ── BREADCRUMB ── */}
-        <div className="mx-auto max-w-[1200px] px-6 pt-3.5 text-[13px] text-gray-400 md:px-20">
-          <span className="cursor-pointer text-cyan-500">IncorpBay</span>
+        <div className="mx-auto max-w-[1200px] px-6 pt-3.5 text-[13px] text-slate-400 md:px-20">
+          <span style={gradientTextStyle}>Incorp Bay</span>
           <span className="mx-1.5">›</span>
-          <span className="text-cyan-500">LLC Formation By State</span>
+          <span style={gradientTextStyle}>LLC Formation By State</span>
         </div>
 
         {/* ── HERO + MAP ── */}
         <section className="mx-auto max-w-[900px] px-6 pb-[70px] pt-[30px] text-center">
           <h1 className="m-0 mb-[22px] text-[40px] font-extrabold leading-[1.18] text-[#0d0d1a]">
-            <span className="text-cyan-500">LLC Requirements</span> By State
+            Want To Learn More <span style={gradientTextStyle}>About LLCs In Your State?</span>
           </h1>
           <p className="mx-auto mb-[50px] max-w-[700px] text-base leading-[1.7] text-[#555]">
             With different rules and regulations for LLC formation in every state, starting a business can be a pretty confusing process. That's why we've organized all LLC requirements by state in one handy place — right here!
           </p>
 
-          {/* Real US states map (@svg-maps/usa), hover only */}
+          {/* Real US states map (@svg-maps/usa), hover + click enabled */}
           <div className="relative mt-2.5 flex justify-center">
-            <div className="pointer-events-none absolute left-1/2 top-0 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-[13px] font-bold text-cyan-700 shadow-[0_8px_24px_rgba(6,182,212,0.12)]">
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full px-4 py-2 text-[13px] font-bold text-white shadow-[0_10px_30px_rgba(43,147,201,0.28)]"
+              style={{ background: BRAND_GRADIENT }}
+            >
               {hoveredState || "Hover a state"} <ArrowRight />
             </div>
 
@@ -188,11 +230,19 @@ export default function LlcFormationByStatePage() {
                       d={loc.path}
                       onMouseEnter={() => handleLocationMouseOver(loc.stateName)}
                       onMouseLeave={handleLocationMouseOut}
-                      className={`cursor-default transition-[fill,stroke,stroke-width] duration-150 ease-in-out ${
-                        isHovered
-                          ? "fill-cyan-100 stroke-cyan-500 [stroke-width:2]"
-                          : "fill-slate-50 stroke-slate-300 [stroke-width:1.4]"
-                      }`}
+                      onClick={() => {
+                        if (!loc.stateName) return;
+                        goToState(loc.stateName);
+                      }}
+                      className="cursor-pointer transition-all duration-300 ease-out"
+                      style={{
+                        fill: isHovered ? "#2B93C9" : "#F8FAFC",
+                        stroke: isHovered ? "#244EB6" : "#CBD5E1",
+                        strokeWidth: isHovered ? 2.6 : 1.4,
+                        filter: isHovered
+                          ? "drop-shadow(0 0 12px rgba(43,147,201,.55))"
+                          : "none",
+                      }}
                     >
                       <title>{loc.stateName || loc.name}</title>
                     </path>
@@ -214,14 +264,28 @@ export default function LlcFormationByStatePage() {
                   key={s}
                   onMouseEnter={() => setHoveredState(s)}
                   onMouseLeave={() => setHoveredState(null)}
-                  className={`cursor-default rounded-[10px] border px-5 py-4 text-left text-sm font-medium transition-colors duration-150 ${
-                    isHovered
-                      ? "border-cyan-500 bg-cyan-50 text-cyan-700"
-                      : "border-transparent bg-cyan-50/60 text-cyan-700/80"
-                  }`}
+                  onClick={() => goToState(s)}
+                  className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white px-5 py-4 text-left text-sm font-semibold text-slate-800 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                   type="button"
                 >
-                  {s}
+                  <span
+                    className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{
+                      background:
+                        "linear-gradient(90deg,rgba(36,78,182,.10),rgba(43,147,201,.10),rgba(51,209,204,.10))",
+                    }}
+                  />
+
+                  <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/50 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+
+                  <span className="relative z-10 flex items-center justify-between gap-3">
+                    <span className="transition-colors duration-300 group-hover:text-[#2B93C9]">
+                      {s}
+                    </span>
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">
+                      <ArrowRight />
+                    </span>
+                  </span>
                 </button>
               );
             })}
@@ -229,21 +293,21 @@ export default function LlcFormationByStatePage() {
         </section>
 
         {/* ── WHICH STATE SHOULD YOU CHOOSE ── */}
-        <section className="mx-auto max-w-[1000px] px-6 pb-[60px] md:px-20">
+        <section className="mx-auto max-w-[1000px] px-6 pb-[60px] text-center md:px-20">
           <h2 className="m-0 mb-[18px] text-[32px] font-extrabold leading-[1.2]">Which State Should You Choose?</h2>
-          <p className="mb-[18px] max-w-[760px] text-[15px] leading-[1.75] text-[#444]">
-            Remember, you don't necessarily need to form your LLC in the same state you live in. Some states, such as Wyoming, Nevada, and Delaware, are known for having such business-friendly rules and cheap filing fees that a lot of out-of-state entrepreneurs choose to file their LLCs there.
+          <p className="mx-auto mb-[18px] max-w-[760px] text-[15px] leading-[1.75] text-[#444]">
+            Remember, you don't necessarily need to form your LLC in the state where you live. Some states, such as Wyoming, Nevada and Delaware, have business-friendly rules and cheap filing fees that inspire out-of-state entrepreneurs to choose to file their LLCs there.
           </p>
-          <p className="max-w-[760px] text-[15px] leading-[1.75] text-[#444]">
+          <p className="mx-auto max-w-[760px] text-[15px] leading-[1.75] text-[#444]">
             Explore the resources below to learn more about the state-by-state specifics of forming an LLC.
           </p>
         </section>
 
-        {/* ── ADDITIONAL LLC STATE RESOURCES ── */}
+        {/* ── ADDITIONAL LLC RESOURCES ── */}
         <section className="mx-auto max-w-[1200px] px-6 pb-[90px] pt-[30px] md:px-20">
-          <h2 className="m-0 mb-4 text-center text-[32px] font-extrabold">Additional LLC State Resources</h2>
+          <h2 className="m-0 mb-4 text-center text-[32px] font-extrabold">Additional LLC Resources</h2>
           <p className="mx-auto mb-12 max-w-[620px] text-center text-[15px] text-[#555]">
-            Want to learn even more about forming an LLC in your state? Check out these handy resources from IncorpBay:
+            Want to learn even more about forming an LLC in your state? Check out these handy resources from Incorp Bay:
           </p>
           <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
             {resources.map((r) => (
@@ -268,10 +332,10 @@ export default function LlcFormationByStatePage() {
                 type="button"
               >
                 <span className="flex items-baseline gap-3">
-                  <span className="text-[15px] font-bold text-cyan-500">{i + 1}</span>
+                  <span className="text-[15px] font-bold" style={gradientTextStyle}>{i + 1}</span>
                   <span className="text-base font-bold text-[#0d0d1a]">{faq.q}</span>
                 </span>
-                <span className={`shrink-0 text-gray-500 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}>
+                <span className={`shrink-0 text-slate-500 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}>
                   <ChevronDown />
                 </span>
               </button>
@@ -290,17 +354,40 @@ export default function LlcFormationByStatePage() {
             <span className="font-bold text-[#00B67A]">Trustpilot</span>
           </div>
           <h2 className="m-0 mb-3.5 text-[38px] font-extrabold leading-[1.2]">
-            Form Your<br /><span className="text-cyan-500">Free LLC Now</span>
+            Form Your<br /><span style={gradientTextStyle}>Free LLC Now</span>
           </h2>
           <p className="mx-auto mb-[30px] max-w-[560px] text-[15px] leading-[1.7] text-[#555]">
             Creating your own business from scratch is no small feat, but it's not impossible. Break down your work into bite-sized chunks with our checklist.
           </p>
-          <a
-            href="#"
-            className="inline-block rounded-full bg-cyan-500 px-[38px] py-4 text-sm font-bold uppercase tracking-[0.4px] text-white no-underline shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600"
-          >
-            Get Started Now
-          </a>
+          <button
+  type="button"
+  onClick={handleGetStarted}
+  className={`${LOGO_GRADIENT} group relative overflow-hidden rounded-full px-8 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]`}
+>
+  {/* Top Gloss */}
+  <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+
+  {/* Shine Animation */}
+  <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+
+  <span className="relative z-10 flex items-center gap-2">
+    GET STARTED
+    <svg
+      className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2.5}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M5 12h14M13 5l7 7-7 7"
+      />
+    </svg>
+  </span>
+</button>
         </section>
       </div>
     </NavigationWrapper>

@@ -158,8 +158,8 @@ try {
     return (
       <div className="w-full max-w-full bg-white rounded-xl shadow-sm border overflow-hidden">
         <div className="flex items-center gap-2 p-3 bg-gray-50/50 border-b">
-          <Mail className="w-4 h-4 text-[#FF5722]" />
-          <h2 className="text-sm font-black uppercase tracking-tight text-gray-800">Virtual Mailbox</h2>
+          <Mail className="w-4 h-4 text-cyan-500" />
+          <h2 className="text-sm font-bold uppercase tracking-tight text-gray-800">Virtual Mailbox</h2>
         </div>
         <div className="flex items-center justify-center h-32">
           <div className="text-gray-400 text-sm">Loading...</div>
@@ -172,8 +172,8 @@ try {
     <div className="w-full max-w-full bg-white rounded-xl shadow-sm border overflow-hidden">
       {/* Header section */}
       <div className="flex items-center gap-2 p-3 bg-gray-50/50 border-b">
-        <Mail className="w-4 h-4 text-[#FF5722]" />
-        <h2 className="text-sm font-black uppercase tracking-tight text-gray-800">Virtual Mailbox</h2>
+        <Mail className="w-4 h-4 text-cyan-500" />
+        <h2 className="text-sm font-bold uppercase tracking-tight text-gray-800">Virtual Mailbox</h2>
       </div>
 
       <div className="p-0">
@@ -267,7 +267,7 @@ onClick={async () => {
                           setMailListLoading(false);
                         }
                       }}
-                      className="text-orange-600 hover:text-orange-700 text-xs font-medium underline"
+                      className="text-cyan-600 hover:text-cyan-700 text-xs font-medium underline"
                     >
                       View
                     </button>
@@ -291,7 +291,7 @@ onClick={async () => {
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
               <div>
-                <h3 className="text-xl font-black text-gray-800 uppercase">Mail List</h3>
+                <h3 className="text-xl font-bold text-gray-800 uppercase">Mail List</h3>
                 <p className="text-sm text-gray-500">{selectedMailbox.companyName} - {selectedMailbox.state}</p>
               </div>
               <button 
@@ -306,7 +306,7 @@ onClick={async () => {
             <div className="p-4 overflow-y-auto max-h-[60vh]">
               {mailListLoading ? (
                 <div className="flex items-center justify-center py-12">
-                  <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
+                  <div className="w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : mailItems.length === 0 ? (
                 <div className="text-center py-12 text-gray-400">
@@ -322,7 +322,7 @@ onClick={async () => {
                         setSelectedMail(mail);
                         setIsMailDetailModalOpen(true);
                       }}
-                      className={`p-4 rounded-xl border cursor-pointer hover:border-orange-300 hover:bg-orange-50 transition-all ${
+                      className={`p-4 rounded-xl border cursor-pointer hover:border-cyan-300 hover:bg-cyan-50 transition-all ${
                         mail.status === 'Unread' ? 'border-blue-200 bg-blue-50' : 'border-gray-200'
                       }`}
                     >
@@ -341,7 +341,7 @@ onClick={async () => {
                         </div>
                         <div className="text-right">
                           <p className="text-xs text-gray-400">{formatDate(mail.receivedDate)}</p>
-                          <Eye className="w-4 h-4 text-orange-500 mt-1" />
+                          <Eye className="w-4 h-4 text-cyan-500 mt-1" />
                         </div>
                       </div>
                     </div>
@@ -360,7 +360,7 @@ onClick={async () => {
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
               <div>
-                <h3 className="text-lg font-black text-gray-800 uppercase">Mail Details</h3>
+                <h3 className="text-lg font-bold text-gray-800 uppercase">Mail Details</h3>
                 <p className="text-sm text-gray-500">{selectedMail.subject}</p>
               </div>
               <button 

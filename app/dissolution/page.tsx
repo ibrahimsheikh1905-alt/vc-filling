@@ -1,11 +1,23 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
+const LOGO_GRADIENT =
+  "linear-gradient(90deg,#244EB6 0%,#2B93C9 50%,#33D1CC 100%)";
+
+const gradientText = {
+  backgroundImage: LOGO_GRADIENT,
+  WebkitBackgroundClip: "text" as const,
+  backgroundClip: "text" as const,
+  WebkitTextFillColor: "transparent",
+  color: "transparent",
+};
+
 const StarIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="#00b67a" xmlns="http://www.w3.org/2000/svg">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="#2B93C9" xmlns="http://www.w3.org/2000/svg">
     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
   </svg>
 );
@@ -29,7 +41,7 @@ const Accordion = ({ title, children }: { title: string; children: React.ReactNo
         style={{
           width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
           padding: "14px 18px", background: "white", border: "none", cursor: "pointer",
-          fontSize: 15, fontWeight: 500, color: "#1E293B", textAlign: "left"
+          fontSize: 15, fontWeight: 400, color: "#1E293B", textAlign: "left"
         }}
       >
         {title}
@@ -63,7 +75,7 @@ const ChevronRightIcon = ({ active }: { active: boolean }) => (
     style={{
       flexShrink: 0,
       marginTop: 2,
-      color: active ? "#06B6D4" : "#CBD5E1",
+      color: active ? "#2B93C9" : "#CBD5E1",
     }}
   >
     <path
@@ -98,7 +110,7 @@ const TableOfContents = ({
           margin: "0 0 16px",
           fontSize: 16,
           lineHeight: 1.2,
-          fontWeight: 900,
+          fontWeight: 700,
           color: "#1a1a1a",
         }}
       >
@@ -122,7 +134,7 @@ const TableOfContents = ({
                   padding: "12px 12px",
                   border: active ? "1px solid #E2E8F0" : "1px solid transparent",
                   background: "#ffffff",
-                  color: active ? "#06B6D4" : "#94A3B8",
+                  color: active ? "#2B93C9" : "#94A3B8",
                   cursor: "pointer",
                   textAlign: "left",
                   fontSize: 14,
@@ -150,44 +162,15 @@ const TableOfContents = ({
 );
 
 const PhoneMockup = () => (
-  <div style={{
-    background: "white", borderRadius: 20, boxShadow: "0 4px 24px rgba(0,0,0,0.12)",
-    padding: "16px", width: 220, fontFamily: "sans-serif", fontSize: 12
-  }}>
-    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-      <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#e5e7eb" }} />
-      <div>
-        <div style={{ fontWeight: 700, fontSize: 13 }}>Elizabeth Smith</div>
-        <div style={{ color: "#6b7280", fontSize: 11 }}>ACME Design LLC</div>
-      </div>
-    </div>
-    <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 10 }}>Dissolution</div>
-    <div style={{
-      background: "#06B6D4", borderRadius: 12, padding: "12px 14px", color: "white", marginBottom: 12
-    }}>
-      <div style={{ fontSize: 10, opacity: 0.85, marginBottom: 4 }}>LLC Dissolution Status ●</div>
-      <div style={{ fontSize: 18, fontWeight: 700 }}>Company Dissolved</div>
-      <div style={{ fontSize: 10, opacity: 0.75, marginTop: 4 }}>Dissolution Date: 05/31/2024</div>
-    </div>
-    <div style={{ fontWeight: 600, marginBottom: 8 }}>Process Overview</div>
-    {[
-      { label: "Dissolution Requested", date: "05/07/2024", done: true },
-      { label: "Document Preparation", date: "05/08/2024", done: true },
-      { label: "State Submission", date: "05/25/2024", done: true },
-      { label: "Dissolution Completed", date: "Completed", done: true },
-    ].map((item, i) => (
-      <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", borderBottom: "1px solid #f3f4f6", color: "#374151" }}>
-        <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ width: 8, height: 8, borderRadius: "50%", background: "#06B6D4", display: "inline-block" }} />
-          {item.label}
-        </span>
-        <span style={{ color: "#6b7280", fontSize: 11 }}>{item.date}</span>
-      </div>
-    ))}
-<Link href="/dissolution/step-1" style={{
-      width: "100%", marginTop: 12, background: "#06B6D4", color: "white",
-      border: "none", borderRadius: 8, padding: "10px", fontSize: 12, cursor: "pointer", fontWeight: 600, textDecoration: "none", display: "inline-block", textAlign: "center"
-    }}>Check More Details</Link>
+  <div style={{ position: "relative", width: 260 }}>
+    <Image
+      src="/dissolution/Dissolution-page-on-smart-phone.webp"
+      alt="Company dissolution status on a smartphone"
+      width={1216}
+      height={1294}
+      className="w-full h-auto"
+      priority
+    />
   </div>
 );
 
@@ -225,7 +208,7 @@ export default function IncorpBayDissolutionPage() {
         <div style={{ flex: "1 1 400px" }}>
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 8, border: "1px solid #e5e7eb",
-            borderRadius: 50, padding: "6px 14px", fontSize: 13, fontWeight: 500, marginBottom: 24
+            borderRadius: 50, padding: "6px 14px", fontSize: 13, fontWeight: 400, marginBottom: 24
           }}>
             Excellent 4.7 out of 5 <StarIcon /> Trustpilot
           </div>
@@ -237,12 +220,12 @@ export default function IncorpBayDissolutionPage() {
           </p>
 <div style={{ display: "flex", gap: 14 }}>
             <Link href="/dissolution/step-1" style={{
-              background: "#06B6D4", color: "white", border: "none", borderRadius: 50,
+              background: LOGO_GRADIENT, color: "white", border: "none", borderRadius: 50,
               padding: "14px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer", letterSpacing: 0.5, textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center"
             }}>ORDER NOW</Link>
             <button style={{
               background: "white", color: "#1E293B", border: "2px solid #e5e7eb", borderRadius: 50,
-              padding: "14px 28px", fontSize: 14, fontWeight: 600, cursor: "pointer"
+              padding: "14px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer"
             }}>LEARN MORE</button>
           </div>
         </div>
@@ -260,9 +243,9 @@ export default function IncorpBayDissolutionPage() {
       <div style={{ borderTop: "1px solid #e5e7eb", borderBottom: "1px solid #e5e7eb", padding: "18px 32px", textAlign: "center", fontSize: 15, color: "#374151" }}>
         <span style={{ color: "#6b7280" }}>●</span>
         &nbsp; Bootstrapped, Founder Led, Independently Owned &nbsp;
-        <span style={{ background: "#CFFAFE", color: "#0891b2", borderRadius: 6, padding: "2px 10px", fontWeight: 700 }}>Since 2004</span>
+        <span style={{ background: "#E0F2FE", color: "#2B93C9", borderRadius: 6, padding: "2px 10px", fontWeight: 700 }}>Since 2004</span>
         &nbsp; with &nbsp;
-        <span style={{ background: "#CFFAFE", color: "#0891b2", borderRadius: 6, padding: "2px 10px", fontWeight: 700 }}>Over 1,000,000 Entrepreneurs</span>
+        <span style={{ background: "#E0F2FE", color: "#2B93C9", borderRadius: 6, padding: "2px 10px", fontWeight: 700 }}>Over 1,000,000 Entrepreneurs</span>
         &nbsp; Served!
         &nbsp; <span style={{ color: "#6b7280" }}>●</span>
       </div>
@@ -272,7 +255,7 @@ export default function IncorpBayDissolutionPage() {
         <div style={{
           border: "1px solid #e5e7eb", borderRadius: 20, padding: "40px 48px",
           display: "flex", alignItems: "center", gap: 48, flexWrap: "wrap",
-          background: "linear-gradient(135deg, #fff 60%, #ECFEFF 100%)"
+          background: "linear-gradient(135deg, #fff 60%, #F0F9FF 100%)"
         }}>
           <div style={{ flex: "1 1 300px" }}>
             <h2 style={{ fontSize: 32, fontWeight: 700, marginBottom: 14 }}>Incorp Bay's<br />Startup Central</h2>
@@ -280,16 +263,19 @@ export default function IncorpBayDissolutionPage() {
               The media center. Guts, grit, and a game plan for launching your business.
             </p>
 <Link href="/startup-central" style={{
-              background: "#06B6D4", color: "white", border: "none", borderRadius: 50,
+              background: LOGO_GRADIENT, color: "white", border: "none", borderRadius: 50,
               padding: "14px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center"
             }}>VISIT INCORP BAY STARTUP CENTRAL</Link>
           </div>
-          <div style={{ flex: "1 1 240px", display: "flex", justifyContent: "flex-end" }}>
-            <div style={{ background: "#ECFEFF", borderRadius: 16, padding: 24, maxWidth: 260 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#9ca3af", letterSpacing: 1, marginBottom: 10 }}>HOW TO</div>
-              <div style={{ background: "#e5e7eb", borderRadius: 8, height: 100, marginBottom: 12 }} />
-              <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>BUSINESS IDEAS</div>
-              <div style={{ fontSize: 12, color: "#6b7280" }}>Understanding Data Privacy Laws and How They Impact Small Businesses</div>
+          <div style={{ flex: "1 1 300px", display: "flex", justifyContent: "flex-end" }}>
+            <div style={{ position: "relative", width: "100%", maxWidth: 360 }}>
+              <Image
+                src="/dissolution/Startup-central-ideas.webp"
+                alt="Incorp Bay Startup Central articles"
+                width={1426}
+                height={1103}
+                className="w-full h-auto"
+              />
             </div>
           </div>
         </div>
@@ -302,15 +288,14 @@ export default function IncorpBayDissolutionPage() {
         </h2>
         <div style={{ display: "flex", gap: 48, alignItems: "center", flexWrap: "wrap" }}>
           <div style={{ flex: "1 1 340px" }}>
-            <div style={{
-              background: "#CFFAFE", borderRadius: 20, overflow: "hidden", height: 380,
-              display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280", fontSize: 14
-            }}>
-              {/* Placeholder for florist image */}
-              <div style={{ textAlign: "center", padding: 24 }}>
-                <div style={{ fontSize: 48, marginBottom: 8 }}>🌸</div>
-                <div>Business owner image</div>
-              </div>
+            <div style={{ position: "relative", borderRadius: 20, overflow: "hidden" }}>
+              <Image
+                src="/dissolution/Dissolution-company-dissolved-two-phones.webp"
+                alt="LLC dissolution tracked on a smartphone"
+                width={1551}
+                height={1014}
+                className="w-full h-auto"
+              />
             </div>
           </div>
           <div style={{ flex: "1 1 340px", display: "flex", flexDirection: "column", gap: 16 }}>
@@ -334,7 +319,7 @@ export default function IncorpBayDissolutionPage() {
               <div key={item.num} style={{ border: "1px solid #e5e7eb", borderRadius: 14, padding: "20px 22px" }}>
                 <div style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
                   <span style={{
-                    background: "#06B6D4", color: "white", width: 28, height: 28, borderRadius: 8,
+                    background: LOGO_GRADIENT, color: "white", width: 28, height: 28, borderRadius: 8,
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: 14, fontWeight: 700, flexShrink: 0
                   }}>{item.num}</span>
@@ -365,18 +350,14 @@ export default function IncorpBayDissolutionPage() {
               title: "Dissolution",
               desc: "Dissolution is the process of formally closing the LLC, which includes winding up its affairs, settling debts, and distributing remaining assets. This step ensures you meet all legal and financial obligations before ending the entity's existence.",
               ui: (
-                <div style={{ background: "#f9fafb", borderRadius: 12, padding: 20 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                    <span style={{ fontWeight: 600, fontSize: 14 }}>Dissolve Your Company</span>
-                    <span>→</span>
-                  </div>
-                  <div style={{ fontSize: 11, color: "#6b7280", marginBottom: 4 }}>LLC Dissolution Process ●</div>
-                  <div style={{ fontWeight: 700, fontSize: 18, marginBottom: 10 }}>Formally Closing LLC</div>
-                  <div style={{ background: "#06B6D4", height: 6, borderRadius: 3, width: "75%", marginBottom: 8 }} />
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6b7280" }}>
-                    <span>Started: April 24th, 2024</span>
-                    <span>75%</span>
-                  </div>
+                <div style={{ position: "relative" }}>
+                  <Image
+                    src="/dissolution/Dissolve-your-company-formally-closing-llc.webp"
+                    alt="Closing your LLC progress card"
+                    width={1799}
+                    height={874}
+                    className="w-full h-auto rounded-xl"
+                  />
                 </div>
               )
             },
@@ -384,14 +365,14 @@ export default function IncorpBayDissolutionPage() {
               title: "Termination",
               desc: "Terminating the company is the final step after dissolution, where the LLC ceases to exist as a legal entity. Termination means the state removes the LLC from its registry and no longer recognizes it as a business.",
               ui: (
-                <div style={{ background: "#111827", borderRadius: 12, padding: 20, color: "white" }}>
-                  <div style={{ fontSize: 11, color: "#9ca3af", marginBottom: 6 }}>🔔 Notification</div>
-                  <div style={{ fontWeight: 700, fontSize: 18, marginBottom: 6 }}>Company Termination</div>
-                  <div style={{ fontSize: 12, color: "#9ca3af", marginBottom: 14 }}>Your LLC has been formally terminated</div>
-                  <div style={{ display: "flex", gap: 16, fontSize: 12, color: "#9ca3af", borderTop: "1px solid #374151", paddingTop: 12, marginBottom: 12 }}>
-                    <span>Timeline</span><span>Deadlines</span><span>Updates</span>
-                  </div>
-                  <div style={{ fontSize: 12, color: "#9ca3af" }}>● Service Requested — 31.05.2024</div>
+                <div style={{ position: "relative" }}>
+                  <Image
+                    src="/dissolution/Company-termination-notification.webp"
+                    alt="Company termination notification on a smartphone"
+                    width={1795}
+                    height={876}
+                    className="w-full h-auto rounded-xl"
+                  />
                 </div>
               )
             }
@@ -399,7 +380,7 @@ export default function IncorpBayDissolutionPage() {
             <div key={item.title} style={{ border: "1px solid #e5e7eb", borderRadius: 16, padding: 28 }}>
               <div style={{ marginBottom: 20 }}>{item.ui}</div>
               <h3 style={{ fontWeight: 700, fontSize: 20, marginBottom: 10 }}>{item.title}</h3>
-              <p style={{ fontSize: 14, color: "#06B6D4", lineHeight: 1.7 }}>{item.desc}</p>
+              <p style={{ fontSize: 14, color: "#2B93C9", lineHeight: 1.7 }}>{item.desc}</p>
             </div>
           ))}
         </div>
@@ -408,23 +389,28 @@ export default function IncorpBayDissolutionPage() {
       {/* How to Dissolve an LLC - Steps */}
       <section style={{ maxWidth: 1200, margin: "64px auto", padding: "0 32px" }}>
         <div style={{
-          background: "#ECFEFF", borderRadius: 10, padding: "12px 18px",
-          fontSize: 13, color: "#0E7490", marginBottom: 40, border: "1px solid #67E8F9"
+          background: "#F0F9FF", borderRadius: 10, padding: "12px 18px",
+          fontSize: 13, color: "#1E293B", marginBottom: 40, border: "1px solid #7DD3FC"
         }}>
           ⚠️ Both dissolution and LLC termination are necessary to end the company's existence and obligations completely. Members could remain liable for the LLC's obligations without proper dissolution and termination.
         </div>
         <h2 style={{ fontSize: 44, fontWeight: 700, textAlign: "center", marginBottom: 8 }}>How to Dissolve an LLC</h2>
         <p style={{ textAlign: "center", color: "#6b7280", marginBottom: 48 }}>Dissolving an LLC involves several key steps.</p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 40, alignItems: "center" }}>
           {/* Step 1 */}
           <div>
-            <div style={{ background: "#e5e7eb", borderRadius: 16, height: 220, display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af", marginBottom: 20 }}>
-              <div style={{ textAlign: "center" }}><div style={{ fontSize: 40 }}>👔</div><div style={{ fontSize: 12 }}>Business owner</div></div>
+            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", height: 220, marginBottom: 20 }}>
+              <Image
+                src="/dissolution/pic2.webp"
+                alt="Business owner making the decision to dissolve"
+                fill
+                className="object-cover object-top"
+              />
             </div>
           </div>
           <div>
-            <div style={{ color: "#06B6D4", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>1.</div>
+            <div style={{ color: "#2B93C9", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>1.</div>
             <h3 style={{ fontWeight: 700, fontSize: 22, marginBottom: 16 }}>Internal Agreement and Decision-Making</h3>
             <Accordion title="Member voting">
               LLC members must vote to dissolve the company. Check your operating agreement for the required voting threshold — typically a majority or unanimous vote is needed.
@@ -439,7 +425,7 @@ export default function IncorpBayDissolutionPage() {
 
           {/* Step 2 */}
           <div>
-            <div style={{ color: "#06B6D4", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>2.</div>
+            <div style={{ color: "#2B93C9", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>2.</div>
             <h3 style={{ fontWeight: 700, fontSize: 22, marginBottom: 16 }}>Filing the Articles of Dissolution</h3>
             <Accordion title="Prepare the document">
               Obtain the Articles of Dissolution form from your state's Secretary of State website. Fill in the required information including your LLC name, date of dissolution, and reason for dissolving.
@@ -452,19 +438,29 @@ export default function IncorpBayDissolutionPage() {
             </Accordion>
           </div>
           <div>
-            <div style={{ background: "#e5e7eb", borderRadius: 16, height: 220, display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af", marginBottom: 20 }}>
-              <div style={{ textAlign: "center" }}><div style={{ fontSize: 40 }}>👩</div><div style={{ fontSize: 12 }}>Business owner</div></div>
+            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", height: 220, marginBottom: 20 }}>
+              <Image
+                src="/dissolution/pic5.webp"
+                alt="Business owner preparing dissolution paperwork"
+                fill
+                className="object-cover object-top"
+              />
             </div>
           </div>
 
           {/* Step 3 */}
           <div>
-            <div style={{ background: "#e5e7eb", borderRadius: 16, height: 220, display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af", marginBottom: 20 }}>
-              <div style={{ textAlign: "center" }}><div style={{ fontSize: 40 }}>🏙️</div><div style={{ fontSize: 12 }}>Business owner</div></div>
+            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", height: 220, marginBottom: 20 }}>
+              <Image
+                src="/dissolution/pic1.webp"
+                alt="Business owner winding up the LLC"
+                fill
+                className="object-cover object-top"
+              />
             </div>
           </div>
           <div>
-            <div style={{ color: "#06B6D4", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>3.</div>
+            <div style={{ color: "#2B93C9", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>3.</div>
             <h3 style={{ fontWeight: 700, fontSize: 22, marginBottom: 16 }}>Winding Up the LLC</h3>
             <Accordion title="Settling debts and obligations">
               Pay off all outstanding debts, taxes, and liabilities. Notify creditors and give them time to submit any remaining claims before distributing assets.
@@ -491,18 +487,18 @@ export default function IncorpBayDissolutionPage() {
           </p>
 
           <h2 id="dissolve-cost" style={{ scrollMarginTop: 120, fontSize: 32, fontWeight: 700, marginBottom: 12 }}>How Much Does It Cost to Dissolve an LLC?</h2>
-          <p style={{ color: "#06B6D4", marginBottom: 12, fontSize: 14 }}>The cost to dissolve an LLC varies.</p>
+          <p style={{ color: "#2B93C9", marginBottom: 12, fontSize: 14 }}>The cost to dissolve an LLC varies.</p>
           <ul style={{ paddingLeft: 20, marginBottom: 20 }}>
             <li style={{ marginBottom: 8, fontSize: 14, color: "#374151", lineHeight: 1.6 }}>
-              <strong>Filing fees.</strong> <span style={{ color: "#06B6D4" }}>State filing fees for the Articles of Dissolution typically range from $20 to $200.</span> The exact amount depends on the state where you registered your LLC.
+              <strong>Filing fees.</strong> <span style={{ color: "#2B93C9" }}>State filing fees for the Articles of Dissolution typically range from $20 to $200.</span> The exact amount depends on the state where you registered your LLC.
             </li>
             <li style={{ fontSize: 14, color: "#374151", lineHeight: 1.6 }}>
               <strong>Additional costs.</strong> You may need professional assistance to ensure all steps are completed correctly. If so, you could incur additional costs such as legal fees, accounting fees, and costs associated with settling debts and distributing assets.
             </li>
           </ul>
           <div style={{
-            background: "#ECFEFF", borderRadius: 10, padding: "14px 18px",
-            fontSize: 13, color: "#0891b2", marginBottom: 32, border: "1px solid #A5F3FC"
+            background: "#F0F9FF", borderRadius: 10, padding: "14px 18px",
+            fontSize: 13, color: "#2B93C9", marginBottom: 32, border: "1px solid #BAE6FD"
           }}>
             💡 Each state has different requirements and fees for dissolving an LLC. It's important to research your specific state's process and fees to budget appropriately.
           </div>
@@ -516,21 +512,29 @@ export default function IncorpBayDissolutionPage() {
           </p>
 
           <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Notifying Creditors and Stakeholders</h3>
-          <p style={{ color: "#06B6D4", fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
+          <p style={{ color: "#2B93C9", fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
             Inform creditors, customers, and other stakeholders about the dissolution. Providing advance notice helps maintain good relationships and ensures a smooth winding-up process.
           </p>
 
           <h3 style={{ fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Record-Keeping Requirements</h3>
-          <p style={{ color: "#06B6D4", fontSize: 14, lineHeight: 1.7, marginBottom: 32 }}>
+          <p style={{ color: "#2B93C9", fontSize: 14, lineHeight: 1.7, marginBottom: 32 }}>
             Maintain records of the dissolution process for future reference, including final tax returns and accounting documents. It's recommended to keep these records for several years in case of any future inquiries.
           </p>
 
           <div style={{
-            background: "#f9fafb", borderRadius: 16, padding: 24, textAlign: "center",
+            borderRadius: 16, overflow: "hidden", textAlign: "center",
             border: "1px solid #e5e7eb", marginBottom: 48
           }}>
-            <div style={{ fontSize: 12, color: "#6b7280", marginBottom: 8 }}>📱</div>
-            <div style={{ fontSize: 13, color: "#6b7280" }}>You must inform the IRS about the dissolution.</div>
+            <div style={{ position: "relative", width: "100%" }}>
+              <Image
+                src="/dissolution/Dissolution-company-dissolved-two-phones.webp"
+                alt="LLC dissolution tracked on a smartphone"
+                width={1551}
+                height={1014}
+                className="w-full h-auto"
+              />
+            </div>
+            <div style={{ fontSize: 13, color: "#6b7280", padding: 16 }}>You must inform the IRS about the dissolution.</div>
           </div>
 
           {/* FAQ */}
@@ -554,7 +558,7 @@ export default function IncorpBayDissolutionPage() {
             }
           ].map((item) => (
             <div key={item.q} style={{ marginBottom: 20 }}>
-              <h3 style={{ fontWeight: 700, fontSize: 16, marginBottom: 6, color: "#0891b2" }}>{item.q}</h3>
+              <h3 style={{ fontWeight: 700, fontSize: 16, marginBottom: 6, color: "#2B93C9" }}>{item.q}</h3>
               <p style={{ fontSize: 14, color: "#374151", lineHeight: 1.7 }}>{item.a}</p>
             </div>
           ))}
@@ -565,7 +569,7 @@ export default function IncorpBayDissolutionPage() {
             Dissolving an LLC involves several important steps to ensure compliance with state laws and avoid future liabilities. By understanding the process, including filing requirements, costs, and IRS notifications, you can effectively dissolve your LLC and confidently move forward. Always consult with legal and financial professionals to ensure you handle all aspects of the dissolution correctly.
           </p>
 <Link href="/dissolution/step-1" style={{
-            background: "#06B6D4", color: "white", border: "none", borderRadius: 50,
+            background: LOGO_GRADIENT, color: "white", border: "none", borderRadius: 50,
             padding: "14px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer", marginBottom: 32, textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center"
           }}>DISSOLVE YOUR LLC</Link>
 
@@ -591,34 +595,29 @@ export default function IncorpBayDissolutionPage() {
 
       {/* Final CTA */}
       <section style={{
-        background: "#ECFEFF", borderRadius: 24, maxWidth: 1200, margin: "0 auto 64px",
+        background: "#F0F9FF", borderRadius: 24, maxWidth: 1200, margin: "0 auto 64px",
         padding: "48px 48px", display: "flex", alignItems: "center", gap: 40, flexWrap: "wrap"
       }}>
         <div style={{ flex: "1 1 280px" }}>
-          <div style={{ color: "#06B6D4", fontWeight: 700, fontSize: 13, marginBottom: 8 }}>Simplify Your Business Exit</div>
+          <div style={{ color: "#2B93C9", fontWeight: 700, fontSize: 13, marginBottom: 8 }}>Simplify Your Business Exit</div>
           <h2 style={{ fontSize: 36, fontWeight: 700, marginBottom: 12 }}>Hassle-Free<br />Dissolution<br />With Incorp Bay</h2>
           <p style={{ color: "#6b7280", fontSize: 14, lineHeight: 1.6, marginBottom: 24 }}>
             Closing your business is simple with Incorp Bay. Let us handle the details for you.
           </p>
 <Link href="/dissolution/step-1" style={{
-            background: "#06B6D4", color: "white", border: "none", borderRadius: 50,
+            background: LOGO_GRADIENT, color: "white", border: "none", borderRadius: 50,
             padding: "14px 28px", fontSize: 14, fontWeight: 700, cursor: "pointer", textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center"
           }}>DISSOLVE YOUR LLC</Link>
         </div>
         <div style={{ flex: "1 1 240px", display: "flex", justifyContent: "center" }}>
-          <div style={{
-            background: "white", borderRadius: 16, padding: 20,
-            boxShadow: "0 4px 24px rgba(0,0,0,0.08)", width: 220
-          }}>
-            <div style={{ background: "#06B6D4", borderRadius: 10, padding: "10px 14px", color: "white", marginBottom: 12 }}>
-              <div style={{ fontSize: 11, opacity: 0.8 }}>Dissolution</div>
-              <div style={{ fontWeight: 700, fontSize: 20 }}>34 Days Ago</div>
-            </div>
-            <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>ACME INC</div>
-            <div style={{ background: "#dcfce7", color: "#15803d", borderRadius: 8, padding: "6px 10px", fontSize: 12, fontWeight: 600 }}>
-              ✓ Company Dissolution Successful
-            </div>
-            <div style={{ fontSize: 11, color: "#6b7280", marginTop: 8 }}>Aug 7, 2023</div>
+          <div style={{ position: "relative", width: "100%", maxWidth: 240 }}>
+            <Image
+              src="/dissolution/Phone-with-dissolution-page-company-dissolved.webp"
+              alt="Dissolution case resolved on a smartphone"
+              width={1222}
+              height={1287}
+              className="w-full h-auto"
+            />
           </div>
         </div>
 </section>

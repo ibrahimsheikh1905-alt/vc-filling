@@ -1,9 +1,16 @@
 "use client";
 
 import React, { useState, useEffect, useRef, RefCallback } from "react";
-import { Star, ChevronDown, ChevronRight, CheckCircle, AlertTriangle, Shield } from "lucide-react";
+import { Star, ChevronDown, ChevronRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import NavigationWrapper from "@/components/NavigationWrapper";
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -53,28 +60,31 @@ function Hero() {
         {/* Trustpilot badge */}
         <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm">
           <span>Excellent 4.7 out of 5</span>
-          <Star className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />
-          <span className="font-bold text-[#00B67A]">Trustpilot</span>
+          <Star className="h-4 w-4 fill-[#2B93C9] text-[#2B93C9]" />
+          <span className="font-bold text-slate-700">Trustpilot</span>
         </div>
 
-        <h1 className="mt-5 text-5xl font-black leading-[1.08] tracking-tight text-[#1a1a1a] md:text-6xl">
+        <h1 className="mt-5 text-5xl font-bold leading-[1.08] tracking-tight text-[#1E293B] md:text-6xl">
           File My Annual<br />
           Report – Fast,<br />
           Easy &amp; 100%<br />
-          State-Compliant
+          <span className={LOGO_GRADIENT_TEXT}>State-Compliant</span>
         </h1>
 
-        <p className="mt-5 text-base text-slate-500">
+        <p className="mt-5 text-base font-normal text-slate-500">
           Avoid late fees and protect your business standing — we'll<br />
           file your Annual Report in just minutes.
         </p>
 
 <div className="mt-8 flex flex-wrap gap-4">
-          <Link href="/annual-report/step-1" className="flex flex-col rounded-2xl bg-[#06B6D4] px-7 py-4 text-left text-white transition hover:bg-[#0891b2]">
-            <span className="text-xs font-semibold opacity-90">File Your Annual Report</span>
-            <div className="mt-1 flex items-center gap-2 text-base font-bold">
+          <Link href="/annual-report/step-1" className={`${LOGO_GRADIENT} group relative flex flex-col overflow-hidden rounded-2xl px-5 py-2.5 text-left text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]`}>
+            <span className="absolute inset-x-0 top-0 h-1/2 rounded-2xl bg-gradient-to-b from-white/20 to-transparent" />
+            <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+
+            <span className="relative z-10 text-xs font-semibold opacity-90">File Your Annual Report</span>
+            <div className="relative z-10 mt-1 flex items-center gap-2 text-sm font-bold">
               Get Started
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <svg width="16" height="16" viewBox="0 0 18 18" fill="none" className="transition-transform duration-300 group-hover:translate-x-1">
                 <path d="M3 9h12M11 5l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
@@ -92,55 +102,18 @@ function Hero() {
         </div>
       </div>
 
-      {/* Right — Phone mockup */}
+      {/* Right — Annual Report image */}
       <div className="flex justify-center md:justify-end">
-        <div className="relative">
-          <div className="absolute inset-0 -z-10 scale-110 rounded-[3rem] bg-slate-100/70" />
-          <div className="relative w-[260px] rounded-[2.5rem] border-[10px] border-[#1a1a1a] bg-white shadow-2xl">
-            <div className="absolute left-1/2 top-2.5 h-3 w-20 -translate-x-1/2 rounded-full bg-[#1a1a1a]" />
-            <div className="flex items-center justify-between px-5 pt-8 text-[10px] font-semibold text-[#1a1a1a]">
-              <span>9:41</span>
-              <div className="flex gap-1">
-                <span>▌▌▌</span>
-                <span>WiFi</span>
-              </div>
-            </div>
-            <div className="px-5 pb-8 pt-3 text-center">
-              <p className="text-xs font-bold text-[#1a1a1a]">Annual Report</p>
-              <p className="text-[10px] text-slate-400">Final Confirmation</p>
-              <div className="mx-auto mt-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#06B6D4] shadow-lg shadow-[#06B6D4]/30">
-                <CheckCircle className="h-9 w-9 text-white" strokeWidth={2.5} />
-              </div>
-              <p className="mt-4 text-sm font-bold text-[#1a1a1a]">Annual Report Has Been Filed!</p>
-              <p className="mt-1 text-[9px] text-slate-400">
-                We'll send you email notifications about<br />your Annual Report's progress.
-              </p>
-              <div className="mt-4 flex items-center gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2.5 text-left shadow-sm">
-                <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#06B6D4]/15">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M7 1.5a4 4 0 014 4v2.5l1 1.5H2L3 8V5.5a4 4 0 014-4zM5.5 11.5a1.5 1.5 0 003 0" stroke="#06B6D4" strokeWidth="1.2" strokeLinecap="round"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-[9px] font-bold text-[#1a1a1a]">Report Submitted</p>
-                  <p className="text-[8px] text-slate-400">Yearly Statements Filed</p>
-                </div>
-                <span className="ml-auto text-[8px] text-slate-400">05/31/2024</span>
-              </div>
-              <div className="mt-3 space-y-1.5 rounded-xl bg-slate-50 px-3 py-2.5 text-left">
-                {[
-                  ["Jurisdiction", "United States, Texas"],
-                  ["Processing Duration", "21 days"],
-                  ["Date of Filing", "May 31, 2024"],
-                ].map(([k, v]) => (
-                  <div key={k} className="flex justify-between">
-                    <span className="text-[8px] text-slate-400">{k}</span>
-                    <span className="text-[8px] font-semibold text-slate-600">{v}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="relative w-full max-w-md">
+          <div className="absolute inset-0 -z-10 scale-95 rounded-3xl bg-gradient-to-br from-[#2B93C9]/8 to-[#2B93C9]/4" />
+          <Image
+            src="/annual-port/Hero-annual-report.webp"
+            alt="Annual Report"
+            width={800}
+            height={450}
+            className="w-full rounded-3xl object-cover shadow-2xl"
+            priority
+          />
         </div>
       </div>
     </section>
@@ -153,8 +126,8 @@ function TrustBar() {
   return (
     <div className="border-y border-slate-100 bg-[#F8FAFC] py-5 text-center text-sm font-semibold text-slate-600 md:text-base">
       Bootstrapped, Founder Led, Independently Owned{" "}
-      <span className="font-extrabold text-[#06B6D4]">Since 2004</span> With{" "}
-      <span className="font-extrabold text-[#06B6D4]">Over 1,000,000 Entrepreneurs</span> Served!
+      <span className={`font-bold ${LOGO_GRADIENT_TEXT}`}>Since 2004</span> With{" "}
+      <span className={`font-bold ${LOGO_GRADIENT_TEXT}`}>Over 1,000,000 Entrepreneurs</span> Served!
     </div>
   );
 }
@@ -171,18 +144,18 @@ function WhyFileSection() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-20 md:px-16">
-      <h2 className="text-center text-4xl font-black text-[#1a1a1a] md:text-5xl">
-        Why File With <span className="text-[#06B6D4]">Incorp Bay?</span>
+      <h2 className="text-center text-4xl font-bold text-[#1E293B] md:text-5xl">
+        Why File With <span className={LOGO_GRADIENT_TEXT}>Incorp Bay?</span>
       </h2>
       <div className="mt-14 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
         <div className="flex justify-center">
-          <div className="h-[340px] w-[320px] overflow-hidden rounded-[2rem] bg-slate-100 shadow-sm">
-            <div className="flex h-full items-center justify-center">
-              <div className="text-center">
-                <div className="mx-auto h-20 w-20 rounded-full bg-slate-200" />
-                <p className="mt-3 text-sm text-slate-400">Business Owner</p>
-              </div>
-            </div>
+          <div className="relative aspect-video w-full max-w-md overflow-hidden rounded-[2rem] shadow-sm">
+            <Image
+              src="/annual-port/vid.webp"
+              alt="Annual Report filing"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
         <div className="space-y-4">
@@ -191,10 +164,10 @@ function WhyFileSection() {
               key={item.num}
               className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md"
             >
-              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-[#06B6D4] text-sm font-bold text-white shadow shadow-[#06B6D4]/30">
+              <div className={`${LOGO_GRADIENT} flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-sm font-bold text-white shadow shadow-[#2B93C9]/30`}>
                 {item.num}
               </div>
-              <span className="text-base font-semibold text-[#1a1a1a]">{item.text}</span>
+              <span className="text-base font-semibold text-[#1E293B]">{item.text}</span>
             </div>
           ))}
         </div>
@@ -211,33 +184,26 @@ function EntitySelector() {
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 md:px-16">
-      <h2 className="text-center text-4xl font-black text-[#1a1a1a] md:text-5xl">
+      <h2 className="text-center text-4xl font-bold text-[#1E293B] md:text-5xl">
         Choose your Entity Type and State
       </h2>
       <div className="mt-12 flex flex-wrap justify-center gap-6">
         {/* Entity Type Card */}
         <div className="w-72 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-          <p className="mb-4 text-center text-sm font-bold text-[#06B6D4]">Entity Type</p>
-          <div className="flex h-36 items-center justify-center rounded-xl bg-slate-50">
-            <div className="relative">
-              <div className="absolute -right-3 -top-2 h-20 w-16 rotate-6 rounded-lg border-2 border-[#06B6D4] bg-white shadow" />
-              <div className="relative h-20 w-16 rounded-lg border border-slate-200 bg-white shadow-md">
-                <div className="absolute -bottom-1 -right-1 flex h-7 w-14 items-center justify-center rounded-md bg-[#1E293B] text-[9px] font-bold text-white">
-                  Entity
-                </div>
-                <div className="mt-3 space-y-1.5 px-2">
-                  <div className="h-1 rounded bg-slate-200" />
-                  <div className="h-1 rounded bg-slate-200" />
-                  <div className="h-1 w-2/3 rounded bg-slate-200" />
-                </div>
-              </div>
-            </div>
+          <p className={`mb-4 text-center text-sm font-bold ${LOGO_GRADIENT_TEXT}`}>Entity Type</p>
+          <div className="relative h-36 overflow-hidden rounded-xl bg-slate-50">
+            <Image
+              src="/annual-port/Annual-report-entity-selector-image.webp"
+              alt="Entity Type"
+              fill
+              className="object-contain p-2"
+            />
           </div>
           <div className="relative mt-5">
             <select
               value={entityType}
               onChange={(e) => setEntityType(e.target.value)}
-              className="w-full appearance-none rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 shadow-sm focus:border-[#06B6D4] focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20"
+              className="w-full appearance-none rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 shadow-sm focus:border-[#2B93C9] focus:outline-none focus:ring-2 focus:ring-[#2B93C9]/20"
             >
               {entityTypes.map((t) => (
                 <option key={t} value={t}>{t}</option>
@@ -248,26 +214,21 @@ function EntitySelector() {
         </div>
 
         {/* State Card */}
-        <div className="w-72 rounded-2xl border border-[#06B6D4] bg-white p-6 shadow-sm">
-          <p className="mb-4 text-center text-sm font-bold text-[#06B6D4]">State Of Formation</p>
-          <div className="flex h-36 items-center justify-center rounded-xl bg-slate-50">
-            <svg width="130" height="110" viewBox="0 0 130 110" fill="none">
-              <path
-                d="M20 15 L95 15 L95 18 L100 18 L100 45 L98 45 L98 55 L90 55 L90 65 L80 75 L75 90 L65 95 L55 88 L48 92 L40 85 L38 75 L30 70 L22 60 L18 48 L15 35 Z"
-                fill="#06B6D4"
-                opacity="0.85"
-                stroke="white"
-                strokeWidth="1.5"
-              />
-              <path d="M0 0 L20 15 L15 35 L10 65 L0 80Z" fill="#e2e8f0" opacity="0.5"/>
-              <path d="M95 15 L130 10 L130 50 L100 45 L98 45Z" fill="#e2e8f0" opacity="0.5"/>
-            </svg>
+        <div className="w-72 rounded-2xl border border-[#2B93C9] bg-white p-6 shadow-sm">
+          <p className={`mb-4 text-center text-sm font-bold ${LOGO_GRADIENT_TEXT}`}>State Of Formation</p>
+          <div className="relative h-36 overflow-hidden rounded-xl bg-slate-50">
+            <Image
+              src="/annual-port/Annual-report-state-selector-image.webp"
+              alt="State Of Formation"
+              fill
+              className="object-contain p-2"
+            />
           </div>
           <div className="relative mt-5">
             <select
               value={state}
               onChange={(e) => setState(e.target.value)}
-              className="w-full appearance-none rounded-full border border-[#06B6D4] bg-white px-5 py-3 text-sm font-medium text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20"
+              className="w-full appearance-none rounded-full border border-[#2B93C9] bg-white px-5 py-3 text-sm font-medium text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2B93C9]/20"
             >
               {states.map((s) => (
                 <option key={s} value={s}>{s}</option>
@@ -325,7 +286,7 @@ const createSectionRef = (index: number) => (el: HTMLDivElement | null) => {
 
         {/* ── TOC sidebar — LEFT ── */}
         <aside className="md:sticky md:top-8">
-          <p className="mb-4 text-base font-black text-[#1a1a1a]">Table of Contents</p>
+          <p className="mb-4 text-base font-bold text-[#1E293B]">Table of Contents</p>
           <ul className="space-y-1">
             {tocItems.map((item) => {
               const isActive = activeItem === item.id;
@@ -335,13 +296,13 @@ const createSectionRef = (index: number) => (el: HTMLDivElement | null) => {
                     onClick={() => handleTocClick(item.id)}
 className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm transition-all duration-150 ${
                       isActive
-                        ? "border border-slate-200 bg-white font-bold text-[#06B6D4] shadow-sm"
+                        ? `border border-slate-200 bg-white font-bold shadow-sm ${LOGO_GRADIENT_TEXT}`
                         : "text-slate-400 hover:text-slate-600"
                     }`}
                   >
                     <ChevronRight
                       className={`mt-0.5 h-4 w-4 flex-shrink-0 ${
-                        isActive ? "text-[#06B6D4]" : "text-slate-300"
+                        isActive ? "text-[#2B93C9]" : "text-slate-300"
                       }`}
                     />
                     <span className="leading-snug">{item.short}</span>
@@ -357,7 +318,7 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
 
 {/* ─ Section 0 ─ */}
           <div ref={createSectionRef(0)}>
-            <h1 className="text-4xl font-black leading-tight text-[#1a1a1a] md:text-5xl">
+            <h1 className="text-4xl font-bold leading-tight text-[#1E293B] md:text-5xl">
               What Happens If You Don't File an Annual Report (All Business Entities Covered)
             </h1>
             <p className="mt-4 text-sm font-medium text-slate-400">
@@ -371,43 +332,24 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
             </p>
 
             {/* Status card */}
-            <div className="mt-8 rounded-2xl bg-slate-50 p-6">
-              <div className="rounded-xl bg-white p-5 shadow-sm">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#06B6D4] shadow shadow-[#06B6D4]/30">
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M4 10h12M10 6l4 4-4 4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-400">Annual Report Status ✓</p>
-                    <p className="text-lg font-black text-[#1a1a1a]">Yearly Statements Filed</p>
-                  </div>
-                </div>
-                <div className="mt-5 space-y-3 border-t border-slate-100 pt-4">
-                  {[
-                    ["Filing Date", ""],
-                    ["Jurisdiction", "United States, Texas"],
-                    ["Period of Duration", "Perpetual"],
-                  ].map(([k, v]) => (
-                    <div key={k} className="flex justify-between">
-                      <span className="text-sm text-slate-400">{k}</span>
-                      <span className="text-sm font-semibold text-[#1a1a1a]">{v}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className="relative mt-8 h-[280px] w-full overflow-hidden rounded-2xl sm:h-[340px]">
+              <Image
+                src="/annual-port/Annual-report-toc-1.webp"
+                alt="Annual Report Submitted"
+                fill
+                className="object-contain"
+              />
             </div>
           </div>
 
           {/* ─ Section 1 ─ */}
 <div ref={createSectionRef(1)}>
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               Are Annual Reports Mandatory?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
               In most cases, yes. If you're in a state that requires an annual report for your business type, then you{" "}
-              <span className="font-semibold text-[#06B6D4]">must file the report</span>, on time, with the right state agency. But, it's worth breaking this down a little further.
+              <span className={`font-semibold ${LOGO_GRADIENT_TEXT}`}>must file the report</span>, on time, with the right state agency. But, it's worth breaking this down a little further.
             </p>
             <p className="mt-4 leading-relaxed text-slate-600">
               The following business types must file a report if required by the state:
@@ -418,7 +360,7 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
               ))}
             </ul>
 
-            <h3 className="mt-8 text-xl font-black text-[#1a1a1a]">Exemptions for Filing an Annual Report</h3>
+            <h3 className="mt-8 text-xl font-bold text-[#1E293B]">Exemptions for Filing an Annual Report</h3>
             <p className="mt-3 leading-relaxed text-slate-600">
               You do not need to file an annual report if either of the following are true:
             </p>
@@ -427,12 +369,12 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
               <li className="text-sm leading-relaxed">Your state does not require businesses to file annual reports.</li>
             </ul>
 
-            <h3 className="mt-8 text-xl font-black text-[#1a1a1a]">Types of Businesses That Do Not Need to File an Annual Report</h3>
+            <h3 className="mt-8 text-xl font-bold text-[#1E293B]">Types of Businesses That Do Not Need to File an Annual Report</h3>
             <p className="mt-3 leading-relaxed text-slate-600">
               Sole proprietorships and partnerships are two business types that don't need to file an annual report. If you haven't created a separate legal entity for your business, then you don't need to file an annual report. This means sole proprietors and general partnerships are generally not required to complete and file a report.
             </p>
 
-            <h3 className="mt-8 text-xl font-black text-[#1a1a1a]">Some States Don't Require Annual Reports</h3>
+            <h3 className="mt-8 text-xl font-bold text-[#1E293B]">Some States Don't Require Annual Reports</h3>
             <p className="mt-3 leading-relaxed text-slate-600">
               Your state may not require businesses to file annual reports. Some states, like New Mexico and Ohio, don't require you to file an annual report for LLCs. Other states, like New York or Indiana, require you to file biennially (every two years).
             </p>
@@ -440,14 +382,14 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
 
           {/* ─ Section 2 ─ */}
 <div ref={createSectionRef(2)}>
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               Learn If You Need to File an Annual Report
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
               We{" "}
-              <span className="font-semibold text-[#06B6D4]">have an ongoing filing compliance tool</span>{" "}
+              <span className={`font-semibold ${LOGO_GRADIENT_TEXT}`}>have an ongoing filing compliance tool</span>{" "}
               that tells you exactly what reports you{" "}
-              <span className="font-semibold text-[#06B6D4]">need to file and when</span>. Just enter your business type and state, and we'll share important information about your annual reporting needs:
+              <span className={`font-semibold ${LOGO_GRADIENT_TEXT}`}>need to file and when</span>. Just enter your business type and state, and we'll share important information about your annual reporting needs:
             </p>
             <ul className="mt-4 ml-6 space-y-1 list-disc text-slate-600">
               {[
@@ -463,42 +405,26 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
 
           {/* ─ Section 3 ─ */}
 <div ref={createSectionRef(3)}>
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               What Happens to Businesses That Don't File Annual Reports?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
               The penalties for not filing an annual report, or filing one late, can range from paying fines to having your business dissolved. To avoid that, you can{" "}
-              <span className="font-semibold text-[#06B6D4]">file your annual report</span>{" "}
+              <span className={`font-semibold ${LOGO_GRADIENT_TEXT}`}>file your annual report</span>{" "}
               with Incorp Bay. Let's break down what that means to each type of business.
             </p>
 
             {/* Penalty issued card */}
-            <div className="mt-6 rounded-2xl bg-slate-50 p-6">
-              <div className="rounded-xl bg-white p-5 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 overflow-hidden rounded-full bg-slate-200">
-                      <div className="flex h-full items-center justify-center text-xs font-bold text-slate-400">JD</div>
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-[#1a1a1a]">Jonathan D</p>
-                      <p className="text-xs text-slate-400">ACME Design</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 rounded-xl bg-orange-50 px-3 py-2">
-                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#06B6D4]">
-                      <AlertTriangle className="h-4 w-4 text-white" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-bold text-[#1a1a1a]">Penalty Issued</p>
-                      <p className="text-[10px] font-semibold text-[#06B6D4]">Check Details ›</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="relative mt-6 h-[300px] w-full overflow-hidden rounded-2xl sm:h-[360px]">
+              <Image
+                src="/annual-port/Annual-report-toc-2.webp"
+                alt="Annual Report penalty notice"
+                fill
+                className="object-contain"
+              />
             </div>
 
-            <h3 className="mt-8 text-xl font-black text-[#1a1a1a]">Do Single-Member LLCs Need to File an Annual Report?</h3>
+            <h3 className="mt-8 text-xl font-bold text-[#1E293B]">Do Single-Member LLCs Need to File an Annual Report?</h3>
             <p className="mt-3 leading-relaxed text-slate-600">
               If you have formed your LLC in a state that does not require annual reports, then you do not need to file. Otherwise, single-member LLCs do need to file a regular report. The penalties for not filing an annual report are typically as follows:
             </p>
@@ -509,7 +435,7 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
                 "If you still do not file, your state agency will dissolve your LLC and strike it off the register. At this point, you will lose your liability protection and won't be able to continue as an LLC.",
               ].map((text, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#06B6D4]/10 text-xs font-black text-[#06B6D4]">
+                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#2B93C9]/10 text-xs font-bold text-[#2B93C9]">
                     {i + 1}
                   </span>
                   <p className="text-sm leading-relaxed text-slate-600">{text}</p>
@@ -517,12 +443,12 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
               ))}
             </ol>
 
-            <h3 className="mt-8 text-xl font-black text-[#1a1a1a]">Do Multi-Member LLCs Need to File an Annual Report?</h3>
+            <h3 className="mt-8 text-xl font-bold text-[#1E293B]">Do Multi-Member LLCs Need to File an Annual Report?</h3>
             <p className="mt-3 leading-relaxed text-slate-600">
               Yes, multi-member LLCs do need to file a regular report. The penalties for not filing an annual report are typically the same as for a single-member LLC.
             </p>
 
-            <h3 className="mt-8 text-xl font-black text-[#1a1a1a]">Do Corporations Have to File an Annual Report?</h3>
+            <h3 className="mt-8 text-xl font-bold text-[#1E293B]">Do Corporations Have to File an Annual Report?</h3>
             <p className="mt-3 leading-relaxed text-slate-600">
               If you have formed your corporation in a state that does not require annual reports, then you do not need to file. Otherwise, Corporations do need to file a regular report, and in some cases, this may be more rigorous than for smaller businesses.
             </p>
@@ -530,7 +456,7 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
 
           {/* ─ Section 4 ─ */}
 <div ref={createSectionRef(4)}>
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               What Other Issues May Come from Not Filing an Annual Report?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -547,32 +473,19 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
             </ul>
 
             {/* Dissolution date card */}
-            <div className="mt-6 rounded-2xl bg-slate-50 p-6">
-              <div className="rounded-xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Dissolution Date</p>
-                <p className="mt-1 text-3xl font-black text-[#1a1a1a]">Dec 16 2024</p>
-                <div className="mt-4 flex flex-wrap gap-4">
-                  {[
-                    { dot: "bg-[#06B6D4]", label: "Penalty Issued", date: "12/16/2024" },
-                    { dot: "bg-slate-300", label: "Company Dissolved", date: "Completed" },
-                  ].map((s) => (
-                    <div key={s.label} className="flex items-center gap-2">
-                      <div className={`h-2.5 w-2.5 rounded-full ${s.dot}`} />
-                      <span className="text-xs text-slate-600">{s.label}</span>
-                      <span className="text-xs text-slate-400">{s.date}</span>
-                    </div>
-                  ))}
-                </div>
-<Link href="/annual-report/step-1" className="mt-4 inline-block rounded-full bg-[#06B6D4] px-5 py-2 text-xs font-bold text-white">
-                  Check Details
-                </Link>
-              </div>
-            </div>
+            <Link href="/annual-report/step-1" className="relative mt-6 block h-[320px] w-full overflow-hidden rounded-2xl sm:h-[380px]">
+              <Image
+                src="/annual-port/Annual-report-toc-3.webp"
+                alt="Business dissolution timeline"
+                fill
+                className="object-contain"
+              />
+            </Link>
           </div>
 
           {/* ─ Section 5 ─ */}
 <div ref={createSectionRef(5)}>
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               Avoid Issues from Filing Annual Reports Late
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -590,27 +503,29 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
       >
         {/* Left text */}
         <div>
-          <p className="text-sm font-bold text-[#06B6D4]">Annual Report</p>
-          <h2 className="mt-2 text-4xl font-black leading-tight text-[#1a1a1a] md:text-5xl">
+          <p className={`text-sm font-bold ${LOGO_GRADIENT_TEXT}`}>Annual Report</p>
+          <h2 className="mt-2 text-4xl font-bold leading-tight text-[#1E293B] md:text-5xl">
             File Your Annual<br />Report Now
           </h2>
 <p className="mt-4 text-sm font-medium text-slate-500">
             Don't Lose Liability Protection, Pay Penalties, and be Vulnerable to Lawsuits.
           </p>
-          <Link href="/annual-report/step-1" className="mt-6 inline-block rounded-full bg-[#06B6D4] px-8 py-3.5 text-sm font-bold text-white shadow shadow-[#06B6D4]/30 transition hover:bg-[#0891b2]">
-            GET STARTED
+          <Link href="/annual-report/step-1" className={`${LOGO_GRADIENT} group relative mt-6 inline-flex overflow-hidden rounded-full px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]`}>
+            <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+            <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+            <span className="relative z-10">GET STARTED</span>
           </Link>
         </div>
 
         {/* Right: Order widget */}
         <div className="rounded-3xl border border-slate-100 bg-white shadow-xl">
           <div className="flex items-center justify-end rounded-t-3xl border-b border-slate-100 px-5 py-3">
-            <span className="font-black italic text-[#1a1a1a]">
-              <span className="text-[#06B6D4]">incorp</span>bay
+            <span className="font-bold italic text-[#1E293B]">
+              <span className={LOGO_GRADIENT_TEXT}>incorp</span>bay
             </span>
           </div>
           <div className="px-6 py-6">
-            <p className="text-center text-base font-bold text-[#1a1a1a]">Annual Report</p>
+            <p className="text-center text-base font-bold text-[#1E293B]">Annual Report</p>
 
             {/* Entity Type */}
             <div className="mt-5">
@@ -619,7 +534,7 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
                 <select
                   value={orderEntity}
                   onChange={(e) => setOrderEntity(e.target.value)}
-                  className="w-full appearance-none rounded-full border border-slate-200 bg-white px-5 py-3 text-sm text-slate-600 focus:border-[#06B6D4] focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20"
+                  className="w-full appearance-none rounded-full border border-slate-200 bg-white px-5 py-3 text-sm text-slate-600 focus:border-[#2B93C9] focus:outline-none focus:ring-2 focus:ring-[#2B93C9]/20"
                 >
                   <option value="">Select Entity Type</option>
                   {entityTypes.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -635,7 +550,7 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
                 <select
                   value={orderState}
                   onChange={(e) => setOrderState(e.target.value)}
-                  className="w-full appearance-none rounded-full border border-slate-200 bg-white px-5 py-3 text-sm text-slate-600 focus:border-[#06B6D4] focus:outline-none focus:ring-2 focus:ring-[#06B6D4]/20"
+                  className="w-full appearance-none rounded-full border border-slate-200 bg-white px-5 py-3 text-sm text-slate-600 focus:border-[#2B93C9] focus:outline-none focus:ring-2 focus:ring-[#2B93C9]/20"
                 >
                   <option value="">Select State</option>
                   {states.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -646,13 +561,15 @@ className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm
 
             {/* Price box */}
             <div className="mt-5 rounded-2xl border border-slate-100 bg-slate-50 px-5 py-4 text-center">
-              <p className="text-4xl font-black text-[#1a1a1a]">$0</p>
+              <p className="text-4xl font-bold text-[#1E293B]">$0</p>
               <p className="text-xs text-slate-400">Plus $0 State Fee</p>
             </div>
 
 {/* CTA button */}
-            <Link href="/annual-report/step-1" className="mt-5 w-full inline-block rounded-full bg-[#06B6D4] py-4 text-sm font-black uppercase tracking-wider text-white shadow-md shadow-[#06B6D4]/30 transition hover:bg-[#0891b2] text-center">
-              ORDER NOW
+            <Link href="/annual-report/step-1" className={`${LOGO_GRADIENT} group relative mt-5 block w-full overflow-hidden rounded-full px-7 py-3.5 text-center text-sm font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]`}>
+              <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+              <span className="relative z-10">ORDER NOW</span>
             </Link>
           </div>
         </div>
@@ -677,7 +594,7 @@ function Footer() {
 export default function AnnualReportPage() {
   return (
     <NavigationWrapper>
-      <div className="min-h-screen bg-white text-[#1a1a1a]">
+      <div className="min-h-screen bg-white text-[#1E293B]">
         <Hero />
         <TrustBar />
         <WhyFileSection />

@@ -271,7 +271,12 @@ export default function FormationPricingPage() {
 
 
     // Route to the correct entity flow start page.
-    switch (entity) {
+    const rawEntity = searchParams.get("entity") ?? "";
+    const fallbackEntity = (entities as string[]).includes(rawEntity) ? rawEntity : "";
+
+    // Ensure query-param based deep links work reliably.
+    // If users land here with `?entity=LLC` (and state is empty), route based on query.
+    switch (entity || (fallbackEntity as any)) {
       case "C-Corporation":
         router.push("/form-c-corporation/step-2");
         return;
@@ -338,11 +343,34 @@ export default function FormationPricingPage() {
         return;
 
       case "LLC":
-        router.push("/form-c-corporation/step-2");
+        // Persist keys for OrderSummary/Step screens.
+        // Step 2 reads from localStorage.getItem("/form-a-llc/step-1").
+        try {
+          const nextStateName = state;
+          const nextPackageType = selectedPackage;
+          const llcStep1Key = "/form-a-llc/step-1";
+          const llcStep1Raw = localStorage.getItem(llcStep1Key);
+          const llcStep1Parsed = llcStep1Raw ? JSON.parse(llcStep1Raw) : {};
+          localStorage.setItem(
+            llcStep1Key,
+            JSON.stringify({
+              ...llcStep1Parsed,
+              stateName: nextStateName,
+              packageType: nextPackageType,
+              entityType: entity,
+            })
+          );
+        } catch {
+          // ignore storage errors
+        }
+
+        router.push("/form-a-llc/step-2");
         return;
       case "Nonprofit":
-        router.push("/start-a-nonprofit/step-1");
+        // For nonprofit flow, go to step-1 first (state selection/pricing page is /package-main)
+        router.push("/start-a-nonprofit/step-2");
         return;
+
       default:
         return;
     }

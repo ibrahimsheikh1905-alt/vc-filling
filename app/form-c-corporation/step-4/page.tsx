@@ -3,7 +3,7 @@ import NavigationWrapper from "@/components/NavigationWrapper";
 import OrderSummary from "@/components/OrderSummary";
 import useLocalStorageForm from "@/hooks/useLocalStorage";
 import { CheckIcon } from "@heroicons/react/24/solid";
-import axios from "axios";
+
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -34,17 +34,7 @@ const StepFour = () => {
     router.push(pathname.replace(/step-\d+.*/, "step-5"));
   };
 
-  // Email/OTP system removed for this flow.
-  // Step 4 is now a simple contact info step.
-  const isOtpSent = false;
-  const otp = "";
-  const verificationStatus = "";
-  const sendOtp = async () => {
-    // no-op
-  };
-  const verifyOtp = async () => {
-    // no-op
-  };
+
 
 
 
@@ -127,63 +117,29 @@ const StepFour = () => {
                 </div>
                 <div className="flex gap-4">
                   <div>
-                    {formData.emailVerified || !isOtpSent ? (
-                      <label
-                        id="email"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Email *
-                      </label>
-                    ) : (
-                      <label
-                        id="email"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        OTP *
-                      </label>
-                    )}
+                    <label id="email" className="block text-sm font-medium text-gray-700">
+                      Email *
+                    </label>
                     <div>
-                      {formData.emailVerified || !isOtpSent ? (
-                        <>
-                          <input
-                            type="email"
-                            placeholder="Enter your email"
-                            value={formData.clientEmail}
-                            {...register("clientEmail", {
-                              required: true,
-                              onChange: (e) =>
-                                updateFormData({ clientEmail: e.target.value }),
-                            })}
-                            readOnly={false}
-
-                            className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 ${
-                              formData.emailVerified ? "bg-gray-100" : ""
-                            }`}
-                          />
-                          {!formData.emailVerified && (
-                            <button
-                              type="button"
-                              onClick={() => updateFormData({ emailVerified: true })}
-                              className="mt-3 rounded-xl border border-primary px-2 py-1"
-                            >
-                              Verify Email
-                            </button>
-
-                          )}
-                        </>
-                      ) : (
-                        <div className="">
-
-                        </div>
-                      )}
-                      <p>{verificationStatus}</p>
+                      <input
+                        type="email"
+                        placeholder="Enter your email"
+                        value={formData.clientEmail}
+                        {...register("clientEmail", {
+                          required: true,
+                          onChange: (e) =>
+                            updateFormData({ clientEmail: e.target.value }),
+                        })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                      />
                       {errors.clientEmail && (
                         <span className="text-red-500 text-sm">
-                          Please enter & verify your email.
+                          Please enter your email.
                         </span>
                       )}
                     </div>
                   </div>
+
                   <div className="w-1/2">
                     <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
                       Phone Number
@@ -237,12 +193,12 @@ const StepFour = () => {
                 Back
               </Link>
               <button
-                className={`px-8 py-2 bg-primary text-white border border-primary rounded-[30px] ${formData.emailVerified ? "" : "cursor-not-allowed opacity-50"}`}
+                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px]"
                 type="submit"
-                disabled={!formData.emailVerified}
               >
-                {formData.emailVerified ? "Next" : "Verify Email Above."}
+                Next
               </button>
+
             </div>
           </div>
           <div>

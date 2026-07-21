@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { 
-  FileText, 
+import {
+  FileText,
   Receipt,
   Loader2
 } from 'lucide-react';
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
 
 interface Order {
   id: number;
@@ -142,7 +145,7 @@ const OrderHistory = () => {
     return (
       <div className="flex-1 p-8 overflow-y-auto bg-[#F9FAFB] font-sans">
         <div className="max-w-7xl mx-auto flex items-center justify-center min-h-[400px]">
-          <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#2B93C9]" />
         </div>
       </div>
     );
@@ -155,10 +158,10 @@ const OrderHistory = () => {
         {/* Order History Receipts Table */}
         <section>
           <div className="flex items-center gap-4 mb-8">
-            <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100">
-              <Receipt className="w-6 h-6 text-orange-500" />
+            <div className={`${LOGO_GRADIENT} p-3 rounded-xl shadow-sm`}>
+              <Receipt className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight">Order History Receipts</h1>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Order History Receipts</h1>
           </div>
 
           {error && (
@@ -181,24 +184,24 @@ const OrderHistory = () => {
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-gray-50/50 border-b border-gray-100">
-                      <th className="px-8 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Company Name</th>
-                      <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Order No.</th>
-                      <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Order Type</th>
-                      <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Amount</th>
-                      <th className="px-6 py-6 text-center text-sm font-black text-gray-400 uppercase tracking-widest">Receipt</th>
-                      <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Order Date</th>
-                      <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Status</th>
+                      <th className="px-8 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Company Name</th>
+                      <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Order No.</th>
+                      <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Order Type</th>
+                      <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Amount</th>
+                      <th className="px-6 py-6 text-center text-sm font-bold text-gray-400 uppercase tracking-widest">Receipt</th>
+                      <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Order Date</th>
+                      <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Status</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
                     {orders.map((order) => (
                       <tr key={order.id} className="hover:bg-gray-50/50 transition-colors group">
-                        <td className="px-8 py-8 font-black text-xl text-[#111827]">{order.company || 'N/A'}</td>
+                        <td className="px-8 py-8 font-bold text-xl text-[#111827]">{order.company || 'N/A'}</td>
                         <td className="px-6 py-8 text-[16px] font-bold text-gray-500">{getOrderNo(order)}</td>
                         <td className="px-6 py-8 text-[16px] font-bold text-gray-600">
                           {order.type} ({order.state})
                         </td>
-                        <td className="px-6 py-8 text-xl font-black text-[#111827]">{formatAmount(order.amount)}</td>
+                        <td className="px-6 py-8 text-xl font-bold text-[#111827]">{formatAmount(order.amount)}</td>
                         <td className="px-6 py-8 text-center">
                           <a 
                             href={`/dashboard/${order.id}`} 
@@ -211,7 +214,7 @@ const OrderHistory = () => {
                           {formatDate(order.date)}
                         </td>
                         <td className="px-6 py-8">
-                          <span className={`inline-flex px-5 py-2 rounded-full text-sm font-black uppercase tracking-wide ${getStatusColor(order.status)}`}>
+                          <span className={`inline-flex px-5 py-2 rounded-full text-sm font-bold uppercase tracking-wide ${getStatusColor(order.status)}`}>
                             {order.status || 'N/A'}
                           </span>
                         </td>

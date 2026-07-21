@@ -42,7 +42,8 @@ const OrderForm = () => {
       }
     };
     const setServiceType = () => {
-      localStorage.clear();
+      // Do not clear all localStorage here; step forms rely on pathname-scoped localStorage
+      // to persist values while navigating between steps.
       localStorage.setItem("serviceType", "form-nonprofit");
     };
     setServiceType();
@@ -57,8 +58,11 @@ const OrderForm = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    // route to step-2 after selecting entity type + state
     router.push("/start-a-nonprofit/step-2");
   };
+
+
   // console.log(watch("nameChangeOption"));
 
   const [formData, updateFormData] = useLocalStorageForm({
@@ -71,6 +75,13 @@ const OrderForm = () => {
       Premium: [],
     },
   });
+
+  // Keep react-hook-form values in sync with the localStorage form state
+  // so submit works reliably.
+  useEffect(() => {
+    if (!formData.entityType && !formData.stateName) return;
+    // handled by SelectBox controlled `value` props
+  }, [formData.entityType, formData.stateName]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -106,7 +117,7 @@ const OrderForm = () => {
             your entity type and state of formation.
           </p>
 
-          <div className="md:flex justify-center gap-5 items-center">
+        <div className="md:flex justify-center gap-5 items-center">
             <SelectBox
               number={1}
               label="Entity Type"

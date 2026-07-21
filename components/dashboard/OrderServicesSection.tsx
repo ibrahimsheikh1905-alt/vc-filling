@@ -8,6 +8,11 @@ import {
   FileCode, Type, XCircle, MapPin
 } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
 interface ServiceType {
   icon: React.ElementType;
   title: string;
@@ -55,7 +60,7 @@ export default function OrderServicesSection() {
   return (
     <div className="mt-16 font-sans max-w-7xl mx-auto p-4 bg-[#F9FAFB]">
       <div className="mb-10 text-left">
-        <h2 className="text-2xl font-extrabold tracking-tight text-gray-900 mb-2">Order services for your companies</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-2">Order services for your companies</h2>
         <p className="text-gray-500 text-[15px] font-medium">We are happy to handle the paperwork for you.</p>
       </div>
 
@@ -74,7 +79,7 @@ export default function OrderServicesSection() {
             }}
             className={`px-5 py-2.5 rounded-full text-[13px] font-bold border transition-all duration-200 ${
               activeTab === tab
-                ? 'bg-orange-500 text-white border-orange-500 shadow-sm'
+                ? `${LOGO_GRADIENT} text-white border-transparent shadow-sm`
                 : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:text-gray-900 shadow-sm'
             }`}
           >
@@ -87,8 +92,8 @@ export default function OrderServicesSection() {
       <div className={`grid grid-cols-1 gap-6 transition-all duration-300 ${isTwoColumnTab ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
         {servicesData[activeTab].map((s, i) => (
           <div key={`${activeTab}-${i}`} className="group flex flex-col h-full bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-xl transition-all duration-300 min-h-[260px]">
-            <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-orange-100">
-              <s.icon className="w-5 h-5 text-orange-600" />
+            <div className={`${LOGO_GRADIENT} w-12 h-12 rounded-xl flex items-center justify-center mb-5`}>
+              <s.icon className="w-5 h-5 text-white" />
             </div>
             <h4 className="font-bold text-gray-900 text-base mb-3 text-left">{s.title}</h4>
             <p className="text-gray-500 text-[13px] mb-6 leading-relaxed font-medium flex-grow text-left line-clamp-3">{s.description}</p>
@@ -101,7 +106,7 @@ export default function OrderServicesSection() {
                   router.push(s.path);
                 }
               }}
-              className="inline-flex items-center gap-1.5 text-orange-600 text-sm font-bold mt-auto w-fit hover:gap-2 transition-all"
+              className={`inline-flex items-center gap-1.5 ${LOGO_GRADIENT_TEXT} text-sm font-bold mt-auto w-fit hover:gap-2 transition-all`}
             >
               Learn More <ArrowRight className="w-4 h-4" />
 
@@ -122,13 +127,13 @@ export default function OrderServicesSection() {
             <h3 className="text-xl font-bold text-gray-900 mb-8 text-left">Select a company associated with your purchase</h3>
             
             {/* Modal Content matches Image Style */}
-            <div className="border-2 border-orange-500 rounded-2xl p-6 bg-white mb-10">
+            <div className="border-2 border-[#2B93C9] rounded-2xl p-6 bg-white mb-10">
               <div className="flex items-start gap-4 text-left">
-                <div className="mt-1.5 w-5 h-5 rounded-full border-2 border-orange-500 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-orange-500" />
+                <div className="mt-1.5 w-5 h-5 rounded-full border-2 border-[#2B93C9] flex items-center justify-center">
+                  <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`} />
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-gray-900 text-lg uppercase">NEW COMPANY</h4>
+                  <h4 className="font-bold text-gray-900 text-lg uppercase">NEW COMPANY</h4>
                   <p className="text-gray-500 text-sm font-medium mt-1">A company previously incorporated outside of Bizee</p>
                 </div>
               </div>
@@ -136,9 +141,11 @@ export default function OrderServicesSection() {
 
             <button
               onClick={() => { setIsModalOpen(false); router.push('/dashboard/annual-report'); }}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-10 py-4 rounded-2xl flex items-center gap-2 ml-auto shadow-lg"
+              className={`${LOGO_GRADIENT} group relative overflow-hidden text-white font-bold px-10 py-4 rounded-full flex items-center gap-2 ml-auto shadow-lg transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}
             >
-              Next <ChevronRight className="w-5 h-5" />
+              <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+              <span className="relative z-10 flex items-center gap-2">Next <ChevronRight className="w-5 h-5" /></span>
             </button>
           </div>
         </div>

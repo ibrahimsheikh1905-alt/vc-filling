@@ -2,6 +2,9 @@
 
 import { CheckCircle, ShoppingBag } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const checklistItems = [
   "Annual Report",
   "Articles of Amendment", 
@@ -15,7 +18,7 @@ const checklistItems = [
 
 export default function UpgradeBanner() {
   return (
-    <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-3xl p-8 shadow-xl mb-8">
+    <div className={`${LOGO_GRADIENT} text-white rounded-3xl p-8 shadow-xl mb-8`}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-start lg:gap-8 mb-8">
@@ -29,7 +32,7 @@ export default function UpgradeBanner() {
           </div>
           
           {/* Buy Now Button */}
-          <button className="bg-white text-orange-600 hover:bg-orange-50 px-10 py-5 rounded-3xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all flex items-center gap-3 whitespace-nowrap order-first lg:order-last lg:self-start mt-6 lg:mt-0">
+          <button className="bg-white text-cyan-600 hover:bg-cyan-50 px-10 py-5 rounded-3xl font-bold text-lg shadow-2xl hover:shadow-3xl transition-all flex items-center gap-3 whitespace-nowrap order-first lg:order-last lg:self-start mt-6 lg:mt-0">
             <ShoppingBag className="w-6 h-6" />
             Buy Now →
           </button>

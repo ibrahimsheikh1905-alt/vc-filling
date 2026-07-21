@@ -7,6 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 const CompanyProfileTab: React.FC = () => {
   const [isEditingContact, setIsEditingContact] = useState(false);
   const [showUserModal, setShowUserModal] = useState(false);
@@ -225,10 +232,10 @@ const handleUserSubmit = async () => {
       <Card className="border-gray-100 shadow-sm rounded-[24px] overflow-hidden">
         <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 bg-white p-8">
           <CardTitle className="flex items-center gap-3">
-            <div className="bg-cyan-50 p-2 rounded-xl">
-               <User className="w-5 h-5 text-cyan-500" />
+            <div className={`${LOGO_GRADIENT} p-2 rounded-xl`}>
+               <User className="w-5 h-5 text-white" />
             </div>
-            <span className="text-[20px] font-black tracking-[-0.02em] text-gray-900 uppercase">Contact Info</span>
+            <span className="text-[20px] font-bold tracking-[-0.02em] text-gray-900 uppercase">Contact Info</span>
           </CardTitle>
 <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100 cursor-pointer">
             <div className="text-sm font-bold text-gray-700">{userName}</div>
@@ -239,8 +246,10 @@ const handleUserSubmit = async () => {
         <CardContent className="p-8">
 <div className="flex gap-3 mb-8">
             {!isEditingContact ? (
-              <Button onClick={() => setIsEditingContact(true)} className="bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold px-6 py-6 rounded-xl uppercase text-xs shadow-md">
-                <Pencil className="w-4 h-4 mr-2" /> Edit Contact Address
+              <Button onClick={() => setIsEditingContact(true)} className={`${LOGO_GRADIENT} group relative overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-white font-bold px-6 py-6 rounded-full uppercase text-xs shadow-md`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10 flex items-center"><Pencil className="w-4 h-4 mr-2" /> Edit Contact Address</span>
               </Button>
             ) : (
               <div className="flex gap-2">
@@ -302,7 +311,7 @@ const handleUserSubmit = async () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
             <div className="space-y-2">
-              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Contact Email</label>
+              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Contact Email</label>
               <Input 
                 disabled={!isEditingContact} 
                 value={contactInfo.email} 
@@ -311,7 +320,7 @@ const handleUserSubmit = async () => {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Mobile Phone</label>
+              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Mobile Phone</label>
               <Input 
                 disabled={!isEditingContact} 
                 value={contactInfo.phone} 
@@ -320,7 +329,7 @@ const handleUserSubmit = async () => {
               />
             </div>
             <div className="space-y-2 md:col-span-2">
-              <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Contact Address</label>
+              <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Contact Address</label>
               <Input 
                 disabled={!isEditingContact} 
                 value={contactInfo.address} 
@@ -332,7 +341,7 @@ const handleUserSubmit = async () => {
             {/* Address Details Grid */}
             <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">City</label>
+                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">City</label>
                 <Input 
                   disabled={!isEditingContact} 
                   value={contactInfo.city} 
@@ -341,7 +350,7 @@ const handleUserSubmit = async () => {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">State</label>
+                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">State</label>
                 <Input 
                   disabled={!isEditingContact} 
                   value={contactInfo.state} 
@@ -350,7 +359,7 @@ const handleUserSubmit = async () => {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Zip Code</label>
+                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Zip Code</label>
                 <Input 
                   disabled={!isEditingContact} 
                   value={contactInfo.zip} 
@@ -367,12 +376,12 @@ const handleUserSubmit = async () => {
       <Card className="border-gray-100 shadow-sm rounded-[24px] overflow-hidden">
         <CardHeader className="flex flex-row items-center justify-between border-b border-gray-50 bg-white p-8">
           <CardTitle className="flex items-center gap-3">
-            <div className="bg-cyan-50 p-2 rounded-xl">
-               <Users className="w-5 h-5 text-cyan-500" />
+            <div className={`${LOGO_GRADIENT} p-2 rounded-xl`}>
+               <Users className="w-5 h-5 text-white" />
             </div>
-            <span className="text-[20px] font-black tracking-[-0.02em] text-gray-900 uppercase">Manage Access</span>
+            <span className="text-[20px] font-bold tracking-[-0.02em] text-gray-900 uppercase">Manage Access</span>
           </CardTitle>
-          <Button onClick={() => openModal()} variant="outline" className="border-2 border-cyan-500 text-cyan-500 hover:bg-cyan-50 font-black rounded-xl px-5 h-11">
+          <Button onClick={() => openModal()} variant="outline" className="border-2 border-cyan-500 text-cyan-500 hover:bg-cyan-50 font-bold rounded-xl px-5 h-11">
             <UserPlus className="w-4 h-4 mr-2 stroke-[3px]" /> ADD NEW USER
           </Button>
         </CardHeader>
@@ -380,9 +389,9 @@ const handleUserSubmit = async () => {
           <Table>
             <TableHeader className="bg-gray-50/50">
               <TableRow>
-                <TableHead className="px-8 py-5 text-[11px] font-black text-gray-400 uppercase">Name</TableHead>
-                <TableHead className="py-5 text-[11px] font-black text-gray-400 uppercase">Access Level</TableHead>
-                <TableHead className="px-8 py-5 text-[11px] font-black text-gray-400 uppercase text-right">Actions</TableHead>
+                <TableHead className="px-8 py-5 text-[11px] font-bold text-gray-400 uppercase">Name</TableHead>
+                <TableHead className="py-5 text-[11px] font-bold text-gray-400 uppercase">Access Level</TableHead>
+                <TableHead className="px-8 py-5 text-[11px] font-bold text-gray-400 uppercase text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -390,7 +399,7 @@ const handleUserSubmit = async () => {
                 <TableRow key={user.id} className="hover:bg-gray-50/30">
                   <TableCell className="px-8 py-6 font-bold text-gray-900 text-left">{user.name}</TableCell>
                   <TableCell className="py-6 text-left">
-                    <span className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider border ${user.access === 'Full Access' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
+                    <span className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${user.access === 'Full Access' ? 'bg-green-50 text-green-600 border-green-100' : `${LOGO_GRADIENT_SOFT} ${LOGO_GRADIENT_TEXT} border-[#2B93C9]/20`}`}>
                       {user.access}
                     </span>
                   </TableCell>
@@ -412,7 +421,7 @@ const handleUserSubmit = async () => {
           <Card className="w-full max-w-md rounded-[32px] border border-gray-100 bg-white shadow-[0_20px_50px_rgba(0,0,0,0.1)] animate-in fade-in zoom-in duration-200">
             <CardHeader className="p-8 border-b border-gray-50">
               <div className="flex justify-between items-center">
-                <CardTitle className="font-black text-xl uppercase tracking-tight text-gray-900">
+                <CardTitle className="font-bold text-xl uppercase tracking-tight text-gray-900">
                   {editingUserId ? 'Edit User Access' : 'Create New User'}
                 </CardTitle>
                 <Button variant="ghost" onClick={() => setShowUserModal(false)} className="rounded-full h-10 w-10 p-0 hover:bg-gray-100 transition-colors">
@@ -422,15 +431,15 @@ const handleUserSubmit = async () => {
             </CardHeader>
             <CardContent className="p-8 space-y-5 text-left">
 <div className="space-y-2">
-                <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
+                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
                 <Input value={modalUserData.name} onChange={(e) => setModalUserData({...modalUserData, name: e.target.value})} placeholder="Enter name" className="h-12 rounded-xl font-bold" />
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
+                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Email Address</label>
                 <Input value={modalUserData.email} onChange={(e) => setModalUserData({...modalUserData, email: e.target.value})} placeholder="email@example.com" className="h-12 rounded-xl font-bold" />
               </div>
               <div className="space-y-2">
-                <label className="text-[11px] font-black text-gray-400 uppercase tracking-widest ml-1">Access Level</label>
+                <label className="text-[11px] font-bold text-gray-400 uppercase tracking-widest ml-1">Access Level</label>
                 <select 
                   value={modalUserData.access} 
                   onChange={(e) => setModalUserData({...modalUserData, access: e.target.value})}
@@ -441,16 +450,18 @@ const handleUserSubmit = async () => {
                   <option value="View Only">View Only</option>
                 </select>
               </div>
-              <div className="bg-cyan-50/50 p-4 rounded-2xl flex gap-3 border border-cyan-100">
+              <div className={`${LOGO_GRADIENT_SOFT} p-4 rounded-2xl flex gap-3 border border-[#2B93C9]/20`}>
                 <ShieldCheck className="w-5 h-5 text-cyan-500 flex-shrink-0" />
                 <p className="text-[11px] text-cyan-700 font-bold leading-relaxed">
-                  {modalUserData.access === 'Full Access' ? 'This user can manage company settings.' : 
-                   modalUserData.access === 'Billing Only' ? 'User can only manage payments.' : 
+                  {modalUserData.access === 'Full Access' ? 'This user can manage company settings.' :
+                   modalUserData.access === 'Billing Only' ? 'User can only manage payments.' :
                    'User can only view profile.'}
                 </p>
               </div>
-              <Button onClick={handleUserSubmit} className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-white font-black py-7 rounded-2xl uppercase tracking-widest text-xs shadow-lg mt-4 transition-transform active:scale-95">
-                {editingUserId ? 'Save Changes' : 'Invite User'}
+              <Button onClick={handleUserSubmit} className={`w-full ${LOGO_GRADIENT} group relative overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-white font-bold py-7 rounded-full uppercase tracking-widest text-xs shadow-lg mt-4`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">{editingUserId ? 'Save Changes' : 'Invite User'}</span>
               </Button>
             </CardContent>
           </Card>

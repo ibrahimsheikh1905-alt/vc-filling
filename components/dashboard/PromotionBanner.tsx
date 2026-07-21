@@ -1,13 +1,16 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const VirtualMailboxBannerFixed = () => {
   return (
     <div className="w-full bg-white rounded-[32px] border border-gray-100 overflow-hidden flex flex-row items-stretch shadow-sm min-h-[350px]">
       
       {/* LEFT SIDE: Text Content */}
       <div className="w-1/2 p-10 md:p-14 flex flex-col justify-center items-start z-10">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-[#111827] mb-4 leading-tight">
+        <h1 className="text-3xl md:text-4xl font-bold text-[#111827] mb-4 leading-tight">
           Virtual Mailbox and <br /> 
           Mail Scanning Service
         </h1>
@@ -15,9 +18,13 @@ const VirtualMailboxBannerFixed = () => {
           Get a Fixed Street Address and Access to Your Correspondence Anywhere
         </p>
         
-        <button onClick={() => window.location.href = '/buisness-services'} className="bg-[#FF5722] hover:bg-[#F4511E] text-white font-bold py-4 px-10 rounded-2xl flex items-center gap-3 transition-all shadow-lg shadow-orange-100 cursor-pointer">
-          GET STARTED 
-          <ArrowRight className="w-5 h-5" />
+        <button onClick={() => window.location.href = '/buisness-services'} className={`${LOGO_GRADIENT} group relative overflow-hidden text-white font-bold py-4 px-10 rounded-full transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-lg shadow-cyan-100 cursor-pointer`}>
+          <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+          <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+          <span className="relative z-10 flex items-center gap-3">
+            GET STARTED
+            <ArrowRight className="w-5 h-5" />
+          </span>
         </button>
 
       </div>

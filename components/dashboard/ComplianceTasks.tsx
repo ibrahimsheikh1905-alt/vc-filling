@@ -18,6 +18,13 @@ import {
   Loader2
 } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 interface AnnualReport {
   id: number;
   userId: number | null;
@@ -146,12 +153,10 @@ export default function ComplianceTasks() {
   // Show loading state
   if (loading) {
     return (
-      <div className="space-y-8 font-sans antialiased text-left relative p-8 bg-gray-50 min-h-screen">
-        <div className="flex items-center justify-center min-h-[300px]">
-          <div className="flex flex-col items-center gap-4">
-            <Loader2 className="w-10 h-10 text-cyan-500 animate-spin" />
-            <p className="text-gray-500 font-medium">Loading compliance tasks...</p>
-          </div>
+      <div className="flex items-center justify-center min-h-[300px] font-sans antialiased">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-10 h-10 text-cyan-500 animate-spin" />
+          <p className="text-gray-500 font-medium">Loading compliance tasks...</p>
         </div>
       </div>
     );
@@ -160,18 +165,16 @@ export default function ComplianceTasks() {
   // Show error state
   if (error) {
     return (
-      <div className="space-y-8 font-sans antialiased text-left relative p-8 bg-gray-50 min-h-screen">
-        <div className="flex items-center justify-center min-h-[300px]">
-          <div className="flex flex-col items-center gap-4">
-            <AlertCircle className="w-10 h-10 text-red-500" />
-            <p className="text-red-500 font-medium">{error}</p>
-            <button 
-              onClick={() => window.location.reload()} 
-              className="text-cyan-500 font-bold hover:underline"
-            >
-              Try Again
-            </button>
-          </div>
+      <div className="flex items-center justify-center min-h-[300px] font-sans antialiased">
+        <div className="flex flex-col items-center gap-4">
+          <AlertCircle className="w-10 h-10 text-red-500" />
+          <p className="text-red-500 font-medium">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="text-cyan-500 font-bold hover:underline"
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );
@@ -222,11 +225,15 @@ export default function ComplianceTasks() {
           </div>
 
           <div className="pt-2">
-            <button 
-              onClick={() => router.push('/dashboard/annual-report')} 
-              className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-cyan-100"
+            <button
+              onClick={() => router.push('/dashboard/annual-report')}
+              className={`${LOGO_GRADIENT} group relative w-full overflow-hidden text-white font-bold py-3.5 px-6 rounded-full flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-md shadow-cyan-100`}
             >
-              {activeReports.length > 0 ? 'Start Filing' : 'View Reports'} <ArrowRight className="w-4 h-4 stroke-[3px]" />
+              <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                {activeReports.length > 0 ? 'Start Filing' : 'View Reports'} <ArrowRight className="w-4 h-4 stroke-[3px]" />
+              </span>
             </button>
           </div>
         </div> 
@@ -284,9 +291,10 @@ export default function ComplianceTasks() {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={() => setIsModalOpen(false)}
-className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hover:bg-cyan-200 transition-colors text-lg"              >
+                className={`${LOGO_GRADIENT_SOFT} ${LOGO_GRADIENT_TEXT} w-full py-4 mt-4 font-bold rounded-2xl hover:brightness-95 transition-colors text-lg`}
+              >
                 Close
               </button>
             </div>
@@ -301,8 +309,8 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
           className="p-8 flex items-center justify-between cursor-pointer hover:bg-gray-50/20 transition-colors"
         >
           <div className="flex items-center gap-5">
-            <div className="w-12 h-12 bg-cyan-50 rounded-2xl flex items-center justify-center border border-cyan-100">
-              <CheckCircle2 className="w-6 h-6 text-cyan-500" />
+            <div className={`${LOGO_GRADIENT} w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm`}>
+              <CheckCircle2 className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="font-bold text-[17px] text-gray-900 tracking-tight">
@@ -322,8 +330,8 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
           <div className="px-8 pb-10 pt-4 border-t border-gray-50 ml-16 animate-in fade-in slide-in-from-top-2 duration-300">
             <ul className="space-y-4">
               <li className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                  <Calendar className="w-5 h-5 text-cyan-500" />
+                <div className={`${LOGO_GRADIENT} w-10 h-10 rounded-xl flex items-center justify-center shadow-sm`}>
+                  <Calendar className="w-5 h-5 text-white" />
                 </div>
                 <div>
 <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">Due Date</p>
@@ -344,8 +352,8 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
                 </li>
               )}
               <li className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                <span className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                  <Shield className="w-5 h-5 text-cyan-500" />
+                <span className={`${LOGO_GRADIENT} w-10 h-10 rounded-xl flex items-center justify-center shadow-sm`}>
+                  <Shield className="w-5 h-5 text-white" />
                 </span>
                 <div>
                   <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">State Fee</p>
@@ -353,8 +361,8 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
                 </div>
               </li>
               <li className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                  <FileText className="w-5 h-5 text-cyan-500" />
+                <div className={`${LOGO_GRADIENT} w-10 h-10 rounded-xl flex items-center justify-center shadow-sm`}>
+                  <FileText className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-gray-500 uppercase tracking-wide">Filing Fee</p>
@@ -375,13 +383,13 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
       </div>
 
       {/* 3. Upgrade Banner */}
-      <div className="relative bg-gradient-to-r from-cyan-50 to-sky-50 border border-cyan-200 rounded-[24px] p-10 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-6 py-1 rounded-full border border-cyan-200 text-cyan-600 font-black text-sm uppercase tracking-wider">
+      <div className={`relative ${LOGO_GRADIENT_SOFT} border border-cyan-200 rounded-[24px] p-10 overflow-hidden`}>
+        <div className={`absolute top-0 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-sm px-6 py-1 rounded-full border border-cyan-200 ${LOGO_GRADIENT_TEXT} font-bold text-sm uppercase tracking-wider`}>
           BEST DEAL
         </div>
         <div className="flex flex-col lg:flex-row gap-12 items-start lg:items-center pt-8">
           <div className="flex-1 space-y-4">
-            <h3 className="text-3xl lg:text-4xl font-black text-gray-900 leading-tight">
+            <h3 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
               Upgrade to Unlimited State Filings
             </h3>
             <p className="text-lg text-gray-600 font-medium leading-relaxed max-w-lg">
@@ -395,7 +403,7 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
               "Foreign Qualification", "Dissolution", "Reinstatement", "Change of Registered Agent"
             ].map((item, index) => (
               <div key={index} className="flex items-center gap-3 p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
-                <div className="w-5 h-5 bg-[#06B6D4] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className={`${LOGO_GRADIENT} w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0`}>
                   <CheckCircle2 className="w-3 h-3 text-white stroke-[3px]" />
                 </div>
                 <span className="font-semibold text-gray-800 text-sm whitespace-nowrap">{item}</span>
@@ -405,8 +413,10 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
         </div>
         
         <div className="flex justify-center pt-8">
-            <button onClick={() => router.push('/dashboard/annual-report')} className="bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-4 px-12 rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 text-lg">
-            Buy Now <ArrowRight className="w-5 h-5" />
+            <button onClick={() => router.push('/dashboard/annual-report')} className={`${LOGO_GRADIENT} group relative overflow-hidden text-white font-bold py-4 px-12 rounded-full shadow-lg transition-all duration-300 hover:scale-[1.03] hover:brightness-110 hover:shadow-xl text-lg`}>
+            <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+            <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+            <span className="relative z-10 flex items-center gap-2">Buy Now <ArrowRight className="w-5 h-5" /></span>
           </button>
         </div>
       </div>
@@ -414,7 +424,7 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
       {/* 4. Filing History Footer */}
       <div className="bg-white border border-gray-100 rounded-[24px] p-8 flex items-center justify-between max-w-4xl">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-sky-500 rounded-2xl flex items-center justify-center shadow-md">
+          <div className={`${LOGO_GRADIENT} w-12 h-12 rounded-2xl flex items-center justify-center shadow-md`}>
             <History className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -422,8 +432,10 @@ className="w-full py-4 mt-4 bg-cyan-100 text-cyan-700 font-bold rounded-2xl hove
             <p className="text-gray-600 font-medium">To see the documents you have already filed, visit your Order History</p>
           </div>
         </div>
-        <button onClick={() => router.push('/dashboard/226041533405')} className="bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-3 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all">
-          Go to Order History
+        <button onClick={() => router.push('/dashboard/226041533405')} className={`${LOGO_GRADIENT} group relative overflow-hidden text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 hover:scale-[1.03] hover:brightness-110 hover:shadow-xl`}>
+          <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+          <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+          <span className="relative z-10">Go to Order History</span>
         </button>
       </div>
     </div>

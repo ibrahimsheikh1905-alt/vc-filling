@@ -45,20 +45,25 @@ export const AuthProvider = ({ children }: any) => {
 
 useEffect(() => {
     (async function () {
-      const tokenData = await getTokenCookie();
-      if (tokenData.jwtToken) {
-        setToken(tokenData);
-        // Decode userId from JWT
-        const decodedUserId = decodeJwtToken(tokenData.jwtToken);
-        setUserId(decodedUserId);
-        
-        // Also store userId in localStorage for components that need it directly
-        if (decodedUserId) {
-          localStorage.setItem("userId", decodedUserId.toString());
+      try {
+        const tokenData = await getTokenCookie();
+        if (tokenData.jwtToken) {
+          setToken(tokenData);
+          // Decode userId from JWT
+          const decodedUserId = decodeJwtToken(tokenData.jwtToken);
+          setUserId(decodedUserId);
+
+          // Also store userId in localStorage for components that need it directly
+          if (decodedUserId) {
+            localStorage.setItem("userId", decodedUserId.toString());
+          }
         }
+      } catch (error) {
+        console.error("Error checking auth token:", error);
+      } finally {
+        setLoading(false);
+        setTokenChecked(true);
       }
-      setLoading(false);
-      setTokenChecked(true);
     })();
   }, []);
 
@@ -116,7 +121,11 @@ return (
         Logout,
       }}
     >
-      {tokenChecked ? children : <div>Loading...</div>}
+      {tokenChecked ? children : (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="w-8 h-8 border-2 border-gray-200 border-t-[#2B93C9] rounded-full animate-spin" />
+        </div>
+      )}
     </AuthContext.Provider>
   );
 };

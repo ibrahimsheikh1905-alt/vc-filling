@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Star, Info } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const Amendment = () => {
   const router = useRouter();
   const [isChangingName, setIsChangingName] = useState<boolean | null>(null);
@@ -15,7 +18,7 @@ const Amendment = () => {
         {/* Navigation */}
         <button 
           onClick={() => router.back()}
-          className="flex items-center text-[13px] font-bold text-[#FF6B35] mb-6 hover:opacity-80 transition-all group"
+          className="flex items-center text-[13px] font-bold text-cyan-600 mb-6 hover:opacity-80 transition-all group"
         >
           <ChevronLeft className="w-4 h-4 mr-1 transition-transform group-hover:-translate-x-1" /> 
           Back
@@ -35,9 +38,9 @@ const Amendment = () => {
             {/* 1. Company Selection */}
             <div className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm">
               <h3 className="text-[16px] font-bold text-gray-800 mb-6">Company Information</h3>
-              <div className="border-2 border-[#FF6B35] rounded-lg p-5 bg-white flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full border-2 border-[#FF6B35] flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FF6B35]" />
+              <div className="border-2 border-cyan-500 rounded-lg p-5 bg-white flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
+                  <div className={`w-2.5 h-2.5 rounded-full ${LOGO_GRADIENT}`} />
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 text-[12px] uppercase">NEW COMPANY</h4>
@@ -117,19 +120,19 @@ const Amendment = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <button 
                     onClick={() => setIsChangingName(true)}
-                    className={`flex items-center gap-3 p-4 border rounded-lg transition-all ${isChangingName === true ? 'border-[#FF6B35] ring-1 ring-[#FF6B35]' : 'border-gray-200'}`}
+                    className={`flex items-center gap-3 p-4 border rounded-lg transition-all ${isChangingName === true ? 'border-cyan-500 ring-1 ring-cyan-500' : 'border-gray-200'}`}
                   >
-                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isChangingName === true ? 'border-[#FF6B35]' : 'border-gray-300'}`}>
-                      {isChangingName === true && <div className="w-2 h-2 rounded-full bg-[#FF6B35]" />}
+                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isChangingName === true ? 'border-cyan-500' : 'border-gray-300'}`}>
+                      {isChangingName === true && <div className={`w-2 h-2 rounded-full ${LOGO_GRADIENT}`} />}
                     </div>
                     <span className="text-[14px]">Yes</span>
                   </button>
-                  <button 
+                  <button
                     onClick={() => setIsChangingName(false)}
-                    className={`flex items-center gap-3 p-4 border rounded-lg transition-all ${isChangingName === false ? 'border-[#FF6B35] ring-1 ring-[#FF6B35]' : 'border-gray-200'}`}
+                    className={`flex items-center gap-3 p-4 border rounded-lg transition-all ${isChangingName === false ? 'border-cyan-500 ring-1 ring-cyan-500' : 'border-gray-200'}`}
                   >
-                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isChangingName === false ? 'border-[#FF6B35]' : 'border-gray-300'}`}>
-                      {isChangingName === false && <div className="w-2 h-2 rounded-full bg-[#FF6B35]" />}
+                    <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${isChangingName === false ? 'border-cyan-500' : 'border-gray-300'}`}>
+                      {isChangingName === false && <div className={`w-2 h-2 rounded-full ${LOGO_GRADIENT}`} />}
                     </div>
                     <span className="text-[14px]">No</span>
                   </button>
@@ -166,7 +169,7 @@ const Amendment = () => {
                 </div>
                 <div className="pt-6 border-t border-gray-100 flex justify-between items-end mt-6">
                   <span className="text-[18px] font-bold text-gray-900">Total</span>
-                  <span className="text-[30px] font-black text-gray-900 leading-none">$0</span>
+                  <span className="text-[30px] font-bold text-gray-900 leading-none">$0</span>
                 </div>
               </div>
 
@@ -184,8 +187,10 @@ const Amendment = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-[#FF6B35] hover:bg-[#E85A24] text-white font-bold py-4 rounded-xl shadow-lg transition-all text-[14px] mt-8 uppercase tracking-[2px]">
-                Submit
+              <button className={`${LOGO_GRADIENT} group relative mt-8 w-full overflow-hidden rounded-full py-4 text-[14px] font-bold uppercase tracking-[2px] text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Submit</span>
               </button>
             </div>
           </aside>

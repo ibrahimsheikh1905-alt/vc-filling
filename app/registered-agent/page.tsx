@@ -12,6 +12,12 @@ import {
 } from "@/components/ui/accordion";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
 const RegisteredAgent = () => {
   const whyChoose = [
     "Founded in Houston, Incorp Bay has helped entrepreneurs complete over 1,000,000 business formations since 2004.",
@@ -57,16 +63,16 @@ const RegisteredAgent = () => {
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage:
-              "linear-gradient(#06B6D4 1px, transparent 1px), linear-gradient(90deg, #06B6D4 1px, transparent 1px)",
+              "linear-gradient(#2B93C9 1px, transparent 1px), linear-gradient(90deg, #2B93C9 1px, transparent 1px)",
             backgroundSize: "40px 40px",
           }}
         />
         {/* Top-right glow */}
-        <div className="pointer-events-none absolute -top-32 right-0 h-96 w-96 rounded-full bg-[#06B6D4]/10 blur-[90px]" />
+        <div className="pointer-events-none absolute -top-32 right-0 h-96 w-96 rounded-full bg-[#2B93C9]/10 blur-[90px]" />
 
-        <div className="my-16 flex flex-col-reverse md:flex-row items-center relative z-10">
+        <div className="mb-16 flex flex-col-reverse md:flex-row items-center relative z-10">
           <div className="flex-1">
-            <p className="md:pl-20 pt-10 max-sm:mx-5 text-sm font-semibold text-[#06B6D4] tracking-wide uppercase">
+            <p className={`md:pl-20 max-sm:mx-5 text-sm font-semibold ${LOGO_GRADIENT_TEXT} tracking-wide uppercase`}>
               Excellent 4.7 out of 5 ★ Trustpilot
             </p>
 
@@ -82,9 +88,9 @@ const RegisteredAgent = () => {
               {/* Button 1 Updated with same Hover effect as START NOW */}
               <Link
                 href="/form-a-llc"
-                className="group relative bg-[#06B6D4] text-white rounded-2xl p-5 w-48 overflow-hidden hover:shadow-[0_8px_30px_rgba(6,182,212,0.5)] transition-all duration-300"
+                className={`group relative ${LOGO_GRADIENT} text-white rounded-2xl p-5 w-48 overflow-hidden hover:brightness-110 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)] transition-all duration-300`}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#2B93C9] to-[#33D1CC] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="relative z-10">
                   <p className="text-sm text-cyan-100">Free LLC Formation</p>
                   <h3 className="font-bold py-3">Free First Year</h3>
@@ -110,7 +116,7 @@ const RegisteredAgent = () => {
             <div className="flex gap-8 md:pl-20 max-sm:mx-5 mt-10">
               {stats.map((s) => (
                 <div key={s.label}>
-                  <p className="text-2xl font-bold text-[#06B6D4]">{s.value}</p>
+                  <p className={`text-2xl font-bold ${LOGO_GRADIENT_TEXT}`}>{s.value}</p>
                   <p className="text-xs text-gray-500 uppercase tracking-wide">{s.label}</p>
                 </div>
               ))}
@@ -119,12 +125,12 @@ const RegisteredAgent = () => {
 
           <div className="flex-1 flex justify-center">
             <div className="relative">
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#06B6D4]/20 to-[#06B6D4]/10 blur-2xl scale-105" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#2B93C9]/20 to-[#2B93C9]/10 blur-2xl scale-105" />
               <Image
-                src="/LLC green.jpg"
+                src="/Register-agent/Incorporate-now-ra.webp"
                 alt="Registered Agent"
-                width={650}
-                height={650}
+                width={430}
+                height={430}
                 className="rounded-3xl relative z-10"
               />
             </div>
@@ -133,41 +139,56 @@ const RegisteredAgent = () => {
       </div>
 
       {/* Section divider */}
-      <div className="h-px mx-5 bg-gradient-to-r from-transparent via-[#06B6D4]/40 to-transparent mb-6" />
+      <div className="h-px mx-5 bg-gradient-to-r from-transparent via-[#2B93C9]/40 to-transparent mb-6" />
 
       <div className="max-w-7xl mx-auto">
         {/* ─── STARTUP CENTRAL ──────────────────────────────────── */}
-        <div className="border border-[#06B6D4]/20 rounded-2xl p-8 mx-5 flex justify-between items-center md:flex-row flex-col gap-8 bg-gradient-to-r from-[#06B6D4]/5 to-[#06B6D4]/5 hover:border-[#06B6D4]/40 transition-colors duration-300">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#06B6D4]">Resources</span>
+        <div className="border border-[#2B93C9]/20 rounded-2xl p-8 mx-5 flex justify-between items-center flex-col md:!flex-row gap-8 bg-gradient-to-r from-[#2B93C9]/5 to-[#2B93C9]/5 hover:border-[#2B93C9]/40 transition-colors duration-300">
+          <div className="w-full md:w-auto text-center md:text-left">
+            <span className={`text-xs font-semibold uppercase tracking-widest ${LOGO_GRADIENT_TEXT}`}>Resources</span>
             <h2 className="text-3xl font-bold text-[#1E293B] mt-2">Incorp Bay's Startup Central</h2>
-            <p className="text-gray-500 py-4 max-w-sm">
+            <p className="text-gray-500 py-4 max-w-sm mx-auto md:mx-0">
               Your go-to resource hub. Real-world advice, determination, and a clear roadmap for building your business from the ground up.
             </p>
             {/* Button 2 Updated with same Hover effect as START NOW */}
             <Link
               href="/Startup-Central"
-              className="group relative bg-[#06B6D4] text-white px-8 py-4 rounded-[30px] inline-block overflow-hidden hover:shadow-[0_8px_30px_rgba(6,182,212,0.4)] transition-all duration-300"
+              className={`group relative ${LOGO_GRADIENT} text-white px-8 py-4 rounded-[30px] inline-block overflow-hidden hover:brightness-110 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)] transition-all duration-300`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#2B93C9] to-[#33D1CC] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative z-10">
                 VISIT INCORP BAY'S STARTUP CENTRAL
               </span>
             </Link>
           </div>
 
-          <Image
-            src="/free-llc/Forming an LLC Can.webp"
-            alt="Startup Central"
-            width={400}
-            height={250}
-            className="rounded-2xl"
-          />
+          <div className="relative shrink-0 w-[400px] h-[250px]">
+            {/* Blurred backdrop copy — shows through the faded edges of the sharp image on top */}
+            <Image
+              src="/Register-agent/Startup-central-ideas.webp"
+              alt=""
+              aria-hidden="true"
+              fill
+              className="object-contain rounded-2xl blur-md scale-105 opacity-80"
+            />
+            <Image
+              src="/Register-agent/Startup-central-ideas.webp"
+              alt="Startup Central"
+              fill
+              className="object-contain rounded-2xl relative"
+              style={{
+                maskImage:
+                  "radial-gradient(ellipse 42% 55% at center, black 60%, transparent 100%)",
+                WebkitMaskImage:
+                  "radial-gradient(ellipse 42% 55% at center, black 60%, transparent 100%)",
+              }}
+            />
+          </div>
         </div>
 
         {/* ─── WHY CHOOSE ───────────────────────────────────────── */}
         <div className="py-20 mx-5">
-          <span className="block text-center text-xs font-semibold uppercase tracking-widest text-[#06B6D4] mb-3">
+          <span className={`block text-center text-xs font-semibold uppercase tracking-widest ${LOGO_GRADIENT_TEXT} mb-3`}>
             Trusted by millions
           </span>
           <h2 className="text-center text-4xl font-bold pb-10 text-[#1E293B]">
@@ -179,9 +200,9 @@ const RegisteredAgent = () => {
               {whyChoose.map((item, index) => (
                 <div
                   key={index}
-                  className="group border-l-4 border-transparent hover:border-[#06B6D4] border border-gray-100 rounded-xl p-4 flex gap-5 items-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+                  className="group border-l-4 border-transparent hover:border-[#2B93C9] border border-gray-100 rounded-xl p-4 flex gap-5 items-center shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
                 >
-                  <span className="shrink-0 text-[#06B6D4] text-2xl font-bold bg-[#06B6D4]/8 w-12 h-12 rounded-lg flex items-center justify-center group-hover:bg-[#06B6D4]/15 transition-colors">
+                  <span className={`shrink-0 ${LOGO_GRADIENT_TEXT} text-2xl font-bold bg-[#2B93C9]/8 w-12 h-12 rounded-lg flex items-center justify-center group-hover:bg-[#2B93C9]/15 transition-colors`}>
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <p className="text-gray-600 text-sm leading-relaxed">{item}</p>
@@ -190,9 +211,9 @@ const RegisteredAgent = () => {
             </div>
 
             <div className="relative">
-              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-[#06B6D4]/10 to-[#06B6D4]/10 blur-xl" />
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-[#2B93C9]/10 to-[#2B93C9]/10 blur-xl" />
               <Image
-                src="/free-llc/step-1.webp"
+                src="/Register-agent/image.webp"
                 alt="Registered Agent Woman"
                 width={600}
                 height={650}
@@ -203,7 +224,7 @@ const RegisteredAgent = () => {
         </div>
 
         {/* Section divider */}
-        <div className="h-px mx-5 bg-gradient-to-r from-transparent via-[#06B6D4]/30 to-transparent mb-6" />
+        <div className="h-px mx-5 bg-gradient-to-r from-transparent via-[#2B93C9]/30 to-transparent mb-6" />
 
         {/* ─── VIDEO FAQ ────────────────────────────────────────── */}
 <div className="py-16 mx-5">
@@ -285,19 +306,19 @@ const RegisteredAgent = () => {
 
         {/* ─── SERVICE BOX ──────────────────────────────────────── */}
         <div className="relative bg-[#1E293B] rounded-3xl p-10 mx-5 text-center overflow-hidden">
-          <div className="pointer-events-none absolute top-0 left-1/4 w-72 h-72 bg-[#06B6D4]/10 rounded-full blur-[80px]" />
-          <div className="pointer-events-none absolute bottom-0 right-1/4 w-72 h-72 bg-[#06B6D4]/15 rounded-full blur-[80px]" />
+          <div className="pointer-events-none absolute top-0 left-1/4 w-72 h-72 bg-[#2B93C9]/10 rounded-full blur-[80px]" />
+          <div className="pointer-events-none absolute bottom-0 right-1/4 w-72 h-72 bg-[#2B93C9]/15 rounded-full blur-[80px]" />
 
           <div className="relative z-10">
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#06B6D4] mb-3 block">
+            <span className={`text-xs font-semibold uppercase tracking-widest ${LOGO_GRADIENT_TEXT} mb-3 block`}>
               All in one place
             </span>
             <h2 className="text-4xl font-bold text-white">
               Incorp Bay's Registered Agent Service Has <br />
-              Everything You Need
+              <span className={LOGO_GRADIENT_TEXT}>Everything You Need</span>
             </h2>
 
-            <p className="py-4 text-cyan-200 max-w-lg mx-auto">
+            <p className="py-4 text-slate-300 max-w-lg mx-auto">
               Get peace of mind knowing your business is always in compliance.
             </p>
 
@@ -305,22 +326,24 @@ const RegisteredAgent = () => {
               {features.map((item) => (
                 <div
                   key={item.label}
-                  className="group bg-white/5 border border-white/8 rounded-2xl p-6 text-left hover:bg-white/10 hover:border-[#06B6D4]/40 hover:-translate-y-1 transition-all duration-200 cursor-default"
+                  className="group bg-white/5 border border-white/8 rounded-2xl p-6 text-left hover:bg-white/10 hover:border-[#2B93C9]/40 hover:-translate-y-1 transition-all duration-200 cursor-default"
                 >
-                  <CheckBadgeIcon className="h-7 w-7 text-[#06B6D4] mb-4" />
+                  <CheckBadgeIcon className="h-7 w-7 text-[#2B93C9] mb-4" />
                   <h3 className="font-bold text-white text-sm mb-2">{item.label}</h3>
                   <p className="text-xs text-gray-400 leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
 
-            <Image
-              src="/free-llc/discoverBenefits.webp"
-              alt="Service Phones"
-              width={750}
-              height={500}
-              className="mx-auto relative z-10"
-            />
+            <div className="mx-auto w-full max-w-[750px] overflow-hidden rounded-3xl">
+              <Image
+                src="/Register-agent/Registered_agent_promotion_section.webp"
+                alt="Service Phones"
+                width={750}
+                height={500}
+                className="object-contain rounded-3xl w-full transform transition-transform duration-500 hover:scale-[1.02]"
+              />
+            </div>
           </div>
         </div>
 
@@ -328,8 +351,8 @@ const RegisteredAgent = () => {
         <div className="py-20 mx-5">
           <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-12 items-start">
             <div className="w-full lg:sticky lg:top-24">
-              <div className="bg-white border border-[#06B6D4]/15 rounded-2xl p-6 shadow-sm">
-                <p className="text-xs uppercase tracking-widest text-[#06B6D4] font-semibold">
+              <div className="bg-white border border-[#2B93C9]/15 rounded-2xl p-6 shadow-sm">
+                <p className={`text-xs uppercase tracking-widest ${LOGO_GRADIENT_TEXT} font-semibold`}>
                   What you need to know
                 </p>
 
@@ -342,7 +365,7 @@ const RegisteredAgent = () => {
                     <li key={link} className="border-t first:border-t-0 border-gray-100">
                       <a
                         href={link}
-                        className="group flex justify-between gap-3 py-3 text-sm text-gray-600 hover:text-[#06B6D4] transition-colors"
+                        className="group flex justify-between gap-3 py-3 text-sm text-gray-600 hover:text-[#2B93C9] transition-colors"
                       >
                         {title}
                         <span className="group-hover:translate-x-0.5 transition-transform inline-block">›</span>
@@ -368,7 +391,7 @@ const RegisteredAgent = () => {
                     <ul className="list-none space-y-2 mb-8">
                       {["Legal notifications such as lawsuits and subpoenas (Service of Process)","Annual reports from the state","Any official correspondence from state government agencies"].map(i => (
                         <li key={i} className="flex items-center gap-2 text-gray-600">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4] shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2B93C9] shrink-0" />
                           {i}
                         </li>
                       ))}
@@ -395,7 +418,7 @@ const RegisteredAgent = () => {
                     <ul className="list-none space-y-2 mb-8">
                       {["You need a physical address. P.O. boxes aren't allowed — you must have a physical street address in the state where your LLC is registered.","You must be available during business hours. If you travel, have a busy schedule, or keep irregular hours, this can be tough to manage consistently.","Missing documents can be costly. If you miss a legal notice like a lawsuit, the consequences can be severe. A professional service ensures nothing gets overlooked."].map(i => (
                         <li key={i} className="flex items-center gap-2 text-gray-600">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4] shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2B93C9] shrink-0" />
                           {i}
                         </li>
                       ))}
@@ -416,7 +439,7 @@ const RegisteredAgent = () => {
                     <ul className="list-none space-y-2 mb-4">
                       {["Peace of mind. You can focus on running your business knowing that important documents are being handled — no worrying about missed deadlines.","Compliance support. Many services help with annual report filings and other state compliance tasks.","Privacy. Your personal address stays out of public records.","Convenience. Many services provide online portals where you can easily track and manage your documents anytime."].map(i => (
                         <li key={i} className="flex items-center gap-2 text-gray-600">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#06B6D4] shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2B93C9] shrink-0" />
                           {i}
                         </li>
                       ))}
@@ -457,28 +480,24 @@ const RegisteredAgent = () => {
         </div>
 
         {/* ─── CTA BANNER ───────────────────────────────────────── */}
-        <div className="mx-5 my-20">
+        <div className="mx-5 my-12">
           <div className="relative bg-[#1E293B] rounded-[40px] overflow-hidden">
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#06B6D4]/15 to-transparent" />
-            <div className="pointer-events-none absolute right-1/4 top-1/2 -translate-y-1/2 w-80 h-80 bg-[#06B6D4]/25 rounded-full blur-[80px]" />
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#2B93C9]/15 to-transparent" />
+            <div className="pointer-events-none absolute right-1/4 top-1/2 -translate-y-1/2 w-80 h-80 bg-[#2B93C9]/25 rounded-full blur-[80px]" />
 
             <div className="grid md:grid-cols-2 items-center relative z-10">
-              <div className="p-10 md:p-16">
-                <span className="bg-[#06B6D4] text-white text-sm font-semibold px-4 py-2 rounded-full">
+              <div className="p-8 md:p-10">
+                <span className={`${LOGO_GRADIENT} text-white text-sm font-semibold px-4 py-2 rounded-full`}>
                   Incorporate Now
                 </span>
 
-                <h2 className="text-4xl md:text-6xl font-bold leading-tight mt-6 text-white">
+                <h2 className="text-3xl md:text-5xl font-bold leading-tight mt-4 text-white">
                   Launch Your <br />
                   Business With <br />
-                  <span style={{
-                    background: "linear-gradient(135deg, #60a5fa 0%, #06B6D4 100%)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}>Incorp Bay</span>
+                  <span className={LOGO_GRADIENT_TEXT}>Incorp Bay</span>
                 </h2>
 
-                <p className="mt-6 text-lg text-cyan-100 leading-relaxed">
+                <p className="mt-4 text-base text-cyan-100 leading-relaxed">
                   No Contracts. No Surprises.
                   <br />
                   Only $0 + State Fee to Launch Your Business.
@@ -487,22 +506,22 @@ const RegisteredAgent = () => {
                 {/* Base reference button */}
                 <Link
                   href="/form-a-llc"
-                  className="group relative inline-block mt-8 bg-[#06B6D4] text-white font-semibold px-8 py-4 rounded-full overflow-hidden hover:shadow-[0_8px_30px_rgba(6,182,212,0.5)] transition-all duration-300"
+                  className={`group relative inline-block mt-5 ${LOGO_GRADIENT} text-white text-sm font-semibold px-6 py-2.5 rounded-full overflow-hidden hover:brightness-110 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)] transition-all duration-300`}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#06B6D4] to-[#0891b2] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#2B93C9] to-[#33D1CC] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="relative z-10 flex items-center gap-1">
                     START NOW <span className="group-hover:translate-x-1 transition-transform inline-block">→</span>
                   </span>
                 </Link>
               </div>
 
-              <div className="flex justify-center">
+              <div className="flex justify-end">
                 <Image
-                  src="/free-llc/Save Time Money.webp"
+                  src="/Register-agent/Registered-agent-page-on-phone.webp"
                   alt="Launch Your Business"
-                  width={700}
-                  height={600}
-                  className="object-contain"
+                  width={560}
+                  height={482}
+                  className="object-contain rounded-2xl"
                 />
               </div>
             </div>

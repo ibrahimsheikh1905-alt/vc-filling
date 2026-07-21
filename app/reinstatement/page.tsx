@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
 const CYAN = "#06B6D4";
@@ -48,31 +49,6 @@ const FILING_STEPS = [
   },
 ];
 
-const BENEFITS = [
-  { label: "Saves time", rest: " versus starting a new LLC" },
-  { label: "You can hold on to", rest: " the company name" },
-  { label: "Keep your original", rest: " historical records and paperwork" },
-  {
-    label: "Lets you capitalize on existing customers",
-    rest: " and brand recognition",
-  },
-  {
-    label: "Regain limited liability protection",
-    rest: " from the date of dissolution",
-  },
-];
-
-const LOSE_ITEMS = [
-  { bold: "Established", rest: " customer base" },
-  { bold: "Liability protection", rest: "" },
-  { bold: "Rights", rest: " to your business name" },
-  { bold: "Brand credibility,", rest: " recognition and value" },
-  {
-    bold: "Historical data",
-    rest: " (bank and business history, credit ratings, funding)",
-  },
-];
-
 const NEW_LLC_CONS = [
   "You lose out on all historical data related to your previous LLC. This data could be credit scores, bank statements, licenses and business financials. You have to start from scratch to build credibility, trust and business history.",
   "Incorporating a new LLC will take anywhere between a few days to weeks, depending on state requirements. It also requires you to gather and re-file all of the incorporation paperwork.",
@@ -100,33 +76,6 @@ const ChevronRight = ({ active }: { active?: boolean }) => (
     className="mt-0.5 shrink-0"
   >
     <path d="M9 18l6-6-6-6" />
-  </svg>
-);
-
-const CheckSmall = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#fff"
-    strokeWidth={3}
-    width={12}
-    height={12}
-  >
-    <path d="M20 6L9 17l-5-5" />
-  </svg>
-);
-
-const XCircle = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#94A3B8"
-    strokeWidth={2}
-    width={22}
-    height={22}
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M15 9l-6 6M9 9l6 6" />
   </svg>
 );
 
@@ -218,35 +167,14 @@ export default function ReinstatementPage() {
         </div>
 
         <div className="flex justify-center md:justify-end">
-          <div className="relative w-[340px] rounded-lg border-8 border-[#1E293B] bg-white px-8 py-9 shadow-[10px_14px_0_#1E293B]">
-            <div className="absolute left-0 top-8 h-20 w-1.5 rounded-r bg-[#06B6D4]" />
-            <h2 className="text-3xl font-black leading-none text-[#06B6D4]">
-              REINSTATE
-            </h2>
-            <h2 className="mt-1 text-3xl font-black leading-none text-[#1a1a1a]">
-              COMPANY
-            </h2>
-            <p className="mt-5 text-[10px] font-bold uppercase leading-relaxed tracking-wide text-slate-800">
-              Reinstatement restores a dissolved business&apos;s legal status.
-              Without it, owners lose legal protection, cannot operate, and risk
-              personal liability.
-            </p>
-            <div className="mt-6 flex items-center gap-4 border-t border-slate-200 pt-5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-slate-300 text-[9px] text-slate-400">
-                SEAL
-              </div>
-              <div>
-                <p className="font-serif text-lg italic leading-none text-slate-700">
-                  Jo Allen
-                </p>
-                <p className="mt-1 text-[10px] text-slate-400">
-                  John Smith
-                  <br />
-                  Secretary of State
-                </p>
-              </div>
-            </div>
-          </div>
+          <Image
+            src="/reinstatement/Business-reinstatement-liability-protection.webp"
+            alt="Reinstate your company - restore liability protection"
+            width={1209}
+            height={1301}
+            className="h-auto w-full max-w-[340px]"
+            priority
+          />
         </div>
       </section>
 
@@ -333,62 +261,13 @@ export default function ReinstatementPage() {
           </div>
 
           <div className="flex justify-center md:justify-end">
-            <div className="relative w-[248px] rounded-[36px] border-8 border-[#1E293B] bg-white p-4 pb-5 shadow-2xl">
-              <div className="mx-auto mb-5 h-5 w-20 rounded-full bg-[#1E293B]" />
-              <div className="mb-4 text-center">
-                <p className="text-[11px] text-slate-500">LLC Reinstatement</p>
-                <p className="text-[10px] text-slate-400">Final Confirmation</p>
-              </div>
-
-              {[
-                "Application Submitted",
-                "Application Reviewed",
-                "Reinstatement Approved",
-                "Reinstatement Complete",
-              ].map((status, idx) => {
-                const statusProgress = idx / 4;
-                const isActive = progress >= statusProgress;
-
-                return (
-                  <div key={status} className="mb-3 flex items-center gap-3">
-                    <span
-                      className={`h-3 w-3 rounded-full border-2 transition-all duration-300 ${
-                        isActive
-                          ? "border-[#06B6D4] bg-[#06B6D4]"
-                          : "border-slate-200 bg-white"
-                      }`}
-                    />
-                    <p
-                      className={`text-[10px] transition-colors ${isActive ? "font-semibold text-slate-800" : "text-slate-400"}`}
-                    >
-                      {status}
-                    </p>
-                  </div>
-                );
-              })}
-
-              <div className="my-4 h-1 w-full overflow-hidden rounded-full bg-slate-100">
-                <div
-                  className="h-full rounded-full bg-[#06B6D4] transition-[width] duration-100 ease-linear"
-                  style={{ width: `${progress * 100}%` }}
-                />
-              </div>
-
-              <div className="flex justify-between py-1 text-[10px]">
-                <span className="text-slate-400">Progress</span>
-                <span className="font-bold text-[#06B6D4]">
-                  {Math.round(progress * 100)}%
-                </span>
-              </div>
-
-              <div className="mt-3 rounded-lg bg-[#06B6D4] py-2.5 text-center text-[11px] font-bold text-white">
-                {progress < 0.5
-                  ? "Processing..."
-                  : progress < 0.75
-                    ? "Almost Done!"
-                    : "Complete!"}
-              </div>
-            </div>
+            <Image
+              src="/reinstatement/LLC-reinstatement-confirmationpng.webp"
+              alt="LLC reinstatement final confirmation on a smartphone"
+              width={1179}
+              height={1334}
+              className="h-auto w-full max-w-[280px]"
+            />
           </div>
         </div>
       </section>
@@ -401,30 +280,13 @@ export default function ReinstatementPage() {
           </h2>
 
           <div className="mt-14 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-            <div className="mx-auto w-full max-w-sm rounded-3xl bg-[#1E293B] p-7 shadow-2xl">
-              <div className="rounded-2xl bg-white p-5">
-                <p className="text-xs text-slate-400">Reinstate Your Company</p>
-                <p className="mt-1 text-lg font-black text-[#0f0f1a]">
-                  Acme Design LLC
-                </p>
-                <div className="mt-5 flex h-14 items-center justify-center rounded-xl bg-slate-100 text-xs font-black text-slate-400">
-                  REINSTATE COMPANY
-                </div>
-                <div className="mt-3 h-8 rounded-xl bg-slate-100" />
-              </div>
-              <div className="mt-4 rounded-2xl bg-white p-5 text-center shadow-xl">
-                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[#06B6D4] text-white">
-                  ✓
-                </div>
-                <p className="mt-3 text-sm font-black text-[#0f0f1a]">
-                  Reinstatement Service
-                </p>
-                <p className="mt-1 text-xs text-slate-400">Order Completed</p>
-                <button className="mx-auto mt-4 inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-5 py-2 text-xs font-bold text-slate-600">
-                  Check More Details <span className="text-[#06B6D4]">→</span>
-                </button>
-              </div>
-            </div>
+            <Image
+              src="/reinstatement/Reinstatement-service-confirmation-acme.webp"
+              alt="Reinstatement service order completed confirmation"
+              width={1353}
+              height={1162}
+              className="mx-auto h-auto w-full max-w-sm"
+            />
 
             <div className="space-y-4">
               {FILING_STEPS.map((step) => (
@@ -694,67 +556,28 @@ function ArticleBlock({
 
 function BenefitsCard() {
   return (
-    <div className="my-6 max-w-2xl rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-      <div className="rounded-xl bg-slate-50 p-5">
-        <p className="text-lg font-black leading-tight text-[#0f0f1a]">
-          Benefits of <span className="text-[#06B6D4]">Reinstating</span>
-          <br /> Your LLC
-        </p>
-      </div>
-
-      <div className="mt-4 divide-y divide-slate-100">
-        {BENEFITS.map((item) => (
-          <div
-            key={item.label}
-            className="flex items-center gap-3 py-3 text-sm text-slate-600"
-          >
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#06B6D4]">
-              <CheckSmall />
-            </span>
-            <span>
-              <strong className="text-[#1a1a1a]">{item.label}</strong>
-              {item.rest}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-4 flex h-36 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-900 to-cyan-600 text-center text-sm text-white/80">
-        <div>
-          <div className="mb-1 text-4xl">👩🏾‍💼</div>
-          Business owner back in action
-        </div>
-      </div>
+    <div className="my-6 max-w-2xl">
+      <Image
+        src="/reinstatement/Infographic-benefits-of-reinstanting-your-llc.webp"
+        alt="Why reinstate your LLC - benefits infographic"
+        width={1054}
+        height={1492}
+        className="h-auto w-full rounded-2xl shadow-sm"
+      />
     </div>
   );
 }
 
 function LoseCard() {
   return (
-    <div className="my-6 max-w-2xl rounded-2xl bg-slate-50 p-6">
-      <div className="rounded-xl bg-white p-5 shadow-sm">
-        <p className="text-base font-black leading-tight text-[#0f0f1a]">
-          <span className="text-[#06B6D4]">Reinstatement</span>
-          <br /> Or Start a New LLC?
-        </p>
-      </div>
-      <p className="mt-5 text-sm font-bold text-[#0f0f1a]">
-        Here&apos;s what you&apos;ll lose out on if you start a new LLC...
-      </p>
-      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {LOSE_ITEMS.map((item) => (
-          <div
-            key={item.bold}
-            className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm"
-          >
-            <XCircle />
-            <p className="mt-2 text-sm leading-relaxed text-slate-600">
-              <strong className="text-[#1a1a1a]">{item.bold}</strong>
-              {item.rest}
-            </p>
-          </div>
-        ))}
-      </div>
+    <div className="my-6 max-w-2xl">
+      <Image
+        src="/reinstatement/Infographic-reinstatment-or-start-a-new-llc.webp"
+        alt="Restore your LLC or form a new one - what you could lose"
+        width={1254}
+        height={1254}
+        className="h-auto w-full rounded-2xl shadow-sm"
+      />
     </div>
   );
 }

@@ -17,6 +17,16 @@ import {
   User
 } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
+
 interface Issue {
   id: number;
   userId: number | null;
@@ -89,7 +99,7 @@ const PendingIssuePage = () => {
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="flex flex-col items-center gap-4">
-              <Loader2 className="w-10 h-10 text-cyan-500 animate-spin" />
+              <Loader2 className="w-10 h-10 animate-spin text-[#2B93C9]" />
               <p className="text-slate-500 font-medium">Loading issues...</p>
             </div>
           </div>
@@ -109,7 +119,7 @@ const PendingIssuePage = () => {
               <p className="text-red-500 font-medium">{error}</p>
               <button 
                 onClick={() => window.location.reload()} 
-                className="text-cyan-500 font-bold hover:underline"
+                className={`${LOGO_GRADIENT_TEXT} font-bold hover:underline`}
               >
                 Try Again
               </button>
@@ -135,19 +145,22 @@ const PendingIssuePage = () => {
           <header className="mb-10">
             <button 
               onClick={() => router.push('/dashboard')}
-              className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 transition-colors mb-4"
+              className="flex items-center gap-2 text-slate-500 hover:text-[#2B93C9] transition-colors mb-4"
             >
               <ArrowLeft className="w-4 h-4" />
               <span className="text-sm font-medium">Back to Dashboard</span>
             </button>
             
-            <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">My Submissions</h1>
+            <span className={`${LOGO_GRADIENT_SOFT} ${LOGO_GRADIENT_TEXT} inline-flex rounded-full px-4 py-1 text-xs font-bold uppercase tracking-[0.18em] shadow-sm`}>
+              Dashboard
+            </span>
+            <h1 className={`mt-3 text-3xl md:text-4xl font-bold tracking-tight ${LOGO_GRADIENT_TEXT}`}>My Submissions</h1>
             <div className="flex gap-6 mt-4">
-              <a href="mailto:info@incorpbay.com" className="flex items-center gap-2 text-sm text-slate-600 hover:text-cyan-600 transition-colors">
+              <a href="mailto:info@incorpbay.com" className="flex items-center gap-2 text-sm text-slate-600 hover:text-[#2B93C9] transition-colors">
                 <Mail className="w-4 h-4" />
                 info@incorpbay.com
               </a>
-              <a href="tel:1-888-888-8888" className="flex items-center gap-2 text-sm text-slate-600 hover:text-cyan-600 transition-colors">
+              <a href="tel:1-888-888-8888" className="flex items-center gap-2 text-sm text-slate-600 hover:text-[#2B93C9] transition-colors">
                 <PhoneCall className="w-4 h-4" />
                 1-888-888-8888
               </a>
@@ -155,10 +168,10 @@ const PendingIssuePage = () => {
           </header>
 
           {/* No Pending Issues - Success State */}
-          <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-[#2B93C9]/10">
             <div className="p-12 text-center">
-              <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-8 h-8 text-green-600" />
+              <div className={`${LOGO_GRADIENT} mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full text-white shadow-lg shadow-[#2B93C9]/25`}>
+                <CheckCircle className="w-8 h-8" />
               </div>
               <h2 className="text-xl font-bold text-slate-900 mb-2">All Clear!</h2>
               <p className="text-slate-500 font-medium">
@@ -166,9 +179,11 @@ const PendingIssuePage = () => {
               </p>
               <button 
                 onClick={() => router.push('/dashboard')}
-                className="mt-6 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-6 rounded-2xl transition-colors shadow-md shadow-cyan-100"
+                className={`${LOGO_GRADIENT} group relative mt-6 overflow-hidden rounded-2xl px-6 py-3 font-bold text-white shadow-lg shadow-[#2B93C9]/30 transition-all duration-300 hover:scale-[1.03] hover:brightness-110 hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)] active:scale-95`}
               >
-                Return to Dashboard
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-2xl bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Return to Dashboard</span>
               </button>
             </div>
           </div>
@@ -188,19 +203,20 @@ const PendingIssuePage = () => {
         <header className="mb-10">
           <button 
             onClick={() => router.push('/dashboard')}
-            className="flex items-center gap-2 text-slate-500 hover:text-cyan-600 transition-colors mb-4"
+            className="flex items-center gap-2 text-slate-500 hover:text-[#2B93C9] transition-colors mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-sm font-medium">Back to Dashboard</span>
           </button>
           
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">My Submissions</h1>
+        
+            <h1 className={`mt-3 text-3xl md:text-4xl font-bold tracking-tight `}>My Submissions</h1>
           <div className="flex gap-6 mt-4">
-            <a href="mailto:info@incorpbay.com" className="flex items-center gap-2 text-sm text-slate-600 hover:text-cyan-600 transition-colors">
+            <a href="mailto:info@incorpbay.com" className="flex items-center gap-2 text-sm text-slate-600 hover:text-[#2B93C9] transition-colors">
               <Mail className="w-4 h-4" />
               info@incorpbay.com
             </a>
-            <a href="tel:1-888-888-8888" className="flex items-center gap-2 text-sm text-slate-600 hover:text-cyan-600 transition-colors">
+            <a href="tel:1-888-888-8888" className="flex items-center gap-2 text-sm text-slate-600 hover:text-[#2B93C9] transition-colors">
               <PhoneCall className="w-4 h-4" />
               1-888-888-8888
             </a>
@@ -210,14 +226,14 @@ const PendingIssuePage = () => {
         {/* Show all pending/submitted applications as a list */}
         <div className="space-y-4">
           {pendingIssues.map((issue: Issue) => (
-            <div key={issue.id} className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
+            <div key={issue.id} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-[#2B93C9]/10">
               <div className="grid grid-cols-1 lg:grid-cols-3">
                 
                 {/* Left Section (Details) */}
                 <div className="lg:col-span-2 p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-slate-100">
                   <div className={`flex items-center gap-2 mb-4 ${
                     issue.status === 'rejected' ? 'text-red-600' : 
-                    issue.status === 'submitted' ? 'text-blue-600' : 'text-cyan-600'
+                    issue.status === 'submitted' ? 'text-blue-600' : LOGO_GRADIENT_TEXT
                   }`}>
                     {issue.status === 'rejected' ? (
                       <FileX className="w-5 h-5" />
@@ -243,7 +259,7 @@ const PendingIssuePage = () => {
                           </div>
                         )}
                         {issue.details && (
-                          <div className="p-5 bg-slate-50/50 rounded-xl border border-slate-100">
+                          <div className={`${LOGO_GRADIENT_SOFT} rounded-xl border border-[#2B93C9]/10 p-5`}>
                             <p className="font-bold text-slate-900">
                               {issue.details}
                             </p>
@@ -254,7 +270,7 @@ const PendingIssuePage = () => {
                       <>
                         <p className="font-semibold text-slate-800">Your application is being processed.</p>
                         
-                        <div className="mt-8 p-5 bg-blue-50/50 rounded-xl border border-blue-100 text-sm">
+                        <div className={`${LOGO_GRADIENT_SOFT} mt-8 rounded-xl border border-[#2B93C9]/10 p-5 text-sm`}>
                           <p>
                             Thank you for your submission. Review usually takes 24-48 business hours. We will notify you once your application is approved.
                           </p>
@@ -265,10 +281,10 @@ const PendingIssuePage = () => {
                 </div>
 
                 {/* Right Section (Order Info) */}
-                <div className="p-8 lg:p-10 bg-slate-50/30">
+                <div className={`${LOGO_GRADIENT_SOFT} p-8 lg:p-10`}>
                   <div className={`flex items-center gap-2 mb-8 ${
                     issue.status === 'rejected' ? 'text-red-600' : 
-                    issue.status === 'submitted' ? 'text-blue-600' : 'text-cyan-600'
+                    issue.status === 'submitted' ? 'text-blue-600' : LOGO_GRADIENT_TEXT
                   }`}>
                     {issue.status === 'rejected' ? (
                       <FileX className="w-5 h-5" />
@@ -310,7 +326,7 @@ const PendingIssuePage = () => {
                     </div>
                     
                     <div className="pt-4 border-t border-slate-200">
-                      <div className="flex items-center gap-2 text-green-600">
+                      <div className="flex items-center gap-2 text-[#2B93C9]">
                         <CheckCircle className="w-4 h-4" />
                         <span className="text-sm font-medium">Application Received</span>
                       </div>
@@ -325,7 +341,7 @@ const PendingIssuePage = () => {
         
         {/* Footer Note */}
         <div className="mt-6 text-center text-sm text-slate-500">
-          <p>If you have any questions, please contact support at <a href="mailto:info@incorpbay.com" className="text-cyan-600 hover:underline">info@incorpbay.com</a></p>
+          <p>If you have any questions, please contact support at <a href="mailto:info@incorpbay.com" className={`${LOGO_GRADIENT_TEXT} font-semibold hover:underline`}>info@incorpbay.com</a></p>
         </div>
       </div>
     </main>

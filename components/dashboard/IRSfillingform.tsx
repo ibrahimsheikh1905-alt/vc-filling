@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Star, Info, Phone } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const IRSfillingform = () => {
   const router = useRouter();
   
@@ -49,7 +52,7 @@ const IRSfillingform = () => {
               <h3 className="text-[16px] font-bold text-gray-800 mb-6 italic">Company Information</h3>
               <div className="border-2 border-cyan-500 rounded-lg p-5 bg-white flex items-center gap-4">
                 <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#06B6D4]" />
+                  <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`} />
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 text-[12px] uppercase">NEW COMPANY</h4>
@@ -95,13 +98,13 @@ const IRSfillingform = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <button onClick={() => setHasEIN(true)} className={`border-2 rounded-lg p-4 flex items-center gap-3 ${hasEIN === true ? 'border-cyan-500' : 'border-gray-200'}`}>
                     <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${hasEIN === true ? 'border-cyan-500' : 'border-gray-300'}`}>
-                      {hasEIN === true && <div className="w-2 h-2 rounded-full bg-[#06B6D4]" />}
+                      {hasEIN === true && <div className={`${LOGO_GRADIENT} w-2 h-2 rounded-full`} />}
                     </div>
                     <span className="text-[13px] font-bold">Yes</span>
                   </button>
                   <button onClick={() => setHasEIN(false)} className={`border-2 rounded-lg p-4 flex items-center gap-3 ${hasEIN === false ? 'border-cyan-500' : 'border-gray-200'}`}>
                     <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${hasEIN === false ? 'border-cyan-500' : 'border-gray-300'}`}>
-                      {hasEIN === false && <div className="w-2 h-2 rounded-full bg-[#06B6D4]" />}
+                      {hasEIN === false && <div className={`${LOGO_GRADIENT} w-2 h-2 rounded-full`} />}
                     </div>
                     <span className="text-[13px] font-bold">No</span>
                   </button>
@@ -149,7 +152,7 @@ const IRSfillingform = () => {
               >
                 <div className="flex items-center gap-3">
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${isRepSelected ? 'border-cyan-500' : 'border-gray-300'}`}>
-                        {isRepSelected && <div className="w-2.5 h-2.5 rounded-full bg-[#06B6D4]" />}
+                        {isRepSelected && <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`} />}
                     </div>
                     <span className="text-[13px] font-bold text-gray-800 italic">Noraiz Husnain</span>
                 </div>
@@ -189,13 +192,15 @@ const IRSfillingform = () => {
 
                 <div className="pt-6 border-t border-gray-100 flex justify-between items-end mt-6">
                   <span className="text-[18px] font-bold text-gray-900 italic">Total</span>
-                  <span className="text-[32px] font-black text-gray-900 leading-none">$0</span>
+                  <span className="text-[32px] font-bold text-gray-900 leading-none">$0</span>
                 </div>
               </div>
 
              {/* Submit Order Button with Original Shade & Shadow */}
-              <button className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-4 rounded-xl shadow-lg shadow-cyan-100 transition-all text-[14px] mt-8 mb-6 uppercase tracking-[2px] active:scale-95">
-                Submit Order
+              <button className={`${LOGO_GRADIENT} group relative w-full overflow-hidden text-white font-bold py-4 rounded-full shadow-lg shadow-cyan-100 transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-[14px] mt-8 mb-6 uppercase tracking-[2px]`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Submit Order</span>
               </button>
               <div className="flex flex-col items-center">
                 <div className="flex gap-0.5 mb-1.5">

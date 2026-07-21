@@ -10,6 +10,11 @@ import BuildWebsiteModal from "@/components/dashboard/BuildWebsiteModal";
 import DomainEmailModal from "@/components/dashboard/DomainEmailModal";
 import SafeguardBusinessModal from "@/components/dashboard/SafeguardBusinessModal";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
 const TasksPage = () => {
   const initialServices = [
     {
@@ -83,15 +88,15 @@ const TasksPage = () => {
         {/* Header */}
         <header>
           <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 shadow-sm">
-              <Zap className="h-7 w-7 text-cyan-600" />
+            <div className={`${LOGO_GRADIENT} flex h-14 w-14 items-center justify-center rounded-2xl shadow-md shadow-[#2B93C9]/25`}>
+              <Zap className="h-7 w-7 text-white" />
             </div>
 
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.28em] text-cyan-600">
+              <p className={`text-[11px] font-bold uppercase tracking-[0.28em] ${LOGO_GRADIENT_TEXT}`}>
                 Incorp Bay Dashboard
               </p>
-              <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-900">
+              <h1 className="mt-2 text-4xl font-bold tracking-tight text-slate-900">
                 My Tasks
               </h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
@@ -103,7 +108,7 @@ const TasksPage = () => {
 
         {/* Compliance Tasks */}
         <section>
-          <h2 className="mb-6 text-xl font-black text-slate-900">Compliance Tasks</h2>
+          <h2 className="mb-6 text-xl font-bold text-slate-900">Compliance Tasks</h2>
 
           <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
             <div className="flex min-h-[120px] flex-col gap-6 p-8 lg:flex-row lg:items-center lg:justify-between">
@@ -142,7 +147,7 @@ const TasksPage = () => {
 
         {/* Unclaimed Services */}
         <section>
-          <h2 className="mb-6 text-xl font-black text-slate-900">Unclaimed Services</h2>
+          <h2 className="mb-6 text-xl font-bold text-slate-900">Unclaimed Services</h2>
 
           <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white text-sm font-medium shadow-sm divide-y divide-slate-100">
             {unclaimedServices.map((service) => (
@@ -162,9 +167,9 @@ const TasksPage = () => {
         {/* Recommendations */}
         <section className="pb-16">
           <div className="mb-8 flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100">
+            <div className={`${LOGO_GRADIENT} flex h-14 w-14 items-center justify-center rounded-2xl shadow-md shadow-[#2B93C9]/25`}>
               <svg
-                className="h-7 w-7 text-cyan-600"
+                className="h-7 w-7 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -179,10 +184,10 @@ const TasksPage = () => {
             </div>
 
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-cyan-600">
+              <p className={`text-[11px] font-bold uppercase tracking-[0.22em] ${LOGO_GRADIENT_TEXT}`}>
                 Recommended For You
               </p>
-              <h2 className="mt-1 text-2xl font-black text-slate-900">
+              <h2 className="mt-1 text-2xl font-bold text-slate-900">
                 Recommendations
               </h2>
             </div>

@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const recommendations = [
   { title: 'Virtual Address', path: '/dashboard/VirtualAddress', desc: 'Business address service to maintain privacy of personal addresses.', icon: '🏠', cardClass: 'card-normal' },
   { title: 'Logo Design', path: '/logo-design', desc: 'Professional logo design to establish your brand identity.', icon: '🎨', cardClass: 'card-normal' },
@@ -36,7 +39,7 @@ export default function RecommendationCards() {
           <div key={index} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 group flex flex-col h-full">
 
             <div className="mb-6 relative h-32 flex items-center justify-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg group-hover:scale-105 transition-all duration-300">
+              <div className={`w-20 h-20 ${LOGO_GRADIENT} rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg group-hover:scale-105 transition-all duration-300`}>
                 {rec.icon}
               </div>
             </div>
@@ -44,11 +47,15 @@ export default function RecommendationCards() {
             <h4 className="text-lg font-bold text-gray-900 mb-2">{rec.title}</h4>
             <p className="text-gray-500 text-sm font-medium mb-6 leading-relaxed flex-grow line-clamp-2">{rec.desc}</p>
             
-            <Link 
-              href={rec.path} 
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white py-3 px-6 rounded-xl text-sm font-bold transition-all shadow-sm shadow-orange-100 text-center group-hover:shadow-md flex items-center justify-center"
+            <Link
+              href={rec.path}
+              className={`${LOGO_GRADIENT} group/link relative w-full overflow-hidden rounded-xl py-3 px-6 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-center flex items-center justify-center`}
             >
-              <ArrowRight className="w-5 h-5" />
+              <span className="absolute inset-x-0 top-0 h-1/2 rounded-xl bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover/link:left-[120%]" />
+              <span className="relative z-10 flex items-center justify-center">
+                <ArrowRight className="w-5 h-5" />
+              </span>
             </Link>
           </div>
         ))}
@@ -65,7 +72,7 @@ export default function RecommendationCards() {
               key={i}
               onClick={() => setCurrentSlide(i)}
               className={`w-4 h-4 rounded-full transition-all shadow-sm ${
-                i === currentSlide ? 'bg-orange-500 scale-125 shadow-md' : 'bg-gray-300 hover:bg-gray-400 hover:scale-110'
+                i === currentSlide ? `${LOGO_GRADIENT} scale-125 shadow-md` : 'bg-gray-300 hover:bg-gray-400 hover:scale-110'
               }`}
             />
           ))}

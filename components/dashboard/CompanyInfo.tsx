@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Check, ChevronDown, Pencil, Loader2, X } from "lucide-react";
+import { Check, ChevronDown, Pencil, Loader2, X, Building2 } from "lucide-react";
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
 
 // Types for the data
 interface UserData {
@@ -276,30 +283,8 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
     if (s === 'completed' || s === 'paid' || s === 'active' || s === 'good standing') {
       return 'bg-green-50 text-green-700';
     }
-    return 'bg-cyan-50 text-cyan-700';
+    return `${LOGO_GRADIENT_SOFT} ${LOGO_GRADIENT_TEXT}`;
   };
-
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto p-16 bg-slate-50 min-h-screen font-sans flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-cyan-500 mx-auto mb-4" />
-          <p className="text-slate-500 text-lg">Loading company information...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto p-16 bg-slate-50 min-h-screen font-sans flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-lg border border-red-200">
-          <p className="text-red-600 text-lg font-semibold">{error}</p>
-          <p className="text-slate-500 mt-2">Please login to view your company information.</p>
-        </div>
-      </div>
-    );
-  }
 
   const primaryOrder = orders[0];
   const companyName = companyData?.name || primaryOrder?.company || 'My Company';
@@ -308,11 +293,35 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
 
   return (
     <div className="max-w-7xl mx-auto p-16 bg-slate-50 min-h-screen font-sans">
-      
+
+      {/* Header - renders immediately, independent of data fetch below */}
+      <header className="mb-10 flex items-center gap-4">
+        <div className={`${LOGO_GRADIENT} flex h-14 w-14 items-center justify-center rounded-2xl text-white shadow-lg shadow-[#2B93C9]/25`}>
+          <Building2 className="h-7 w-7" />
+        </div>
+        <h1 className="text-4xl font-bold tracking-tight text-[#111827]">Company Information</h1>
+      </header>
+
+      {loading ? (
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center">
+            <Loader2 className="w-12 h-12 animate-spin text-cyan-500 mx-auto mb-4" />
+            <p className="text-slate-500 text-lg">Loading company information...</p>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="flex items-center justify-center py-24">
+          <div className="text-center bg-white p-8 rounded-2xl shadow-lg border border-red-200">
+            <p className="text-red-600 text-lg font-semibold">{error}</p>
+            <p className="text-slate-500 mt-2">Please login to view your company information.</p>
+          </div>
+        </div>
+      ) : (
+        <>
       {/* 1.j Company Info */}
       <AccordionItem title="Company Info" isOpen={openSection === "Company Info"} onToggle={() => toggle("Company Info")}>
         <div className="space-y-10">
-          <div className="text-[20px] font-black text-[#111827] mb-8 uppercase tracking-widest">
+          <div className="text-[20px] font-bold text-[#111827] mb-8 uppercase tracking-widest">
             {companyName}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[350px_1fr] gap-y-7">
@@ -382,9 +391,9 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
               setSaveSuccess(false);
               setSaveError(null);
             }}
-            className="mt-8 flex items-center gap-4 bg-cyan-50 text-cyan-600 px-10 py-5 rounded-2xl text-[16px] font-black shadow-md hover:scale-105 transition-all"
+            className={`mt-8 flex items-center gap-4 ${LOGO_GRADIENT_SOFT} px-10 py-5 rounded-2xl text-[16px] font-bold shadow-md hover:scale-105 transition-all`}
           >
-            <Pencil className="w-5 h-5" /> Edit Contact Info
+            <Pencil className="w-5 h-5 text-[#2B93C9]" /> <span className={LOGO_GRADIENT_TEXT}>Edit Contact Info</span>
           </button>
         </div>
       </AccordionItem>
@@ -392,7 +401,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
 {/* 3. Agent Info - Now shows Registered Agent */}
       <AccordionItem title="Agent Info" isOpen={openSection === "Agent Info"} onToggle={() => toggle("Agent Info")}>
         <div className="space-y-3">
-          <div className="text-[18px] text-[#111827] font-black uppercase">{registeredAgent?.agentName || 'N/A'}</div>
+          <div className="text-[18px] text-[#111827] font-bold uppercase">{registeredAgent?.agentName || 'N/A'}</div>
           <div className="text-[16px] text-[#4B5563] font-semibold">
             {registeredAgent ? `${registeredAgent.agentEmail} • ${registeredAgent.state} • ${registeredAgent.status}` : 'No registered agent found'}
           </div>
@@ -405,11 +414,11 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
           {/* Always show the logged-in user as director 1 with their email */}
           {userData?.name && (
             <div className="flex items-start gap-8 group">
-              <div className="w-12 h-12 rounded-full border-2 border-slate-200 flex items-center justify-center text-[18px] font-black shrink-0 text-slate-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
+              <div className="w-12 h-12 rounded-full border-2 border-slate-200 flex items-center justify-center text-[18px] font-bold shrink-0 text-slate-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
                 1
               </div>
               <div className="text-[17px] font-bold">
-                <div className="text-[#111827] font-black text-[18px]">{userData.name}</div>
+                <div className="text-[#111827] font-bold text-[18px]">{userData.name}</div>
                 <div className="text-[#4B5563] mt-2 leading-relaxed">
                   {userData.email || 'N/A'}
                 </div>
@@ -420,11 +429,11 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
           {/* Then show other directors from orders if any */}
           {directors.length > 1 && directors.slice(1).map((director, index) => (
             <div key={index + 1} className="flex items-start gap-8 group">
-              <div className="w-12 h-12 rounded-full border-2 border-slate-200 flex items-center justify-center text-[18px] font-black shrink-0 text-slate-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
+              <div className="w-12 h-12 rounded-full border-2 border-slate-200 flex items-center justify-center text-[18px] font-bold shrink-0 text-slate-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
                 {index + 2}
               </div>
               <div className="text-[17px] font-bold">
-                <div className="text-[#111827] font-black text-[18px]">{director.name}</div>
+                <div className="text-[#111827] font-bold text-[18px]">{director.name}</div>
                 <div className="text-[#4B5563] mt-2 leading-relaxed">
                   {director.address || 'N/A'}
                 </div>
@@ -461,7 +470,7 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
             {/* Modal Header */}
             <div className="flex items-center justify-between px-8 py-6 border-b border-slate-100">
-              <h2 className="text-[22px] font-black text-[#111827]">Edit Contact Info</h2>
+              <h2 className="text-[22px] font-bold text-[#111827]">Edit Contact Info</h2>
               <button 
                 onClick={() => setShowEditModal(false)}
                 className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
@@ -588,13 +597,15 @@ if (vmJson.success && vmJson.virtualMailboxes && vmJson.virtualMailboxes.length 
                   }
                 }}
                 disabled={saving}
-                className="flex-1 px-6 py-3.5 bg-cyan-500 text-white rounded-xl text-[15px] font-bold hover:bg-cyan-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`flex-1 px-6 py-3.5 ${LOGO_GRADIENT} text-white rounded-xl text-[15px] font-bold hover:brightness-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </div>
         </div>
+      )}
+        </>
       )}
 
     </div>

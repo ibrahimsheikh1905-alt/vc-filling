@@ -7,14 +7,17 @@ import MyCompanySection from './MyCompanySection';
 import OrderServicesSection from './OrderServicesSection';
 import ComplianceTasks from './ComplianceTasks';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const DashboardMainContent: React.FC = () => {
   return (
     <main className="flex-1 p-8 overflow-y-auto bg-[#F9FAFB] font-sans antialiased">
       {/* Header */}
       <header className="mb-10">
         <div className="flex items-center gap-3.5">
-          <div className="bg-[#ECFEFF] p-2 rounded-xl">
-  <LayoutDashboard className="w-7 h-7 text-[#06B6D4]" />
+          <div className={`${LOGO_GRADIENT} p-2 rounded-xl`}>
+  <LayoutDashboard className="w-7 h-7 text-white" />
           </div>
           <div>
             <h1 className="text-[32px] font-bold tracking-[-0.03em] text-gray-900 leading-none">

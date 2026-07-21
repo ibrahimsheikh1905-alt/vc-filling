@@ -9,6 +9,9 @@ import {
   Pencil
 } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface OpenSections {
   companyInfo: boolean;
   contactInfo: boolean;
@@ -43,7 +46,7 @@ const ReceiptsDashboard = () => {
             <div className="p-3 bg-white rounded-xl shadow-sm border border-gray-100">
               <Receipt className="w-8 h-8 text-gray-800" />
             </div>
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight">Order History Receipts</h1>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Order History Receipts</h1>
           </div>
 
           <div className="bg-white border border-gray-200 rounded-[28px] shadow-lg overflow-hidden">
@@ -51,21 +54,21 @@ const ReceiptsDashboard = () => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-50/50 border-b border-gray-100">
-                    <th className="px-8 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Company Name</th>
-                    <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Order No.</th>
-                    <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Order Type</th>
-                    <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Amount</th>
-                    <th className="px-6 py-6 text-center text-sm font-black text-gray-400 uppercase tracking-widest">Receipt</th>
-                    <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Order Date</th>
-                    <th className="px-6 py-6 text-sm font-black text-gray-400 uppercase tracking-widest">Status</th>
+                    <th className="px-8 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Company Name</th>
+                    <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Order No.</th>
+                    <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Order Type</th>
+                    <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Amount</th>
+                    <th className="px-6 py-6 text-center text-sm font-bold text-gray-400 uppercase tracking-widest">Receipt</th>
+                    <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Order Date</th>
+                    <th className="px-6 py-6 text-sm font-bold text-gray-400 uppercase tracking-widest">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   <tr className="hover:bg-gray-50/50 transition-colors group">
-                    <td className="px-8 py-8 font-black text-xl text-[#111827]">SOLVEXNEST INC.</td>
+                    <td className="px-8 py-8 font-bold text-xl text-[#111827]">SOLVEXNEST INC.</td>
                     <td className="px-6 py-8 text-[16px] font-bold text-gray-500">226041533405</td>
                     <td className="px-6 py-8 text-[16px] font-bold text-gray-600">NONPROFIT FILING (MO)</td>
-                    <td className="px-6 py-8 text-xl font-black text-[#111827]">$26.00</td>
+                    <td className="px-6 py-8 text-xl font-bold text-[#111827]">$26.00</td>
                     <td className="px-6 py-8 text-center">
 
 
@@ -84,7 +87,7 @@ const ReceiptsDashboard = () => {
                     </td>
                     <td className="px-6 py-8 text-[16px] font-bold text-gray-600">Apr 15, 2026</td>
                     <td className="px-6 py-8">
-                      <span className="inline-flex px-5 py-2 rounded-full text-sm font-black bg-gray-100 text-gray-500 uppercase tracking-wide">
+                      <span className="inline-flex px-5 py-2 rounded-full text-sm font-bold bg-gray-100 text-gray-500 uppercase tracking-wide">
                         Hold
                       </span>
                     </td>
@@ -107,7 +110,7 @@ const ReceiptsDashboard = () => {
                 <div className="w-10 h-10 bg-[#10B981] rounded-full flex items-center justify-center shadow-sm">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-black text-[#111827]">Company Info</h3>
+                <h3 className="text-2xl font-bold text-[#111827]">Company Info</h3>
               </div>
               <div className={`w-12 h-12 rounded-full border border-gray-100 flex items-center justify-center transition-transform duration-300 ${openSections.companyInfo ? 'rotate-180 bg-gray-50' : 'bg-white'}`}>
                 <ChevronDown className="w-6 h-6 text-gray-400" />
@@ -138,7 +141,7 @@ const ReceiptsDashboard = () => {
                 <div className="w-10 h-10 bg-[#10B981] rounded-full flex items-center justify-center shadow-sm">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-black text-[#111827]">Contact Info</h3>
+                <h3 className="text-2xl font-bold text-[#111827]">Contact Info</h3>
               </div>
               <ChevronDown className={`w-6 h-6 text-gray-400 transition-transform ${openSections.contactInfo ? 'rotate-180' : ''}`} />
             </div>
@@ -149,8 +152,12 @@ const ReceiptsDashboard = () => {
                   <InfoBlock label="Email Address" value="frndzitme@gmail.com" />
                   <InfoBlock label="Phone Number" value="+92 3157 648283" />
                 </div>
-                <button className="mt-8 flex items-center gap-3 bg-[#FFF5F2] text-[#FF5722] px-8 py-4 rounded-2xl text-[16px] font-black shadow-sm hover:scale-105 transition-transform">
-                  <Pencil className="w-5 h-5" /> Edit Contact Info
+                <button className={`${LOGO_GRADIENT} group relative mt-8 overflow-hidden rounded-full px-8 py-4 text-[16px] font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}>
+                  <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                  <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                  <span className="relative z-10 flex items-center gap-3">
+                    <Pencil className="w-5 h-5" /> Edit Contact Info
+                  </span>
                 </button>
               </div>
             )}
@@ -166,7 +173,7 @@ const ReceiptsDashboard = () => {
                 <div className="w-10 h-10 bg-[#10B981] rounded-full flex items-center justify-center shadow-sm">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-black text-[#111827]">Agent Info</h3>
+                <h3 className="text-2xl font-bold text-[#111827]">Agent Info</h3>
               </div>
               <div className={`w-12 h-12 rounded-full border border-gray-100 flex items-center justify-center transition-transform duration-300 ${openSections.agentInfo ? 'rotate-180 bg-gray-50' : 'bg-white'}`}>
                 <ChevronDown className="w-6 h-6 text-gray-400" />
@@ -175,7 +182,7 @@ const ReceiptsDashboard = () => {
             {openSections.agentInfo && (
               <div className="px-12 pb-16 pt-6 border-t border-gray-50">
                 <div className="space-y-3">
-                  <div className="text-[18px] text-[#111827] font-black uppercase">Noraiz Husnain</div>
+                  <div className="text-[18px] text-[#111827] font-bold uppercase">Noraiz Husnain</div>
                   <div className="text-[16px] text-[#4B5563] font-semibold">312 Sw Greenwich Dr, Lees Summit MO 64082</div>
                 </div>
               </div>
@@ -192,7 +199,7 @@ const ReceiptsDashboard = () => {
                 <div className="w-10 h-10 bg-[#10B981] rounded-full flex items-center justify-center shadow-sm">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-black text-[#111827]">Director Info</h3>
+                <h3 className="text-2xl font-bold text-[#111827]">Director Info</h3>
               </div>
               <div className={`w-12 h-12 rounded-full border border-gray-100 flex items-center justify-center transition-transform duration-300 ${openSections.directorInfo ? 'rotate-180 bg-gray-50' : 'bg-white'}`}>
                 <ChevronDown className="w-6 h-6 text-gray-400" />
@@ -206,11 +213,11 @@ const ReceiptsDashboard = () => {
                   { id: 3, name: "Haider Iqbal" }
                 ].map((item) => (
                   <div key={item.id} className="flex items-start gap-8 p-6 rounded-2xl hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
-                    <div className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center text-[18px] font-black shrink-0 text-gray-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
+                    <div className="w-12 h-12 rounded-full border-2 border-gray-200 flex items-center justify-center text-[18px] font-bold shrink-0 text-gray-400 group-hover:border-[#10B981] group-hover:text-[#10B981] transition-colors shadow-sm">
                       {item.id}
                     </div>
                     <div>
-                      <p className="text-xl font-black text-[#111827]">{item.name}</p>
+                      <p className="text-xl font-bold text-[#111827]">{item.name}</p>
                       <p className="text-[16px] text-[#4B5563] font-bold mt-1 leading-relaxed">312 Sw Greenwich Dr, Lees Summit MO 64082, US</p>
                     </div>
                   </div>
@@ -229,7 +236,7 @@ const ReceiptsDashboard = () => {
                 <div className="w-10 h-10 bg-[#10B981] rounded-full flex items-center justify-center shadow-sm">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-2xl font-black text-[#111827]">Officers Info</h3>
+                <h3 className="text-2xl font-bold text-[#111827]">Officers Info</h3>
               </div>
               <div className={`w-12 h-12 rounded-full border border-gray-100 flex items-center justify-center transition-transform duration-300 ${openSections.officersInfo ? 'rotate-180 bg-gray-50' : 'bg-white'}`}>
                 <ChevronDown className="w-6 h-6 text-gray-400" />
@@ -268,13 +275,13 @@ function InfoBlock({ label, value, isBold = false, isStatus = false }: {
 }) {
   return (
     <div className="space-y-2">
-      <label className="block text-[15px] font-black text-gray-400 uppercase tracking-widest">{label}</label>
+      <label className="block text-[15px] font-bold text-gray-400 uppercase tracking-widest">{label}</label>
       {isStatus ? (
-        <span className="inline-flex px-4 py-1.5 rounded-full text-sm font-black bg-green-50 text-green-700 border border-green-100">
+        <span className="inline-flex px-4 py-1.5 rounded-full text-sm font-bold bg-green-50 text-green-700 border border-green-100">
           {value}
         </span>
       ) : (
-        <p className={`text-[17px] ${isBold ? 'font-black text-[#111827]' : 'font-bold text-gray-600'} leading-relaxed`}>
+        <p className={`text-[17px] ${isBold ? 'font-bold text-[#111827]' : 'font-bold text-gray-600'} leading-relaxed`}>
           {value}
         </p>
       )}

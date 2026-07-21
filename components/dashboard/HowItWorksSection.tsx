@@ -1,5 +1,8 @@
 import React from "react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const HowItWorks = () => {
   const steps = [
     { id: 1, text: "Mail is sent to your Virtual Address", img: "/step1.png" },
@@ -26,7 +29,7 @@ const HowItWorks = () => {
 
           {steps.map((step) => (
             <div key={step.id} className="relative z-10 flex items-start gap-6">
-              <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#06B6D4] text-xs font-bold text-white shadow-lg shadow-cyan-100">
+              <div className={`mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${LOGO_GRADIENT} text-xs font-bold text-white shadow-lg shadow-cyan-100`}>
                 {step.id}
               </div>
 
@@ -80,7 +83,7 @@ const HowItWorks = () => {
             },
           ].map((item, idx) => (
             <div key={idx} className="flex items-start gap-4">
-              <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#06B6D4] text-[10px] text-white">
+              <div className={`mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${LOGO_GRADIENT} text-[10px] text-white`}>
                 ?
               </div>
 

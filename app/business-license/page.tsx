@@ -14,6 +14,12 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
 const BusinessLicense = () => {
   const [activeSection, setActiveSection] = useState("");
 
@@ -172,7 +178,7 @@ const BusinessLicense = () => {
             className="pointer-events-none absolute inset-0 opacity-[0.03]"
             style={{
               backgroundImage:
-                "linear-gradient(#06B6D4 1px, transparent 1px), linear-gradient(90deg, #06B6D4 1px, transparent 1px)",
+                "linear-gradient(#2B93C9 1px, transparent 1px), linear-gradient(90deg, #2B93C9 1px, transparent 1px)",
               backgroundSize: "40px 40px",
             }}
           />
@@ -180,12 +186,12 @@ const BusinessLicense = () => {
           <div className="relative z-10 flex-1 max-sm:mx-5 md:pl-20">
             <p className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-[#1E293B] shadow-sm">
               Excellent 4.7 out of 5{" "}
-              <span className="mx-1 text-[#06B6D4]">★</span> Trustpilot
+              <span className="mx-1 text-[#2B93C9]">★</span> Trustpilot
             </p>
 
             <h1 className="py-6 text-5xl font-bold leading-tight text-[#1E293B]">
               Business License Research{" "}
-              <span className="text-[#06B6D4]">(Made Easy)</span>
+              <span className={LOGO_GRADIENT_TEXT}>(Made Easy)</span>
             </h1>
 
 <p className="pb-8 text-slate-600 md:text-xl">
@@ -196,8 +202,11 @@ const BusinessLicense = () => {
 
 <Link
               href="/business-license/step-1"
-              className="group relative inline-flex items-center gap-1 overflow-hidden rounded-full bg-[#06B6D4] px-10 py-5 font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#0891B2] hover:shadow-[0_0_16px_3px_rgba(6,182,212,0.3)] active:scale-95"
+              className={`${LOGO_GRADIENT} group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)] active:scale-95`}
             >
+              <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+
               <span className="relative z-10 flex items-center gap-1">
                 ORDER NOW{" "}
                 <span className="inline-block transition-transform group-hover:translate-x-1">
@@ -209,11 +218,11 @@ const BusinessLicense = () => {
 
           <div className="relative z-10 flex flex-1 justify-center">
             <Image
-              src="/business-license/business-license-hero.webp"
+              src="/Buisness-License/Business-license-hero.webp"
               alt="Business License Hero"
               width={750}
               height={650}
-              className="rounded-3xl"
+              className="w-full max-w-[520px] rounded-3xl"
             />
           </div>
         </section>
@@ -222,7 +231,7 @@ const BusinessLicense = () => {
 {/* TRUST BAR */}
           <section className="mx-5 mb-16 border-y border-slate-100 py-6 text-center text-sm text-slate-500">
             Bootstrapped, Founder-Led, and Independently Owned —{" "}
-            <span className="font-bold text-[#06B6D4]">Serving Over 1,000,000 Entrepreneurs Since 2004</span>
+            <span className={`font-bold ${LOGO_GRADIENT_TEXT}`}>Serving Over 1,000,000 Entrepreneurs Since 2004</span>
           </section>
 
           {/* PACKAGE */}
@@ -242,15 +251,15 @@ const BusinessLicense = () => {
             <div className="grid gap-6 md:grid-cols-3">
               {[
                 {
-                  src: "/business-license/whats-in-the-package-info-group-1.webp",
+                  src: "/Buisness-License/whats-in-the-package-info-group-1.webp",
                   alt: "Order Your Business License Research Package",
                 },
                 {
-                  src: "/business-license/whats-in-the-package-info-group-2.webp",
+                  src: "/Buisness-License/whats-in-the-package-info-group-2.webp",
                   alt: "Receive Your Customized Package",
                 },
                 {
-                  src: "/business-license/whats-in-the-package-info-group-3.webp",
+                  src: "/Buisness-License/whats-in-the-package-info-group-3.webp",
                   alt: "Receive Your Licenses and Permits",
                 },
               ].map((img) => (
@@ -275,10 +284,10 @@ const BusinessLicense = () => {
             <div className="grid items-center gap-12 md:grid-cols-2">
               <div className="flex justify-center">
                 <div className="group relative">
-                  <div className="absolute inset-0 rounded-3xl bg-[#06B6D4]/10 blur-2xl opacity-40 transition-opacity group-hover:opacity-60" />
+                  <div className="absolute inset-0 rounded-3xl bg-[#2B93C9]/10 blur-2xl opacity-40 transition-opacity group-hover:opacity-60" />
 
                   <Image
-                    src="/business-license/using-ein-business-license-info.webp"
+                    src="/Buisness-License/using-ein-business-license-info.webp"
                     alt="Obtaining Business Licenses"
                     width={520}
                     height={600}
@@ -301,7 +310,7 @@ const BusinessLicense = () => {
                         key={step.number}
                         className="group flex items-start gap-5"
                       >
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#06B6D4] text-lg font-bold text-white shadow-md transition-transform duration-300 group-hover:scale-105">
+                        <div className={`${LOGO_GRADIENT} flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-lg font-bold text-white shadow-md transition-transform duration-300 group-hover:scale-105`}>
                           {step.number}
                         </div>
 
@@ -342,8 +351,8 @@ const BusinessLicense = () => {
                           onClick={(e) => handleSmoothScroll(e, link)}
                           className={`flex justify-between gap-3 py-3 text-sm font-medium transition-colors duration-200 ${
                             activeSection === link
-                              ? "font-bold text-[#06B6D4]"
-                              : "text-slate-700 hover:text-[#06B6D4]"
+                              ? `font-bold ${LOGO_GRADIENT_TEXT}`
+                              : "text-slate-700 hover:text-[#2B93C9]"
                           }`}
                         >
                           {title}
@@ -406,10 +415,10 @@ const BusinessLicense = () => {
                       return (
                         <div
                           key={factor.title}
-                          className="group rounded-2xl border border-slate-100 bg-[#F8FAFC] p-6 transition-all duration-300 hover:border-[#06B6D4]/30 hover:shadow-md"
+                          className="group rounded-2xl border border-slate-100 bg-[#F8FAFC] p-6 transition-all duration-300 hover:border-[#2B93C9]/30 hover:shadow-md"
                         >
-                          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#06B6D4]/10 transition-colors duration-300 group-hover:bg-[#06B6D4]/20">
-                            <FactorIcon className="h-5 w-5 text-[#06B6D4]" />
+                          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#2B93C9]/10 transition-colors duration-300 group-hover:bg-[#2B93C9]/20">
+                            <FactorIcon className="h-5 w-5 text-[#2B93C9]" />
                           </div>
 
                           <h3 className="mb-2 font-bold text-[#1E293B]">
@@ -453,7 +462,7 @@ const BusinessLicense = () => {
                   <ol className="space-y-4">
                     {sevenTypes.map((item, idx) => (
                       <li key={item.title} className="flex items-start gap-4">
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#06B6D4] text-sm font-bold text-white">
+                        <span className={`${LOGO_GRADIENT} flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white`}>
                           {idx + 1}
                         </span>
 
@@ -482,7 +491,7 @@ const BusinessLicense = () => {
                     {stateDifferences.map((item) => (
                       <div
                         key={item.title}
-                        className="rounded-r-2xl border-l-4 border-[#06B6D4] bg-[#F8FAFC] py-4 pl-5 pr-6"
+                        className="rounded-r-2xl border-l-4 border-[#2B93C9] bg-[#F8FAFC] py-4 pl-5 pr-6"
                       >
                         <h3 className="mb-1 font-bold text-[#1E293B]">
                           {item.title}
@@ -511,7 +520,7 @@ const BusinessLicense = () => {
                         key={idx}
                         className="flex items-start gap-3 text-sm leading-relaxed text-slate-600"
                       >
-                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#06B6D4]" />
+                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[#2B93C9]" />
                         {item}
                       </li>
                     ))}
@@ -541,24 +550,20 @@ const BusinessLicense = () => {
           </section>
 
           {/* CTA */}
-          <section className="mx-5 my-20">
+          <section className="mx-5 my-12">
             <div
-              className="relative overflow-hidden rounded-[40px] p-10 text-center md:p-16"
-              style={{
-                background:
-                  "linear-gradient(135deg, #1E293B 0%, #06B6D4 100%)",
-              }}
+              className={`${LOGO_GRADIENT} relative mx-auto max-w-4xl overflow-hidden rounded-[32px] p-6 text-center shadow-2xl md:p-10`}
             >
-              <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#06B6D4]/15 to-transparent" />
+              <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#33D1CC]/20 to-transparent" />
 
-              <div className="pointer-events-none absolute right-1/4 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-[#06B6D4]/20 blur-[80px]" />
+              <div className="pointer-events-none absolute right-1/4 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-[#33D1CC]/30 blur-[80px]" />
 
 <div className="relative z-10">
-                <span className="rounded-full bg-[#06B6D4] px-4 py-2 text-sm font-semibold text-white">
+                <span className="rounded-full border border-white/15 bg-white/12 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
                   Incorporate Now
                 </span>
 
-                <h2 className="mb-4 mt-6 text-4xl font-bold leading-tight text-white md:text-5xl">
+                <h2 className="mb-3 mt-4 text-2xl font-bold leading-tight text-white md:text-3xl">
                   Incorp Bay&apos;s Business License{" "}
                   <span
                     style={{
@@ -572,30 +577,30 @@ const BusinessLicense = () => {
                   </span>
                 </h2>
 
-                <p className="mx-auto mb-10 max-w-2xl text-lg text-cyan-50">
+                <p className="mx-auto mb-6 max-w-xl text-sm text-white/80">
                   With Incorp Bay&apos;s Business License Research Package,
                   you&apos;ll have everything you need to apply for the right licenses
                   and meet your business&apos;s specific requirements — all in one
                   place, ready to go.
                 </p>
 
-                <div className="mb-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                  <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm">
-                    <span className="text-sm font-bold text-white">
+                <div className="mb-6 flex flex-col items-center justify-center gap-2 sm:flex-row">
+                  <div className="flex items-center gap-2 rounded-lg border border-white/15 bg-white/12 px-3 py-1.5 backdrop-blur-sm">
+                    <span className="text-xs font-bold text-white">
                       147,797 ratings
                     </span>
-                    <span className="text-[#06B6D4]">★★★★★</span>
-                    <span className="text-sm font-semibold text-cyan-50">
+                    <span className="text-xs text-white">★★★★★</span>
+                    <span className="text-xs font-semibold text-white/80">
                       Shopper Approved
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm">
-                    <span className="text-sm font-bold text-white">
+                  <div className="flex items-center gap-2 rounded-lg border border-white/15 bg-white/12 px-3 py-1.5 backdrop-blur-sm">
+                    <span className="text-xs font-bold text-white">
                       25,578 reviews
                     </span>
-                    <span className="text-[#06B6D4]">★★★★★</span>
-                    <span className="text-sm font-semibold text-cyan-50">
+                    <span className="text-xs text-white">★★★★★</span>
+                    <span className="text-xs font-semibold text-white/80">
                       Trustpilot
                     </span>
                   </div>
@@ -603,9 +608,12 @@ const BusinessLicense = () => {
 
 <Link
                   href="/business-license/step-1"
-                  className="group relative inline-flex items-center gap-1 overflow-hidden rounded-full bg-[#06B6D4] px-10 py-5 font-bold text-white transition-all duration-300 hover:scale-105 hover:bg-[#0891B2] hover:shadow-[0_0_16px_3px_rgba(6,182,212,0.3)] active:scale-95"
+                  className="group relative inline-flex items-center gap-1 overflow-hidden rounded-full bg-white px-7 py-3.5 text-sm font-bold shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
                 >
-                  <span className="relative z-10 flex items-center gap-1">
+                  <span className="absolute inset-0 bg-[#2B93C9]/0 transition-colors duration-300 group-hover:bg-[#2B93C9]/5" />
+                  <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-[#2B93C9]/10 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+
+                  <span className={`relative z-10 flex items-center gap-1 ${LOGO_GRADIENT_TEXT}`}>
                     ORDER NOW{" "}
                     <span className="inline-block transition-transform group-hover:translate-x-1">
                       →

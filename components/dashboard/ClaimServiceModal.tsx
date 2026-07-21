@@ -3,6 +3,11 @@
 import React from "react";
 import { X, CheckCircle2 } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 interface ClaimServiceModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -38,7 +43,7 @@ export default function ClaimServiceModal({
 
         <div className="flex h-full max-h-[90vh] flex-col lg:flex-row">
           {/* Left Column - Visual */}
-          <div className="relative flex items-center justify-center overflow-hidden bg-gradient-to-br from-cyan-50 to-cyan-100 p-12 lg:w-1/2">
+          <div className={`relative flex items-center justify-center overflow-hidden ${LOGO_GRADIENT_SOFT} p-12 lg:w-1/2`}>
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="h-32 w-48 -translate-x-6 -translate-y-4 rounded-3xl bg-white/30 shadow-2xl backdrop-blur-sm" />
               <div className="h-28 w-44 translate-x-8 translate-y-8 rounded-3xl bg-white/50 opacity-70 shadow-2xl backdrop-blur-sm" />
@@ -67,13 +72,13 @@ export default function ClaimServiceModal({
 
           {/* Right Column - Content */}
           <div className="flex flex-col justify-between p-12 lg:w-1/2">
-            <div className="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50 px-4 py-2 text-sm font-semibold text-cyan-700">
-              <div className="h-2 w-2 rounded-full bg-cyan-500" />
+            <div className={`mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-cyan-200 ${LOGO_GRADIENT_SOFT} px-4 py-2 text-sm font-semibold text-cyan-700`}>
+              <div className={`${LOGO_GRADIENT} h-2 w-2 rounded-full`} />
               Free With Your Package
             </div>
 
             <div className="flex-1">
-              <h2 className="mb-4 text-3xl font-black leading-tight text-slate-900">
+              <h2 className="mb-4 text-3xl font-bold leading-tight text-slate-900">
                 Claim Your Service
               </h2>
 
@@ -116,7 +121,7 @@ export default function ClaimServiceModal({
             <div className="flex gap-4">
               <button
                 onClick={onClaim}
-                className="flex flex-1 items-center justify-center gap-3 rounded-2xl bg-[#06B6D4] px-8 py-4 text-lg font-bold text-white shadow-2xl shadow-cyan-100 transition-all duration-300 hover:bg-[#0891B2] hover:shadow-cyan-200"
+                className={`${LOGO_GRADIENT} flex flex-1 items-center justify-center gap-3 rounded-2xl px-8 py-4 text-lg font-bold text-white shadow-2xl shadow-cyan-100 transition-all duration-300 hover:brightness-110 hover:shadow-cyan-200`}
               >
                 Claim Service
               </button>

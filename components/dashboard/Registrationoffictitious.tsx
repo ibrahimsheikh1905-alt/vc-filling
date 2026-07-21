@@ -4,6 +4,9 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Star, Info } from 'lucide-react';
 
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 const Registrationoffictitious = () => {
   const router = useRouter();
 
@@ -127,7 +130,7 @@ const Registrationoffictitious = () => {
                 </div>
                 <div className="pt-6 border-t border-gray-100 flex justify-between items-end mt-6">
                   <span className="text-[18px] font-bold text-gray-900 italic">Total</span>
-                  <span className="text-[30px] font-black text-gray-900 leading-none">$0</span>
+                  <span className="text-[30px] font-bold text-gray-900 leading-none">$0</span>
                 </div>
               </div>
 
@@ -137,8 +140,8 @@ const Registrationoffictitious = () => {
                 </div>
                 <p className="text-[10px] text-gray-400 font-bold italic mb-6">4.75 based on 60,000+ reviews on</p>
                 
-                <div className="bg-[#f0fdfc] border border-teal-50 rounded-xl p-4 flex gap-3 w-full mt-4">
-                  <Info className="w-4 h-4 text-teal-600 flex-shrink-0 mt-0.5" />
+                <div className={`${LOGO_GRADIENT_SOFT} border border-[#2B93C9]/20 rounded-xl p-4 flex gap-3 w-full mt-4`}>
+                  <Info className="w-4 h-4 text-[#2B93C9] flex-shrink-0 mt-0.5" />
                   <p className="text-[10px] leading-relaxed text-teal-800 font-medium italic">
                     After clicking on "Submit" button, please wait for your order to be processed and do not hit the browser "Back" button.
                   </p>

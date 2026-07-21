@@ -387,7 +387,7 @@ const FeatureRow = ({
         packageType="Basic"
         feature={feature}
         onSelect={() => onSelectFeature(feature, "Basic")}
-        isSelected={formData.selectedFeatures.Basic.includes(feature)}
+        isSelected={(formData.selectedFeatures?.Basic ?? []).includes(feature)}
         isDisabled={formData.packageType !== "Basic"}
       />
       <FeatureCell

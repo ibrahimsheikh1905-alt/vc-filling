@@ -3,7 +3,6 @@ import NavigationWrapper from "@/components/NavigationWrapper";
 import OrderSummary from "@/components/OrderSummary";
 import useLocalStorageForm from "@/hooks/useLocalStorage";
 import { CheckIcon } from "@heroicons/react/24/solid";
-import axios from "axios";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -20,7 +19,7 @@ type Inputs = {
 const StepFour = () => {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
-  // OTP/email verification disabled for now to remove 
+  // OTP/email verification disabled for now
 
   const router = useRouter();
   const {
@@ -34,35 +33,6 @@ const StepFour = () => {
     router.push(pathname.replace(/step-\d+.*/, "step-5"));
   };
 
-  const sendOtp = async () => {
-    try {
-      // Make API call to send OTP to the user's email
-      await axios.post("/api/send-otp", { email: formData.clientEmail });
-      setIsOtpSent(true);
-      setVerificationStatus("OTP sent to your email!");
-    } catch (error) {
-      setVerificationStatus("Failed to send OTP.");
-    }
-  };
-
-  const verifyOtp = async () => {
-    try {
-      // Make API call to verify the OTP
-      const response = await axios.post("/api/verify-otp", {
-        email: formData.clientEmail,
-        otp: Number(otp),
-      });
-      if (response.data.success) {
-        setVerificationStatus("Email verified successfully!");
-        updateFormData({ emailVerified: true });
-        // onEmailVerified(true); // Move to the next step
-      } else {
-        setVerificationStatus("Incorrect OTP.");
-      }
-    } catch (error) {
-      setVerificationStatus("Verification failed.");
-    }
-  };
   const [formData, updateFormData] = useLocalStorageForm({
     clientFirstName: "",
     clientLastName: "",

@@ -145,10 +145,10 @@ export default function MailDocumentsPage() {
           </div>
 
           <div>
-            <p className="text-[11px] font-black uppercase tracking-[0.25em] text-cyan-600">
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-cyan-600">
               Incorp Bay Dashboard
             </p>
-            <h1 className="mt-1 text-2xl font-black uppercase tracking-tight text-slate-900">
+            <h1 className="mt-1 text-2xl font-bold uppercase tracking-tight text-slate-900">
               Order Status
             </h1>
           </div>
@@ -208,7 +208,7 @@ export default function MailDocumentsPage() {
 
             <button
               onClick={handleMailDocuments}
-              className="shrink-0 whitespace-nowrap rounded-2xl bg-[#06B6D4] px-8 py-4 text-xs font-black uppercase tracking-widest text-white shadow-lg shadow-cyan-100 transition-all hover:bg-[#0891B2] active:scale-95"
+              className="shrink-0 whitespace-nowrap rounded-2xl bg-[#06B6D4] px-8 py-4 text-xs font-bold uppercase tracking-widest text-white shadow-lg shadow-cyan-100 transition-all hover:bg-[#0891B2] active:scale-95"
             >
               Mail My Documents - $25
             </button>

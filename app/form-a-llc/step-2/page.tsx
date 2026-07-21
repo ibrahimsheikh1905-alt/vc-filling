@@ -239,7 +239,7 @@ const StepTwo = () => {
               {/* navigation */}
               <div className="flex justify-between mt-12">
                 <Link
-                  href="/form-a-llc/step-1"
+                  href="/package-main?entity=LLC"
                   className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
                 >
                   Back

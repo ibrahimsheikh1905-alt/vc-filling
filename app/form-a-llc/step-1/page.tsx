@@ -41,7 +41,6 @@ const OrderForm = () => {
       }
     };
     const setServiceType = () => {
-      localStorage.clear();
       localStorage.setItem("serviceType", "form-llc");
     };
     setServiceType();
@@ -56,7 +55,8 @@ const OrderForm = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    router.push("/form-a-llc/step-2");
+    // Ensure navigation always targets step-2.
+    router.push(`/form-a-llc/step-2`);
   };
   // console.log(watch("nameChangeOption"));
 

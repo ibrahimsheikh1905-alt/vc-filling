@@ -4,6 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { Check } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const BusinessFilings = () => {
   const stateFilings = [
     { title: "Amendment", desc: "Filed if a company requires changes to membership, addresses or company name.", link: "/dashboard/Amendment" },
@@ -34,11 +37,11 @@ const BusinessFilings = () => {
           </div>
 
           <div className="shrink-0">
-             <div className="bg-gradient-to-br from-[#06B6D4] to-[#0891B2] p-6 rounded-2xl text-white text-center shadow-lg shadow-cyan-100 flex flex-col items-center min-w-[150px]">
+             <div className={`${LOGO_GRADIENT} p-6 rounded-2xl text-white text-center shadow-lg shadow-cyan-100 flex flex-col items-center min-w-[150px]`}>
                 <div className="bg-white/20 p-2 rounded-full mb-2">
                   <Check className="w-6 h-6 stroke-[3px]" />
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-[2px]">Compliance</span>
+                <span className="text-[10px] font-bold uppercase tracking-[2px]">Compliance</span>
                 <div className="flex gap-1 mt-2 text-cyan-100">
                   ★ ★ ★
                 </div>
@@ -64,11 +67,13 @@ const BusinessFilings = () => {
                 </div>
 
                 {/* File Now Link Button */}
-                <Link 
-                  href={filing.link} 
-                  className="w-44 bg-[#06B6D4] text-white py-2.5 rounded-lg text-[13px] font-bold shadow-md shadow-cyan-50 hover:bg-[#0891B2] transition-all shrink-0 text-center flex items-center justify-center no-underline"
+                <Link
+                  href={filing.link}
+                  className={`${LOGO_GRADIENT} group relative w-44 overflow-hidden text-white py-2.5 rounded-full text-[13px] font-bold shadow-md shadow-cyan-50 transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shrink-0 text-center flex items-center justify-center no-underline`}
                 >
-                  File Now
+                  <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                  <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                  <span className="relative z-10">File Now</span>
                 </Link>
               </div>
             ))}
@@ -98,11 +103,13 @@ const BusinessFilings = () => {
             </div>
 
             {/* EIN Link Button */}
-            <Link 
-              href="/dashboard/EINTAXIDNumber" 
-              className="w-44 bg-[#06B6D4] text-white py-2.5 rounded-lg text-[13px] font-bold shadow-md shadow-cyan-50 hover:bg-[#0891B2] transition-all shrink-0 text-center flex items-center justify-center no-underline"
+            <Link
+              href="/dashboard/EINTAXIDNumber"
+              className={`${LOGO_GRADIENT} group relative w-44 overflow-hidden text-white py-2.5 rounded-full text-[13px] font-bold shadow-md shadow-cyan-50 transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shrink-0 text-center flex items-center justify-center no-underline`}
             >
-              File Now
+              <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+              <span className="relative z-10">File Now</span>
             </Link>
           </div>
         </div>

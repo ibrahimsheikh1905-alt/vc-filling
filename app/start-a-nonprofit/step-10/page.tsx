@@ -16,7 +16,7 @@ const StepTen: React.FC = () => {
   useEffect(() => {
     setIsMounted(true);
     const setServiceType = () => {
-      localStorage.setItem("serviceType", "Nonprofit");
+      localStorage.setItem("serviceType", "form-nonprofit");
     };
     setServiceType();
   }, []);

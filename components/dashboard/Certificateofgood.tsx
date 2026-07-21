@@ -4,6 +4,11 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Info, Star } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 const CertificateOfGoodStandingForm = () => {
   const router = useRouter();
 
@@ -20,7 +25,7 @@ const CertificateOfGoodStandingForm = () => {
 
         {/* Header Data Section */}
         <div className="mb-12 max-w-4xl">
-          <h1 className="mb-6 text-4xl font-black tracking-tight text-slate-900">
+          <h1 className="mb-6 text-4xl font-bold tracking-tight text-slate-900">
             Certificate of Good Standing
           </h1>
 
@@ -44,9 +49,9 @@ const CertificateOfGoodStandingForm = () => {
                 Company Information
               </h3>
 
-              <div className="flex items-center gap-6 rounded-2xl border-2 border-cyan-500 bg-white p-6 md:p-8">
-                <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border-2 border-cyan-500">
-                  <div className="h-3 w-3 rounded-full bg-cyan-500" />
+              <div className="flex items-center gap-6 rounded-2xl border-2 border-transparent bg-[linear-gradient(white,white)_padding-box,linear-gradient(90deg,#244EB6,#2B93C9,#33D1CC)_border-box] p-6 md:p-8">
+                <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#2B93C9]">
+                  <div className={`${LOGO_GRADIENT} h-3 w-3 rounded-full`} />
                 </div>
 
                 <div>
@@ -137,7 +142,7 @@ const CertificateOfGoodStandingForm = () => {
           {/* Right Side */}
           <aside className="z-20 md:sticky md:top-8">
             <div className="rounded-[32px] border border-slate-100 bg-white p-8 shadow-2xl lg:p-10">
-              <h3 className="mb-8 text-[22px] font-black tracking-tight text-slate-900">
+              <h3 className="mb-8 text-[22px] font-bold tracking-tight text-slate-900">
                 Order Summary
               </h3>
 
@@ -153,8 +158,8 @@ const CertificateOfGoodStandingForm = () => {
                 </div>
 
                 <div className="flex items-center justify-between pt-2">
-                  <span className="text-[20px] font-black text-slate-900">Total</span>
-                  <span className="text-4xl font-black text-slate-900">$0</span>
+                  <span className="text-[20px] font-bold text-slate-900">Total</span>
+                  <span className="text-4xl font-bold text-slate-900">$0</span>
                 </div>
               </div>
 
@@ -165,17 +170,19 @@ const CertificateOfGoodStandingForm = () => {
                   ))}
                 </div>
 
-                <p className="text-center text-[10px] font-black uppercase tracking-widest text-slate-400">
+                <p className="text-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
                   TRUSTED BY 60,000+ CUSTOMERS
                 </p>
               </div>
 
-              <button className="mb-8 w-full rounded-xl bg-cyan-500 py-5 text-[16px] font-black text-white shadow-lg shadow-cyan-100 transition-all hover:bg-cyan-600 active:scale-[0.98]">
-                Submit Order
+              <button className={`${LOGO_GRADIENT} group relative mb-8 w-full overflow-hidden rounded-full py-5 text-[16px] font-bold text-white shadow-lg shadow-[#2B93C9]/20 transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Submit Order</span>
               </button>
 
-              <div className="flex gap-4 rounded-xl border border-cyan-100 bg-cyan-50 p-5">
-                <Info className="h-5 w-5 flex-shrink-0 text-cyan-600" />
+              <div className={`${LOGO_GRADIENT_SOFT} flex gap-4 rounded-xl border border-[#2B93C9]/20 p-5`}>
+                <Info className="h-5 w-5 flex-shrink-0 text-[#2B93C9]" />
 
                 <p className="text-left text-[12px] font-semibold leading-relaxed text-cyan-900">
                   Safe and secure checkout.

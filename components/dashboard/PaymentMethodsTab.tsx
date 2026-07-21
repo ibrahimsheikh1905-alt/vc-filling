@@ -5,6 +5,9 @@ import { CreditCard, ChevronDown, Plus, HelpCircle, Save, X, Loader2 } from 'luc
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const PaymentMethodsTab = () => {
   // States
   const [showAddForm, setShowAddForm] = useState(false);
@@ -176,10 +179,10 @@ const PaymentMethodsTab = () => {
       <Card className="border-gray-100 shadow-sm rounded-[24px] overflow-hidden">
         <CardHeader className="border-b border-gray-50 bg-white p-8">
           <CardTitle className="flex items-center gap-3">
-            <div className="bg-orange-50 p-2 rounded-xl">
-               <CreditCard className="w-5 h-5 text-orange-500" />
+            <div className={`${LOGO_GRADIENT} p-2 rounded-xl`}>
+               <CreditCard className="w-5 h-5 text-white" />
             </div>
-            <span className="text-[20px] font-black tracking-[-0.02em] text-gray-900 uppercase">
+            <span className="text-[20px] font-bold tracking-[-0.02em] text-gray-900 uppercase">
               Payment Methods
             </span>
           </CardTitle>
@@ -187,7 +190,7 @@ const PaymentMethodsTab = () => {
 <CardContent className="p-8 space-y-4">
           {loading ? (
             <div className="flex items-center justify-center py-8">
-              <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+              <Loader2 className="w-8 h-8 animate-spin text-[#2B93C9]" />
             </div>
           ) : cards.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
@@ -208,7 +211,7 @@ const PaymentMethodsTab = () => {
                     <div className="flex items-center gap-3 mb-1">
                       <span className="text-lg font-bold text-gray-900 tracking-tight">**** **** **** {card.last4}</span>
                       {card.isPrimary && (
-                        <span className="px-2.5 py-1 rounded-full bg-blue-500 text-white text-[10px] font-black uppercase tracking-wider">Primary</span>
+                        <span className={`${LOGO_GRADIENT} px-2.5 py-1 rounded-full text-white text-[10px] font-bold uppercase tracking-wider`}>Primary</span>
                       )}
                     </div>
                     <div className="flex items-center gap-4 text-sm font-medium">
@@ -219,7 +222,7 @@ const PaymentMethodsTab = () => {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="h-10 w-10 p-0 rounded-xl hover:bg-orange-50"
+                    className="h-10 w-10 p-0 rounded-xl hover:bg-cyan-50"
                     onClick={() => toggleCardExpand(card.id)}
                   >
                     <ChevronDown className={`w-5 h-5 transition-transform ${expandedCard === card.id ? 'rotate-180' : ''}`} />
@@ -241,9 +244,9 @@ const PaymentMethodsTab = () => {
                     </div>
                     <div className="flex gap-3">
                       {!card.isPrimary && (
-                        <Button 
-                          size="sm" 
-                          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white"
+                        <Button
+                          size="sm"
+                          className={`${LOGO_GRADIENT} flex-1 text-white hover:brightness-110 transition-all`}
                           onClick={() => handleSetPrimary(card.id)}
                         >
                           Set as Primary
@@ -276,20 +279,24 @@ const PaymentMethodsTab = () => {
               <p className="text-sm font-medium text-gray-500 text-center">No other methods found.</p>
             </Card>
 
-            <Card className="border-orange-100 shadow-sm rounded-[24px] flex flex-col justify-center items-center p-8 bg-orange-50/20 border-dashed border-2 transition-all hover:bg-orange-50/40 group">
-              <Button 
+            <Card className="border-cyan-100 shadow-sm rounded-[24px] flex flex-col justify-center items-center p-8 bg-cyan-50/20 border-dashed border-2 transition-all hover:bg-cyan-50/40 group">
+              <Button
                 onClick={() => setShowAddForm(true)}
-                className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-black px-8 py-6 rounded-xl shadow-lg uppercase tracking-widest text-xs"
+                className={`${LOGO_GRADIENT} group relative overflow-hidden text-white font-bold px-8 py-6 rounded-full shadow-lg uppercase tracking-widest text-xs transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}
               >
-                <Plus className="w-5 h-5 mr-2 stroke-[3px]" />
-                Add New Card
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10 flex items-center">
+                  <Plus className="w-5 h-5 mr-2 stroke-[3px]" />
+                  Add New Card
+                </span>
               </Button>
             </Card>
           </>
         ) : (
-          <Card className="border-orange-200 shadow-xl rounded-[24px] p-8 bg-white col-span-full animate-in slide-in-from-bottom-4 duration-300">
+          <Card className="border-cyan-200 shadow-xl rounded-[24px] p-8 bg-white col-span-full animate-in slide-in-from-bottom-4 duration-300">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-black uppercase text-gray-900">Card Details</h3>
+                <h3 className="text-lg font-bold uppercase text-gray-900">Card Details</h3>
                 <Button variant="ghost" onClick={() => setShowAddForm(false)} className="rounded-full w-10 h-10 p-0"><X className="w-5 h-5"/></Button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -297,7 +304,7 @@ const PaymentMethodsTab = () => {
                     <label className="text-[11px] font-bold text-gray-700 uppercase ml-1">Card Number</label>
                     <input 
                         type="text" placeholder="0000 0000 0000 0000" 
-                        className="w-full p-4 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-medium"
+                        className="w-full p-4 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-[#2B93C9] outline-none font-medium"
                         onChange={(e) => setNewCard({...newCard, number: e.target.value})}
                     />
                 </div>
@@ -305,7 +312,7 @@ const PaymentMethodsTab = () => {
                     <label className="text-[11px] font-bold text-gray-700 uppercase ml-1">Cardholder Name</label>
                     <input 
                         type="text" placeholder="NAME ON CARD" 
-                        className="w-full p-4 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-medium uppercase"
+                        className="w-full p-4 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-[#2B93C9] outline-none font-medium uppercase"
                         onChange={(e) => setNewCard({...newCard, holder: e.target.value})}
                     />
                 </div>
@@ -313,7 +320,7 @@ const PaymentMethodsTab = () => {
                     <label className="text-[11px] font-bold text-gray-700 uppercase ml-1">Expiry Date</label>
                     <input 
                         type="text" placeholder="MM/YY" 
-                        className="w-full p-4 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-medium"
+                        className="w-full p-4 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-[#2B93C9] outline-none font-medium"
                         onChange={(e) => setNewCard({...newCard, expiry: e.target.value})}
                     />
                 </div>
@@ -321,7 +328,7 @@ const PaymentMethodsTab = () => {
                     <label className="text-[11px] font-bold text-gray-700 uppercase ml-1">CVC</label>
                     <input 
                         type="text" placeholder="***" 
-                        className="w-full p-4 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-medium"
+                        className="w-full p-4 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-[#2B93C9] outline-none font-medium"
                     />
                 </div>
             </div>
@@ -331,13 +338,13 @@ const PaymentMethodsTab = () => {
                     type="checkbox" 
                     checked={newCard.setAsPrimary}
                     onChange={(e) => setNewCard({...newCard, setAsPrimary: e.target.checked})}
-                    className="w-5 h-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                    className="w-5 h-5 rounded border-gray-300 text-[#2B93C9] focus:ring-[#2B93C9]"
                   />
                   <span className="text-sm font-medium text-gray-700">Set as primary payment method</span>
                 </label>
               </div>
               <div className="mt-4 flex gap-4">
-                <Button onClick={handleSave} disabled={saving} className="flex-1 bg-gray-900 hover:bg-black text-white font-black py-6 rounded-xl uppercase tracking-widest text-xs">
+                <Button onClick={handleSave} disabled={saving} className="flex-1 bg-gray-900 hover:bg-black text-white font-bold py-6 rounded-xl uppercase tracking-widest text-xs">
                   {saving ? (
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   ) : (
@@ -358,7 +365,7 @@ const PaymentMethodsTab = () => {
             <div className="bg-gray-50 p-2 rounded-xl">
                <HelpCircle className="w-5 h-5 text-gray-400" />
             </div>
-            <span className="text-[20px] font-black tracking-[-0.02em] text-gray-900 uppercase">
+            <span className="text-[20px] font-bold tracking-[-0.02em] text-gray-900 uppercase">
               Common Questions
             </span>
           </CardTitle>
@@ -378,7 +385,7 @@ const PaymentMethodsTab = () => {
               a: "Click the manage button next to any payment method and select 'Make Primary' from the options."
             }
           ].map((faq, i) => (
-            <details key={i} className="group border border-gray-100 rounded-[18px] p-5 hover:border-orange-100 transition-all hover:bg-gray-50/50 text-left">
+            <details key={i} className="group border border-gray-100 rounded-[18px] p-5 hover:border-cyan-100 transition-all hover:bg-gray-50/50 text-left">
               <summary className="font-bold text-[15px] text-gray-700 cursor-pointer flex items-center gap-2 list-none">
                 {faq.q}
                 <ChevronDown className="w-4 h-4 text-gray-400 ml-auto transition-transform group-open:rotate-180" />

@@ -2,6 +2,11 @@
 
 import React from "react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
 const BusinessFormationKit = () => {
   const steps = [
     { id: 1, title: "Binder & Slip Case", desc: "Our standard LLC incorporation or corporate kits are Handcrafted in the traditional bookbinding method and constructed with heavier materials extra durability and long life. The three-ring mechanisms with double opening and closing boosters allow pages to lie flat and turn easily." },
@@ -19,12 +24,12 @@ const BusinessFormationKit = () => {
         {/* Header Promo */}
         <div className="relative mb-24 flex flex-col items-center overflow-hidden rounded-[32px] border border-cyan-100 bg-cyan-50 shadow-sm md:flex-row">
           <div className="z-10 flex-1 space-y-6 p-8 text-left md:p-16">
-            <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest text-cyan-600">
+            <div className={`flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest ${LOGO_GRADIENT_TEXT}`}>
               <span className="rounded-lg bg-white p-1.5 text-lg shadow-sm">💼</span>
               Business Formation Kit
             </div>
 
-            <h1 className="text-4xl font-black leading-tight text-slate-900 md:text-5xl">
+            <h1 className="text-4xl font-bold leading-tight text-slate-900 md:text-5xl">
               Get your Business <br /> Formation KIT
             </h1>
 
@@ -52,7 +57,7 @@ const BusinessFormationKit = () => {
 
         {/* Title */}
         <div className="mb-16 text-center">
-          <h2 className="text-[32px] font-black uppercase tracking-tighter text-slate-900">
+          <h2 className="text-[32px] font-bold uppercase tracking-tighter text-slate-900">
             Unboxing Your Business Formation Kit
           </h2>
 
@@ -88,11 +93,11 @@ const BusinessFormationKit = () => {
             <div className="absolute top-0 grid w-full grid-cols-4 gap-6">
               {[0, 1, 2, 3].map((i) => (
                 <div key={steps[i].id} className="max-w-[220px] space-y-2 text-left">
-                  <span className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#06B6D4] text-xs font-black text-white shadow-md shadow-cyan-100">
+                  <span className={`mb-3 flex h-8 w-8 items-center justify-center rounded-full ${LOGO_GRADIENT} text-xs font-bold text-white shadow-md shadow-cyan-100`}>
                     {steps[i].id}
                   </span>
 
-                  <h4 className="text-[15px] font-black uppercase leading-tight tracking-tighter text-slate-900">
+                  <h4 className="text-[15px] font-bold uppercase leading-tight tracking-tighter text-slate-900">
                     {steps[i].title}
                   </h4>
 
@@ -106,11 +111,11 @@ const BusinessFormationKit = () => {
             <div className="absolute bottom-0 grid w-full grid-cols-3 gap-16 px-20">
               {[4, 5, 6].map((i) => (
                 <div key={steps[i].id} className="max-w-[250px] space-y-2 text-left">
-                  <span className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#06B6D4] text-xs font-black text-white shadow-md shadow-cyan-100">
+                  <span className={`mb-3 flex h-8 w-8 items-center justify-center rounded-full ${LOGO_GRADIENT} text-xs font-bold text-white shadow-md shadow-cyan-100`}>
                     {steps[i].id}
                   </span>
 
-                  <h4 className="text-[15px] font-black uppercase leading-tight tracking-tighter text-slate-900">
+                  <h4 className="text-[15px] font-bold uppercase leading-tight tracking-tighter text-slate-900">
                     {steps[i].title}
                   </h4>
 
@@ -127,12 +132,12 @@ const BusinessFormationKit = () => {
         <div className="mt-10 grid grid-cols-1 gap-6 text-left md:grid-cols-2 lg:hidden">
           {steps.map((s) => (
             <div key={s.id} className="flex gap-4 rounded-2xl border border-cyan-100 bg-cyan-50/50 p-5">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#06B6D4] text-xs font-black text-white">
+              <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${LOGO_GRADIENT} text-xs font-bold text-white`}>
                 {s.id}
               </span>
 
               <div>
-                <h4 className="text-sm font-black uppercase tracking-tighter text-slate-900">
+                <h4 className="text-sm font-bold uppercase tracking-tighter text-slate-900">
                   {s.title}
                 </h4>
 
@@ -146,12 +151,14 @@ const BusinessFormationKit = () => {
 
         {/* Final Price & CTA */}
         <div className="mt-32 space-y-10 text-center">
-          <p className="text-3xl font-black tracking-tight text-slate-900">
-            Get yours for <span className="italic text-cyan-600">$99</span> only
+          <p className="text-3xl font-bold tracking-tight text-slate-900">
+            Get yours for <span className={`italic ${LOGO_GRADIENT_TEXT}`}>$99</span> only
           </p>
 
-          <button className="rounded-xl bg-[#06B6D4] px-16 py-5 text-[14px] font-black uppercase tracking-[2px] text-white shadow-2xl shadow-cyan-100 transition-all hover:bg-[#0891B2] active:scale-95">
-            Get Your Business Formation Kit
+          <button className={`${LOGO_GRADIENT} group relative overflow-hidden rounded-full px-16 py-5 text-[14px] font-bold uppercase tracking-[2px] text-white shadow-2xl shadow-cyan-100 transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}>
+            <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+            <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+            <span className="relative z-10">Get Your Business Formation Kit</span>
           </button>
         </div>
       </div>

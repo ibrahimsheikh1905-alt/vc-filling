@@ -4,6 +4,9 @@ import { ChevronDown, Calendar, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import DetailItem from "./DetailItem";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 export default function ActiveTaskCard() {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -14,12 +17,12 @@ export default function ActiveTaskCard() {
         className="flex cursor-pointer items-center justify-between p-8 transition-colors hover:bg-cyan-50"
       >
         <div className="flex items-center gap-5">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-100 bg-cyan-50">
-            <Calendar className="h-7 w-7 text-cyan-600" />
+          <div className={`${LOGO_GRADIENT} flex h-14 w-14 items-center justify-center rounded-2xl shadow-sm`}>
+            <Calendar className="h-7 w-7 text-white" />
           </div>
 
           <div>
-            <h3 className="text-lg font-black tracking-tight text-slate-900">
+            <h3 className="text-lg font-bold tracking-tight text-slate-900">
               Missouri: Annual Report
             </h3>
 

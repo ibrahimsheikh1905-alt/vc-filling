@@ -3,6 +3,13 @@
 import React from "react";
 import { X, CheckCircle2, Mail } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 interface DomainEmailModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -49,12 +56,12 @@ export default function DomainEmailModal({
           {/* CONTENT BLOCK */}
           <div className="flex w-full max-w-[380px] flex-col items-center text-center">
             {/* Badge */}
-            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-cyan-100 bg-cyan-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-cyan-700">
-              <div className="h-1.5 w-1.5 rounded-full bg-cyan-500" />
+            <div className={`${LOGO_GRADIENT_SOFT} ${LOGO_GRADIENT_TEXT} mb-4 inline-flex items-center gap-1.5 rounded-full border border-[#2B93C9]/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider`}>
+              <div className={`${LOGO_GRADIENT} h-1.5 w-1.5 rounded-full`} />
               Free With Your Package
             </div>
 
-            <h2 className="mb-2 text-2xl font-black tracking-tight text-slate-900">
+            <h2 className="mb-2 text-2xl font-bold tracking-tight text-slate-900">
               Professional Presence
             </h2>
 
@@ -85,7 +92,7 @@ export default function DomainEmailModal({
             <div className="flex w-full flex-col gap-2.5">
               <button
                 onClick={onClose}
-                className="w-full rounded-2xl bg-[#06B6D4] px-6 py-3.5 text-[15px] font-bold text-white shadow-md shadow-cyan-100 transition-all hover:bg-[#0891B2] active:scale-95"
+                className={`${LOGO_GRADIENT} w-full rounded-2xl px-6 py-3.5 text-[15px] font-bold text-white shadow-md shadow-[#2B93C9]/20 transition-all hover:brightness-110 active:scale-95`}
               >
                 Get Started
               </button>

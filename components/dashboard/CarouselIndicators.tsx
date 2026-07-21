@@ -2,6 +2,9 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 export default function CarouselIndicators() {
   return (
     <div className="flex items-center justify-between py-4">
@@ -12,7 +15,7 @@ export default function CarouselIndicators() {
             aria-label={`Go to slide ${index}`}
             className={`h-3 w-3 rounded-full transition-all ${
               index === 2
-                ? "scale-125 bg-cyan-500 shadow-md shadow-cyan-200"
+                ? `scale-125 ${LOGO_GRADIENT} shadow-md shadow-[#2B93C9]/30`
                 : "bg-slate-300 hover:bg-cyan-300"
             }`}
           />

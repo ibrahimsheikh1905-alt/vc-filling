@@ -3,6 +3,9 @@
 import { MoreVertical, Trash2 } from "lucide-react";
 import { useState } from 'react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface UnclaimedServiceRowProps {
   title: string;
   description: string;
@@ -42,11 +45,13 @@ export default function UnclaimedServiceRow({
         <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
       </div>
       <div className="flex items-center gap-3 flex-shrink-0 relative">
-        <button 
+        <button
           onClick={() => onClaim?.(serviceId)}
-          className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors whitespace-nowrap"
+          className={`${LOGO_GRADIENT} group relative overflow-hidden rounded-full px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:brightness-110 whitespace-nowrap`}
         >
-          Claim Now
+          <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+          <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+          <span className="relative z-10">Claim Now</span>
         </button>
 
 

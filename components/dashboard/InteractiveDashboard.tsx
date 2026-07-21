@@ -4,6 +4,11 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, ChevronDown, ShieldCheck } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
 interface TabItem {
   label: string;
   value: string;
@@ -45,7 +50,7 @@ const InteractiveDashboard = () => {
         <div className="mx-auto max-w-4xl">
           {/* Section Header */}
           <div className="mb-8">
-            <p className="mb-2 text-[11px] font-black uppercase tracking-[0.28em] text-cyan-600">
+            <p className={`mb-2 text-[11px] font-bold uppercase tracking-[0.28em] ${LOGO_GRADIENT_TEXT}`}>
               Incorp Bay Dashboard
             </p>
 
@@ -73,8 +78,8 @@ const InteractiveDashboard = () => {
                   className="flex w-full items-center justify-between border-b border-slate-100 p-6 transition-colors hover:bg-cyan-50"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="rounded-xl bg-cyan-50 p-2.5">
-                      <ShieldCheck className="h-5 w-5 text-cyan-600" />
+                    <div className={`${LOGO_GRADIENT} rounded-xl p-2.5`}>
+                      <ShieldCheck className="h-5 w-5 text-white" />
                     </div>
 
                     <div className="text-left">
@@ -130,8 +135,10 @@ const InteractiveDashboard = () => {
                     </div>
 
                     <div className="mt-10 flex justify-end border-t border-slate-100 pt-6">
-                      <button className="rounded-xl bg-[#06B6D4] px-8 py-2.5 text-sm font-bold text-white shadow-sm shadow-cyan-100 transition-all hover:bg-[#0891B2] active:scale-[0.98]">
-                        Learn More
+                      <button className={`${LOGO_GRADIENT} group relative overflow-hidden rounded-full px-8 py-2.5 text-sm font-bold text-white shadow-sm shadow-cyan-100 transition-all duration-300 hover:scale-[1.03] hover:brightness-110`}>
+                        <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                        <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                        <span className="relative z-10">Learn More</span>
                       </button>
                     </div>
                   </div>

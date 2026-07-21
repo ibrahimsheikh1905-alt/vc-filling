@@ -4,6 +4,11 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Clock, Eye, Loader2 } from "lucide-react";
 
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 interface Company {
   name: string;
   state: string;
@@ -92,12 +97,12 @@ export default function MyCompanySection() {
     fetchCompanies();
   }, []);
 
-  const getStatusColor = (status: string) => {
+  const getStatusStyle = (status: string) => {
     const statusLower = status?.toLowerCase();
     if (statusLower === "active" || statusLower === "completed" || statusLower === "paid") {
-      return "bg-green-50 text-green-700 border-green-100";
+      return { badge: "bg-green-50 border-green-100", icon: "text-green-700", text: "text-green-700" };
     }
-    return "bg-cyan-50 text-cyan-700 border-cyan-100";
+    return { badge: `${LOGO_GRADIENT_SOFT} border-[#2B93C9]/20`, icon: "text-[#2B93C9]", text: LOGO_GRADIENT_TEXT };
   };
 
   return (
@@ -105,7 +110,7 @@ export default function MyCompanySection() {
       {/* Header Section */}
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-left sm:justify-between">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-900">
             My Company
           </h2>
           <p className="mt-1 text-[15px] font-medium text-slate-500">
@@ -153,7 +158,9 @@ export default function MyCompanySection() {
               </thead>
 
               <tbody className="divide-y divide-slate-50 bg-white">
-                {companies.map((company, index) => (
+                {companies.map((company, index) => {
+                  const statusStyle = getStatusStyle(company.status);
+                  return (
                   <tr key={index} className="group transition-colors hover:bg-cyan-50/50">
                     <td className="whitespace-nowrap px-6 py-5 text-sm font-semibold text-slate-900">
                       {company.name}
@@ -168,9 +175,9 @@ export default function MyCompanySection() {
                       {company.email}
                     </td>
                     <td className="whitespace-nowrap px-6 py-5">
-                      <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[12px] font-bold ${getStatusColor(company.status)}`}>
-                        <Clock className="h-3.5 w-3.5" />
-                        {company.status}
+                      <span className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-[12px] font-bold ${statusStyle.badge}`}>
+                        <Clock className={`h-3.5 w-3.5 ${statusStyle.icon}`} />
+                        <span className={statusStyle.text}>{company.status}</span>
                       </span>
                     </td>
                     <td className="whitespace-nowrap px-6 py-5 text-right text-sm">
@@ -182,7 +189,8 @@ export default function MyCompanySection() {
                       </button>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>

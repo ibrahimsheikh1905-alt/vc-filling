@@ -1,10 +1,19 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown, FileText, Archive } from "lucide-react";
 import NavigationWrapper from "@/components/NavigationWrapper";
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_VERTICAL =
+  "bg-[linear-gradient(180deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
 
 const benefits = [
   {
@@ -61,7 +70,7 @@ export default function CorporateKitPage() {
       <section className="mx-auto max-w-[1280px] px-5 pt-10 pb-16 md:px-8 lg:px-10">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="max-w-[560px]">
-            <h1 className="text-[44px] font-medium leading-[1.05] tracking-[-2px] text-black md:text-[60px]">
+            <h1 className="text-[44px] font-bold leading-[1.05] tracking-[-2px] text-black md:text-[60px]">
               Get Established with Incorp Bay&apos;s Corporate Kit
             </h1>
 
@@ -72,15 +81,17 @@ export default function CorporateKitPage() {
 
 <Link
               href="/kit-info/step-1"
-              className="mt-10 inline-flex items-center justify-center rounded-full bg-[#06B6D4] px-10 py-5 text-[15px] font-bold uppercase tracking-wide text-white shadow-md shadow-[#06B6D4]/25 transition-all duration-300 hover:-translate-y-[2px] hover:bg-[#0891b2] hover:shadow-[0_10px_35px_rgba(6,182,212,0.45)] active:translate-y-[1px]"
+              className={`${LOGO_GRADIENT} group relative mt-10 inline-flex items-center justify-center overflow-hidden rounded-full px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-white shadow-md transition-all duration-300 hover:-translate-y-[2px] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)] active:translate-y-[1px]`}
             >
-              ORDER YOUR LLC KIT NOW
+              <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+              <span className="relative z-10">ORDER YOUR LLC KIT NOW</span>
             </Link>
           </div>
 
           <div className="relative h-[430px] overflow-hidden rounded-[34px] bg-[#f3f5f7] md:h-[520px]">
             <Image
-              src="/corporate-kit/hero-kit.png"
+              src="/kit-info/Hero-corporate-llc-kit.webp"
               alt="Corporate LLC Kit"
               fill
               priority
@@ -96,13 +107,13 @@ export default function CorporateKitPage() {
           <span className="absolute -top-[5px] left-1/2 h-2 w-2 rounded-full bg-[#dbe3ec]" />
           <span className="absolute -bottom-[5px] left-1/2 h-2 w-2 rounded-full bg-[#dbe3ec]" />
 
-          <p className="text-[20px] font-semibold leading-snug text-[#071329] md:text-[22px]">
+          <p className="text-[20px] font-bold leading-snug text-[#071329] md:text-[22px]">
             Bootstrapped, Founder Led, Independently Owned{" "}
-            <span className="rounded bg-cyan-100 px-1 text-[#06B6D4]">
+            <span className={`rounded bg-slate-50 px-1 font-bold ${LOGO_GRADIENT_TEXT}`}>
               Since 2004
             </span>{" "}
             with{" "}
-            <span className="rounded bg-cyan-100 px-1 text-[#06B6D4]">
+            <span className={`rounded bg-slate-50 px-1 font-bold ${LOGO_GRADIENT_TEXT}`}>
               Over 1,000,000 Entrepreneurs
             </span>{" "}
             Served!
@@ -115,7 +126,7 @@ export default function CorporateKitPage() {
 
       {/* BENEFITS */}
       <section className="mx-auto max-w-[1120px] px-5 py-20">
-        <h2 className="text-center text-[30px] font-medium leading-tight text-black md:text-[36px]">
+        <h2 className="text-center text-[30px] font-bold leading-tight text-black md:text-[36px]">
           Discover the Benefits of Incorp Bay&apos;s Business Formation Kit
         </h2>
 
@@ -127,7 +138,7 @@ export default function CorporateKitPage() {
         <div className="mt-12 grid items-center gap-10 lg:grid-cols-2">
           <div className="relative h-[380px] overflow-hidden rounded-[18px] bg-[#f3f5f7] md:h-[450px]">
             <Image
-              src="/corporate-kit/steps-desktop.png"
+              src="/kit-info/Steps-desktop-corporate-llc-kit.webp"
               alt="Business formation kit benefits"
               fill
               className="object-cover"
@@ -140,7 +151,7 @@ export default function CorporateKitPage() {
                 key={item.no}
                 className="flex gap-4 rounded-[14px] border border-[#dde4ec] bg-white p-3 shadow-sm"
               >
-                <div className="flex h-[54px] min-w-[54px] items-center justify-center rounded-[8px] bg-cyan-100 text-[28px] font-bold text-[#06B6D4]">
+                <div className={`${LOGO_GRADIENT} flex h-[54px] min-w-[54px] items-center justify-center rounded-[8px] text-[28px] font-bold text-white`}>
                   {item.no}
                 </div>
 
@@ -160,7 +171,7 @@ export default function CorporateKitPage() {
 
       {/* STEPS */}
       <section className="mx-auto max-w-[1080px] px-5 py-20">
-        <h2 className="mb-10 text-center text-[30px] font-medium leading-tight text-black md:text-[36px]">
+        <h2 className="mb-10 text-center text-[30px] font-bold leading-tight text-black md:text-[36px]">
           How to Get Your Corporate Kit and Seal in Three Easy Steps
         </h2>
 
@@ -169,14 +180,14 @@ export default function CorporateKitPage() {
             no="01"
             title="Discover the Right Entity for You"
             text="Choose your entity type and your state of formation. Supply us with your contact details and company information."
-            img="/corporate-kit/group-1.png"
+            img="/kit-info/Group-corporate-llc-kit-1.webp"
           />
 
           <StepCard
             no="02"
             title="Complete the Order Form"
             text="Fill in our simple, short online order form and pay the $99 business kit fee quickly and securely."
-            img="/corporate-kit/group-2.png"
+            img="/kit-info/Group-corporate-llc-kit-2.webp"
             reverse
           />
 
@@ -184,14 +195,14 @@ export default function CorporateKitPage() {
             no="03"
             title="Your Kit and Seal Arrives"
             text="Your documents are delivered in a professional kit, complete with your company name stamped on the spine of the book."
-            img="/corporate-kit/group-3.png"
+            img="/kit-info/Group-corporate-llc-kit-3.webp"
           />
         </div>
       </section>
 
       {/* FAQ */}
       <section className="mx-auto max-w-[1040px] px-5 py-16">
-        <h2 className="mb-8 text-[32px] font-medium leading-tight text-black md:text-[38px]">
+        <h2 className="mb-8 text-[32px] font-bold leading-tight text-black md:text-[38px]">
           Common Questions About <br /> Corporate Kit
         </h2>
 
@@ -203,14 +214,14 @@ export default function CorporateKitPage() {
             >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-5">
                 <div className="flex items-center gap-4">
-                  <span className="text-sm font-semibold text-[#06B6D4]">
+                  <span className={`text-sm font-bold ${LOGO_GRADIENT_TEXT}`}>
                     {index + 1}
                   </span>
-                  <h3 className="text-[16px] font-medium text-black">
+                  <h3 className="text-[16px] font-bold text-black">
                     {faq.q}
                   </h3>
                 </div>
-                <ChevronDown className="h-5 w-5 transition group-open:rotate-180 group-open:text-[#06B6D4]" />
+                <ChevronDown className="h-5 w-5 text-slate-400 transition group-open:rotate-180 group-open:text-[#2B93C9]" />
               </summary>
 
               <p className="mt-4 max-w-[720px] pl-8 text-[14px] leading-relaxed text-[#0b1b32]">
@@ -222,41 +233,32 @@ export default function CorporateKitPage() {
       </section>
 
       {/* BOTTOM CTA */}
-      
-{/* BOTTOM CTA */}
-<section className="mx-auto max-w-[1180px] px-5 pb-24">
-  <div 
-    className="relative overflow-hidden rounded-[40px] border border-white/5 px-8 py-14 shadow-2xl sm:px-12"
-    style={{ background: "linear-gradient(135deg, #1E293B 0%, #06B6D4 100%)" }}
-  >
-    <div className="absolute inset-0 opacity-20">
-      <Image
-        src="/corporate-kit/bottom-banner.png"
-        alt="Corporate Kit"
-        fill
-        className="object-cover"
-      />
-    </div>
+<section className="mx-auto max-w-4xl px-5 pb-16">
+  <div className={`${LOGO_GRADIENT} relative overflow-hidden rounded-[32px] border border-white/10 px-6 py-6 shadow-2xl sm:px-10 sm:py-8`}>
+    <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#33D1CC]/20 to-transparent" />
+    <div className="pointer-events-none absolute right-1/4 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-[#33D1CC]/30 blur-[80px]" />
 
-    <div className="relative z-10 max-w-[520px]">
-      <span className="inline-block rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-700">
+    <div className="relative z-10 flex flex-col items-center text-center">
+      <span className="inline-block rounded-full border border-white/15 bg-white/12 px-3 py-1 text-xs font-bold text-white backdrop-blur">
         Incorp Bay
       </span>
 
-      <h2 className="mt-5 text-4xl font-bold leading-tight text-white">
+      <h2 className="mt-4 max-w-lg text-2xl font-bold leading-tight text-white sm:text-3xl">
         Get Your Business Formation Kit Today
       </h2>
 
-      <p className="mt-4 text-base leading-7 text-slate-200">
+      <p className="mt-3 max-w-md text-sm leading-6 text-white/80">
         Stay organized with a premium Corporate Kit, company seal,
         ownership certificates and professional business records.
       </p>
 
 <Link
         href="/kit-info/step-1"
-        className="mt-8 inline-flex items-center justify-center rounded-full bg-[#06B6D4] px-10 py-4 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-cyan-500/30 transition-all duration-300 hover:bg-[#0891b2] hover:-translate-y-1"
+        className="group relative mt-5 inline-flex items-center justify-center overflow-hidden rounded-full bg-white px-7 py-3 text-xs font-bold uppercase tracking-wide shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
       >
-        ORDER YOUR LLC KIT NOW
+        <span className="absolute inset-0 bg-[#2B93C9]/0 transition-colors duration-300 group-hover:bg-[#2B93C9]/5" />
+        <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-[#2B93C9]/10 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+        <span className={`relative z-10 ${LOGO_GRADIENT_TEXT}`}>ORDER YOUR LLC KIT NOW</span>
       </Link>
     </div>
   </div>
@@ -307,24 +309,39 @@ function RecordsSection() {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    const measure = () => {
+      const container = containerRef.current;
+      const track = trackRef.current;
+      const icons = iconRefs.current.filter((el): el is HTMLDivElement => Boolean(el));
+
+      if (!container || !track || icons.length < 2) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const firstRect = icons[0].getBoundingClientRect();
+      const secondRect = icons[1].getBoundingClientRect();
+
+      const startX = firstRect.left - containerRect.left + firstRect.width / 2;
+      const startY = firstRect.top - containerRect.top + firstRect.height / 2;
+      const endY = secondRect.top - containerRect.top + secondRect.height / 2;
+      const trackHeight = Math.max(endY - startY, 0);
+
+      track.style.left = `${startX}px`;
+      track.style.top = `${startY}px`;
+      track.style.height = `${trackHeight}px`;
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   useEffect(() => {
-    const container = containerRef.current;
     const track = trackRef.current;
     const fill = fillRef.current;
-    const icons = iconRefs.current.filter((el): el is HTMLDivElement => Boolean(el));
+    if (!track || !fill) return;
 
-    if (!container || !track || !fill || icons.length < 2) return;
-
-    const containerRect = container.getBoundingClientRect();
-    const firstRect = icons[0].getBoundingClientRect();
-    const secondRect = icons[1].getBoundingClientRect();
-
-    const startY = firstRect.top - containerRect.top + firstRect.height / 2;
-    const endY = secondRect.top - containerRect.top + secondRect.height / 2;
-    const trackHeight = Math.max(endY - startY, 0);
-
-    track.style.top = `${startY}px`;
-    track.style.height = `${trackHeight}px`;
+    const trackHeight = parseFloat(track.style.height) || 0;
     fill.style.height = `${Math.min(progress * trackHeight, trackHeight)}px`;
   }, [progress]);
 
@@ -335,7 +352,7 @@ function RecordsSection() {
 
   return (
     <section className="mx-auto max-w-[1180px] px-5 pb-24">
-      <h2 className="mb-14 text-center text-[40px] font-normal leading-tight tracking-[-1px] text-black md:text-[50px]">
+      <h2 className="mb-14 text-center text-[40px] font-bold leading-tight tracking-[-1px] text-black md:text-[50px]">
         Keep Your Records Complete
       </h2>
 
@@ -343,12 +360,12 @@ function RecordsSection() {
         <div ref={containerRef} className="relative w-full py-6">
           <div
             ref={trackRef}
-            className="absolute left-6 z-0 w-1 -translate-x-1/2 overflow-hidden rounded-full bg-slate-100"
-            style={{ top: 0, height: 0 }}
+            className="absolute z-0 w-1 -translate-x-1/2 overflow-hidden rounded-full bg-slate-100"
+            style={{ top: 0, left: 0, height: 0 }}
           >
             <div
               ref={fillRef}
-              className="w-full origin-top rounded-full bg-[#06B6D4]"
+              className={`${LOGO_GRADIENT_VERTICAL} w-full origin-top rounded-full`}
               style={{ height: 0 }}
             />
           </div>
@@ -372,33 +389,19 @@ function RecordsSection() {
                   }}
                   className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300 ease-out ${
                     isPassed
-                      ? "scale-105 border-[#06B6D4] bg-cyan-50 text-[#06B6D4] shadow-md"
+                      ? "scale-105 border-[#2B93C9] bg-slate-50 text-[#2B93C9] shadow-md"
                       : "border-slate-300 bg-white text-slate-400"
-                  } ${isCurrent ? "ring-4 ring-cyan-100/70" : ""}`}
+                  } ${isCurrent ? "ring-4 ring-[#33D1CC]/20" : ""}`}
                 >
                   <StepIcon className="h-5 w-5" strokeWidth={2.5} />
                 </div>
 
                 <div className="w-full pl-4 text-left">
-                  <h3
-                    className={`text-[20px] font-bold leading-snug transition-colors duration-300 ${
-                      isCurrent
-                        ? "text-[#06B6D4]"
-                        : isPassed
-                        ? "text-[#06B6D4]/70"
-                        : "text-slate-400"
-                    }`}
-                  >
+                  <h3 className={`text-[20px] font-bold leading-snug ${LOGO_GRADIENT_TEXT}`}>
                     {step.title}
                   </h3>
 
-                  <p
-                    className={`mt-4 text-[16px] leading-8 transition-all duration-300 ${
-                      isCurrent
-                        ? "text-slate-700 opacity-100"
-                        : "text-slate-400/80 opacity-70"
-                    }`}
-                  >
+                  <p className="mt-4 text-[16px] leading-8 text-black">
                     {step.desc}
                   </p>
                 </div>
@@ -409,7 +412,7 @@ function RecordsSection() {
 
         <div className="relative h-[520px] overflow-hidden rounded-[34px] bg-slate-100 shadow-[0_30px_70px_rgba(15,23,42,.12)] md:h-[650px]">
           <Image
-            src="/corporate-kit/records-kit.png"
+            src="/kit-info/Info-corporate-llc-kit-1.webp"
             alt="Corporate records kit"
             fill
             className="object-cover"
@@ -436,11 +439,11 @@ function StepCard({
   return (
     <div className="grid items-center gap-6 overflow-hidden rounded-[14px] border border-[#d9e1eb] bg-white p-4 md:grid-cols-2">
       <div className={`${reverse ? "md:order-2" : ""} px-2 md:px-5`}>
-        <div className="mb-2 text-[15px] font-semibold text-[#06B6D4]">
+        <div className={`mb-2 text-[15px] font-bold ${LOGO_GRADIENT_TEXT}`}>
           {no}
         </div>
 
-        <h3 className="text-[20px] font-medium text-black">{title}</h3>
+        <h3 className="text-[20px] font-bold text-black">{title}</h3>
 
         <p className="mt-3 max-w-[430px] text-[13px] leading-relaxed text-[#0b1b32]">
           {text}

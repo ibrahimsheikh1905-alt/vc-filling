@@ -3,6 +3,11 @@
 import React from 'react';
 import { ChevronLeft, Star, Info } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
 const ChangeRegister = () => {
   return (
     <div className="min-h-screen bg-slate-50 p-4 md:p-10 font-sans text-left">
@@ -31,9 +36,9 @@ const ChangeRegister = () => {
             {/* Section 1: NEW COMPANY Toggle */}
             <div className="bg-white rounded-xl p-8 border border-slate-100 shadow-sm">
               <h3 className="text-[16px] font-bold text-slate-800 mb-6">Company Information</h3>
-              <div className="border-2 border-cyan-500 rounded-lg p-5 bg-white flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#06B6D4]" />
+              <div className="border-2 border-transparent bg-[linear-gradient(white,white)_padding-box,linear-gradient(90deg,#244EB6,#2B93C9,#33D1CC)_border-box] rounded-lg p-5 flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-[#2B93C9] flex items-center justify-center">
+                  <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`} />
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 text-[12px] uppercase">NEW COMPANY</h4>
@@ -104,9 +109,9 @@ const ChangeRegister = () => {
             <div className="bg-white rounded-xl p-8 border border-slate-100 shadow-sm">
               <h3 className="text-[16px] font-bold text-slate-800 mb-8 border-b border-gray-50 pb-4">Provide Name & Address of Newly Appointed Registered Agent</h3>
               
-              <div className="border-2 border-cyan-500 rounded-lg p-5 bg-white flex items-center gap-4 mb-8">
-                <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#06B6D4]" />
+              <div className="border-2 border-transparent bg-[linear-gradient(white,white)_padding-box,linear-gradient(90deg,#244EB6,#2B93C9,#33D1CC)_border-box] rounded-lg p-5 flex items-center gap-4 mb-8">
+                <div className="w-5 h-5 rounded-full border-2 border-[#2B93C9] flex items-center justify-center">
+                  <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`} />
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 text-[12px]">Individual</h4>
@@ -170,8 +175,10 @@ const ChangeRegister = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-[#06B6D4] hover:bg-[#06B6D4] text-white font-bold py-4 rounded-xl shadow-sm transition-all text-[14px] mb-6">
-                Submit
+              <button className={`${LOGO_GRADIENT} group relative w-full overflow-hidden text-white font-bold py-4 rounded-full shadow-sm transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-[14px] mb-6`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Submit</span>
               </button>
 
               <div className="flex flex-col items-center mb-6">
@@ -185,8 +192,8 @@ const ChangeRegister = () => {
                 </div>
               </div>
 
-              <div className="bg-cyan-50 border border-cyan-100 rounded-xl p-4 flex gap-3">
-                <Info className="w-4 h-4 text-cyan-600 flex-shrink-0 mt-0.5" />
+              <div className={`${LOGO_GRADIENT_SOFT} border border-[#2B93C9]/20 rounded-xl p-4 flex gap-3`}>
+                <Info className="w-4 h-4 text-[#2B93C9] flex-shrink-0 mt-0.5" />
                 <p className="text-[10px] leading-relaxed text-cyan-800 font-medium italic">
                   After clicking on &quot;Submit&quot; button, please wait for your order to be processed and do not hit the browser &quot;Back&quot; button. Processing may take a minute.
                 </p>

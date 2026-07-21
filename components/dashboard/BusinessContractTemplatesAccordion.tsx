@@ -3,6 +3,11 @@
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
 interface ContractProps {
   title: string;
   description: string;
@@ -28,7 +33,7 @@ const BusinessContractTemplatesAccordion: React.FC<ContractProps> = ({
       >
         <div className="flex-1 pr-4">
           <h2 className={`text-lg font-bold transition-colors ${
-            isOpen ? "text-cyan-600":"text-slate-900"
+            isOpen ? LOGO_GRADIENT_TEXT :"text-slate-900"
           }`}>
             {title}
           </h2>
@@ -55,8 +60,10 @@ const BusinessContractTemplatesAccordion: React.FC<ContractProps> = ({
             {expandedTip}
           </p>
 
-          <button className="rounded-xl bg-[#06B6D4] px-6 py-3 text-sm font-bold text-white shadow-md shadow-cyan-100 transition-all hover:bg-[#0891B2] hover:shadow-cyan-200 active:scale-95">
-            Access All Documents — $150
+          <button className={`${LOGO_GRADIENT} group relative overflow-hidden rounded-full px-6 py-3 text-sm font-bold text-white shadow-md shadow-cyan-100 transition-all duration-300 hover:scale-[1.03] hover:brightness-110 hover:shadow-cyan-200`}>
+            <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+            <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+            <span className="relative z-10">Access All Documents — $150</span>
           </button>
         </div>
       </div>

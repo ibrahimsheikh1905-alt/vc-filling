@@ -182,11 +182,19 @@ const pricingPlans = [
 
 // ── Component ────────────────────────────────────────────────────────────
 export default function LlcLandingPage() {
+  const handleGetStarted = () => {
+    // Navigate to pricing first, then continue to LLC Step 1.
+    // This keeps the package/state selection consistent with OrderSummary.
+    window.location.href = "/package-main?entity=LLC";
+  };
+
+
   return (
     <NavigationWrapper>
       <div className="bg-white font-sans text-[#1a1a2e]">
         {/* ── HERO ── */}
         <section className="mx-auto max-w-[1200px] px-6 pt-10 md:px-16">
+
           <div className="mb-4 flex items-center gap-2 text-[13px] font-medium text-gray-600">
             <span>Excellent <strong>4.7</strong> out of 5</span>
             <StarRow />
@@ -205,18 +213,21 @@ export default function LlcLandingPage() {
                 an LLC might be the perfect choice for your startup.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a
-                  href="#pricing"
+                <button
+                  type="button"
+                  onClick={handleGetStarted}
                   className="inline-block rounded-full bg-[#06B6D4] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]"
                 >
                   Get Started
-                </a>
+                </button>
+
                 <a
                   href="#reviews"
                   className="inline-block rounded-full border border-gray-300 px-7 py-3 text-sm font-bold text-[#0d0d1a] transition hover:border-[#06B6D4] hover:text-[#06B6D4]"
                 >
                   See What Others Say About Incorp Bay
                 </a>
+
               </div>
             </div>
 
@@ -369,10 +380,11 @@ export default function LlcLandingPage() {
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="rounded-2xl border border-gray-200 bg-white p-6">
-                <div className="mb-4 flex items-center gap-2">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cyan-50 text-lg font-bold text-[#06B6D4]">+</span>
-                  <h3 className="text-lg font-extrabold">Pros</h3>
-                </div>
+                  <div className="mb-4 flex items-center gap-2">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cyan-50 text-lg font-bold text-[#06B6D4]">+</span>
+                    <h3 className="text-lg font-extrabold">Pros</h3>
+                  </div>
+
                 <ul className="flex flex-col gap-4">
                   {pros.map((p) => (
                     <li key={p.title}>

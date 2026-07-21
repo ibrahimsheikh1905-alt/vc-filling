@@ -3,6 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { Package, Check, FileText, Loader2 } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
 interface Order {
   id: number;
   company: string;
@@ -164,59 +169,34 @@ const getProgressPercentage = (status: string) => {
     return 1;
   };
 
-  if (loading) {
-    return (
-      <div className="bg-[#F9FAFB] min-h-screen py-12 px-4 sm:px-6 lg:px-8 font-sans flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="bg-[#F9FAFB] min-h-screen py-12 px-4 sm:px-6 lg:px-8 font-sans">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 mb-8 text-left">
-            <Package className="w-5 h-5 text-[#FF5722]" strokeWidth={2.5} />
-            <h1 className="text-sm font-black uppercase tracking-widest text-gray-900">ORDER STATUS</h1>
-          </div>
-          <div className="bg-white border border-gray-100 rounded-[24px] shadow-sm p-10 text-left">
-            <p className="text-red-500 font-medium">{error}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-if (orders.length === 0) {
-    return (
-      <div className="bg-[#F9FAFB] min-h-screen py-12 px-4 sm:px-6 lg:px-8 font-sans">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 mb-8 text-left">
-            <Package className="w-5 h-5 text-[#FF5722]" strokeWidth={2.5} />
-            <h1 className="text-sm font-black uppercase tracking-widest text-gray-900">ORDER STATUS</h1>
-          </div>
-          <div className="bg-white border border-gray-100 rounded-[24px] shadow-sm p-10 text-left">
-            <p className="text-gray-500 font-medium">No order found.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-// Render all orders in a list
+  // Render all orders in a list. Header always renders immediately so the
+  // page shell doesn't pop in separately from the data below it.
   return (
     <div className="bg-[#F9FAFB] min-h-screen py-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Header Section */}
         <div className="flex items-center gap-3 mb-8 text-left">
-          <Package className="w-5 h-5 text-[#FF5722]" strokeWidth={2.5} />
-          <h1 className="text-sm font-black uppercase tracking-widest text-gray-900">
+          <Package className="w-5 h-5 text-[#2B93C9]" strokeWidth={2.5} />
+          <h1 className="text-sm font-bold uppercase tracking-widest text-gray-900">
             ORDER STATUS
           </h1>
         </div>
 
+        {loading ? (
+          <div className="bg-white border border-gray-100 rounded-[24px] shadow-sm p-10 flex items-center justify-center">
+            <Loader2 className="w-8 h-8 animate-spin text-[#2B93C9]" />
+          </div>
+        ) : error ? (
+          <div className="bg-white border border-gray-100 rounded-[24px] shadow-sm p-10 text-left">
+            <p className="text-red-500 font-medium">{error}</p>
+          </div>
+        ) : orders.length === 0 ? (
+          <div className="bg-white border border-gray-100 rounded-[24px] shadow-sm p-10 text-left">
+            <p className="text-gray-500 font-medium">No order found.</p>
+          </div>
+        ) : (
+          <>
         {/* Render each order in the list */}
         {orders.map((order, index) => {
           const companyName = order.company || `${order.type || ''} (${order.state || ''})`;
@@ -235,7 +215,7 @@ if (orders.length === 0) {
                   <h2 className="text-2xl font-bold text-gray-900 tracking-tight">{packageName}</h2>
                 </div>
                 <div className="lg:col-span-4 text-left lg:text-right">
-                  <span className={`text-4xl font-black tracking-tight ${progressPercentage === 100 ? 'text-green-500' : 'text-orange-500'}`}>
+                  <span className={`text-4xl font-bold tracking-tight ${LOGO_GRADIENT_TEXT}`}>
                     {progressPercentage}%
                   </span>
                 </div>
@@ -248,11 +228,11 @@ if (orders.length === 0) {
                 </div>
                 <div className="lg:col-span-6 flex justify-start lg:justify-end w-full my-2 lg:my-0">
                   <div className="flex items-center justify-between relative w-full max-w-md px-1">
-                    <div 
-                      className={`absolute top-1/2 left-0 h-[3px] -translate-y-1/2 z-0 transition-all duration-500 ${progressPercentage === 100 ? 'bg-green-500' : 'bg-orange-500'}`}
+                    <div className="absolute top-1/2 left-0 w-full h-[3px] bg-gray-100 -translate-y-1/2 z-0" />
+                    <div
+                      className={`${LOGO_GRADIENT} absolute top-1/2 left-0 h-[3px] -translate-y-1/2 z-[1] transition-all duration-500`}
                       style={{ width: `${progressPercentage}%` }}
                     />
-                    <div className="absolute top-1/2 left-0 w-full h-[3px] bg-gray-100 -translate-y-1/2 z-0" />
                     
                     {[1, 2, 3, 4].map((step) => {
                       const isCompleted = step < progressStep;
@@ -261,8 +241,8 @@ if (orders.length === 0) {
                         <div 
                           key={step} 
                           className={`relative z-10 w-5 h-5 rounded-full flex items-center justify-center transition-all duration-300 ${
-                            isCompleted ? 'bg-green-500 border-2 border-green-500' : 
-                            isCurrent ? 'bg-white border-4 border-orange-500 shadow-sm' : 
+                            isCompleted ? `${LOGO_GRADIENT} border-2 border-transparent` :
+                            isCurrent ? 'bg-white border-4 border-[#2B93C9] shadow-sm' :
                             'bg-white border-2 border-gray-200'
                           }`}
                         >
@@ -271,7 +251,7 @@ if (orders.length === 0) {
                       );
                     })}
                     
-                    <div className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center shadow-sm border-2 transition-all duration-300 ${progressStep === 5 ? 'bg-green-500 border-green-500' : 'bg-white border-gray-100'}`}>
+                    <div className={`relative z-10 w-9 h-9 rounded-full flex items-center justify-center shadow-sm border-2 transition-all duration-300 ${progressStep === 5 ? `${LOGO_GRADIENT} border-transparent` : 'bg-white border-gray-100'}`}>
                       <Check className={`w-4 h-4 ${progressStep === 5 ? 'text-white' : 'text-gray-300'}`} strokeWidth={3.5} />
                     </div>
                   </div>
@@ -285,7 +265,7 @@ if (orders.length === 0) {
                 </div>
                 <div className="lg:col-span-5 text-left lg:text-right">
                   <p className="text-[13px] font-medium leading-relaxed">
-                    <span className={`font-bold ${progressPercentage === 100 ? 'text-green-600' : 'text-orange-600'}`}>
+                    <span className="font-bold text-[#2B93C9]">
                       {statusInfo.title}.
                     </span>{' '}
                     <span className="text-gray-400">{statusInfo.message}</span>
@@ -295,7 +275,7 @@ if (orders.length === 0) {
                 {/* LINE 4: Bottom details main status line layout fix ke liye */}
                 <div className="lg:col-span-12 text-left text-[14px] mt-1">
                   <p className="text-gray-400 font-medium">
-                    Status: <span className={`font-bold ml-1 ${order.status === 'Active' || order.status === 'Completed' || order.status === 'Paid' ? 'text-green-600' : 'text-orange-600'}`}>{order.status || 'N/A'}</span>
+                    Status: <span className="font-bold ml-1 text-[#2B93C9]">{order.status || 'N/A'}</span>
                   </p>
                 </div>
 
@@ -321,15 +301,19 @@ if (orders.length === 0) {
               </div>
             </div>
             <div className="shrink-0 w-full md:w-auto">
-              <button 
-                onClick={() => window.location.href = '/dashboard/mail-documents'} 
-                className="w-full md:w-auto bg-[#FF5722] hover:bg-[#F4511E] text-white font-black py-4 px-10 rounded-xl transition-all text-xs tracking-widest shadow-lg shadow-orange-100 uppercase cursor-pointer"
+              <button
+                onClick={() => window.location.href = '/dashboard/mail-documents'}
+                className={`${LOGO_GRADIENT} group relative w-full md:w-auto overflow-hidden text-white font-bold py-4 px-10 rounded-full transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-xs tracking-widest shadow-lg shadow-cyan-100 uppercase cursor-pointer`}
               >
-                MAIL MY DOCUMENTS - $25
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">MAIL MY DOCUMENTS - $25</span>
               </button>
             </div>
           </div>
         </div>
+          </>
+        )}
 
       </div>
     </div>

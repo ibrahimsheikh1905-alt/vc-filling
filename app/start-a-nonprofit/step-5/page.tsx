@@ -79,17 +79,22 @@ const StepFive = () => {
     },
   };
   useEffect(() => {
+    const step1Key = pathname.replace(/step-\d+.*/, "step-1");
+    const step1Raw = localStorage.getItem(step1Key) as string | null;
+    const step1Parsed = step1Raw ? JSON.parse(step1Raw) : null;
+
     updateFormData({
-      stateFromStepOne: JSON.parse(
-        localStorage.getItem(pathname.replace(/step-\d+.*/, "step-1")) as string
-      )?.stateName,
+      stateFromStepOne: step1Parsed?.stateName || "",
     });
+
+    // Ensure the dropdown can be opened and shows a value.
     if (formData.addressOption === "own") {
       updateFormData({
-        state: formData.stateFromStepOne,
+        state: step1Parsed?.stateName || "",
       });
     }
-  }, [formData.addressOption]);
+  }, [formData.addressOption, pathname]);
+
   useEffect(() => {
     setIsMounted(true);
     const setServiceType = () => {
@@ -347,13 +352,71 @@ const StepFive = () => {
                           value={formData.state}
                           {...register("state", {
                             required: formData.addressOption === "own",
-                            disabled: true,
+                            onChange: (e) => {
+                              updateFormData({ state: e.target.value });
+                            },
                           })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                         >
-                          <option value={formData.state}>
-                            {formData.state}
+                          <option hidden value="">
+                            Select State
                           </option>
+                          {[
+                            "Alabama",
+                            "Alaska",
+                            "Arizona",
+                            "Arkansas",
+                            "California",
+                            "Colorado",
+                            "Connecticut",
+                            "Delaware",
+                            "Florida",
+                            "Georgia",
+                            "Hawaii",
+                            "Idaho",
+                            "Illinois",
+                            "Indiana",
+                            "Iowa",
+                            "Kansas",
+                            "Kentucky",
+                            "Louisiana",
+                            "Maine",
+                            "Maryland",
+                            "Massachusetts",
+                            "Michigan",
+                            "Minnesota",
+                            "Mississippi",
+                            "Missouri",
+                            "Montana",
+                            "Nebraska",
+                            "Nevada",
+                            "New Hampshire",
+                            "New Jersey",
+                            "New Mexico",
+                            "New York",
+                            "North Carolina",
+                            "North Dakota",
+                            "Ohio",
+                            "Oklahoma",
+                            "Oregon",
+                            "Pennsylvania",
+                            "Rhode Island",
+                            "South Carolina",
+                            "South Dakota",
+                            "Tennessee",
+                            "Texas",
+                            "Utah",
+                            "Vermont",
+                            "Virginia",
+                            "Washington",
+                            "West Virginia",
+                            "Wisconsin",
+                            "Wyoming",
+                          ].map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
                         </select>
                         {errors.state && (
                           <span className="text-red-500">
@@ -499,8 +562,7 @@ const StepFive = () => {
                         State
                       </label>
                       <div className="my-3">
-                        <input
-                          type="text"
+                        <select
                           value={formData.state}
                           {...register("state", {
                             required: formData.addressOption === "recommended",
@@ -509,13 +571,73 @@ const StepFive = () => {
                             },
                           })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                        />
+                        >
+                          <option hidden value="">
+                            Select State
+                          </option>
+                          {/** Minimal dropdown without extra deps; add full state list if you have one elsewhere */}
+                          {[
+                            "Alabama",
+                            "Alaska",
+                            "Arizona",
+                            "Arkansas",
+                            "California",
+                            "Colorado",
+                            "Connecticut",
+                            "Delaware",
+                            "Florida",
+                            "Georgia",
+                            "Hawaii",
+                            "Idaho",
+                            "Illinois",
+                            "Indiana",
+                            "Iowa",
+                            "Kansas",
+                            "Kentucky",
+                            "Louisiana",
+                            "Maine",
+                            "Maryland",
+                            "Massachusetts",
+                            "Michigan",
+                            "Minnesota",
+                            "Mississippi",
+                            "Missouri",
+                            "Montana",
+                            "Nebraska",
+                            "Nevada",
+                            "New Hampshire",
+                            "New Jersey",
+                            "New Mexico",
+                            "New York",
+                            "North Carolina",
+                            "North Dakota",
+                            "Ohio",
+                            "Oklahoma",
+                            "Oregon",
+                            "Pennsylvania",
+                            "Rhode Island",
+                            "South Carolina",
+                            "South Dakota",
+                            "Tennessee",
+                            "Texas",
+                            "Utah",
+                            "Vermont",
+                            "Virginia",
+                            "Washington",
+                            "West Virginia",
+                            "Wisconsin",
+                            "Wyoming",
+                          ].map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
+                        </select>
                         {errors.state && (
-                          <span className="text-red-500">
-                            State is required
-                          </span>
+                          <span className="text-red-500">State is required</span>
                         )}
                       </div>
+
                     </div>
                     <div className="md:w-1/2">
                       <label className="block text-sm font-medium text-gray-700">

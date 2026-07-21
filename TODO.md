@@ -1,7 +1,13 @@
-# Web TODO
+- [ ] Update dashboard components to use Certificate Good Standing same gradient:
+  - [ ] web/components/dashboard/NewSidebar.tsx (avatar + active/hover styles)
+  - [ ] web/components/dashboard/MyCompanySection.tsx (status badges)
+  - [ ] web/components/dashboard/ActiveTaskCard.tsx (hover + icon card)
+  - [ ] web/components/dashboard/DashboardMainContent.tsx (header icon wrapper)
+  - [x] web/components/dashboard/PromotionBanner.tsx (convert banner gradient/theme to same)
 
-- [ ] Fix S-Corp package prefill: ensure packageType persisted in localStorage for OrderSummary
-  - [ ] Update `web/app/package-main/page.tsx` handleGetStarted() storage writes for S-Corporation
-  - [ ] Ensure both `/form-s-corporation/step-1` and `/form-s-corporation/step-3` get `packageType` + `stateFromStepOne`/`stateName`
-  - [ ] Verify OrderSummary uses saved packageType for `/form-s-corporation/step-2` and shows Standard/Basic correctly
+  - [ ] web/components/dashboard/OrderServicesSection.tsx (if present in dashboard UI)
+  - [ ] web/components/dashboard/ComplianceTasks.tsx (buttons + upgrade banner + footer gradients)
+
+- [ ] Run `npm run dev` (web) and verify /dashboard and /cert-good-standing look consistent.
+- [ ] Fix any Tailwind/TS compile errors.
 

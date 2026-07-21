@@ -3,6 +3,9 @@
 import React from 'react';
 import { X, CheckCircle2, Shield } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface SafeguardBusinessModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -36,12 +39,12 @@ export default function SafeguardBusinessModal({
           
           {/* Top Left Decorative Visual - Safeguard/Insurance Theme */}
           <div className="w-full flex justify-center mb-8 relative">
-            {/* Background Decorative Element (Light Orange/Red) */}
-            <div className="absolute top-0 left-0 bg-orange-50 w-[160px] h-[160px] rounded-bl-[150px] z-0 -translate-x-10 -translate-y-8" />
+            {/* Background Decorative Element */}
+            <div className="absolute top-0 left-0 bg-cyan-50 w-[160px] h-[160px] rounded-bl-[150px] z-0 -translate-x-10 -translate-y-8" />
 
             {/* Float-able icon box */}
             <div className="relative z-10 bg-white/95 w-[150px] py-6 px-4 rounded-[20px] shadow-md border border-gray-50 flex flex-col items-center justify-center -translate-x-10">
-              <Shield className="w-14 h-14 text-orange-500 mb-3 shrink-0 stroke-[1.5px]" />
+              <Shield className="w-14 h-14 text-[#2B93C9] mb-3 shrink-0 stroke-[1.5px]" />
               <h3 className="text-xs font-bold text-gray-900 text-center leading-tight">
                 Business <br /> Safeguard
               </h3>
@@ -57,7 +60,7 @@ export default function SafeguardBusinessModal({
             </div>
 
             {/* Heading Section */}
-            <h2 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 tracking-tight">
               Protect What Matters
             </h2>
             <p className="text-gray-600 text-sm font-medium mb-8 leading-relaxed">
@@ -71,7 +74,7 @@ export default function SafeguardBusinessModal({
                 { title: "Fast Claims", desc: "Quick processing & payment" }
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-3 w-full max-w-[270px]">
-                  <CheckCircle2 className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-[#2B93C9] mt-0.5 flex-shrink-0" />
                   <div className="text-left flex-1">
                     <h4 className="font-bold text-gray-900 text-[14px] leading-tight">{item.title}</h4>
                     <p className="text-gray-400 text-[11px] mt-0.5">{item.desc}</p>
@@ -84,9 +87,11 @@ export default function SafeguardBusinessModal({
             <div className="flex flex-col gap-2.5 w-full">
               <button
                 onClick={onClose}
-                className="w-full bg-[#FF4500] hover:bg-[#E53E00] text-white font-bold py-3.5 px-6 rounded-2xl text-[15px] transition-all active:scale-95 shadow-md shadow-orange-100"
+                className={`${LOGO_GRADIENT} group relative overflow-hidden w-full text-white font-bold py-3.5 px-6 rounded-full text-[15px] transition-all duration-300 hover:scale-[1.03] hover:brightness-110 shadow-md shadow-cyan-100`}
               >
-                Get Protected
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Get Protected</span>
               </button>
               <button
                 onClick={onClose}

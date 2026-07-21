@@ -1,11 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { CheckCircle, ChevronRight, Shield, Star } from "lucide-react";
 
-const CYAN = "#06B6D4";
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_VERTICAL =
+  "bg-[linear-gradient(180deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
 
 const tocItems = [
   { id: 0, short: "Here's What Can and Cannot Be Trademarked" },
@@ -30,11 +38,11 @@ function Hero() {
       <div>
         <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm">
           <span>Excellent 4.7 out of 5</span>
-          <Star className="h-4 w-4 fill-[#00B67A] text-[#00B67A]" />
-          <span className="font-bold text-[#00B67A]">Trustpilot</span>
+          <Star className="h-4 w-4 fill-[#2B93C9] text-[#2B93C9]" />
+          <span className="font-bold text-slate-700">Trustpilot</span>
         </div>
 
-        <h1 className="mt-6 text-5xl font-black leading-[1.08] tracking-tight text-[#0f0f1a] md:text-6xl">
+        <h1 className="mt-6 text-5xl font-bold leading-[1.08] tracking-tight text-[#1E293B] md:text-6xl">
           Register a<br />
           Trademark
         </h1>
@@ -46,69 +54,24 @@ function Hero() {
 
         <Link
           href="/trademark/step-1"
-          className="mt-8 inline-flex rounded-full bg-[#06B6D4] px-10 py-4 text-sm font-black uppercase tracking-wider text-white shadow-lg shadow-[#06B6D4]/30 transition hover:bg-[#0891b2]"
+          className={`${LOGO_GRADIENT} group relative mt-8 inline-flex overflow-hidden rounded-full px-10 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]`}
         >
-          Get Started
+          <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+          <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+          <span className="relative z-10">Get Started</span>
         </Link>
       </div>
 
       <div className="flex justify-center md:justify-end">
-        <div className="relative">
-          <div className="absolute inset-0 -z-10 scale-110 rounded-[3rem] bg-slate-100/80" />
-          <div className="relative w-[285px] rounded-[2.6rem] border-[10px] border-[#1a1a1a] bg-white shadow-2xl">
-            <div className="absolute left-1/2 top-2 h-3 w-20 -translate-x-1/2 rounded-full bg-[#1a1a1a]" />
-            <div className="flex items-center justify-between px-5 pt-8 text-[10px] font-semibold text-[#1a1a1a]">
-              <span>9:41</span>
-              <span>WiFi</span>
-            </div>
-            <div className="px-5 pb-8 pt-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-bold text-[#1a1a1a]">
-                    Jonathan Davis
-                  </p>
-                  <p className="text-[10px] text-slate-400">ACME Design LLC</p>
-                </div>
-                <div className="rounded-full bg-cyan-100 px-3 py-1 text-[10px] font-bold text-[#06B6D4]">
-                  Active
-                </div>
-              </div>
-
-              <div className="mt-5 rounded-2xl bg-gradient-to-br from-[#06B6D4] to-[#0891b2] p-5 text-white shadow-lg shadow-[#06B6D4]/30">
-                <p className="text-xs font-semibold opacity-90">
-                  ✓ Registration Status
-                </p>
-                <p className="mt-2 text-2xl font-black leading-tight">
-                  13 Trademarks Covered
-                </p>
-                <p className="mt-1 text-xs opacity-90">
-                  Your Brand is Under Protection
-                </p>
-              </div>
-
-              <div className="mt-5">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold text-[#1a1a1a]">
-                    Protected Trademarks
-                  </p>
-                  <div className="h-5 w-10 rounded-full bg-[#06B6D4] p-0.5">
-                    <div className="ml-auto h-4 w-4 rounded-full bg-white" />
-                  </div>
-                </div>
-
-                {["Business Name", "Slogan/Tagline"].map((item) => (
-                  <div key={item} className="mt-4 flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-full bg-cyan-200" />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs font-bold text-[#1a1a1a]">{item}</p>
-                      <div className="mt-1 h-2 w-4/5 rounded bg-slate-100" />
-                    </div>
-                    <CheckCircle className="h-5 w-5 text-[#06B6D4]" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="relative w-full max-w-md">
+          <Image
+            src="/trademark/Hero-trademark-registration.webp"
+            alt="Trademark Services app showing registration status"
+            width={1365}
+            height={1152}
+            className="w-full rounded-3xl"
+            priority
+          />
         </div>
       </div>
     </section>
@@ -119,8 +82,8 @@ function TrustBar() {
   return (
     <div className="border-y border-slate-100 bg-[#F8FAFC] px-6 py-5 text-center text-sm font-semibold text-slate-600 md:text-base">
       Bootstrapped, Founder Led, Independently Owned{" "}
-      <span className="font-extrabold text-[#06B6D4]">Since 2004</span> With{" "}
-      <span className="font-extrabold text-[#06B6D4]">
+      <span className={`font-extrabold ${LOGO_GRADIENT_TEXT}`}>Since 2004</span> With{" "}
+      <span className={`font-extrabold ${LOGO_GRADIENT_TEXT}`}>
         Over 1,000,000 Entrepreneurs
       </span>{" "}
       Served!
@@ -147,9 +110,9 @@ function ProtectSection() {
   return (
     <section className="bg-[#F8FAFC] px-6 py-20 md:px-16">
       <div className="mx-auto max-w-7xl">
-        <h2 className="text-center text-4xl font-black text-[#0f0f1a] md:text-5xl">
+        <h2 className="text-center text-4xl font-bold text-[#1E293B] md:text-5xl">
           Protect Your Business Name With a{" "}
-          <span className="text-[#06B6D4]">Trademark</span>
+          <span className={LOGO_GRADIENT_TEXT}>Trademark</span>
         </h2>
         <p className="mx-auto mt-5 max-w-3xl text-center leading-relaxed text-slate-500">
           Protecting your trademark can really pay dividends. It is your brand,
@@ -162,14 +125,14 @@ function ProtectSection() {
               key={card.title}
               className="rounded-3xl bg-white p-7 shadow-sm transition hover:shadow-md"
             >
-              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-[#06B6D4]">
+              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#2B93C9]/10 text-[#2B93C9]">
                 {index === 0 ? (
                   <Shield className="h-7 w-7" />
                 ) : (
                   <CheckCircle className="h-7 w-7" />
                 )}
               </div>
-              <h3 className="text-xl font-black leading-snug text-[#0f0f1a]">
+              <h3 className="text-xl font-bold leading-snug text-[#1E293B]">
                 {card.title}
               </h3>
               <p className="mt-4 text-sm leading-relaxed text-slate-500">
@@ -209,47 +172,28 @@ function PackageSection() {
 
   return (
     <section className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 py-20 md:grid-cols-2 md:px-16">
-      <div className="rounded-[2rem] bg-[#111827] p-6 shadow-2xl">
-        <div className="rounded-3xl bg-white p-6">
-          <p className="text-lg font-black text-[#0f0f1a]">
-            Trademark Services
-          </p>
-          <p className="mt-1 text-sm text-slate-400">Enhance brand security</p>
-
-          {["Business Name", "Business Logo"].map((item, index) => (
-            <div
-              key={item}
-              className="mt-5 flex items-center justify-between border-t border-slate-100 pt-5"
-            >
-              <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full border-2 border-[#06B6D4] text-[#06B6D4]">
-                  ✓
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-[#0f0f1a]">{item}</p>
-                  <p className="text-xs text-slate-400">
-                    {index === 0 ? "Name Protected" : "Protection Granted"}
-                  </p>
-                </div>
-              </div>
-              <p className="text-xs font-semibold text-slate-500">2024</p>
-            </div>
-          ))}
-        </div>
+      <div className="relative w-full max-w-md">
+        <Image
+          src="/trademark/Whats-included-in-the-package-trademark.webp"
+          alt="Brand Protection dashboard showing trademark status"
+          width={1345}
+          height={1169}
+          className="w-full rounded-3xl"
+        />
       </div>
 
       <div>
-        <h2 className="text-4xl font-black leading-tight text-[#0f0f1a] md:text-5xl">
+        <h2 className="text-4xl font-bold leading-tight text-[#1E293B] md:text-5xl">
           What's Included in the Package?
         </h2>
         <div className="mt-10 space-y-6">
           {items.map((item) => (
             <div key={item.n} className="flex gap-5">
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-[#06B6D4] text-base font-black text-white shadow shadow-[#06B6D4]/30">
+              <div className={`${LOGO_GRADIENT} flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-base font-bold text-white shadow shadow-[#2B93C9]/30`}>
                 {item.n}
               </div>
               <div>
-                <p className="font-bold text-[#0f0f1a]">{item.title}</p>
+                <p className="font-bold text-[#1E293B]">{item.title}</p>
                 <p className="mt-1 text-sm leading-relaxed text-slate-500">
                   {item.desc}
                 </p>
@@ -307,80 +251,68 @@ function HowItWorksSection() {
     steps.length,
   );
 
+  const ITEM_SPACING = 168; // px: min-h-[120px] + mb-12 (48px)
+  const ICON_CENTER = 24; // px: half of w-12 h-12 (48px)
+  const trackHeightPx = (steps.length - 1) * ITEM_SPACING;
+  const clampedProgress = Math.min(progress * 100, 100);
+  const fillHeightPx = (clampedProgress / 100) * trackHeightPx;
+
   return (
     <section className="bg-white px-6 py-20 md:px-16">
       <div className="mx-auto max-w-6xl">
-        <h2 className="text-center text-4xl font-black leading-tight text-[#0f0f1a] md:text-5xl">
+        <h2 className="text-center text-4xl font-bold leading-tight text-[#1E293B] md:text-5xl">
           Trademark Searches & Registration:
           <br />
           How it Works
         </h2>
 
         <div className="mt-16 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-          <div className="relative w-full py-6">
-            <div className="absolute left-6 top-12 bottom-[84px] z-0 w-1 -translate-x-1/2 overflow-hidden rounded-full bg-slate-100">
+          <div className="relative w-full flex flex-col py-2">
+            {/* Grey background track: starts at center of icon 1, ends at center of last icon */}
+            <div
+              className="absolute w-1 bg-slate-100 rounded-full z-0"
+              style={{
+                left: "24px",
+                top: `${ICON_CENTER}px`,
+                height: `${trackHeightPx}px`,
+              }}
+            >
+              {/* Gradient fill: grows from top, capped at trackHeightPx */}
               <div
-                className="w-full rounded-full bg-[#06B6D4] transition-[height] duration-100 ease-linear"
-                style={{ height: `${progress * 100}%` }}
+                className={`${LOGO_GRADIENT_VERTICAL} w-full rounded-full origin-top`}
+                style={{ height: `${fillHeightPx}px` }}
               />
             </div>
 
             {steps.map((step, index) => {
-              const stepSize = 1 / steps.length;
-              const isPassed = progress >= index * stepSize;
+              const isPassed = index < currentActiveStep;
               const isCurrent = currentActiveStep === index + 1;
 
               return (
                 <div
                   key={step.title}
-                  className={`relative z-10 flex min-h-[120px] w-full select-none flex-row items-start ${
-                    index === steps.length - 1 ? "mb-0" : "mb-12"
-                  }`}
+                  className="relative flex flex-row items-start w-full min-h-[120px] mb-12 last:mb-0 z-10 select-none"
                 >
                   <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 text-xl transition-all duration-300 ${
+                    className={`absolute left-0 top-0 flex h-12 w-12 items-center justify-center rounded-full border-2 text-xl transition-all duration-300 z-10 ${
                       isPassed
-                        ? "scale-105 border-[#06B6D4] bg-cyan-50 text-[#06B6D4] shadow-md"
-                        : "border-slate-300 bg-white text-slate-400"
-                    } ${isCurrent ? "ring-4 ring-cyan-100/70" : ""}`}
+                        ? "bg-slate-50 border-[#2B93C9] text-[#2B93C9] shadow-md scale-105"
+                        : "bg-white border-slate-300 text-slate-400"
+                    } ${isCurrent ? "ring-4 ring-[#33D1CC]/20" : ""}`}
                   >
                     {step.icon}
                   </div>
 
-                  <div className="w-full pl-4 text-left">
-                    <p
-                      className={`text-xs font-black uppercase tracking-wider transition-colors duration-300 ${
-                        isCurrent
-                          ? "text-[#06B6D4]"
-                          : isPassed
-                            ? "text-[#06B6D4]/70"
-                            : "text-slate-400"
-                      }`}
-                    >
+                  <div className="w-full pl-16 text-left">
+                    <p className={`text-xs font-semibold uppercase tracking-wider ${LOGO_GRADIENT_TEXT}`}>
                       Step {index + 1}
                     </p>
 
-                    <h3
-                      className={`mt-1 text-lg font-black transition-colors duration-300 md:text-xl ${
-                        isCurrent
-                          ? "text-[#0f0f1a]"
-                          : isPassed
-                            ? "text-[#0f0f1a]/80"
-                            : "text-slate-400"
-                      }`}
-                    >
+                    <h3 className={`mt-1 text-lg font-bold md:text-xl ${LOGO_GRADIENT_TEXT}`}>
                       {step.title}
                     </h3>
 
-                    <p
-                      className={`mt-2 text-sm leading-relaxed transition-all duration-300 md:text-base ${
-                        isCurrent
-                          ? "text-slate-600 opacity-100"
-                          : isPassed
-                            ? "text-slate-500 opacity-80"
-                            : "text-slate-400/70 opacity-60"
-                      }`}
-                    >
+                    <p className="mt-2 text-sm leading-relaxed text-black md:text-base">
                       {step.desc}
                     </p>
                   </div>
@@ -390,86 +322,15 @@ function HowItWorksSection() {
           </div>
 
           <div className="flex justify-center md:justify-end">
-            <div className="relative w-64">
-              <div className="rounded-[2.5rem] border-[10px] border-[#1a1a1a] bg-white shadow-2xl">
-                <div className="absolute left-1/2 top-3 h-3 w-16 -translate-x-1/2 rounded-full bg-[#1a1a1a]" />
-
-                <div className="px-5 pb-8 pt-10">
-                  <div className="flex items-center justify-between">
-                    <div className="h-8 w-8 rounded-full bg-[#06B6D4]" />
-                    <div className="flex gap-1">
-                      {[...Array(4)].map((_, i) => (
-                        <span key={i} className="h-1.5 w-1.5 rounded-full bg-slate-300" />
-                      ))}
-                    </div>
-                  </div>
-
-                  <p className="mt-5 text-base font-black text-[#0f0f1a]">
-                    Trademark Services
-                  </p>
-
-                  <div className="mt-4 flex gap-2">
-                    {["Timeline", "Insights", "Updates"].map((tab, index) => (
-                      <span
-                        key={tab}
-                        className={`rounded-lg px-2.5 py-1 text-[10px] font-bold ${
-                          index === 0
-                            ? "bg-[#0f0f1a] text-white"
-                            : "bg-slate-100 text-slate-500"
-                        }`}
-                      >
-                        {tab}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="mt-5 space-y-3">
-                    {[
-                      "Application Submitted",
-                      "Application Reviewed",
-                      "Examination Completed",
-                      "Trademark Registered",
-                    ].map((item, index) => {
-                      const stepPoint = index / 4;
-                      const isActive = progress >= stepPoint;
-                      return (
-                        <div key={item} className="flex items-center gap-3">
-                          <span
-                            className={`h-3.5 w-3.5 rounded-full border transition-all duration-300 ${
-                              isActive
-                                ? "border-[#06B6D4] bg-[#06B6D4] shadow-sm shadow-[#06B6D4]/40"
-                                : "border-slate-300 bg-white"
-                            }`}
-                          />
-                          <div className="min-w-0 flex-1">
-                            <p
-                              className={`text-[10px] font-bold transition-colors duration-300 ${
-                                isActive ? "text-[#0f0f1a]" : "text-slate-400"
-                              }`}
-                            >
-                              {item}
-                            </p>
-                            <div className="mt-1 h-1.5 w-full rounded bg-slate-100" />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  <Link
-                    href="/trademark/step-1"
-                    className="mt-6 flex w-full justify-center rounded-full bg-[#06B6D4] py-3 text-xs font-black uppercase tracking-wider text-white shadow-md shadow-[#06B6D4]/25 transition hover:bg-[#0891b2]"
-                  >
-                    Start Filing
-                  </Link>
-                </div>
-              </div>
-
-              <div className="pointer-events-none absolute inset-0 -z-10">
-                <div className="absolute -inset-6 rounded-full border border-[#06B6D4]/20" />
-                <div className="absolute -inset-12 rounded-full border border-[#06B6D4]/10" />
-              </div>
-            </div>
+            <Link href="/trademark/step-1" className="relative block w-full max-w-sm">
+              <Image
+                src="/trademark/How-it-works-trademark-3.webp"
+                alt="Brand protection confirmation screen"
+                width={1182}
+                height={1330}
+                className="w-full rounded-3xl"
+              />
+            </Link>
           </div>
         </div>
       </div>
@@ -487,7 +348,7 @@ function InfoCard({
   return (
     <div className="rounded-2xl bg-slate-50 p-6">
       <div className="rounded-xl bg-white p-5 shadow-sm">
-        <p className="text-xs font-semibold uppercase tracking-wider text-[#06B6D4]">
+        <p className={`text-xs font-semibold uppercase tracking-wider ${LOGO_GRADIENT_TEXT}`}>
           {title}
         </p>
         <div className="mt-3 text-sm leading-relaxed text-slate-600">
@@ -603,7 +464,7 @@ function ArticleSection() {
       <div className="grid grid-cols-1 gap-12 md:grid-cols-[260px_1fr] md:items-start">
         <aside className="md:sticky md:top-24">
           <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
-            <p className="mb-4 text-base font-black text-[#1a1a1a]">
+            <p className="mb-4 text-base font-bold text-[#1E293B]">
               Table of Contents
             </p>
             <ul className="space-y-1">
@@ -616,12 +477,12 @@ function ArticleSection() {
                       onClick={() => handleTocClick(item.id)}
                       className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm transition-all duration-150 ${
                         isActive
-                          ? "border border-slate-200 bg-white font-bold text-[#06B6D4] shadow-sm"
+                          ? `border border-slate-200 bg-white font-bold shadow-sm ${LOGO_GRADIENT_TEXT}`
                           : "text-slate-400 hover:text-slate-600"
                       }`}
                     >
                       <ChevronRight
-                        className={`mt-0.5 h-4 w-4 flex-shrink-0 ${isActive ? "text-[#06B6D4]" : "text-slate-300"}`}
+                        className={`mt-0.5 h-4 w-4 flex-shrink-0 ${isActive ? "text-[#2B93C9]" : "text-slate-300"}`}
                       />
                       <span className="leading-snug">{item.short}</span>
                     </button>
@@ -634,7 +495,7 @@ function ArticleSection() {
 
         <article className="min-w-0 space-y-16">
           <div ref={createSectionRef(0)} className="scroll-mt-28">
-            <h2 className="text-4xl font-black leading-tight text-[#1a1a1a] md:text-5xl">
+            <h2 className="text-4xl font-bold leading-tight text-[#1E293B] md:text-5xl">
               Here's What Can and Cannot Be Trademarked
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -651,7 +512,7 @@ function ArticleSection() {
           </div>
 
           <div ref={createSectionRef(1)} className="scroll-mt-28">
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               What Is a Trademark?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -695,7 +556,7 @@ function ArticleSection() {
           </div>
 
           <div ref={createSectionRef(2)} className="scroll-mt-28">
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               What Can Be Trademarked?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -714,7 +575,7 @@ function ArticleSection() {
                   key={title}
                   className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm"
                 >
-                  <h3 className="text-base font-black text-[#1a1a1a]">
+                  <h3 className="text-base font-bold text-[#1E293B]">
                     {title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-500">
@@ -741,7 +602,7 @@ function ArticleSection() {
           </div>
 
           <div ref={createSectionRef(3)} className="scroll-mt-28">
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               What Things Can You Not Trademark?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -757,7 +618,7 @@ function ArticleSection() {
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               {cannotTrademark.map(([title, desc]) => (
                 <div key={title} className="rounded-2xl bg-slate-50 p-5">
-                  <h3 className="text-base font-black text-[#1a1a1a]">
+                  <h3 className="text-base font-bold text-[#1E293B]">
                     {title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-slate-500">
@@ -775,7 +636,7 @@ function ArticleSection() {
           </div>
 
           <div ref={createSectionRef(4)} className="scroll-mt-28">
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               What If You Want to Use Someone's Trademark?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -816,7 +677,7 @@ function ArticleSection() {
           </div>
 
           <div ref={createSectionRef(5)} className="scroll-mt-28">
-            <h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+            <h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               Should You File a Trademark?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -854,7 +715,7 @@ function ArticleSection() {
             ref={createSectionRef(6)}
             className="scroll-mt-28 rounded-3xl bg-[#F8FAFC] p-8"
           >
-<h2 className="text-3xl font-black text-[#1a1a1a] md:text-4xl">
+<h2 className="text-3xl font-bold text-[#1E293B] md:text-4xl">
               Ready to Protect Your Incorp Bay with a Trademark?
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
@@ -866,9 +727,11 @@ When you're ready to apply for a trademark, we can help you
             </p>
             <Link
               href="/trademark/step-1"
-              className="mt-6 inline-flex rounded-full bg-[#06B6D4] px-8 py-4 text-sm font-black uppercase tracking-wider text-white shadow-md shadow-[#06B6D4]/30 transition hover:bg-[#0891b2]"
+              className={`${LOGO_GRADIENT} group relative mt-6 inline-flex overflow-hidden rounded-full px-8 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]`}
             >
-              Order Now
+              <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+              <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+              <span className="relative z-10">Order Now</span>
             </Link>
           </div>
         </article>
@@ -879,81 +742,36 @@ When you're ready to apply for a trademark, we can help you
 
 function TrademarkCtaSection() {
   return (
-    <section className="px-6 pb-20 md:px-16">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 overflow-hidden rounded-[2rem] bg-[#ecfeff] px-8 py-12 md:grid-cols-2 md:px-20 md:py-20">
-        <div>
-          <p className="text-xl font-black text-[#06B6D4]">Get Trademark</p>
-          <h2 className="mt-8 max-w-xl text-4xl font-black leading-tight tracking-tight text-[#101828] md:text-6xl">
+    <section className="px-6 pb-16 md:px-16">
+      <div className={`${LOGO_GRADIENT} relative mx-auto grid max-w-4xl grid-cols-1 items-center gap-6 overflow-hidden rounded-[32px] border border-white/10 px-6 py-6 shadow-2xl md:grid-cols-2 md:px-10 md:py-8`}>
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#33D1CC]/20 to-transparent" />
+        <div className="pointer-events-none absolute right-1/4 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#33D1CC]/30 blur-[80px]" />
+
+        <div className="relative z-10">
+          <p className="text-sm font-bold text-white">Get Trademark</p>
+          <h2 className="mt-3 max-w-xl text-2xl font-bold leading-tight tracking-tight text-white md:text-3xl">
             Protect Your Name Logo, With A U.S. Trademark Registration
           </h2>
-          <p className="mt-6 text-lg text-[#101828]">Only $299 + Filing Fee*</p>
+          <p className="mt-3 text-sm text-white/80">Only $299 + Filing Fee*</p>
           <Link
             href="/trademark/step-1"
-            className="mt-10 inline-flex rounded-full bg-[#06B6D4] px-8 py-4 text-sm font-black uppercase text-white shadow-lg shadow-[#06B6D4]/25 transition hover:bg-[#0891b2]"
+            className="group relative mt-5 inline-flex overflow-hidden rounded-full bg-white px-6 py-3 text-xs font-bold uppercase shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-xl"
           >
-            Get Started Now
+            <span className="absolute inset-0 bg-[#2B93C9]/0 transition-colors duration-300 group-hover:bg-[#2B93C9]/5" />
+            <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-[#2B93C9]/10 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+            <span className={`relative z-10 ${LOGO_GRADIENT_TEXT}`}>Get Started Now</span>
           </Link>
         </div>
 
-        <div className="relative flex min-h-[430px] justify-center md:justify-end">
-          <div className="absolute right-0 top-0 h-[430px] w-[260px] rotate-[8deg] rounded-[2.2rem] border-[10px] border-[#1a1a1a] bg-white shadow-2xl">
-            <div className="mx-auto mt-3 h-6 w-28 rounded-full bg-[#111827]" />
-            <div className="px-6 pt-12">
-              <p className="text-lg font-black text-[#111827]">
-                Trademark Protected
-              </p>
-              <div className="mt-4 border-t border-slate-200 pt-4">
-                <p className="text-xs font-semibold uppercase text-slate-400">
-                  Status
-                </p>
-                <p className="mt-1 text-sm font-bold text-[#111827]">
-                  Trademark Protected ✓
-                </p>
-              </div>
-              <div className="mt-12 border-t border-slate-100 pt-6">
-                <p className="text-xs font-semibold uppercase text-slate-400">
-                  Trademark Information
-                </p>
-                <p className="mt-2 text-4xl font-medium text-[#111827]">
-                  Jan 21 2023
-                </p>
-              </div>
-              <div className="mt-20 space-y-2 text-xs text-slate-400">
-                <p>Reg. No. 5...</p>
-                <p>Intl. Cl.: 9</p>
-                <p>Trademark Principal Register</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute left-0 top-32 w-[360px] rounded-xl bg-white px-7 py-5 shadow-xl md:left-[-20px]">
-            <div className="flex items-center justify-between">
-              <p className="text-3xl font-black tracking-tight text-[#1a1a1a]">
-                ACME INC
-              </p>
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#06B6D4] text-white">
-                <Shield className="h-7 w-7" />
-              </div>
-            </div>
-          </div>
-
-          <div className="absolute bottom-14 left-16 w-[340px] rotate-[-3deg] rounded-xl bg-white px-5 py-4 shadow-xl md:left-20">
-            <div className="mb-3 flex items-center justify-between">
-              <p className="text-sm font-black text-[#1a1a1a]">
-                Trademark Details{" "}
-                <span className="text-slate-400">- #1441334</span>
-              </p>
-              <span className="rounded-full bg-[#06B6D4] px-3 py-1 text-[10px] font-bold text-white">
-                Active
-              </span>
-            </div>
-            <div className="flex items-center gap-3 border-t border-slate-100 pt-3 text-xs text-slate-500">
-              <span className="h-2 w-2 rounded-full bg-[#06B6D4]" />
-              <span className="font-semibold text-[#1a1a1a]">
-                Attorney Name
-              </span>
-              <span>John Smith</span>
-            </div>
+        <div className="relative z-10 flex justify-center md:justify-end">
+          <div className="relative w-full max-w-[260px] md:-mr-6 md:translate-x-10">
+            <Image
+              src="/trademark/Protect-your-name-cropped-trademark.webp"
+              alt="Trademark Secured confirmation for Nova Labs"
+              width={1114}
+              height={1412}
+              className="w-full rounded-3xl"
+            />
           </div>
         </div>
       </div>
@@ -964,7 +782,7 @@ function TrademarkCtaSection() {
 export default function TrademarkPage() {
   return (
     <NavigationWrapper>
-      <div className="min-h-screen bg-white text-[#1a1a1a]">
+      <div className="min-h-screen bg-white text-[#1E293B]">
         <Hero />
         <TrustBar />
         <ProtectSection />

@@ -2,9 +2,12 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  ChevronLeft, Star, Info 
+import {
+  ChevronLeft, Star, Info
 } from 'lucide-react';
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
 
 const LicensePackageForm = () => {
   const router = useRouter();
@@ -29,7 +32,7 @@ const LicensePackageForm = () => {
 
         {/* Header Section */}
         <div className="mb-10 max-w-4xl">
-          <h1 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Business License Research Package</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4 tracking-tight">Business License Research Package</h1>
           <p className="text-[14px] leading-relaxed text-gray-500 font-medium italic">
             A business license authorizes a company to &quot;do business&quot; in a certain geographical jurisdiction. It is a certificate that authenticates your company is properly registered with the particular county or city in which your office(s) are located.
           </p>
@@ -43,12 +46,12 @@ const LicensePackageForm = () => {
             {/* 1. Company Selection */}
             <div className="bg-white rounded-[20px] p-8 border border-gray-100 shadow-sm">
               <h3 className="text-[18px] font-bold text-gray-900 mb-6 italic">Company Information</h3>
-              <div className="border-2 border-cyan-500 rounded-xl p-6 bg-white flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
+              <div className="rounded-xl border-2 border-transparent bg-[linear-gradient(white,white)_padding-box,linear-gradient(90deg,#244EB6,#2B93C9,#33D1CC)_border-box] p-6 flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-[#2B93C9] flex items-center justify-center">
+                  <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`} />
                 </div>
                 <div>
-                  <h4 className="font-black text-gray-900 text-[14px] uppercase tracking-wider">NEW COMPANY</h4>
+                  <h4 className="font-bold text-gray-900 text-[14px] uppercase tracking-wider">NEW COMPANY</h4>
                   <p className="text-gray-400 text-[12px]">A company previously incorporated outside of Incorp Bay</p>
                 </div>
               </div>
@@ -134,21 +137,23 @@ const LicensePackageForm = () => {
           {/* RIGHT SIDE: ORDER SUMMARY */}
           <aside className="lg:sticky lg:top-8">
             <div className="bg-white rounded-[24px] border border-gray-100 shadow-2xl p-8">
-              <h3 className="text-[20px] font-black text-gray-900 mb-8 tracking-tighter italic">Order Summary</h3>
+              <h3 className="text-[20px] font-bold text-gray-900 mb-8 tracking-tighter italic">Order Summary</h3>
               
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between text-[13px] font-bold text-gray-400 uppercase tracking-tighter">
                   <span>Business License Package</span>
-                  <span className="text-gray-900 font-black">$99</span>
+                  <span className="text-gray-900 font-bold">$99</span>
                 </div>
                 <div className="flex justify-between items-center pt-2 border-t border-gray-50 mt-4">
-                  <span className="text-[20px] font-black text-gray-900 tracking-tighter italic">Total</span>
-                  <span className="text-4xl font-black text-gray-900 tracking-tighter">$99</span>
+                  <span className="text-[20px] font-bold text-gray-900 tracking-tighter italic">Total</span>
+                  <span className="text-4xl font-bold text-gray-900 tracking-tighter">$99</span>
                 </div>
               </div>
 
-              <button className="w-full bg-[#06B6D4] hover:bg-[#0891B2] text-white font-black py-5 rounded-xl shadow-sm transition-all text-[16px] mb-6 uppercase tracking-wider">
-                Complete & Pay
+              <button className={`${LOGO_GRADIENT} group relative w-full overflow-hidden text-white font-bold py-5 rounded-full shadow-sm transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-[16px] mb-6 uppercase tracking-wider`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Complete & Pay</span>
               </button>
 
               <div className="flex flex-col items-center mb-6">
@@ -156,7 +161,7 @@ const LicensePackageForm = () => {
                   {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />)}
                 </div>
                 <p className="text-[11px] text-gray-400 font-bold italic text-center">4.75 based on 60,000+ reviews on</p>
-                <div className="flex gap-4 mt-2 opacity-50 font-black text-[10px] grayscale uppercase tracking-widest">
+                <div className="flex gap-4 mt-2 opacity-50 font-bold text-[10px] grayscale uppercase tracking-widest">
                   <span>Trustpilot</span>
                   <span>Shopper Approved</span>
                 </div>

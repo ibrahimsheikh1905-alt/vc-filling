@@ -4,6 +4,9 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, Star, Info } from 'lucide-react';
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const VirtualAddress = () => {
   const router = useRouter();
 
@@ -15,7 +18,7 @@ const VirtualAddress = () => {
         <div className="mb-8">
           <button 
             onClick={() => router.back()}
-            className="flex items-center text-[13px] font-bold text-[#FF6B35] hover:opacity-80 transition-all group uppercase tracking-wider"
+            className="flex items-center text-[13px] font-bold text-cyan-600 hover:opacity-80 transition-all group uppercase tracking-wider"
           >
             <ChevronLeft className="w-4 h-4 mr-1 transition-transform group-hover:-translate-x-1" /> 
             Back
@@ -44,9 +47,9 @@ const VirtualAddress = () => {
             {/* Section 1: Company Information Box */}
             <div className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm">
               <h3 className="text-[16px] font-bold text-gray-800 mb-6 tracking-tight">Company Information</h3>
-              <div className="border-2 border-[#FF6B35] rounded-lg p-5 bg-white flex items-center gap-4">
-                <div className="w-5 h-5 rounded-full border-2 border-[#FF6B35] flex items-center justify-center">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FF6B35]" />
+              <div className="border-2 border-cyan-500 rounded-lg p-5 bg-white flex items-center gap-4">
+                <div className="w-5 h-5 rounded-full border-2 border-cyan-500 flex items-center justify-center">
+                  <div className={`${LOGO_GRADIENT} w-2.5 h-2.5 rounded-full`} />
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900 text-[13px] uppercase tracking-wide">NEW COMPANY</h4>
@@ -61,29 +64,29 @@ const VirtualAddress = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="col-span-full">
                    <label className="block text-[12px] font-bold text-gray-700 mb-2 uppercase tracking-tight">Entity Type</label>
-                   <select className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] bg-white text-gray-400 outline-none focus:border-[#FF6B35]">
+                   <select className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] bg-white text-gray-400 outline-none focus:border-cyan-500">
                      <option>Select Entity Type</option>
                    </select>
                 </div>
                 <div>
                    <label className="block text-[12px] font-bold text-gray-700 mb-2 uppercase tracking-tight">State of Formation <Info className="w-3 h-3 inline text-gray-300 ml-1"/></label>
-                   <select className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] bg-white text-gray-400 outline-none focus:border-[#FF6B35]">
+                   <select className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] bg-white text-gray-400 outline-none focus:border-cyan-500">
                      <option>Select State</option>
                    </select>
                 </div>
                 <div>
                    <label className="block text-[12px] font-bold text-gray-700 mb-2 uppercase tracking-tight">State of Service</label>
-                   <select className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] bg-white text-gray-400 outline-none focus:border-[#FF6B35]">
+                   <select className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] bg-white text-gray-400 outline-none focus:border-cyan-500">
                      <option>Select State</option>
                    </select>
                 </div>
                 <div>
                    <label className="block text-[12px] font-bold text-gray-700 mb-2 uppercase tracking-tight">Company Name</label>
-                   <input type="text" className="w-full border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-[#FF6B35]" />
+                   <input type="text" className="w-full border border-gray-200 rounded-lg px-4 py-3 outline-none focus:border-cyan-500" />
                 </div>
                 <div>
                    <label className="block text-[12px] font-bold text-gray-700 mb-2 uppercase tracking-tight">Designator</label>
-                   <select className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] bg-white text-gray-400 outline-none focus:border-[#FF6B35]">
+                   <select className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[14px] bg-white text-gray-400 outline-none focus:border-cyan-500">
                      <option>Select Designator</option>
                    </select>
                 </div>
@@ -102,12 +105,14 @@ const VirtualAddress = () => {
                 </div>
                 <div className="pt-6 border-t border-gray-100 flex justify-between items-end mt-6">
                   <span className="text-[18px] font-bold text-gray-900">Total</span>
-                  <span className="text-[28px] font-black text-gray-900 leading-none">$29</span>
+                  <span className="text-[28px] font-bold text-gray-900 leading-none">$29</span>
                 </div>
               </div>
 
-              <button className="w-full bg-[#FFB08E] hover:bg-[#FF6B35] text-white font-bold py-4 rounded-xl shadow-lg transition-all text-[14px] mt-8 uppercase tracking-[1px]">
-                Complete & Pay
+              <button className={`${LOGO_GRADIENT} group relative w-full overflow-hidden text-white font-bold py-4 rounded-full shadow-lg transition-all duration-300 hover:scale-[1.03] hover:brightness-110 text-[14px] mt-8 uppercase tracking-[1px]`}>
+                <span className="absolute inset-x-0 top-0 h-1/2 rounded-full bg-gradient-to-b from-white/20 to-transparent" />
+                <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10">Complete & Pay</span>
               </button>
 
               {/* Reviews */}

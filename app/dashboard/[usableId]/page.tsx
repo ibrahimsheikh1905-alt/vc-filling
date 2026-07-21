@@ -10,6 +10,16 @@ import {
   Loader2
 } from "lucide-react";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+
+const LOGO_GRADIENT_SOFT =
+  "bg-[linear-gradient(90deg,rgba(36,78,182,0.10)_0%,rgba(43,147,201,0.10)_50%,rgba(51,209,204,0.10)_100%)]";
+
+
 interface Order {
   id: number;
   company: string;
@@ -101,10 +111,9 @@ const fetchOrders = async () => {
     switch (status?.toLowerCase()) {
       case 'completed':
       case 'paid':
-        return 'text-green-600';
       case 'pending':
       case 'processing':
-        return 'text-cyan-600';
+        return LOGO_GRADIENT_TEXT;
       case 'cancelled':
       case 'failed':
         return 'text-red-600';
@@ -120,17 +129,17 @@ const fetchOrders = async () => {
         {/* Order History Section */}
         <section>
           <div className="flex items-center gap-3 mb-6">
-            <Receipt className="w-6 h-6 text-gray-800" />
-            <h1 className="text-2xl font-bold">Order History Receipts</h1>
+            <div className={`${LOGO_GRADIENT} flex h-10 w-10 items-center justify-center rounded-xl text-white shadow-md shadow-[#2B93C9]/20`}><Receipt className="w-5 h-5" /></div>
+            <h1 className={`text-2xl font-bold`}>Order History Receipts</h1>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+          <div className="relative bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden"><div className={`} absolute inset-x-0 top-0 h-1`} />
             {loading ? (
               <div className="flex items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 animate-spin text-cyan-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#2B93C9]" />
               </div>
             ) : error ? (
-              <div className="py-12 text-center text-cyan-500">{error}</div>
+              <div className={`py-12 text-center font-semibold ${LOGO_GRADIENT_TEXT}`}>{error}</div>
             ) : orders.length === 0 ? (
               <div className="py-12 text-center text-gray-400">No orders found</div>
             ) : (
@@ -157,9 +166,9 @@ const fetchOrders = async () => {
                         <td className="px-6 py-6 text-center">
                           <button 
                             onClick={() => handleViewReceipt(order)}
-                            className="p-2 bg-cyan-50 rounded-lg hover:bg-cyan-100 transition-colors"
+                            className={`${LOGO_GRADIENT_SOFT} group rounded-lg p-2 transition-all duration-300 hover:scale-105 hover:shadow-md focus:outline-none focus:ring-0`}
                           >
-                            <FileText className="w-5 h-5 text-cyan-500" />
+                            <FileText className="w-5 h-5 text-[#2B93C9] transition-transform duration-300 group-hover:scale-110" />
                           </button>
                         </td>
                         <td className="px-6 py-6 text-sm text-gray-600 font-medium">{formatDate(order.date)}</td>
@@ -178,7 +187,7 @@ const fetchOrders = async () => {
         {/* Receipt Modal (Logo Removed) */}
         {showReceipt && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200">
+            <div className="bg-white rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl relative animate-in zoom-in-95 duration-200"><div className={`${LOGO_GRADIENT} absolute inset-x-0 top-0 h-1`} />
               <button 
                 onClick={() => setShowReceipt(false)}
                 className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -189,7 +198,7 @@ const fetchOrders = async () => {
               <div className="p-10 space-y-8">
                 {/* Receipt Header - Logo Section Deleted */}
                 <div className="flex justify-between items-center border-b border-gray-50 pb-6">
-                  <h2 className="text-4xl font-bold text-gray-900">Receipt</h2>
+                  <h2 className={`text-4xl font-bold ${LOGO_GRADIENT_TEXT}`}>Receipt</h2>
                 </div>
 
 {/* Address Info */}
@@ -226,9 +235,16 @@ const fetchOrders = async () => {
 
                 {/* Total & Action */}
                 <div className="flex flex-col items-end gap-6 pt-6 border-t border-gray-100">
-                  <p className="text-xl font-bold text-gray-900">Total: <span className="text-2xl font-black ml-2">${selectedOrder?.amount || 0}</span></p>
-                  <button onClick={() => window.print()} className="bg-[#06B6D4] hover:bg-[#0891B2] text-white font-bold py-4 px-10 rounded-xl shadow-lg shadow-cyan-200 transition-all active:scale-95">
-                    Print Receipt
+                  <p className="text-xl font-bold text-gray-900">Total: <span className="text-2xl font-bold ml-2">${selectedOrder?.amount || 0}</span></p>
+                  <button onClick={() => window.print()} className={`${LOGO_GRADIENT} group relative overflow-hidden rounded-xl px-10 py-4 font-bold text-white shadow-lg shadow-[#2B93C9]/30 transition-all duration-300 hover:scale-[1.03] hover:brightness-110 hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)] active:scale-95`}>
+                    <span className="absolute inset-x-0 top-0 h-1/2 rounded-xl bg-gradient-to-b from-white/20 to-transparent" />
+                    <span className="absolute -left-20 top-0 h-full w-12 -skew-x-12 bg-white/30 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      Print Receipt
+                      <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7"/>
+                      </svg>
+                    </span>
                   </button>
 
                 </div>
@@ -246,7 +262,7 @@ function ReceiptRow({ label, price, hasCheck }: { label: string, price?: string,
     <div className="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
       <span className="text-[14px] text-gray-500 font-medium">{label}</span>
       {hasCheck ? (
-        <CheckCircle2 className="w-5 h-5 text-cyan-500" />
+        <CheckCircle2 className="w-5 h-5 text-[#2B93C9]" />
       ) : (
         <span className="text-[14px] font-bold text-gray-400">{price}</span>
       )}

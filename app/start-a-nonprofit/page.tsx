@@ -57,9 +57,7 @@ function Accordion({ items }: { items: QA[] }) {
               <ChevronDown open={isOpen} />
             </button>
 
-            {isOpen && (
-              <p className="mt-3 text-sm leading-7 text-slate-500">{item.a}</p>
-            )}
+            {isOpen && <p className="mt-3 text-sm leading-7 text-slate-500">{item.a}</p>}
           </div>
         );
       })}
@@ -180,18 +178,9 @@ const faqs = [
 ];
 
 const reviews = [
-  {
-    name: "Md. Shafiqul Islam",
-    text: "Oliver O. was amazing. Oliver helped resolving Registered Agent issues.",
-  },
-  {
-    name: "Isabel Cárdenas",
-    text: "I had a great experience. I’m so glad that Roy was able to help me promptly with all my questions and concerns.",
-  },
-  {
-    name: "William Lopez",
-    text: "Gus helped me out and answered all my questions. Thanks to him and everyone else involved.",
-  },
+  { name: "Md. Shafiqul Islam", text: "Oliver O. was amazing. Oliver helped resolving Registered Agent issues." },
+  { name: "Isabel Cárdenas", text: "I had a great experience. I’m so glad that Roy was able to help me promptly with all my questions and concerns." },
+  { name: "William Lopez", text: "Gus helped me out and answered all my questions. Thanks to him and everyone else involved." },
 ];
 
 const TRACK_SPACING = 150;
@@ -356,7 +345,7 @@ export default function NonprofitLandingPage() {
               </p>
 
               <a
-                href="#pricing"
+                href="/package-main?entity=non-profit"
                 className="inline-block rounded-full bg-cyan-500 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600"
               >
                 START NOW
@@ -396,9 +385,12 @@ export default function NonprofitLandingPage() {
               Get industry-leading support and a host of other benefits to start your business with confidence.
             </p>
 
-            <button className="rounded-full bg-cyan-500 px-8 py-3 text-sm font-bold uppercase text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600">
+            <a
+              href="/start-a-nonprofit/step-2"
+              className="inline-block rounded-full bg-cyan-500 px-8 py-3 text-sm font-bold uppercase text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600"
+            >
               FORM YOUR NONPROFIT NOW
-            </button>
+            </a>
 
             <div className="mx-auto mt-12 max-w-[760px] rounded-2xl bg-slate-50 p-5">
               <div className="rounded-xl bg-white p-5 shadow-sm">

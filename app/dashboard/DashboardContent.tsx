@@ -37,11 +37,11 @@ const DashboardContent: React.FC = () => {
           </div>
 
           <div>
-            <p className="text-[11px] font-black uppercase tracking-[0.28em] text-cyan-600">
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-cyan-600">
               Incorp Bay Dashboard
             </p>
 
-            <h1 className="mt-2 text-4xl font-black uppercase tracking-tight text-slate-900">
+            <h1 className="mt-2 text-4xl font-bold uppercase tracking-tight text-slate-900">
               My Tasks
             </h1>
 
@@ -53,7 +53,7 @@ const DashboardContent: React.FC = () => {
       </header>
 
       <section className="mb-14">
-        <h2 className="mb-6 text-2xl font-black text-slate-900">
+        <h2 className="mb-6 text-2xl font-bold text-slate-900">
           Compliance Tasks
         </h2>
 
@@ -63,7 +63,7 @@ const DashboardContent: React.FC = () => {
       </section>
 
       <section className="mb-14">
-        <h2 className="mb-6 text-2xl font-black text-slate-900">
+        <h2 className="mb-6 text-2xl font-bold text-slate-900">
           Unclaimed Services
         </h2>
 
@@ -82,7 +82,7 @@ const DashboardContent: React.FC = () => {
       </section>
 
       <section className="pb-10">
-        <h2 className="mb-8 text-2xl font-black text-slate-900">
+        <h2 className="mb-8 text-2xl font-bold text-slate-900">
           Recommendations
         </h2>
 
