@@ -7,6 +7,10 @@ import useLocalStorageForm from "@/hooks/useLocalStorage";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { usePathname, useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface AgentOption {
   title: string;
 }
@@ -74,14 +78,14 @@ const StepEleven = () => {
                   and does not obligate you in any way.
                 </p>
               </div>
-              <p className="mb-4 font-medium">What you&apos;ll learn:</p>
+              <p className="mb-4 font-normal">What you&apos;ll learn:</p>
               <div className="md:flex">
                 <ul>
                   <li className="mb-2 flex items-center ">
                     <CheckIcon
                       height={20}
                       width={20}
-                      className="mr-2 text-primary "
+                      className="mr-2 text-[#2B93C9] "
                     />{" "}
                     <p className="text-gray-500 ">How your LLC is taxed</p>
                   </li>
@@ -89,7 +93,7 @@ const StepEleven = () => {
                     <CheckIcon
                       height={20}
                       width={20}
-                      className="mr-2 text-primary"
+                      className="mr-2 text-[#2B93C9]"
                     />{" "}
                     <p className="text-gray-500 ">
                       How to choose the proper IRS tax election
@@ -99,7 +103,7 @@ const StepEleven = () => {
                     <CheckIcon
                       height={20}
                       width={20}
-                      className="mr-2 text-primary"
+                      className="mr-2 text-[#2B93C9]"
                     />{" "}
                     <p className="text-gray-500 ">
                       Commonly missed tax deductions
@@ -111,7 +115,7 @@ const StepEleven = () => {
                     <CheckIcon
                       height={20}
                       width={20}
-                      className="mr-2 text-primary "
+                      className="mr-2 text-[#2B93C9] "
                     />{" "}
                     <p className="text-gray-500 ">
                       Business bookkeeping requirements
@@ -121,7 +125,7 @@ const StepEleven = () => {
                     <CheckIcon
                       height={20}
                       width={20}
-                      className="mr-2 text-primary"
+                      className="mr-2 text-[#2B93C9]"
                     />{" "}
                     <p className="text-gray-500 ">
                       How to reduce the chance of an IRS audit
@@ -131,7 +135,7 @@ const StepEleven = () => {
                     <CheckIcon
                       height={20}
                       width={20}
-                      className="mr-2 text-primary"
+                      className="mr-2 text-[#2B93C9]"
                     />{" "}
                     <p className="text-gray-500 ">
                       How to reduce self employment taxes
@@ -160,12 +164,12 @@ const StepEleven = () => {
                     <div
                       className={`min-w-4 h-4 max-w-4 max-h-4 rounded-full ${
                         formData.taxConsultationOption === key
-                          ? "border-primary border-4"
+                          ? "border-[#2B93C9] border-4"
                           : "border-gray-200 border-2"
                       }`}
                     />
                     <div>
-                      <span className="font-medium">{option.title}</span>
+                      <span className="font-normal">{option.title}</span>
                     </div>
                   </label>
                 ))}
@@ -173,8 +177,8 @@ const StepEleven = () => {
 
               {formData.taxConsultationOption === "own" && (
                 <div className="mt-4 flex items-center text-gray-500 border-2 bg-gray-100 rounded-md p-2">
-                  <LightBulbIcon className="min-w-10 max-w-10 h-10 mr-2 text-primary" />
-                  <p className="mb-4 font-medium">
+                  <LightBulbIcon className="min-w-10 max-w-10 h-10 mr-2 text-[#2B93C9]" />
+                  <p className="mb-4 font-normal">
                     Is a Tax Strategy / Free Consultation something I should
                     consider? <br />
                     Incorporating a new business can burden owners with
@@ -187,8 +191,8 @@ const StepEleven = () => {
               )}
               {formData.taxConsultationOption === "recommended" && (
                 <div className="mt-4 flex items-center text-gray-500 border-2 bg-gray-100 rounded-md p-2">
-                  <LightBulbIcon className="min-w-10 max-w-10 h-10 mr-2 text-primary" />
-                  <p className="mb-4 font-medium">
+                  <LightBulbIcon className="min-w-10 max-w-10 h-10 mr-2 text-[#2B93C9]" />
+                  <p className="mb-4 font-normal">
                     How soon can I schedule my Tax Consultation? <br /> You will
                     be prompted to schedule your appointment after completing
                     your order.
@@ -200,13 +204,13 @@ const StepEleven = () => {
             <div className="flex justify-between mt-12">
               <Link
                 href="/start-a-nonprofit/step-10"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <button
                 type="submit"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Next
               </button>

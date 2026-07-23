@@ -5,6 +5,14 @@ import { useAtom } from "jotai";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getStateFee } from "@/data/stateFeeData";
+import { getEntityFilingInfo, type EntityKind } from "@/data/entityFilingData";
+
+const entityKindByType: Record<string, EntityKind> = {
+  LLC: "llc",
+  "S-Corporation": "sCorp",
+  "C-Corporation": "cCorp",
+  Nonprofit: "nonProfit",
+};
 
 const OrderSummary = ({ referer }: { referer?: string }) => {
   const pathname = usePathname();
@@ -182,10 +190,16 @@ const packageType = (() => {
   // Get license type from step-12 data
   const licenseType = step12Data?.licenseType;
 
+  // True only when we have a real entityFilingData entry for this
+  // entity/state combo and it's explicitly marked unavailable.
+  const filingInfo =
+    entityType && stateName
+      ? getEntityFilingInfo(stateName.trim(), entityKindByType[entityType])
+      : null;
+  const isNotOffered = !!filingInfo && !filingInfo.offered;
+
 useEffect(() => {
     // Set state fee using the shared helper.
-    // Your UI feedback indicates this was not matching for some states (e.g. Indiana),
-    // likely due to mismatched fallback fee map.
     if (!stateName) {
       setStateFee(0);
       return;
@@ -195,12 +209,18 @@ useEffect(() => {
       // Some step screens store state with different casing.
       // Normalize for the helper to match keys.
       const normalized = stateName.trim();
-      const fee = getStateFee(normalized);
-      setStateFee(fee);
+
+      // Formation flows (LLC/S-Corp/C-Corp/Nonprofit) have real per-state,
+      // per-entity fees in entityFilingData — use that instead of the flat
+      // registered-agent fee table whenever it has an entry.
+      const entityKind = entityType ? entityKindByType[entityType] : undefined;
+      const entityFee = entityKind ? getEntityFilingInfo(normalized, entityKind)?.stateFee : null;
+
+      setStateFee(entityFee ?? getStateFee(normalized));
     } catch {
       setStateFee(0);
     }
-  }, [stateName]);
+  }, [stateName, entityType]);
 
 useEffect(() => {
     // Set package prices using hardcoded fallback values
@@ -353,7 +373,14 @@ useEffect(() => {
           </div>
         )}
         {/* Show either package or service depending on what's selected */}
-        {packageType && packageType !== "" ? (
+        {isNotOffered ? (
+          <div className="text-center py-2">
+            <span className="font-bold text-red-600">Not Offered</span>
+            <p className="text-xs text-red-500 mt-1">
+              {entityType} formation is not offered in {stateName}.
+            </p>
+          </div>
+        ) : packageType && packageType !== "" ? (
           <div className="flex justify-between">
             <span>{packageType} Package:</span>
             <span>${packagePrice}</span>
@@ -375,7 +402,9 @@ useEffect(() => {
             <span>Please Select a package type</span>
           </div>
         )}
-{/* Show state fee - for registered-agent show as total (includes service), for others show separately */}
+{!isNotOffered && (
+        <>
+        {/* Show state fee - for registered-agent show as total (includes service), for others show separately */}
         <div className="flex justify-between">
           <span>{stateName ? stateName + ' State Fee' : 'State Fee'}:</span>
           <span>${stateFee || 0}</span>
@@ -416,8 +445,10 @@ useEffect(() => {
           <span>Total:</span>
           <span>${totalPrice}</span>
         </div>
+        </>
+        )}
       </div>
-      {showButtonPaths.includes(pathname) && (
+      {!isNotOffered && showButtonPaths.includes(pathname) && (
         <button
           type="submit"
           className="w-full bg-primary text-white py-3 px-3 block text-center rounded-lg font-semibold mb-4"

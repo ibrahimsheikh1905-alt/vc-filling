@@ -4,7 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
-const CYAN = "#06B6D4";
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
+// Solid stand-in for the gradient's middle stop, for borders/rings/small text
+// where a CSS gradient isn't feasible (SVG strokes, thin borders, etc).
+const ACCENT = "#2B93C9";
 
 const TOC_SECTIONS = [
   { id: "dissolved", label: "Why Was My Business Dissolved?" },
@@ -69,7 +75,7 @@ const ChevronRight = ({ active }: { active?: boolean }) => (
   <svg
     viewBox="0 0 24 24"
     fill="none"
-    stroke={active ? CYAN : "#CBD5E1"}
+    stroke={active ? ACCENT : "#CBD5E1"}
     strokeWidth={2.5}
     width={16}
     height={16}
@@ -140,7 +146,7 @@ export default function ReinstatementPage() {
       {/* HERO */}
       <section className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 py-16 md:grid-cols-2 md:px-16 md:py-20">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 shadow-sm">
             <span>
               Excellent <strong>4.7</strong> out of 5
             </span>
@@ -148,7 +154,7 @@ export default function ReinstatementPage() {
             <span className="font-bold text-[#00B67A]">Trustpilot</span>
           </div>
 
-          <h1 className="mt-6 max-w-xl text-5xl font-black leading-[1.08] tracking-tight text-[#0f0f1a] md:text-6xl">
+          <h1 className="mt-6 max-w-xl text-5xl font-bold leading-[1.08] tracking-tight text-[#0f0f1a] md:text-6xl">
             File an Order of Reinstatement Quickly and Easily
           </h1>
 
@@ -160,9 +166,16 @@ export default function ReinstatementPage() {
 
           <a
             href="/reinstatement/step-1"
-            className="mt-8 inline-flex rounded-full bg-[#06B6D4] px-10 py-4 text-sm font-black uppercase tracking-wider text-white shadow-lg shadow-[#06B6D4]/30 transition hover:bg-[#0891b2]"
+            className={`${LOGO_GRADIENT} group relative mt-8 inline-flex overflow-hidden rounded-full px-8 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]`}
           >
-            File Your Reinstatement
+            <span className="absolute inset-0 bg-white/0 transition-colors duration-300 group-hover:bg-white/10" />
+            <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/20 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+            <span className="relative z-10 flex items-center gap-2">
+              File Your Reinstatement
+              <svg className="h-4 w-4 stroke-white transition-transform duration-300 group-hover:translate-x-1" fill="none" strokeWidth="2.5" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </span>
           </a>
         </div>
 
@@ -179,10 +192,10 @@ export default function ReinstatementPage() {
       </section>
 
       {/* TRUST BAR */}
-      <div className="border-y border-slate-100 bg-[#F8FAFC] px-6 py-5 text-center text-sm font-semibold text-slate-600 md:text-base">
+      <div className="border-y border-slate-100 bg-[#F8FAFC] px-6 py-5 text-center text-sm font-bold text-slate-600 md:text-base">
         Bootstrapped, Founder Led, Independently Owned{" "}
-        <span className="font-extrabold text-[#06B6D4]">Since 2004</span> with{" "}
-        <span className="font-extrabold text-[#06B6D4]">
+        <span className={`font-bold ${LOGO_GRADIENT_TEXT}`}>Since 2004</span> with{" "}
+        <span className={`font-bold ${LOGO_GRADIENT_TEXT}`}>
           Over 1,000,000 Entrepreneurs
         </span>{" "}
         Served!
@@ -190,17 +203,26 @@ export default function ReinstatementPage() {
 
       {/* WHY CHOOSE REINSTATEMENT */}
       <section className="mx-auto max-w-7xl px-6 py-20 md:px-16">
-        <h2 className="text-center text-4xl font-black leading-tight tracking-tight text-[#0f0f1a] md:text-5xl">
+        <h2 className="text-center text-4xl font-bold leading-tight tracking-tight text-[#0f0f1a] md:text-5xl">
           Why Choose Reinstatement?
         </h2>
 
         <div className="mt-14 grid grid-cols-1 items-center gap-14 md:grid-cols-2">
-          <div className="relative py-6">
-            {/* FIXED: line starts at first icon center and ends at last icon center */}
-            <div className="absolute left-6 top-12 bottom-[84px] z-0 w-1 -translate-x-1/2 overflow-hidden rounded-full bg-slate-100">
+          <div className="relative w-full py-2">
+            <div
+              className="absolute w-1 rounded-full bg-slate-100 z-0"
+              style={{
+                left: "24px",
+                top: "24px",
+                height: `${(WHY_ITEMS.length - 1) * 168}px`,
+              }}
+            >
               <div
-                className="w-full rounded-full bg-[#06B6D4] transition-[height] duration-100 ease-linear"
-                style={{ height: `${progress * 100}%` }}
+                className="w-full rounded-full origin-top"
+                style={{
+                  background: "linear-gradient(180deg,#244EB6 0%,#2B93C9 50%,#33D1CC 100%)",
+                  height: `${Math.min(progress * 100, 100) / 100 * (WHY_ITEMS.length - 1) * 168}px`,
+                }}
               />
             </div>
 
@@ -212,25 +234,25 @@ export default function ReinstatementPage() {
               return (
                 <div
                   key={item.title}
-                  className={`relative z-10 flex min-h-[120px] w-full select-none flex-row items-start ${index === WHY_ITEMS.length - 1 ? "mb-0" : "mb-12"}`}
+                  className={`relative z-10 flex min-h-[120px] w-full select-none items-start ${index === WHY_ITEMS.length - 1 ? "mb-0" : "mb-12"}`}
                 >
                   <div
-                    className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 text-xl transition-all duration-300 ${
+                    className={`absolute left-0 top-0 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 text-xl transition-all duration-300 ${
                       isPassed
-                        ? "scale-105 border-[#06B6D4] bg-cyan-50 text-[#06B6D4] shadow-md"
+                        ? "scale-105 border-[#2B93C9] bg-slate-50 text-[#2B93C9] shadow-md"
                         : "border-slate-300 bg-white text-slate-400"
-                    } ${isCurrent ? "ring-4 ring-cyan-100/70" : ""}`}
+                    } ${isCurrent ? "ring-4 ring-[#33D1CC]/20" : ""}`}
                   >
                     {item.icon}
                   </div>
 
-                  <div className="w-full pl-4 text-left">
+                  <div className="w-full pl-16 text-left">
                     <p
-                      className={`text-xs font-black uppercase tracking-wider transition-colors duration-300 ${
+                      className={`text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
                         isCurrent
-                          ? "text-[#06B6D4]"
+                          ? LOGO_GRADIENT_TEXT
                           : isPassed
-                            ? "text-[#06B6D4]/70"
+                            ? `${LOGO_GRADIENT_TEXT} opacity-70`
                             : "text-slate-400"
                       }`}
                     >
@@ -238,7 +260,7 @@ export default function ReinstatementPage() {
                     </p>
 
                     <h3
-                      className={`mt-1 text-lg font-black transition-colors duration-300 md:text-xl ${
+                      className={`mt-1 text-lg font-bold transition-colors duration-300 md:text-xl ${
                         isPassed ? "text-[#0f0f1a]" : "text-slate-400"
                       }`}
                     >
@@ -266,7 +288,7 @@ export default function ReinstatementPage() {
               alt="LLC reinstatement final confirmation on a smartphone"
               width={1179}
               height={1334}
-              className="h-auto w-full max-w-[280px]"
+              className="h-auto w-full max-w-[280px] rounded-2xl shadow-sm"
             />
           </div>
         </div>
@@ -275,7 +297,7 @@ export default function ReinstatementPage() {
       {/* FILING REINSTATEMENT */}
       <section className="bg-[#F8FAFC] px-6 py-20 md:px-16">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-center text-4xl font-black leading-tight tracking-tight text-[#0f0f1a] md:text-5xl">
+          <h2 className="text-center text-4xl font-bold leading-tight tracking-tight text-[#0f0f1a] md:text-5xl">
             Filing Reinstatement
           </h2>
 
@@ -285,7 +307,7 @@ export default function ReinstatementPage() {
               alt="Reinstatement service order completed confirmation"
               width={1353}
               height={1162}
-              className="mx-auto h-auto w-full max-w-sm"
+              className="mx-auto h-auto w-full max-w-sm rounded-2xl shadow-sm"
             />
 
             <div className="space-y-4">
@@ -294,11 +316,11 @@ export default function ReinstatementPage() {
                   key={step.n}
                   className="flex gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#06B6D4] text-base font-black text-white shadow shadow-[#06B6D4]/30">
+                  <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${LOGO_GRADIENT} text-base font-bold text-white shadow shadow-[#2B93C9]/30`}>
                     {step.n}
                   </div>
                   <div>
-                    <h3 className="text-base font-black text-[#0f0f1a]">
+                    <h3 className="text-base font-bold text-[#0f0f1a]">
                       {step.title}
                     </h3>
                     <p className="mt-1 text-sm leading-relaxed text-slate-500">
@@ -317,7 +339,7 @@ export default function ReinstatementPage() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[280px_1fr] md:items-start">
           <aside className="md:sticky md:top-24">
             <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
-              <p className="mb-4 text-base font-black text-[#1a1a1a]">
+              <p className="mb-4 text-base font-bold text-[#1a1a1a]">
                 Table of Contents
               </p>
               <ul className="space-y-1">
@@ -330,8 +352,8 @@ export default function ReinstatementPage() {
                         onClick={() => scrollTo(item.id)}
                         className={`flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-sm transition-all duration-150 ${
                           active
-                            ? "border border-slate-200 bg-white font-bold text-[#06B6D4] shadow-sm"
-                            : "text-slate-400 hover:text-slate-600"
+                            ? `border border-slate-200 bg-white font-bold shadow-sm ${LOGO_GRADIENT_TEXT}`
+                            : "font-normal text-slate-400 hover:text-slate-600"
                         }`}
                       >
                         <ChevronRight active={active} />
@@ -362,7 +384,7 @@ export default function ReinstatementPage() {
               </p>
               <p>
                 Some of the most common reasons behind{" "}
-                <a href="#" className="font-semibold text-[#06B6D4]">
+                <a href="#" className={`font-bold ${LOGO_GRADIENT_TEXT}`}>
                   losing your Certificate of Good Standing
                 </a>{" "}
                 or dissolution of your LLC are:
@@ -404,7 +426,7 @@ export default function ReinstatementPage() {
               <BenefitsCard />
               <p>
                 Along with these benefits, using Incorp Bay&apos;s{" "}
-                <a href="#" className="font-semibold text-[#06B6D4]">
+                <a href="#" className={`font-bold ${LOGO_GRADIENT_TEXT}`}>
                   Reinstatement service
                 </a>{" "}
                 means the process of submitting your forms and paying your fees
@@ -493,9 +515,16 @@ export default function ReinstatementPage() {
               </p>
               <a
                 href="/reinstatement/step-1"
-                className="mt-4 inline-flex rounded-full bg-[#06B6D4] px-8 py-4 text-sm font-black uppercase tracking-wider text-white shadow-md shadow-[#06B6D4]/30 transition hover:bg-[#0891b2]"
+                className={`${LOGO_GRADIENT} group relative mt-4 inline-flex overflow-hidden rounded-full px-8 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-[0_10px_35px_rgba(43,147,201,0.45)]`}
               >
-                Start Now
+                <span className="absolute inset-0 bg-white/0 transition-colors duration-300 group-hover:bg-white/10" />
+                <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-white/20 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10 flex items-center gap-2">
+                  Start Now
+                  <svg className="h-4 w-4 stroke-white transition-transform duration-300 group-hover:translate-x-1" fill="none" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7" />
+                  </svg>
+                </span>
               </a>
             </ArticleBlock>
           </main>
@@ -503,25 +532,42 @@ export default function ReinstatementPage() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 pb-20 md:px-16">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-gradient-to-br from-[#1E293B] to-[#06B6D4] p-10 shadow-2xl md:p-16">
-          <p className="text-xs font-black uppercase tracking-widest text-cyan-100">
-            Reinstate
-          </p>
-          <h2 className="mt-3 text-4xl font-black leading-tight tracking-tight text-white md:text-5xl">
-            Ready To Get Reinstated?
-          </h2>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-200 md:text-base">
-            Incorp Bay can help you reinstate your dissolved business and get
-            back in good standing.
-          </p>
-          <a
-            href="/reinstatement/step-1"
-            className="mt-8 inline-flex rounded-full bg-[#06B6D4] px-8 py-4 text-sm font-black uppercase tracking-wider text-white shadow-lg shadow-cyan-500/20 transition hover:bg-[#0891b2]"
-          >
-            Start Now
-          </a>
-</div>
+      <section className="px-6 py-8 md:px-16 md:py-10">
+        <div
+          className={`${LOGO_GRADIENT} relative mx-auto max-w-4xl overflow-hidden rounded-[32px] border border-white/10 px-8 py-8 text-center shadow-2xl sm:px-10`}
+        >
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#2B93C9]/20 to-transparent" />
+          <div className="pointer-events-none absolute right-1/4 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#33D1CC]/30 blur-[80px]" />
+
+          <div className="relative z-10 flex flex-col items-center">
+            <span className="rounded-full border border-white/15 bg-white/12 px-3 py-1 text-xs font-bold text-white backdrop-blur">
+              Reinstate
+            </span>
+
+            <h2 className="mt-4 text-2xl font-bold leading-tight tracking-tight text-white md:text-3xl">
+              Ready To Get Reinstated?
+            </h2>
+
+            <p className="mt-3 max-w-sm text-xs leading-relaxed text-white/80 md:text-sm">
+              Incorp Bay can help you reinstate your dissolved business and
+              get back in good standing.
+            </p>
+
+            <a
+              href="/reinstatement/step-1"
+              className="group relative mt-5 overflow-hidden rounded-xl bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-wider shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-xl"
+            >
+              <span className="absolute inset-0 bg-[#2B93C9]/0 transition-colors duration-300 group-hover:bg-[#2B93C9]/5" />
+              <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-[#2B93C9]/10 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+              <span className="relative z-10 flex items-center gap-2 text-black">
+                Start Now
+                <svg className="h-4 w-4 stroke-black transition-transform duration-300 group-hover:translate-x-1" fill="none" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7" />
+                </svg>
+              </span>
+            </a>
+          </div>
+        </div>
       </section>
     </div>
     </NavigationWrapper>
@@ -544,10 +590,10 @@ function ArticleBlock({
       ref={setRef(id)}
       className="scroll-mt-28 border-b border-slate-100 pb-16 last:border-b-0"
     >
-      <h2 className="text-3xl font-black leading-tight tracking-tight text-[#1a1a1a] md:text-4xl">
+      <h2 className="text-3xl font-bold leading-tight tracking-tight text-[#1a1a1a] md:text-4xl">
         {title}
       </h2>
-      <div className="mt-5 space-y-4 text-base leading-relaxed text-slate-600 [&_h3]:pt-4 [&_h3]:text-2xl [&_h3]:font-black [&_h3]:tracking-tight [&_h3]:text-[#1a1a1a]">
+      <div className="mt-5 space-y-4 text-base leading-relaxed text-slate-600 [&_h3]:pt-4 [&_h3]:text-2xl [&_h3]:font-bold [&_h3]:tracking-tight [&_h3]:text-[#1a1a1a]">
         {children}
       </div>
     </section>

@@ -12,6 +12,9 @@ import NavigationWrapper from "@/components/NavigationWrapper";
 import { usePathname, useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 type Inputs = {
   ein: string;
   idType: string;
@@ -77,7 +80,7 @@ const StepNine = () => {
         <div className="md:flex gap-10">
           <div className="max-w-4xl mx-auto">
             <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-4">
+              <h2 className="text-xl font-bold mb-4">
                 EIN / Tax Identification Number Information
               </h2>
 
@@ -126,7 +129,7 @@ const StepNine = () => {
                 <div className="md:w-1/2">
                   <label
                     htmlFor="firstName"
-                    className="block mb-1 text-sm font-medium text-gray-700"
+                    className="block mb-1 text-sm font-normal text-gray-700"
                   >
                     First Name
                   </label>
@@ -153,7 +156,7 @@ const StepNine = () => {
                 <div className="md:w-1/2">
                   <label
                     htmlFor="lastName"
-                    className="block mb-1 text-sm font-medium text-gray-700"
+                    className="block mb-1 text-sm font-normal text-gray-700"
                   >
                     Last Name
                   </label>
@@ -249,7 +252,7 @@ const StepNine = () => {
                 <div className="flex items-start">
                   <QuestionMarkCircleIcon className="w-6 h-6 mr-2 text-blue-500 flex-shrink-0" />
                   <div>
-                    <h3 className="font-semibold mb-2">
+                    <h3 className="font-bold mb-2">
                       Why am I required to provide my Social Security Number?
                     </h3>
                     <p className="text-sm text-gray-600">
@@ -268,7 +271,7 @@ const StepNine = () => {
               </div>
             </div>
             <div className="max-w-4xl mx-auto p-6 my-6 bg-white rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold mb-4">
+              <h2 className="text-xl font-bold mb-4">
                 Physical Street Address
               </h2>
 
@@ -282,7 +285,7 @@ const StepNine = () => {
 
               <div className="md:flex">
                 <div className="md:w-1/2 mr-4">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-normal text-gray-700">
                     Street Address
                   </label>
                   <div className="my-3">
@@ -305,7 +308,7 @@ const StepNine = () => {
                   </div>
                 </div>
                 <div className="md:w-1/2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-normal text-gray-700">
                     Address(Line 2)
                   </label>
                   <div className="my-3">
@@ -329,7 +332,7 @@ const StepNine = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-normal text-gray-700">
                   City
                 </label>
                 <div className="my-3">
@@ -353,7 +356,7 @@ const StepNine = () => {
               </div>
               <div className="md:flex">
                 <div className="md:w-1/2 mr-4">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-normal text-gray-700">
                     State
                   </label>
                   <div className="my-3">
@@ -382,7 +385,7 @@ const StepNine = () => {
                   </div>
                 </div>
                 <div className="md:w-1/2">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-normal text-gray-700">
                     Zip Code
                   </label>
                   <div className="my-3">
@@ -424,13 +427,13 @@ const StepNine = () => {
             <div className="flex justify-between mt-12">
               <Link
                 href="/form-s-corporation/step-8"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <button
                 type="submit"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Next
               </button>

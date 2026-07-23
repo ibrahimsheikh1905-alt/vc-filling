@@ -19,7 +19,12 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-lora)", "serif"],
+        sans: [
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          "sans-serif",
+        ],
       },
       colors: {
         "dark-theme-bg": "#004246",

@@ -49,7 +49,7 @@ function Accordion({ items }: { items: QA[] }) {
               onClick={() => setOpen(isOpen ? null : i)}
               className="flex w-full items-center justify-between gap-4 text-left"
             >
-              <span className="text-[15px] font-semibold text-[#06B6D4]">{item.q}</span>
+              <span className="text-[15px] font-bold text-[#06B6D4]">{item.q}</span>
               <ChevronDown open={isOpen} />
             </button>
             {isOpen && <p className="mt-3 text-sm leading-relaxed text-gray-500">{item.a}</p>}
@@ -231,7 +231,7 @@ export default function CCorpLandingPage() {
         <section className="mx-auto max-w-[1200px] px-6 pt-10 md:px-16">
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
-              <h1 className="mb-4 text-[38px] font-extrabold leading-[1.15] text-[#0d0d1a] md:text-[44px]">
+              <h1 className="mb-4 text-[38px] font-bold leading-[1.15] text-[#0d0d1a] md:text-[44px]">
                 Form a C Corporation for <span className="text-[#06B6D4]">Free</span> (+ State Fees)
               </h1>
               <p className="mb-6 max-w-[480px] text-[15px] leading-relaxed text-gray-500">
@@ -248,7 +248,7 @@ export default function CCorpLandingPage() {
             <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-slate-700 to-slate-900" />
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-y border-gray-100 py-4 text-center text-[13px] font-semibold">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-y border-gray-100 py-4 text-center text-[13px] font-bold">
             <span className="text-[#06B6D4]">Bootstrapped</span>
             <span className="text-gray-300">•</span>
             <span className="text-[#06B6D4]">Founder Led</span>
@@ -261,7 +261,7 @@ export default function CCorpLandingPage() {
 
         {/* ── EXPERT GUIDE ── */}
         <section className="mx-auto max-w-[1000px] px-6 py-16 md:px-16">
-          <h2 className="mb-10 text-center text-[30px] font-extrabold">
+          <h2 className="mb-10 text-center text-[30px] font-bold">
             Incorp Bay Is Your Expert Guide for Formation
           </h2>
           <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-2">
@@ -310,12 +310,12 @@ export default function CCorpLandingPage() {
               })}
             </div>
             <div className="rounded-2xl bg-[#f7f7f9] p-6">
-              <div className="mb-4 flex items-center gap-2 rounded-lg bg-[#0d0d1a] px-4 py-3 text-xs font-semibold text-white">
+              <div className="mb-4 flex items-center gap-2 rounded-lg bg-[#0d0d1a] px-4 py-3 text-xs font-bold text-white">
                 📄 File Organizational Paperwork
               </div>
               <ul className="flex flex-col gap-3">
                 {filingChecklist.map((item) => (
-                  <li key={item.label} className="flex items-center gap-3 text-[13px] font-medium text-gray-700">
+                  <li key={item.label} className="flex items-center gap-3 text-[13px] font-normal text-gray-700">
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-sm shadow-sm">
                       {item.icon}
                     </span>
@@ -330,7 +330,7 @@ export default function CCorpLandingPage() {
         {/* ── BENEFITS ── */}
         <section id="pricing" className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
           <div className="rounded-3xl border border-gray-200 bg-[#fafafa] p-8 text-center md:p-12">
-            <h2 className="mb-3 text-[28px] font-extrabold leading-tight">
+            <h2 className="mb-3 text-[28px] font-bold leading-tight">
               Discover the Benefits of Forming a C Corp with Incorp Bay
             </h2>
             <p className="mx-auto mb-6 max-w-[600px] text-[15px] leading-relaxed text-gray-500">
@@ -369,14 +369,14 @@ export default function CCorpLandingPage() {
 
         {/* ── 3 STEPS ── */}
         <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
-          <h2 className="mb-10 text-center text-[28px] font-extrabold leading-tight">
+          <h2 className="mb-10 text-center text-[28px] font-bold leading-tight">
             How to Form a C Corporation with Incorp Bay in 3 Simple Steps
           </h2>
           <div className="flex flex-col gap-6">
             {steps.map((s) => (
               <div key={s.number} className="grid grid-cols-1 items-center gap-6 rounded-2xl border border-gray-200 bg-[#fafafa] p-6 md:grid-cols-[1fr_260px]">
                 <div>
-                  <div className="mb-2 text-sm font-extrabold text-[#06B6D4]">{s.number}</div>
+                  <div className="mb-2 text-sm font-bold text-[#06B6D4]">{s.number}</div>
                   <h3 className="mb-2 text-lg font-bold text-[#0d0d1a]">{s.title}</h3>
                   <p className="text-[13px] leading-relaxed text-gray-500">{s.text}</p>
                 </div>
@@ -389,7 +389,7 @@ export default function CCorpLandingPage() {
         {/* ── WHAT'S NEXT ── */}
         <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
           <div className="rounded-3xl border border-gray-200 bg-[#fafafa] p-8 text-center md:p-12">
-            <h2 className="mb-8 text-[28px] font-extrabold">You've Placed Your Order, Now What?</h2>
+            <h2 className="mb-8 text-[28px] font-bold">You've Placed Your Order, Now What?</h2>
 
             <div className="mx-auto mb-8 grid max-w-[640px] grid-cols-1 gap-4 text-left sm:grid-cols-2">
               {orderNextSteps.map((s) => (
@@ -424,11 +424,11 @@ export default function CCorpLandingPage() {
         <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
           <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
             <div>
-              <div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-gray-600">
+              <div className="mb-3 flex items-center gap-2 text-[13px] font-normal text-gray-600">
                 <span>Excellent <strong>4.7</strong> out of 5</span>
                 <StarRow />
               </div>
-              <h2 className="mb-4 text-[26px] font-extrabold leading-tight">
+              <h2 className="mb-4 text-[26px] font-bold leading-tight">
                 See What Our Clients Have to Say…
               </h2>
             <Link
@@ -458,7 +458,7 @@ export default function CCorpLandingPage() {
             <p className="mb-2 text-[13px] font-bold uppercase tracking-wide text-[#06B6D4]">
               Start. Manage. Grow.
             </p>
-            <h2 className="mb-2 text-[28px] font-extrabold leading-tight">
+            <h2 className="mb-2 text-[28px] font-bold leading-tight">
               Loved by 1,000,000+ entrepreneurs across all 50 states
             </h2>
             <p className="mb-6 text-[14px] text-gray-500">
@@ -475,14 +475,14 @@ export default function CCorpLandingPage() {
 
         {/* ── FAQ ── */}
         <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
-          <h2 className="mb-8 text-[28px] font-extrabold leading-tight">
+          <h2 className="mb-8 text-[28px] font-bold leading-tight">
             Common Questions About Starting a C Corporation
           </h2>
 
           <Accordion items={faqs} />
 
           <div className="mt-10 overflow-hidden rounded-3xl border border-cyan-100 bg-gradient-to-br from-cyan-50 via-white to-cyan-100 p-8 shadow-lg shadow-cyan-500/10">
-            <h3 className="text-3xl font-extrabold leading-tight text-slate-900">
+            <h3 className="text-3xl font-bold leading-tight text-slate-900">
               Form Your C Corp For <span className="text-[#06B6D4]">$0 (+ State Fees)</span>
             </h3>
             <p className="mt-4 max-w-md text-sm leading-7 text-gray-500">
@@ -511,7 +511,7 @@ function FeatureBlock({
 }) {
   return (
     <div>
-      <h3 className="mb-5 text-lg font-extrabold text-[#0d0d1a]">{title}</h3>
+      <h3 className="mb-5 text-lg font-bold text-[#0d0d1a]">{title}</h3>
       <div className="flex flex-col gap-5">
         {rows.map((row) => (
           <div key={row.label} className="grid grid-cols-1 gap-1 sm:grid-cols-[220px_1fr] sm:gap-6">

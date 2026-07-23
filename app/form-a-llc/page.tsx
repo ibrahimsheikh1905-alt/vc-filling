@@ -61,7 +61,7 @@ function Accordion({
               onClick={() => setOpen(isOpen ? null : i)}
               className="flex w-full items-center justify-between gap-4 text-left"
             >
-              <span className="flex items-center gap-3 text-[15px] font-semibold text-[#0d0d1a]">
+              <span className="flex items-center gap-3 text-[15px] font-bold text-[#0d0d1a]">
                 {item.badge !== undefined && (
                   <span className="text-[#06B6D4]">{item.badge}</span>
                 )}
@@ -195,7 +195,7 @@ export default function LlcLandingPage() {
         {/* ── HERO ── */}
         <section className="mx-auto max-w-[1200px] px-6 pt-10 md:px-16">
 
-          <div className="mb-4 flex items-center gap-2 text-[13px] font-medium text-gray-600">
+          <div className="mb-4 flex items-center gap-2 text-[13px] font-normal text-gray-600">
             <span>Excellent <strong>4.7</strong> out of 5</span>
             <StarRow />
             <span className="font-bold text-[#00B67A]">Trustpilot</span>
@@ -203,7 +203,7 @@ export default function LlcLandingPage() {
 
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
-              <h1 className="mb-4 text-[38px] font-extrabold leading-[1.15] text-[#0d0d1a] md:text-[44px]">
+              <h1 className="mb-4 text-[38px] font-bold leading-[1.15] text-[#0d0d1a] md:text-[44px]">
                 Start an LLC: Step-by-Step Guide
               </h1>
               <p className="mb-6 max-w-[520px] text-[15px] leading-relaxed text-gray-500">
@@ -241,13 +241,13 @@ export default function LlcLandingPage() {
                   <PlayIcon />
                 </button>
               </div>
-              <div className="absolute bottom-4 left-5 right-5 text-lg font-extrabold uppercase leading-tight text-white md:text-2xl">
+              <div className="absolute bottom-4 left-5 right-5 text-lg font-bold uppercase leading-tight text-white md:text-2xl">
                 How to Start a Business
               </div>
             </div>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-y border-gray-100 py-4 text-center text-[13px] font-semibold">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 border-y border-gray-100 py-4 text-center text-[13px] font-bold">
             <span className="text-[#06B6D4]">Bootstrapped</span>
             <span className="text-gray-300">•</span>
             <span className="text-[#06B6D4]">Founder Led</span>
@@ -261,7 +261,7 @@ export default function LlcLandingPage() {
         {/* ── PRICING ── */}
         <section id="pricing" className="mx-auto max-w-[1000px] px-6 py-16 md:px-16">
           <div className="rounded-3xl bg-[#f7f7f9] p-8 md:p-12">
-            <h2 className="mb-3 text-center text-[30px] font-extrabold leading-tight">
+            <h2 className="mb-3 text-center text-[30px] font-bold leading-tight">
               Launch Your LLC with Confidence
             </h2>
             <p className="mx-auto mb-8 max-w-[600px] text-center text-[15px] leading-relaxed text-gray-500">
@@ -272,14 +272,18 @@ export default function LlcLandingPage() {
 
             <div className="mx-auto mb-8 max-w-[640px] rounded-xl border border-gray-200 bg-white px-6 py-4 text-center text-[13px] text-gray-500">
               Pick the package that works best for your business format or period. Each package is
-              eligible for <span className="font-semibold text-[#0d0d1a]">one free year of Registered Agent service</span> from Incorp Bay.
+              eligible for <span className="font-bold text-[#0d0d1a]">one free year of Registered Agent service</span> from Incorp Bay.
             </div>
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
               {pricingPlans.map((plan) => (
-                <div
+                <button
                   key={plan.name}
-                  className={`relative rounded-2xl border p-6 ${
+                  type="button"
+                  onClick={() =>
+                    (window.location.href = `/package-main?entity=LLC&package=${plan.name}`)
+                  }
+                  className={`relative rounded-2xl border p-6 text-left transition hover:-translate-y-0.5 hover:shadow-lg ${
                     plan.featured
                       ? "border-[#06B6D4] bg-[#06B6D4] text-white shadow-lg"
                       : "border-gray-200 bg-white"
@@ -292,9 +296,9 @@ export default function LlcLandingPage() {
                   >
                     {plan.name}
                   </div>
-                  <div className="mb-1 text-3xl font-extrabold">
+                  <div className="mb-1 text-3xl font-bold">
                     {plan.price}
-                    <span className="text-sm font-medium"> {plan.note}</span>
+                    <span className="text-sm font-normal"> {plan.note}</span>
                   </div>
                   <div
                     className={`mb-4 text-xs ${plan.featured ? "text-white/80" : "text-gray-400"}`}
@@ -304,13 +308,14 @@ export default function LlcLandingPage() {
                   <p className={`text-[13px] leading-relaxed ${plan.featured ? "text-white/90" : "text-gray-500"}`}>
                     {plan.blurb}
                   </p>
-                </div>
+                </button>
               ))}
             </div>
 
             <div className="mt-8 text-center">
               <button
                 type="button"
+                onClick={() => (window.location.href = "/package-main?entity=LLC")}
                 className="rounded-full bg-[#06B6D4] px-8 py-3 text-sm font-bold text-white transition hover:bg-[#0891B2]"
               >
                 Compare Packages
@@ -324,7 +329,7 @@ export default function LlcLandingPage() {
           <p className="mb-2 text-[13px] font-bold uppercase tracking-wide text-[#06B6D4]">
             Key Questions and Answers
           </p>
-          <h2 className="mb-10 text-[30px] font-extrabold">A Comprehensive Guide for Startups</h2>
+          <h2 className="mb-10 text-[30px] font-bold">A Comprehensive Guide for Startups</h2>
           <div className="grid grid-cols-1 items-center gap-10 text-left md:grid-cols-2">
             <Accordion items={guideQuestions} />
             <div className="mx-auto flex h-[280px] w-[200px] items-center justify-center rounded-3xl bg-gradient-to-b from-gray-50 to-gray-100 shadow-inner">
@@ -339,7 +344,7 @@ export default function LlcLandingPage() {
 
         {/* ── FORM MY LLC STEPS ── */}
         <section className="mx-auto max-w-[820px] px-6 pb-16 text-center md:px-16">
-          <h2 className="mb-3 text-[30px] font-extrabold">Form My LLC</h2>
+          <h2 className="mb-3 text-[30px] font-bold">Form My LLC</h2>
           <p className="mx-auto mb-8 max-w-[560px] text-[15px] leading-relaxed text-gray-500">
             Entrepreneurship is booming, and we're proud to help fuel it. Here's how you can start
             your LLC in six straightforward steps:
@@ -349,7 +354,7 @@ export default function LlcLandingPage() {
 
         {/* ── TYPES OF LLCs ── */}
         <section className="mx-auto max-w-[1000px] px-6 pb-16 text-center md:px-16">
-          <h2 className="mb-3 text-[30px] font-extrabold">Types of LLCs</h2>
+          <h2 className="mb-3 text-[30px] font-bold">Types of LLCs</h2>
           <p className="mx-auto mb-10 max-w-[560px] text-[15px] leading-relaxed text-gray-500">
             Understanding the different types of LLCs can help you choose the right one for your
             startup.
@@ -373,7 +378,7 @@ export default function LlcLandingPage() {
         {/* ── BENEFITS PROS / CONS ── */}
         <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
           <div className="rounded-3xl border border-gray-200 bg-[#fafafa] p-8 md:p-12">
-            <h2 className="mb-3 text-center text-[30px] font-extrabold">Benefits of an LLC</h2>
+            <h2 className="mb-3 text-center text-[30px] font-bold">Benefits of an LLC</h2>
             <p className="mx-auto mb-10 max-w-[620px] text-center text-[15px] leading-relaxed text-gray-500">
               Every savvy entrepreneur knows that weighing the pros and cons is essential. Let's dive
               into why an LLC could be your startup's best friend.
@@ -382,7 +387,7 @@ export default function LlcLandingPage() {
               <div className="rounded-2xl border border-gray-200 bg-white p-6">
                   <div className="mb-4 flex items-center gap-2">
                     <span className="flex h-7 w-7 items-center justify-center rounded-full bg-cyan-50 text-lg font-bold text-[#06B6D4]">+</span>
-                    <h3 className="text-lg font-extrabold">Pros</h3>
+                    <h3 className="text-lg font-bold">Pros</h3>
                   </div>
 
                 <ul className="flex flex-col gap-4">
@@ -397,7 +402,7 @@ export default function LlcLandingPage() {
               <div className="rounded-2xl border border-gray-200 bg-white p-6">
                 <div className="mb-4 flex items-center gap-2">
                   <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-lg font-bold text-gray-700">–</span>
-                  <h3 className="text-lg font-extrabold">Cons</h3>
+                  <h3 className="text-lg font-bold">Cons</h3>
                 </div>
                 <ul className="flex flex-col gap-4">
                   {cons.map((c) => (
@@ -420,7 +425,7 @@ export default function LlcLandingPage() {
               <div className="mb-2 h-2 w-full rounded bg-gray-100" />
               <div className="mb-2 h-2 w-2/3 rounded bg-gray-100" />
               <div className="mb-4 h-2 w-1/2 rounded bg-gray-100" />
-              <div className="rounded-lg bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-500">
+              <div className="rounded-lg bg-gray-50 px-3 py-2 text-xs font-bold text-gray-500">
                 Total Due Now: $0
               </div>
               <button className="mt-4 w-full rounded-full bg-gray-200 py-2.5 text-xs font-bold text-gray-500">
@@ -431,7 +436,7 @@ export default function LlcLandingPage() {
               <p className="mb-2 text-[13px] font-bold uppercase tracking-wide text-[#06B6D4]">
                 What to Expect
               </p>
-              <h3 className="mb-3 text-2xl font-extrabold leading-snug">
+              <h3 className="mb-3 text-2xl font-bold leading-snug">
                 From Incorp Bay Services and Support
               </h3>
               <p className="mb-5 text-[15px] leading-relaxed text-gray-500">
@@ -452,7 +457,7 @@ export default function LlcLandingPage() {
         <section id="reviews" className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
           <div className="mb-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div>
-              <h2 className="mb-3 text-[28px] font-extrabold leading-tight">
+              <h2 className="mb-3 text-[28px] font-bold leading-tight">
                 See What Our Clients Have to Say…
               </h2>
               <button className="rounded-full bg-[#06B6D4] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#0891B2]">
@@ -497,7 +502,7 @@ export default function LlcLandingPage() {
               <p className="mb-2 text-[13px] font-bold uppercase tracking-wide text-[#06B6D4]">
                 Formation and Compliance
               </p>
-              <h3 className="mb-3 text-2xl font-extrabold leading-snug">State-by-State LLC Rules</h3>
+              <h3 className="mb-3 text-2xl font-bold leading-snug">State-by-State LLC Rules</h3>
               <p className="text-[15px] leading-relaxed text-gray-500">
                 From filing costs to processing times, and from accepted name designations to
                 compliance requirements, check out our comprehensive state-by-state guides to LLC
@@ -510,14 +515,14 @@ export default function LlcLandingPage() {
 
         {/* ── FAQ ── */}
         <section className="mx-auto max-w-[820px] px-6 pb-16 md:px-16">
-          <h2 className="mb-8 text-[30px] font-extrabold">Frequently Asked Questions</h2>
+          <h2 className="mb-8 text-[30px] font-bold">Frequently Asked Questions</h2>
           <Accordion items={faqs} />
         </section>
 
         {/* ── FINAL CTA ── */}
         <section className="mx-auto max-w-[900px] px-6 pb-24 md:px-16">
           <div className="relative overflow-hidden rounded-3xl bg-[#f7f7f9] px-8 py-14 text-center">
-            <h2 className="mb-3 text-[30px] font-extrabold">
+            <h2 className="mb-3 text-[30px] font-bold">
               Ready to Start <span className="text-[#06B6D4]">Your LLC?</span>
             </h2>
             <p className="mx-auto mb-6 max-w-[480px] text-[15px] leading-relaxed text-gray-500">

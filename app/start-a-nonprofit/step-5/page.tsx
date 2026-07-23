@@ -13,6 +13,10 @@ import { countries } from "@/data";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { usePathname, useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface AddressOption {
   title: string;
   price?: number;
@@ -70,12 +74,12 @@ const StepFive = () => {
         "A physical address for your business (not PO Box)",
         "Instant alerts with 24/7 access to your mail online",
       ],
-      icon: <MapPinIcon height={80} width={80} className="text-primary" />,
+      icon: <MapPinIcon height={80} width={80} className="text-[#2B93C9]" />,
     },
     own: {
       title: "Use My Own Address",
       price: 0,
-      icon: <HomeModernIcon height={80} width={80} className="text-primary" />,
+      icon: <HomeModernIcon height={80} width={80} className="text-[#2B93C9]" />,
     },
   };
   useEffect(() => {
@@ -123,7 +127,7 @@ const StepFive = () => {
                 business address of the entity as well as the personal addresses
                 of the owners.
               </p>
-              <p className="mb-4 font-medium">
+              <p className="mb-4 font-normal">
                 Benefits of Using a Private Virtual Mail Address
               </p>
               <ul>
@@ -131,7 +135,7 @@ const StepFive = () => {
                   <CheckIcon
                     height={20}
                     width={20}
-                    className="mr-2 text-primary"
+                    className="mr-2 text-[#2B93C9]"
                   />{" "}
                   Keeping your personal address confidential
                 </li>
@@ -139,7 +143,7 @@ const StepFive = () => {
                   <CheckIcon
                     height={20}
                     width={20}
-                    className="mr-2 text-primary"
+                    className="mr-2 text-[#2B93C9]"
                   />{" "}
                   Real-time text and email notification of any incoming mail
                 </li>
@@ -147,7 +151,7 @@ const StepFive = () => {
                   <CheckIcon
                     height={20}
                     width={20}
-                    className="mr-2 text-primary"
+                    className="mr-2 text-[#2B93C9]"
                   />{" "}
                   Maintaining a physical presence, even if you&apos;re not
                   physically there
@@ -156,7 +160,7 @@ const StepFive = () => {
                   <CheckIcon
                     height={20}
                     width={20}
-                    className="mr-2 text-primary"
+                    className="mr-2 text-[#2B93C9]"
                   />{" "}
                   Permanent digital access to your mail anywhere in the world
                 </li>
@@ -167,7 +171,7 @@ const StepFive = () => {
                     key={key}
                     className={`p-4 border rounded-lg cursor-pointer w-1/2 ${
                       formData.addressOption === key
-                        ? "border-primary"
+                        ? "border-[#2B93C9]"
                         : "border-gray-200"
                     }`}
                   >
@@ -204,7 +208,7 @@ const StepFive = () => {
                         <div
                           className={`min-w-4 max-w-4 h-4 rounded-full border-2 ${
                             formData.addressOption === key
-                              ? "border-primary bg-primary"
+                              ? `${LOGO_GRADIENT} border-transparent`
                               : "border-gray-300"
                           }`}
                         >
@@ -212,7 +216,7 @@ const StepFive = () => {
                             <div className="w-2 h-2 rounded-full bg-white mx-auto mt-0.5" />
                           )}
                         </div>
-                        <span className="font-medium">{option.title}</span>
+                        <span className="font-normal">{option.title}</span>
                       </div>
                     </div>
                     <div className="mt-2 flex items-center justify-center py-10">
@@ -222,7 +226,7 @@ const StepFive = () => {
                       {option.address && (
                         <p>This will be your principal company address: </p>
                       )}
-                      <p className={option.isRecommended ? "text-primary" : ""}>
+                      <p className={option.isRecommended ? "text-[#2B93C9]" : ""}>
                         {option.address}
                       </p>
                       {option.features && (
@@ -235,7 +239,7 @@ const StepFive = () => {
                               <CheckIcon
                                 height={20}
                                 width={20}
-                                className="text-primary"
+                                className="text-[#2B93C9]"
                               />
                               <span>{feature}</span>
                             </li>
@@ -244,7 +248,7 @@ const StepFive = () => {
                       )}
                     </div>
                     {option.isRecommended && (
-                      <span className="inline-block mt-2 px-2 py-1 text-xs font-semibold text-primary border border-primary rounded">
+                      <span className="inline-block mt-2 px-2 py-1 text-xs font-bold text-[#2B93C9] border border-[#2B93C9] rounded">
                         Recommended
                       </span>
                     )}
@@ -267,7 +271,7 @@ const StepFive = () => {
                         </p>
                       </div>
                     )}
-                    <p className="font-medium flex justify-end pt-5 bottom-0">
+                    <p className="font-normal flex justify-end pt-5 bottom-0">
                       ${option.price}/month
                     </p>
                   </label>
@@ -278,7 +282,7 @@ const StepFive = () => {
                   <h2 className="text-2xl font-bold mb-4">Company Address</h2>
                   <div className="md:flex">
                     <div className="md:w-1/2 mr-4">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         Street Address
                       </label>
                       <div className="my-3">
@@ -300,7 +304,7 @@ const StepFive = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         Address(Line 2)
                       </label>
                       <div className="my-3">
@@ -323,7 +327,7 @@ const StepFive = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-normal text-gray-700">
                       City
                     </label>
                     <div className="my-3">
@@ -344,7 +348,7 @@ const StepFive = () => {
                   </div>
                   <div className="md:flex">
                     <div className="md:w-1/2 mr-4">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         State
                       </label>
                       <div className="my-3">
@@ -426,7 +430,7 @@ const StepFive = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         Zip Code
                       </label>
                       <div className="my-3">
@@ -455,7 +459,7 @@ const StepFive = () => {
                 <div className="mt-4">
                   <h2 className="text-2xl font-bold mb-4">Contact Address</h2>
                   <div className="">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-normal text-gray-700">
                       Country
                     </label>
                     <div className="my-3">
@@ -485,7 +489,7 @@ const StepFive = () => {
                   </div>
                   <div className="md:flex">
                     <div className="md:w-1/2 mr-4">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         Street Address
                       </label>
                       <div className="my-3">
@@ -510,7 +514,7 @@ const StepFive = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         Address(Line 2)
                       </label>
                       <div className="my-3">
@@ -536,7 +540,7 @@ const StepFive = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-normal text-gray-700">
                       City
                     </label>
                     <div className="my-3">
@@ -558,7 +562,7 @@ const StepFive = () => {
                   </div>
                   <div className="md:flex">
                     <div className="md:w-1/2 mr-4">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         State
                       </label>
                       <div className="my-3">
@@ -640,7 +644,7 @@ const StepFive = () => {
 
                     </div>
                     <div className="md:w-1/2">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         Zip Code
                       </label>
                       <div className="my-3">
@@ -666,7 +670,7 @@ const StepFive = () => {
                   </div>
                   <div className="flex">
                     <div className="w-1/12 flex items-center justify-center">
-                      <LightBulbIcon className="h-8 w-8 text-primary" />
+                      <LightBulbIcon className="h-8 w-8 text-[#2B93C9]" />
                     </div>
                     <div className="w-10/12">
                       <p className="mt-4 text-gray-500 text-lg">
@@ -689,13 +693,13 @@ const StepFive = () => {
             <div className="flex justify-between mt-12">
               <Link
                 href="/start-a-nonprofit/step-4"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <button
                 type="submit"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px]"
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px]`}
               >
                 Next
               </button>

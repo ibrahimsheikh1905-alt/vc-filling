@@ -9,6 +9,9 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 type Inputs = {
   clientFirstName: string;
   clientLastName: string;
@@ -70,7 +73,7 @@ const StepFour = () => {
               <div className="space-y-6">
                 <div className="flex gap-4">
                   <div className="w-1/2">
-                    <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                    <label className="flex items-center text-sm font-normal text-gray-700 mb-1">
                       First Name
                     </label>
                     <input
@@ -90,7 +93,7 @@ const StepFour = () => {
                     )}
                   </div>
                   <div className="w-1/2">
-                    <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                    <label className="flex items-center text-sm font-normal text-gray-700 mb-1">
                       Last Name
                     </label>
                     <input
@@ -112,7 +115,7 @@ const StepFour = () => {
                 </div>
                 <div className="flex gap-4">
                   <div>
-                    <label id="email" className="block text-sm font-medium text-gray-700">
+                    <label id="email" className="block text-sm font-normal text-gray-700">
                       Email *
                     </label>
                     <div>
@@ -136,7 +139,7 @@ const StepFour = () => {
                   </div>
 
                   <div className="w-1/2">
-                    <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                    <label className="flex items-center text-sm font-normal text-gray-700 mb-1">
                       Phone Number
                     </label>
                     <input
@@ -170,12 +173,12 @@ const StepFour = () => {
                       })}
                     />
                     {formData.contactConsent && (
-                      <CheckIcon className="text-primary" />
+                      <CheckIcon className="text-[#2B93C9]" />
                     )}
                   </div>
-                  <p className="flex items-center text-sm font-medium text-gray-500 mb-1">
+                  <p className="flex items-center text-sm font-normal text-gray-500 mb-1">
                     I consent to receiving SMS text messages and phone calls
-                    from VCFilling.
+                    from Incorp.
                   </p>
                 </label>
               </div>
@@ -183,12 +186,12 @@ const StepFour = () => {
             <div className="flex justify-between mt-12">
               <Link
                 href="/start-a-nonprofit/step-3"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <button
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px]"
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px]`}
                 type="submit"
               >
                 Next

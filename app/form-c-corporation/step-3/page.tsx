@@ -8,6 +8,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
 interface FilingOption {
   duration: string;
   price: number;
@@ -94,7 +97,7 @@ const StepThree = () => {
                     <div
                       className={`p-4 border rounded-lg cursor-pointer ${
                         formData.stateFillingTime === key
-                          ? "border-primary"
+                          ? "border-[#2B93C9]"
                           : "border-gray-200"
                       }`}
                       // onClick={() =>
@@ -108,7 +111,7 @@ const StepThree = () => {
                           <div
                             className={`w-4 h-4 rounded-full border-2 ${
                               formData.stateFillingTime === key
-                                ? "border-primary bg-primary"
+                                ? `${LOGO_GRADIENT} border-transparent`
                                 : "border-gray-300"
                             }`}
                           >
@@ -130,18 +133,18 @@ const StepThree = () => {
                               <div className="w-2 h-2 rounded-full bg-white mx-auto mt-0.5" />
                             )}
                           </div>
-                          <span className="font-medium">{option.duration}</span>
+                          <span className="font-normal">{option.duration}</span>
                         </div>
-                        <span className="font-medium">${option.price}</span>
+                        <span className="font-normal">${option.price}</span>
                       </div>
                       <div className="mt-2 text-sm text-gray-600">
                         <p>Estimated Formation Date:</p>
-                        <p className={option.isFast ? "text-primary" : ""}>
+                        <p className={option.isFast ? "text-[#2B93C9]" : ""}>
                           {option.estimatedDate}
                         </p>
                       </div>
                       {option.isFast && (
-                        <span className="inline-block mt-2 px-2 py-1 text-xs font-semibold text-primary border border-primary rounded">
+                        <span className="inline-block mt-2 px-2 py-1 text-xs font-bold text-[#2B93C9] border border-[#2B93C9] rounded">
                           FAST
                         </span>
                       )}
@@ -157,12 +160,12 @@ const StepThree = () => {
             <div className="flex justify-between mt-12">
               <Link
                 href="/form-c-corporation/step-2"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <button
-                className={`px-8 py-2 bg-primary text-white border border-primary rounded-[30px]`}
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px]`}
                 type="submit"
               >
                 Next

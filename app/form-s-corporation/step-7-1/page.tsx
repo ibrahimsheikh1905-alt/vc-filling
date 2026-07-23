@@ -13,6 +13,9 @@ import NavigationWrapper from "@/components/NavigationWrapper";
 import { usePathname, useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 type Member = {
   memberType: string;
   getZipCode: string;
@@ -212,7 +215,7 @@ const StepSevenOne = () => {
                   key={index}
                   className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mb-6"
                 >
-                  <h2 className="text-xl font-semibold mb-4">
+                  <h2 className="text-xl font-bold mb-4">
                     Member {index + 1}
                   </h2>
 
@@ -221,7 +224,7 @@ const StepSevenOne = () => {
                       <label
                         className={`flex items-center cursor-pointer px-4 py-2 rounded-lg ${
                           member.memberType === "individual"
-                            ? "bg-green-100 border-2 border-primary text-green-700"
+                            ? `${LOGO_GRADIENT} border-2 border-transparent text-white`
                             : "bg-gray-100 border border-gray-300 text-gray-700"
                         }`}
                       >
@@ -249,7 +252,7 @@ const StepSevenOne = () => {
                       <label
                         className={`flex cursor-pointer items-center px-4 py-2 rounded-lg ${
                           member.memberType === "company"
-                            ? "bg-green-100 border-2 border-primary text-green-700"
+                            ? `${LOGO_GRADIENT} border-2 border-transparent text-white`
                             : "bg-gray-100 border border-gray-300 text-gray-700"
                         }`}
                         onClick={() =>
@@ -291,7 +294,7 @@ const StepSevenOne = () => {
                     formData.entityType !== "LLC" ? (
                       <>
                         <div>
-                          <label className="block mb-1 text-sm font-medium text-gray-700">
+                          <label className="block mb-1 text-sm font-normal text-gray-700">
                             First Name
                           </label>
                           <input
@@ -318,7 +321,7 @@ const StepSevenOne = () => {
                           )}
                         </div>
                         <div>
-                          <label className="block mb-1 text-sm font-medium text-gray-700">
+                          <label className="block mb-1 text-sm font-normal text-gray-700">
                             Last Name
                           </label>
                           <input
@@ -347,7 +350,7 @@ const StepSevenOne = () => {
                       </>
                     ) : (
                       <div className="col-span-2">
-                        <label className="block mb-1 text-sm font-medium text-gray-700">
+                        <label className="block mb-1 text-sm font-normal text-gray-700">
                           Company Name
                         </label>
                         <input
@@ -379,7 +382,7 @@ const StepSevenOne = () => {
                   <div>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Street Address
                         </label>
                         <div className="my-3">
@@ -406,7 +409,7 @@ const StepSevenOne = () => {
                         </div>
                       </div>
                       <div className="md:w-1/2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Address(Line 2)
                         </label>
                         <div className="my-3">
@@ -434,7 +437,7 @@ const StepSevenOne = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         City
                       </label>
                       <div className="my-3">
@@ -462,7 +465,7 @@ const StepSevenOne = () => {
                     </div>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           State
                         </label>
                         <div className="my-3">
@@ -497,7 +500,7 @@ const StepSevenOne = () => {
                         </div>
                       </div>
                       <div className="md:w-1/2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Zip Code
                         </label>
                         <div className="my-3">
@@ -527,7 +530,7 @@ const StepSevenOne = () => {
                     </div>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Number of Shares
                         </label>
                         <div className="my-3">
@@ -577,13 +580,13 @@ const StepSevenOne = () => {
             <div className="flex justify-between mt-12">
               <Link
                 href="/form-s-corporation/step-7"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
-              <button 
+              <button
                 type="submit"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Next
               </button>

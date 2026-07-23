@@ -6,6 +6,9 @@ import Image from "next/image";
 import useLocalStorageForm from "@/hooks/useLocalStorage";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const StepTen: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -30,10 +33,10 @@ const StepTen: React.FC = () => {
         <div className="md:flex gap-10">
           <div className="max-w-4xl mx-auto">
             <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-              <h2 className="text-2xl font-semibold mb-2">
+              <h2 className="text-2xl font-bold mb-2">
                 Setting up Small Business Banking
               </h2>
-              <p className="mt-4 text-green-600">
+              <p className="mt-4 text-[#2B93C9]">
                 No-Fee Business Banking for the Modern Business
               </p>
               <section className="py-8">
@@ -60,26 +63,26 @@ const StepTen: React.FC = () => {
                 alt="Relay bank"
               />
               <section className="flex relative flex-col items-center py-8">
-                <h2 className="text-sm absolute right-0 font-semibold">
+                <h2 className="text-sm absolute right-0 font-bold">
                   Disclaimer
                 </h2>
                 <div className="flex flex-col items-start mt-4 space-y-4">
                   <p className="flex items-center">
-                    <span className="text-green-500">✔</span> No account fees
+                    <span className="text-[#2B93C9]">✔</span> No account fees
                     or minimums
                   </p>
                   <p className="flex items-center">
-                    <span className="text-green-500">✔</span> Up to 20
+                    <span className="text-[#2B93C9]">✔</span> Up to 20
                     individual checking accounts to help you control projects,
                     budgets, and taxes
                   </p>
                   <p className="flex items-center">
-                    <span className="text-green-500">✔</span> Have employees?
+                    <span className="text-[#2B93C9]">✔</span> Have employees?
                     No problem, issue up to 50 Visa debit cards to keep your
                     business moving
                   </p>
                   <p className="flex items-center">
-                    <span className="text-green-500">✔</span> FDIC Insured*
+                    <span className="text-[#2B93C9]">✔</span> FDIC Insured*
                   </p>
                 </div>
               </section>
@@ -94,25 +97,25 @@ const StepTen: React.FC = () => {
                   for any account.&quot;
                 </blockquote>
                 <div className="flex justify-end mt-4">
-                  <p className="text-lg pr-5 font-semibold">- John</p>
+                  <p className="text-lg pr-5 font-bold">- John</p>
                 </div>
                 <div className="flex justify-end pr-5">
                   <p className="ml-2 text-lg">4.5 out of 5</p>
-                  <span className="ml-2 text-green-500">★</span>
+                  <span className="ml-2 text-[#2B93C9]">★</span>
                 </div>
               </section>
             </div>
             <div className="flex justify-between mt-12">
               <Link
                 href="/form-c-corporation/step-9"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <Link
                 onClick={() => updateFormData({ useBank: true })}
                 href="/form-c-corporation/step-11"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Yes, I am interested
               </Link>

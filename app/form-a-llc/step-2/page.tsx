@@ -23,6 +23,10 @@ type Inputs = {
   businessPurpose: string;
   industryKeyword: string;
 };
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 const StepTwo = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [keywords, setKeywords] = useState([]);
@@ -94,7 +98,7 @@ const StepTwo = () => {
                 <div className="space-y-6">
                   <div className="flex gap-4">
                     <div className="flex-grow">
-                      <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                      <label className="flex items-center text-sm font-normal text-gray-700 mb-1">
                         {
                           JSON.parse(
                             localStorage.getItem("/form-a-llc/step-1") as string
@@ -121,7 +125,7 @@ const StepTwo = () => {
                       )}
                     </div>
                     <div className="w-1/3">
-                      <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                      <label className="flex items-center text-sm font-normal text-gray-700 mb-1">
                         Designator
                         <InformationCircleIcon className="w-4 h-4 text-blue-500 ml-1 cursor-help" />
                       </label>
@@ -165,7 +169,7 @@ const StepTwo = () => {
                       </div>
                     )}
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block text-sm font-normal text-gray-700 mb-1">
                       Business Purpose{" "}
                       <span className="text-gray-500 text-xs">
                         (You have {100 - formData.businessPurpose.length}{" "}
@@ -191,7 +195,7 @@ const StepTwo = () => {
                   </div>
 
                   <div>
-                    <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                    <label className="flex items-center text-sm font-normal text-gray-700 mb-1">
                       Tell us what industry your business is in?
                       <InformationCircleIcon className="w-4 h-4 text-blue-500 ml-1 cursor-help" />
                     </label>
@@ -240,13 +244,13 @@ const StepTwo = () => {
               <div className="flex justify-between mt-12">
                 <Link
                   href="/package-main?entity=LLC"
-                  className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                  className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
                 >
                   Back
                 </Link>
 
                 <button
-                  className={`px-8 py-2 bg-primary text-white border border-primary rounded-[30px]`}
+                  className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px]`}
                   type="submit"
                 >
                   Next

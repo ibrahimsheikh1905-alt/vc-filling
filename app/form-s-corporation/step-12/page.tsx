@@ -8,6 +8,10 @@ import { statesInUS } from "@/data";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
+
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface BusinessLicenseOption {
   title: string;
 }
@@ -133,12 +137,12 @@ const StepTwelve = () => {
                     <div
                       className={`min-w-4 h-4 max-w-4 max-h-4 rounded-full ${
                         formData.licenseType === key
-                          ? "border-primary border-4"
+                          ? "border-[#2B93C9] border-4"
                           : "border-gray-200 border-2"
                       }`}
                     />
                     <div>
-                      <span className="font-medium">{option.title}</span>
+                      <span className="font-normal">{option.title}</span>
                     </div>
                   </label>
                 ))}
@@ -146,13 +150,13 @@ const StepTwelve = () => {
               {formData.licenseType === "recommended" && (
                 <>
                   <div>
-                    <h3 className="text-xl font-semibold my-4 ">
+                    <h3 className="text-xl font-bold my-4 ">
                       Please provide the address below where you would like us
                       to research required licenses and permits:
                     </h3>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Street Address
                         </label>
                         <div className="my-3">
@@ -177,7 +181,7 @@ const StepTwelve = () => {
                         </div>
                       </div>
                       <div className="md:w-1/2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Address(Line 2)
                         </label>
                         <div className="my-3">
@@ -203,7 +207,7 @@ const StepTwelve = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         City
                       </label>
                       <div className="my-3">
@@ -226,7 +230,7 @@ const StepTwelve = () => {
                     </div>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           State
                         </label>
                         <div className="my-3">
@@ -254,7 +258,7 @@ const StepTwelve = () => {
                         </div>
                       </div>
                       <div className="md:w-1/2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Zip Code
                         </label>
                         <div className="my-3">
@@ -280,15 +284,15 @@ const StepTwelve = () => {
                 </>
               )}
               <div className="mt-4 flex items-center text-gray-500 border-2 bg-orange-100 rounded-md p-2">
-                <LightBulbIcon className="min-w-10 max-w-10 h-10 mr-2 text-primary" />
-                <p className="mb-4 font-medium">
+                <LightBulbIcon className="min-w-10 max-w-10 h-10 mr-2 text-[#2B93C9]" />
+                <p className="mb-4 font-normal">
                   Join the 18,000+ business owners who have gained peace of mind
                   with this package.
                 </p>
               </div>
               <div className="mt-4 flex items-center text-gray-500 border-2 bg-blue-100 rounded-md p-2">
-                <LightBulbIcon className="min-w-10 max-w-10 h-10 mr-2 text-primary" />
-                <p className="mb-4 font-medium">
+                <LightBulbIcon className="min-w-10 max-w-10 h-10 mr-2 text-[#2B93C9]" />
+                <p className="mb-4 font-normal">
                   <span className="font-bold">
                     Is a Business Licenses and Permits something I should
                     consider?
@@ -304,13 +308,13 @@ const StepTwelve = () => {
             <div className="flex justify-between mt-12">
               <Link
                 href="/form-s-corporation/step-11"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <button
                 type="submit"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Next
               </button>

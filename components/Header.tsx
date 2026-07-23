@@ -22,34 +22,38 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/app-sidebar";
 // import { UserCircleIcon } from "@heroicons/react/24/solid";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+const LOGO_GRADIENT_TEXT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent";
 
 const StartupCentralPromoCard = ({ image = "/startup-central-menu.webp" }: { image?: string }) => {
   return (
     <li className="list-none">
       <Link
         href="/Startup-Central"
-        className="flex flex-col overflow-hidden rounded-xl border border-cyan-200 bg-gradient-to-br from-cyan-50 via-white to-cyan-100 shadow-sm transition hover:border-cyan-300 hover:shadow-md"
+        className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 via-white to-slate-100 shadow-sm transition hover:border-[#2B93C9]/40 hover:shadow-md"
       >
-        <div className="relative h-24 w-full shrink-0 bg-cyan-50">
-          <Image
-            src={image}
-            alt="Incorp Bay Startup Central"
-            fill
-            className="object-cover"
-          />
-        </div>
-
         <div className="flex items-center justify-between gap-2 px-4 py-3">
           <div className="min-w-0">
-            <p className="text-sm font-extrabold leading-none text-slate-900">
+            <p className="text-sm font-semibold leading-none text-slate-900">
               Incorp Bay&apos;s
             </p>
-            <p className="mt-1 truncate text-xl font-black leading-none text-cyan-600">
+            <p className={`mt-1 truncate text-xl font-bold leading-none ${LOGO_GRADIENT_TEXT}`}>
               Startup Central
             </p>
           </div>
 
-          <ChevronRightIcon className="h-5 w-5 shrink-0 text-cyan-600" />
+          <ChevronRightIcon className="h-5 w-5 shrink-0 text-[#2B93C9]" />
+        </div>
+
+        <div className="relative h-32 w-full shrink-0 bg-slate-50 mt-2">
+          <Image
+            src="/Dissolution/Startup-central-ideas.webp"
+            alt="Incorp Bay Startup Central"
+            fill
+            className="object-cover"
+          />
         </div>
       </Link>
     </li>
@@ -67,19 +71,17 @@ const NavigationMenuDemo = () => {
 
   return (
     <Headroom style={{ zIndex: 999 }}>
-      <div className="bg-white">
-        <div className="flex justify-between container items-center bg-white">
-          <div className="">
+      <div className="bg-white font-helvetica">
+        <div className="flex justify-between container items-center bg-white py-4">
+          <div className="pl-12 sm:pl-20">
             <Link
-              className="flex h-full w-full select-none flex-col justify-end rounded-md   no-underline outline-none"
+              className="flex h-full items-center select-none rounded-md no-underline outline-none"
               href="/"
             >
-              <Image
-                className="sm:h:20 sm:w:50"
-                src={"/logo.png"}
-                width={100}
-                height={20}
-                alt="incorp bay Logo"
+              <img
+                className="h-9 w-auto sm:h-10"
+                src="/logo.png"
+                alt="Incorp Bay Logo"
               />
             </Link>
           </div>
@@ -114,7 +116,7 @@ const NavigationMenuDemo = () => {
             <div className="max-sm:hidden flex items-center gap-4">
               {isAuthenticated ? (
                 <div className="flex items-center gap-3">
-                  <span className="text-sm text-gray-600">Hi, {name}</span>
+                  <span className="text-sm font-normal text-gray-600">Hi, {name}</span>
                   <button
                     onClick={handleLogoutClick}
                     className="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition"
@@ -125,7 +127,7 @@ const NavigationMenuDemo = () => {
               ) : (
                 <Link
                   href="/login"
-                  className="px-4 py-2 text-sm font-medium text-white bg-cyan-500 hover:bg-cyan-600 rounded-lg transition"
+                  className={`${LOGO_GRADIENT} px-4 py-2 text-sm font-semibold text-white hover:brightness-110 rounded-lg transition`}
                 >
                   Login
                 </Link>
@@ -373,10 +375,10 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="group-hover:text-cyan-500 text-xl font-extrabold leading-none">
+          <div className="group-hover:text-[#2B93C9] text-xl font-semibold leading-none">
             {title}
           </div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <p className="line-clamp-2 text-sm font-normal leading-snug text-muted-foreground">
             {children}
           </p>
         </Link>
@@ -397,13 +399,13 @@ const ListItemTiny = React.forwardRef<
           href={href}
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground  hover:bg-gray-100  hover:text-cyan-500",
+            "block select-none space-y-1 rounded-md p-4 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground  hover:bg-gray-100  hover:text-[#2B93C9]",
             className
           )}
           {...props}
         >
           <div className="text-base font-normal leading-none flex gap-2 flex-wrap items-center">
-            <ChevronRightIcon className="size-4 text-cyan-500" />
+            <ChevronRightIcon className="size-4 text-[#2B93C9]" />
             {children}
           </div>
         </Link>

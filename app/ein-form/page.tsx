@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
 const LOGO_GRADIENT =
@@ -38,56 +39,14 @@ const PrimaryButton = ({ children }: { children: React.ReactNode }) => (
 );
 
 const PhoneMockupEIN = () => (
-  <div className="relative w-[240px] rounded-2xl bg-white p-5 text-xs shadow-xl">
-    <div className="mb-3 flex items-center gap-2">
-      <div className="h-8 w-8 rounded-full bg-slate-200" />
-      <div>
-        <div className="text-[13px] font-bold text-slate-900">Jonathan Davis</div>
-        <div className="text-[11px] font-normal text-slate-500">ACME Design LLC</div>
-      </div>
-    </div>
-
-    <div className="mb-2.5 text-base font-bold text-slate-900">EIN Details</div>
-
-    <div className="mb-3 rounded-xl px-3.5 py-3 text-white" style={{ background: LOGO_GRADIENT }}>
-      <div className="mb-1 text-[10px] font-normal opacity-85">EIN Status ●</div>
-      <div className="text-base font-bold">Assigned (US Citizen)</div>
-      <div className="mt-1 text-[10px] font-normal opacity-75">Date of Notice: May 12, 2024</div>
-    </div>
-
-    <div className="mb-2 font-bold text-slate-900">EIN Summary</div>
-
-    {[
-      { label: "Service Requested", date: "05/31/2024" },
-      { label: "Application Reviewed", date: "06/08/2024" },
-    ].map((item) => (
-      <div key={item.label} className="flex justify-between border-b border-slate-100 py-1.5 text-slate-700">
-        <span className="flex items-center gap-1.5 font-normal">
-          <span className="text-[#2B93C9]">✓</span>
-          {item.label}
-        </span>
-        <span className="text-[11px] font-normal text-slate-500">{item.date}</span>
-      </div>
-    ))}
-  </div>
-);
-
-const MiniEinCard = () => (
-  <div className="w-[240px] rounded-2xl bg-white p-5 text-xs shadow-xl">
-    <div className="mb-1 text-[15px] font-bold text-slate-900">EIN Number</div>
-    <div className="mb-0.5 text-[10px] font-normal text-slate-400">STATUS</div>
-    <div className="mb-2.5 text-xs font-bold text-[#2B93C9]">EIN Assigned ✓</div>
-    <div className="mb-2.5 rounded-xl px-3 py-2.5 text-white" style={{ background: LOGO_GRADIENT }}>
-      <div className="text-[13px] font-bold">OBTAINED</div>
-      <div className="mt-1 text-[10px] font-normal opacity-85">EMPLOYER IDENTIFICATION NUMBER</div>
-      <div className="text-base font-bold">12-3456789</div>
-    </div>
-    <div className="text-[10px] font-normal leading-relaxed text-slate-400">
-      Date of This Notice: May 12 2023<br />
-      Number of This Notice: CP 575 G<br />
-      For Assistance You May Call: 1-800-829-4922
-    </div>
-  </div>
+  <Image
+    src="/ein/ein-hero-phone.webp"
+    alt="EIN application dashboard showing approved status"
+    width={1193}
+    height={1319}
+    className="block w-[280px] rounded-2xl shadow-xl md:w-[360px]"
+    priority
+  />
 );
 
 export default function IncorpBayEINPage() {
@@ -165,17 +124,14 @@ export default function IncorpBayEINPage() {
 title: "Obtain SS4 Form",
 accent: "Through Incorp Bay",
       body: (
-        <div className="rounded-xl bg-slate-50 p-4">
-          <div className="mb-2 flex justify-between text-[13px] font-bold">
-            <span>Form SS4 Form</span>
-            <span>→</span>
-          </div>
-          <div className="mb-1 text-[11px] font-normal text-slate-500">Process ●</div>
-          <div className="mb-1.5 h-1.5 w-3/4 rounded" style={{ background: LOGO_GRADIENT }} />
-          <div className="flex justify-between text-[11px] font-normal text-slate-500">
-            <span>Your progress</span>
-            <span>75%</span>
-          </div>
+        <div className="overflow-hidden rounded-xl bg-slate-50 p-4">
+          <Image
+            src="/ein/ss4-form-paper.webp"
+            alt="Form SS-4 application for Employer Identification Number"
+            width={1254}
+            height={1254}
+            className="block aspect-square w-full rounded-2xl object-cover"
+          />
         </div>
       ),
     },
@@ -183,10 +139,14 @@ accent: "Through Incorp Bay",
       title: "Fill Out the SS4 Form Using Our",
       accent: "Quick Application",
       body: (
-        <div className="rounded-xl bg-slate-50 p-4">
-          <p className="text-sm font-normal leading-relaxed text-slate-600">
-            Answer a short series of guided questions and we&apos;ll prepare your SS-4 form for you.
-          </p>
+        <div className="overflow-hidden rounded-xl bg-slate-50 p-4">
+          <Image
+            src="/ein/ss4-online-progress.webp"
+            alt="SS-4 application progress in our online platform"
+            width={1254}
+            height={1254}
+            className="block aspect-square w-full rounded-2xl object-cover"
+          />
         </div>
       ),
     },
@@ -194,11 +154,14 @@ accent: "Through Incorp Bay",
       title: "Receive an EIN Number for",
       accent: "Your Business",
       body: (
-        <div className="rounded-xl bg-slate-50 p-4">
-          <div className="mb-1 text-xs font-normal text-slate-500">EIN Number</div>
-          <div className="mb-0.5 text-[11px] font-normal text-slate-400">STATUS</div>
-          <div className="mb-2.5 text-[13px] font-bold text-[#2B93C9]">EIN Assigned ✓</div>
-          <div className="flex items-center justify-between rounded-lg px-3 py-2 text-[13px] font-bold text-white" style={{ background: LOGO_GRADIENT }}>OBTAINED</div>
+        <div className="overflow-hidden rounded-xl bg-slate-50 p-4">
+          <Image
+            src="/ein/ein-confirmed-phone.webp"
+            alt="Phone showing a confirmed EIN number"
+            width={1136}
+            height={1385}
+            className="block aspect-square w-full rounded-2xl object-cover"
+          />
         </div>
       ),
     },
@@ -275,10 +238,8 @@ Secure your business&apos;s Tax ID. Let Incorp Bay handle the paperwork so you c
           <PrimaryButton>ORDER NOW</PrimaryButton>
         </div>
 
-        <div className="flex flex-1 basis-[300px] justify-center">
-          <div className="relative flex min-h-[380px] items-center justify-center overflow-hidden rounded-3xl bg-[#2B93C9]/5 p-6">
-            <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#33D1CC]/20" />
-            <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-[#244EB6]/10" />
+        <div className="shrink-0">
+          <div className="flex min-h-[420px] items-center justify-center p-6">
             <PhoneMockupEIN />
           </div>
         </div>
@@ -304,7 +265,13 @@ Incorp Bay&apos;s<br />Startup Central
           <div className="flex flex-1 basis-[240px] justify-end">
             <div className="max-w-[260px] rounded-2xl bg-[#2B93C9]/5 p-6">
               <div className="mb-2.5 text-[11px] font-bold uppercase tracking-widest text-slate-400">How To</div>
-              <div className="mb-3 h-[100px] rounded-lg bg-slate-200" />
+              <Image
+                src="/ein/build-your-business-guide.webp"
+                alt="Guide: Build Your Business"
+                width={1410}
+                height={1116}
+                className="mb-3 block h-[100px] w-full rounded-2xl object-cover"
+              />
               <div className="mb-1 text-sm font-bold">BUSINESS IDEAS</div>
               <p className="text-xs text-slate-500">Understanding Data Privacy Laws and How They Impact Small Businesses</p>
             </div>
@@ -403,88 +370,26 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
           </div>
 
           <div className="flex justify-center md:justify-end">
-            <div className="w-full max-w-[320px] rounded-3xl bg-white p-6 shadow-xl ring-1 ring-slate-100">
-              <div className="flex items-center justify-between">
-                <div className="h-8 w-8 rounded-full" style={{ background: LOGO_GRADIENT }} />
-                <span className="rounded-full bg-[#2B93C9]/10 px-3 py-1 text-[10px] font-bold text-[#2B93C9]">
-                  Active
-                </span>
-              </div>
-
-              <p className="mt-5 text-base font-bold text-[#1E293B]">
-                EIN Eligibility
-              </p>
-
-              <div className="mt-4 rounded-2xl p-5 text-white shadow-lg" style={{ background: LOGO_GRADIENT }}>
-                <p className="text-xs font-normal opacity-90">✓ Federal Tax ID</p>
-                <p className="mt-2 text-2xl font-bold leading-tight">
-                  Business Entity Check
-                </p>
-                <p className="mt-1 text-xs font-normal opacity-90">
-                  Track your EIN requirements step by step
-                </p>
-              </div>
-
-              <div className="mt-5 space-y-3">
-                {needEinItems.map((item, index) => {
-                  const stepPoint = index / needEinItems.length;
-                  const isActive = progress >= stepPoint;
-
-                  return (
-                    <div key={item.title} className="flex items-center gap-3">
-                      <span
-                        className={`h-3.5 w-3.5 rounded-full border transition-all duration-300 ${
-                          isActive
-                            ? "border-[#2B93C9] bg-[#2B93C9] shadow-sm shadow-[#2B93C9]/40"
-                            : "border-slate-300 bg-white"
-                        }`}
-                      />
-                      <div className="min-w-0 flex-1">
-                        <p
-                          className={`truncate text-[10px] font-bold transition-colors duration-300 ${
-                            isActive ? "text-[#1E293B]" : "text-slate-400"
-                          }`}
-                        >
-                          {item.title}
-                        </p>
-                        <div className="mt-1 h-1.5 w-full rounded bg-slate-100" />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <button className="mt-6 w-full rounded-full py-3 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:scale-[1.02]" style={{ background: LOGO_GRADIENT }}>
-                Check EIN Need
-              </button>
-            </div>
+            <Image
+              src="/ein/ein-approved-phone.webp"
+              alt="Business entity EIN status check"
+              width={1098}
+              height={1433}
+              className="block w-full max-w-[320px] rounded-2xl shadow-xl"
+            />
           </div>
         </div>
       </section>
 
       <section className="mx-auto mb-16 flex max-w-7xl flex-wrap items-center gap-14 px-8">
-        <div className="flex flex-1 basis-[380px] flex-col gap-5">
-          <div className="w-full rounded-2xl bg-white p-5 text-xs shadow-xl ring-1 ring-slate-100">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="font-bold">Your Account</span>
-              <span className="rounded-md border border-slate-200 px-1.5 py-0.5 text-[10px] font-normal">Monthly ▾</span>
-            </div>
-            <div className="mb-2.5 text-2xl font-bold">$50,000</div>
-            <div className="mb-1.5 h-[50px] rounded-md" style={{ background: "linear-gradient(180deg,rgba(43,147,201,0.15) 0%,transparent 100%)" }} />
-            <div className="flex justify-between text-[9px] font-normal text-slate-400"><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span></div>
-          </div>
-          <div className="w-full rounded-2xl bg-white p-5 text-xs shadow-xl ring-1 ring-slate-100">
-            <div className="mb-2.5 font-bold">Documents</div>
-            {[{ name: "Payroll Management", sub: "Business Overview", date: "06/08/2024" }, { name: "Tax Forms", sub: "W9 forms", date: "01/24/2024" }].map((d) => (
-              <div key={d.name} className="flex justify-between border-t border-slate-100 py-1.5">
-                <div>
-                  <div className="text-[11px] font-bold">{d.name}</div>
-                  <div className="text-[10px] font-normal text-slate-400">{d.sub}</div>
-                </div>
-                <span className="text-[10px] font-normal text-slate-400">{d.date}</span>
-              </div>
-            ))}
-          </div>
+        <div className="flex w-[320px] shrink-0 flex-col gap-5 rounded-3xl bg-slate-900 p-3 shadow-xl">
+          <Image
+            src="/ein/ein-account-documents.webp"
+            alt="Account overview and documents dashboard"
+            width={1330}
+            height={1183}
+            className="block w-full rounded-2xl"
+          />
         </div>
 
         <div className="flex-1 basis-[380px]">
@@ -551,23 +456,20 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
           <ul className="mb-5 list-disc space-y-1.5 pl-5">
             {needList.map((item) => <li key={item} className="text-sm font-normal leading-6 text-slate-700">{item}</li>)}
           </ul>
-          <p className="mb-8 text-[15px] leading-7 text-slate-700">For more detailed information, visit the IRS website, or hire a tax or startup business consultant to guide you. Now, let&apos;s take a look at the benefits of having an EIN.</p>
-
-          <div className="mb-10 flex justify-center rounded-2xl bg-slate-50 p-7">
-            <div className="w-full max-w-md rounded-xl bg-white p-3 shadow-md">
-              {["Add an additional layer of security", "Receive tax breaks and credits", "Establish business credit", "Build professional credibility"].map((item, i) => (
-                <div key={item} className={`mb-1 flex items-center justify-between rounded-lg px-3.5 py-2.5 text-[13px] ${i === 1 ? "bg-slate-900 text-white" : "bg-slate-50 text-slate-700"}`}>
-                  {item} {i === 1 && <span style={gradientText}>➜</span>}
-                </div>
-              ))}
-            </div>
-          </div>
+          <p className="mb-10 text-[15px] leading-7 text-slate-700">For more detailed information, visit the IRS website, or hire a tax or startup business consultant to guide you. Now, let&apos;s take a look at the benefits of having an EIN.</p>
           </div>
 
           <div ref={createSectionRef(3)} className="scroll-mt-28">
           <h2 className="mb-4 text-3xl font-bold">Benefits of Having an EIN</h2>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">There are several business-related benefits of having an EIN for your LLC. Let&apos;s say you&apos;re running a new LLC and have no intention of hiring employees or setting up a retirement plan; therefore, you don&apos;t need an EIN. But should you get one? The answer is a resounding yes. An EIN does much more than just serve as a business tax identifier.</p>
           <p className="mb-3.5 text-[15px] leading-7 text-slate-700">Even if obtaining an EIN is not mandated for you by the IRS, there are many benefits of getting an EIN for your LLC:</p>
+          <Image
+            src="/ein/ein-benefits-list.webp"
+            alt="Key EIN benefits: security, tax savings, business credit, reputation"
+            width={1617}
+            height={973}
+            className="mx-auto mb-6 block w-full max-w-2xl rounded-2xl"
+          />
           <ul className="mb-5 list-disc space-y-1.5 pl-5">
             {benefits.map((item) => <li key={item} className="text-sm font-normal leading-6 text-slate-700">{item}</li>)}
           </ul>
@@ -576,29 +478,21 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
 
           <div ref={createSectionRef(4)} className="scroll-mt-28">
           <h2 className="mb-4 text-3xl font-bold">Is an EIN the Same as an SSN for an LLC?</h2>
+          <Image
+            src="/ein/ein-vs-ssn.webp"
+            alt="Use an EIN instead of an SSN for your business taxes"
+            width={1254}
+            height={1254}
+            className="mx-auto mb-5 block w-full max-w-2xl rounded-2xl"
+          />
           <p className="mb-4 text-[15px] leading-7 text-slate-700">The main difference between a Social Security number (SSN) and an EIN is that an SSN is for individuals, while an EIN is for businesses. The IRS tracks your business&apos;s filings using an EIN. Many small business owners find it helpful to think of an EIN as an SSN for their business.</p>
 
           <h3 className="mb-3.5 text-2xl font-bold">Should I Use an SSN or an EIN for Taxes?</h3>
           <p className="mb-4 text-[15px] leading-7 text-slate-700">If you do not have staff, a self-retirement plan, or excise tax payments, and you are a sole proprietor or single-member LLC, your SSN can be used for tax filing.</p>
           <p className="mb-2.5 text-[15px] leading-7 text-slate-700">However, there are some compelling reasons for filing taxes using an EIN as opposed to an SSN. An EIN will do the following:</p>
-          <ul className="mb-8 list-disc space-y-1.5 pl-5">
+          <ul className="mb-10 list-disc space-y-1.5 pl-5">
             {["Provide more privacy and security as your SSN number won't be on public documents", "Enable you to file business taxes separately and establish a business history", "Give you the flexibility to hire employees and secure funding without any delay"].map((item) => <li key={item} className="text-sm font-normal leading-6 text-slate-700">{item}</li>)}
           </ul>
-
-          <div className="mb-3 rounded-[18px] bg-slate-900 p-7">
-            <div className="mb-1 text-xs font-bold" style={gradientText}>YOU SHOULD USE</div>
-            <div className="mb-5 text-2xl font-bold text-white">AN EIN OVER AN SSN FOR TAX PURPOSES IF YOU…</div>
-            <div className="flex flex-col gap-2.5">
-              {[{ icon: "👤", text: "prefer filing business taxes separately from personal taxes." }, { icon: "🛡️", text: "seek additional privacy and security." }, { icon: "💼", text: "want to hire employees." }].map((item) => (
-                <div key={item.text} className="flex items-center gap-2.5 rounded-xl bg-slate-800 px-3.5 py-3 text-[13px] font-normal text-slate-300"><span>{item.icon}</span>{item.text}</div>
-              ))}
-            </div>
-<div className="mt-5 flex items-center justify-between">
-              <span className="rounded-full px-3.5 py-1 text-sm font-bold text-white" style={{ background: LOGO_GRADIENT }}>incorp bay</span>
-              <span className="text-[11px] font-normal uppercase tracking-widest text-slate-400">Easy as Incorp Bay</span>
-            </div>
-          </div>
-          <p className="mb-10 text-[13px] leading-6 text-slate-500">The main difference between a Social Security number (SSN) and an EIN is that an SSN is for individuals, while an EIN is for businesses.</p>
           </div>
 
           <div ref={createSectionRef(5)} className="scroll-mt-28">
@@ -611,28 +505,15 @@ let <strong className="font-bold" style={gradientText}>Incorp Bay</strong>
 
           <div ref={createSectionRef(6)} className="scroll-mt-28">
           <h2 className="mb-4 text-3xl font-bold">How to Apply for an EIN</h2>
+          <Image
+            src="/ein/ein-apply-methods-guide.webp"
+            alt="Guide comparing applying online versus applying by mail for an EIN"
+            width={1254}
+            height={1254}
+            className="mx-auto mb-5 block w-full max-w-2xl rounded-2xl"
+          />
 through Incorp Bay's EIN filing service.
           <p className="mb-7 text-[15px] leading-7 text-slate-700">To file directly with the IRS, complete the <span className="font-bold" style={gradientText}>online application form</span> between Monday and Friday, 7 a.m. to 10 p.m. EST. The IRS issues the EIN upon submission and verification of the form — this usually just takes a few minutes. However, the online application is only available for LLCs with a domestic, U.S.-based address.</p>
-
-          <div className="mb-7 rounded-[18px] bg-slate-900 p-7">
-            <div className="mb-1 text-xs font-bold" style={gradientText}>HOW TO APPLY</div>
-            <div className="mb-5 text-2xl font-bold text-white">FOR AN EIN.</div>
-            <p className="mb-5 text-[13px] font-normal text-slate-300">Here are some of the main reasons you might have to file a DBA:</p>
-            <div className="grid gap-4 md:grid-cols-2">
-{["APPLY THROUGH INCORP BAY", "APPLY THROUGH THE IRS"].map((title, i) => (
-                <div key={title} className="rounded-xl bg-slate-800 p-5">
-                  <div className="mb-3 inline-block rounded-md px-2.5 py-1 text-[11px] font-bold text-white" style={{ background: LOGO_GRADIENT }}>{title}</div>
-                  <ul className="list-disc space-y-1.5 pl-4 text-[13px] font-normal leading-6 text-slate-300">
-{(i === 0 ? ["Provides instant access to EIN information via Incorp Bay dashboard", "Comes at a small fee, but is included in Incorp Bay's Standard & Premium Packages"] : ["Requires more time and paperwork", "Options to apply via mail, fax, or online", "Provides an EIN for free"]).map((x) => <li key={x}>{x}</li>)}
-                  </ul>
-                </div>
-              ))}
-            </div>
-<div className="mt-5 flex items-center justify-between">
-              <span className="rounded-full px-3.5 py-1 text-sm font-bold text-white" style={{ background: LOGO_GRADIENT }}>incorp bay</span>
-              <span className="text-[11px] font-normal uppercase tracking-widest text-slate-400">Easy as Incorp Bay</span>
-            </div>
-          </div>
 
           <p className="mb-4 text-[15px] leading-7 text-slate-700">To apply by fax, complete the SS-4 form and fax it to 855-641-6935. The fax line is open all seven days of the week, 24/7. Faxed EIN requests have a turnaround time of four business days.</p>
           <p className="mb-2 text-[15px] leading-7 text-slate-700">Domestic LLCs can mail the hard copy of form SS-4 to the following address:</p>
@@ -643,7 +524,14 @@ through Incorp Bay's EIN filing service.
 
           <div ref={createSectionRef(7)} className="scroll-mt-28">
           <h2 className="mb-4 text-3xl font-bold">What to Do After Getting an EIN</h2>
-          <p className="mb-10 text-[15px] leading-7 text-slate-700">Your EIN is active and ready as soon as you receive it from the IRS. Use it to open a dedicated <span className="font-bold" style={gradientText}>business bank account</span>, secure funding, or hire employees.</p>
+          <p className="mb-5 text-[15px] leading-7 text-slate-700">Your EIN is active and ready as soon as you receive it from the IRS. Use it to open a dedicated <span className="font-bold" style={gradientText}>business bank account</span>, secure funding, or hire employees.</p>
+          <Image
+            src="/ein/ein-approved-phone.webp"
+            alt="Phone showing an approved EIN application"
+            width={1098}
+            height={1433}
+            className="mx-auto mb-10 block w-full max-w-xs rounded-2xl shadow-md"
+          />
           </div>
 
           <div ref={createSectionRef(8)} className="scroll-mt-28">
@@ -677,16 +565,71 @@ through Incorp Bay's EIN filing service.
         </article>
       </section>
 
-      <section className="bg-slate-50 px-8 py-14">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-10">
-          <div className="flex-1 basis-[280px]">
-            <div className="mb-2 text-[13px] font-bold" style={gradientText}>EIN Tax ID Number</div>
-            <h2 className="mb-3 text-4xl font-bold">Obtain An EIN /<br />Tax ID Number</h2>
-            <p className="mb-6 text-[15px] leading-7 text-slate-500">Save your time. We&apos;ll handle the paperwork. <strong className="text-slate-900">Only $70.</strong></p>
-            <PrimaryButton>ORDER NOW</PrimaryButton>
-          </div>
-          <div className="flex flex-1 basis-[280px] justify-center">
-            <MiniEinCard />
+      <section className="px-6 py-8 md:px-16 md:py-10">
+        <div
+          className="relative mx-auto max-w-4xl overflow-hidden rounded-[32px] border border-white/10 px-8 py-8 text-center shadow-2xl sm:px-10"
+          style={{ background: LOGO_GRADIENT }}
+        >
+          <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-[#2B93C9]/20 to-transparent" />
+          <div className="pointer-events-none absolute right-1/4 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-[#33D1CC]/30 blur-[80px]" />
+
+          <div className="relative grid grid-cols-1 items-center gap-1 p-2 md:grid-cols-[1.4fr_0.6fr] md:p-3">
+            <div className="relative z-10 flex w-full flex-col items-start space-y-3 text-left">
+              <span className="rounded-full border border-white/15 bg-white/12 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
+                EIN Tax ID Number
+              </span>
+
+              <h2 className="text-2xl font-bold leading-tight tracking-tight text-white md:text-3xl">
+                Obtain An EIN / <br /> Tax ID Number
+              </h2>
+
+              <p className="max-w-sm text-xs leading-relaxed text-white/80 md:text-sm">
+                Save your time. We&apos;ll handle the paperwork. Only $70.
+              </p>
+
+              <button className="group relative overflow-hidden rounded-xl bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-wider shadow-lg transition-all duration-300 hover:scale-[1.03] hover:shadow-xl">
+                <span className="absolute inset-0 bg-[#2B93C9]/0 transition-colors duration-300 group-hover:bg-[#2B93C9]/5" />
+                <span className="absolute -left-16 top-0 h-full w-10 -skew-x-12 bg-[#2B93C9]/10 blur-sm transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative z-10 flex items-center gap-2 text-black">
+                  ORDER NOW
+                  <svg className="h-4 w-4 stroke-black transition-transform duration-300 group-hover:translate-x-1" fill="none" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M13 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </button>
+
+              <div className="mt-1 flex flex-wrap items-center gap-2 text-[11px] font-medium text-white/85">
+                <span className="rounded-full border border-white/15 bg-white/12 px-3 py-1">✓ No Hidden Fees</span>
+                <span className="rounded-full border border-white/15 bg-white/12 px-3 py-1">✓ Fast Processing</span>
+                <span className="rounded-full border border-white/15 bg-white/12 px-3 py-1">✓ Secure Process</span>
+              </div>
+
+              <div className="mt-3 grid w-full max-w-sm grid-cols-3 gap-3">
+                <div className="rounded-2xl border border-white/15 bg-white/12 px-3 py-2 backdrop-blur">
+                  <p className="text-lg font-bold text-white">1M+</p>
+                  <p className="text-[10px] text-white/75">Businesses</p>
+                </div>
+                <div className="rounded-2xl border border-white/15 bg-white/12 px-3 py-2 backdrop-blur">
+                  <p className="text-lg font-bold text-white">50</p>
+                  <p className="text-[10px] text-white/75">States</p>
+                </div>
+                <div className="rounded-2xl border border-white/15 bg-white/12 px-3 py-2 backdrop-blur">
+                  <p className="text-lg font-bold text-white">4.7★</p>
+                  <p className="text-[10px] text-white/75">Rating</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative z-10 flex w-full select-none items-center justify-center md:justify-end">
+              <div className="relative h-[280px] w-[220px] md:h-[320px] md:w-[250px]">
+                <Image
+                  src="/ein/ein-issued-phone.webp"
+                  alt="Phone showing an issued EIN number"
+                  fill
+                  className="rounded-2xl object-cover shadow-2xl"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

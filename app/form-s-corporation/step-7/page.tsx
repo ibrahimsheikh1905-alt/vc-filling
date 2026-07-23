@@ -13,6 +13,9 @@ import NavigationWrapper from "@/components/NavigationWrapper";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { usePathname, useRouter } from "next/navigation";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 type Member = {
   memberType: string;
   getZipCode: string;
@@ -159,7 +162,7 @@ const StepSeven = () => {
                   key={index}
                   className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mb-6"
                 >
-                  <h2 className="text-xl font-semibold mb-4">
+                  <h2 className="text-xl font-bold mb-4">
                     Member {index + 1}
                   </h2>
 
@@ -168,7 +171,7 @@ const StepSeven = () => {
                       <label
                         className={`flex items-center cursor-pointer px-4 py-2 rounded-lg ${
                           member.memberType === "individual"
-                            ? "bg-green-100 border-2 border-primary text-green-700"
+                            ? `${LOGO_GRADIENT} border-2 border-transparent text-white`
                             : "bg-gray-100 border border-gray-300 text-gray-700"
                         }`}
                       >
@@ -196,7 +199,7 @@ const StepSeven = () => {
                       <label
                         className={`flex cursor-pointer items-center px-4 py-2 rounded-lg ${
                           member.memberType === "company"
-                            ? "bg-green-100 border-2 border-primary text-green-700"
+                            ? `${LOGO_GRADIENT} border-2 border-transparent text-white`
                             : "bg-gray-100 border border-gray-300 text-gray-700"
                         }`}
                         onClick={() =>
@@ -238,7 +241,7 @@ const StepSeven = () => {
                     formData.entityType !== "LLC" ? (
                       <>
                         <div>
-                          <label className="block mb-1 text-sm font-medium text-gray-700">
+                          <label className="block mb-1 text-sm font-normal text-gray-700">
                             First Name
                           </label>
                           <input
@@ -265,7 +268,7 @@ const StepSeven = () => {
                           )}
                         </div>
                         <div>
-                          <label className="block mb-1 text-sm font-medium text-gray-700">
+                          <label className="block mb-1 text-sm font-normal text-gray-700">
                             Last Name
                           </label>
                           <input
@@ -294,7 +297,7 @@ const StepSeven = () => {
                       </>
                     ) : (
                       <div className="col-span-2">
-                        <label className="block mb-1 text-sm font-medium text-gray-700">
+                        <label className="block mb-1 text-sm font-normal text-gray-700">
                           Company Name
                         </label>
                         <input
@@ -326,7 +329,7 @@ const StepSeven = () => {
                   <div>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Street Address
                         </label>
                         <div className="my-3">
@@ -353,7 +356,7 @@ const StepSeven = () => {
                         </div>
                       </div>
                       <div className="md:w-1/2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Address(Line 2)
                         </label>
                         <div className="my-3">
@@ -381,7 +384,7 @@ const StepSeven = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         City
                       </label>
                       <div className="my-3">
@@ -409,7 +412,7 @@ const StepSeven = () => {
                     </div>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           State
                         </label>
                         <div className="my-3">
@@ -444,7 +447,7 @@ const StepSeven = () => {
                         </div>
                       </div>
                       <div className="md:w-1/2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Zip Code
                         </label>
                         <div className="my-3">
@@ -476,7 +479,7 @@ const StepSeven = () => {
 
                   {formData.members.length > 1 && (
                     <div className="mb-8">
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         % of Ownership
                       </label>
                       <input
@@ -520,10 +523,10 @@ const StepSeven = () => {
                       Officer Information
                     </h4>
                     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mb-6">
-                      <h5 className="font-semibold text-xl my-2">
+                      <h5 className="font-bold text-xl my-2">
                         President/CEO
                       </h5>
-                      <p className="text-wrap text-sm font-light">
+                      <p className="text-wrap text-sm font-normal">
                         The President (a.k.a. Chief Executive Officer or CEO)
                         has general supervision, direction, and control of the
                         day-to-day business and affairs of the corporation,
@@ -565,8 +568,8 @@ const StepSeven = () => {
                       )}
                     </div>
                     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mb-6">
-                      <h5 className="font-semibold text-xl my-2">Secretary</h5>
-                      <p className="text-wrap text-sm font-light">
+                      <h5 className="font-bold text-xl my-2">Secretary</h5>
+                      <p className="text-wrap text-sm font-normal">
                         The Corporate Secretary (or other corporate officer
                         designated by the board of directors to maintain and
                         keep corporate records) will keep, or cause to be kept,
@@ -608,8 +611,8 @@ const StepSeven = () => {
                       )}
                     </div>
                     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mb-6">
-                      <h5 className="font-semibold text-xl my-2">Treasurer</h5>
-                      <p className="text-wrap text-sm font-light">
+                      <h5 className="font-bold text-xl my-2">Treasurer</h5>
+                      <p className="text-wrap text-sm font-normal">
                         The Treasurer (a.k.a. Chief Financial Officer or CFO)
                         will keep and maintain, or cause to be kept and
                         maintained, adequate and correct books and records of
@@ -651,10 +654,10 @@ const StepSeven = () => {
                       )}
                     </div>
                     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg mb-6">
-                      <h5 className="font-semibold text-xl my-2">
+                      <h5 className="font-bold text-xl my-2">
                         Vice President (Optional)
                       </h5>
-                      <p className="text-wrap text-sm font-light">
+                      <p className="text-wrap text-sm font-normal">
                         The Officer position of Vice President is optional, but
                         the role of the Vice President is to be able to fill in
                         for the president anytime the President is unavailable,
@@ -701,13 +704,13 @@ const StepSeven = () => {
             <div className="flex justify-between mt-12">
               <Link
                 href="/form-s-corporation/step-6"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <button
                 type="submit"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Next
               </button>

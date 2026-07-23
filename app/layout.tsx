@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Lora } from "next/font/google";
 import { AuthProvider, ProtectRoute } from "@/contexts/auth";
 import "@uploadthing/react/styles.css";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/app-sidebar";
-
-const font = Lora({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-  weight: ["400", "500", "600", "700"],
-});
 
 export const metadata: Metadata = {
   title: "VC Filling",
@@ -27,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={font.className}>
+      <body className="font-sans">
         <AuthProvider>
           <SidebarProvider>
 <main>

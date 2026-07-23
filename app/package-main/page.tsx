@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { getStateFee } from "@/data/stateFeeData";
+import { getEntityFilingInfo, type EntityKind } from "@/data/entityFilingData";
 
 const ChevronDown = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} width={18} height={18}>
@@ -25,6 +26,13 @@ const TYPE = {
 } as const;
 
 const entities: EntityType[] = ["LLC", "S-Corporation", "C-Corporation", "Nonprofit"];
+
+const entityKindByType: Record<EntityType, EntityKind> = {
+  LLC: "llc",
+  "S-Corporation": "sCorp",
+  "C-Corporation": "cCorp",
+  Nonprofit: "nonProfit",
+};
 
 const states = [
   "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia",
@@ -147,30 +155,55 @@ export default function FormationPricingPage() {
   useEffect(() => {
     const rawEntity = searchParams.get("entity") ?? "";
     const rawState = searchParams.get("state") ?? "";
+    const rawPackage = searchParams.get("package") ?? "";
 
     const nextEntity = (entities as string[]).includes(rawEntity) ? (rawEntity as EntityType) : "";
     const nextState = states.includes(rawState) ? rawState : "";
+    const packageTypes: PackageType[] = ["Basic", "Standard", "Premium"];
+    const nextPackage = (packageTypes as string[]).includes(rawPackage) ? (rawPackage as PackageType) : "";
 
-    // Only prefill from query params if both are valid.
-    // Otherwise, do NOT override the user's current dropdown selections.
-    const shouldPrefill = !!nextEntity && !!nextState;
+    // Prefill whichever of entity/state/package is present in the query string,
+    // independently — a deep link like ?entity=LLC (no state) should still
+    // select the entity and just leave state for the user to pick.
+    if (!nextEntity && !nextState && !nextPackage) return;
 
-    if (!shouldPrefill) return;
-
-    setEntity(nextEntity);
-    setState(nextState);
+    if (nextEntity) setEntity(nextEntity);
+    if (nextState) setState(nextState);
 
     // keep UX consistent: if user arrives with prefill, don't show validation errors
     setShowErrors(false);
 
     // reset dependent UI when entity changes
     setSelectedAddons({});
-    setSelectedPackage("Standard");
+    setSelectedPackage(nextPackage || "Standard");
   }, [searchParams]);
 
   const activeEntity: EntityType | null = entities.includes(entity as EntityType) ? (entity as EntityType) : null;
-  const stateFee = state ? getStateFee(state) : 0;
+
+  const filingInfo =
+    activeEntity && state ? getEntityFilingInfo(state, entityKindByType[activeEntity]) : null;
+
+  // True only once we actually know this entity/state combo isn't offered
+  // (i.e. we found an entry for it and it's explicitly marked unavailable).
+  const isNotOffered = !!filingInfo && !filingInfo.offered;
+
+  // Fall back to the generic registered-agent fee table only if this
+  // state/entity combo has no entry in entityFilingData yet.
+  const stateFee = filingInfo?.stateFee ?? (state ? getStateFee(state) : 0);
   const packagePrice = activeEntity ? packagePrices[activeEntity][selectedPackage] : 0;
+
+  // Basic/Standard show the state's standard filing weeks; Premium shows
+  // the expedited turnaround in days. Falls back to the generic constant
+  // when there's no per-state entry (e.g. entity not offered in that state).
+  const getPackageDuration = (pkg: PackageType) => {
+    if (filingInfo?.offered) {
+      return pkg === "Premium"
+        ? `${filingInfo.premiumDays} days`
+        : `${filingInfo.weeks} weeks`;
+    }
+    if (filingInfo && !filingInfo.offered) return "Not offered";
+    return activeEntity ? packageWeeks[activeEntity][pkg] : "";
+  };
 
   const addonsTotal = useMemo(() => {
     if (!activeEntity) return 0;
@@ -198,6 +231,8 @@ export default function FormationPricingPage() {
       setShowErrors(true);
       return;
     }
+
+    if (isNotOffered) return;
 
     // Persist selection so OrderSummary on the next step can render the correct total.
     try {
@@ -504,7 +539,28 @@ export default function FormationPricingPage() {
           </div>
         </section>
 
-        {entity && state && (
+        {entity && state && isNotOffered && (
+          <section style={{ maxWidth: 1180, margin: "0 auto", padding: "0 24px 80px" }}>
+            <div
+              style={{
+                border: "1.5px solid #fecaca",
+                background: "#fef2f2",
+                borderRadius: 12,
+                padding: "40px 24px",
+                textAlign: "center",
+              }}
+            >
+              <div style={{ fontSize: TYPE.h2, fontWeight: 900, color: "#dc2626", marginBottom: 8 }}>
+                Not Offered
+              </div>
+              <p style={{ fontSize: TYPE.body, color: "#7f1d1d", margin: 0 }}>
+                {entity} formation is not offered in {state}. Please choose a different state or entity type.
+              </p>
+            </div>
+          </section>
+        )}
+
+        {entity && state && !isNotOffered && (
           <section style={{ maxWidth: 1180, margin: "0 auto", padding: "0 24px 80px" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 240px", gap: 20, alignItems: "start" }}>
               <div style={{ border: "1px solid #dbe3ea", borderRadius: 12, overflow: "visible", background: "#fff" }}>
@@ -540,7 +596,7 @@ export default function FormationPricingPage() {
                         <div style={{ display: "inline-block", border: "1px solid #06B6D4", borderRadius: 4, padding: "7px 22px", fontSize: TYPE.tiny, fontWeight: 800, background: "#fff" }}>{pkg}</div>
                         <div style={{ marginTop: 16, fontSize: 26, fontWeight: 900 }}>${activeEntity ? packagePrices[activeEntity][pkg] : 0}</div>
                         <div style={{ fontSize: TYPE.tiny, color: "#64748b" }}>+ ${stateFee} state fee</div>
-                        <div style={{ marginTop: 8, color: "#06B6D4", fontSize: TYPE.tiny, fontWeight: 600 }}>◷ {activeEntity ? packageWeeks[activeEntity][pkg] : ""}</div>
+                        <div style={{ marginTop: 8, color: "#06B6D4", fontSize: TYPE.tiny, fontWeight: 600 }}>◷ {getPackageDuration(pkg)}</div>
                       </div>
                     );
                   })}

@@ -69,46 +69,50 @@ const TaxConsultation = () => {
           </h3>
         </div>
         {/* mew section start  */}
-        <div className="bg-[url('/mak-dif/bg2.webp')] md:w-full md:bg-cover max-sm:bg-cover  max-sm:mb-9 md:mb-24 md:px-8 px-2 text-white md:py-16 rounded-xl my-2  mt-16 relative">
-          <div className=" my-3">
-            <CurrencyDollarIcon className="min-h-9 min-w-9 max-h-9 max-w-9 text-[#2B93C9] border-2 border-[#2B93C9] rounded" />
-          </div>
-          <div className=" pb-96  border-l-4 border-[#33D1CC] flex justify-center items-center"></div>
-          <h3 className=" text-black font-bold text-3xl uppercase">
-            A One-Time Fee,
-          </h3>
-          <h3 className=" font-bold text-3xl uppercase">
-            <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent bg-slate-100 rounded-xl px-1">
-              {" "}
-              No Strings Attached
-            </span>
-          </h3>
-          <div className="md:grid md:grid-cols-2  text-black">
-            <div className="md:pb-36">
-              <p className="py-5">
-                At VC FILING, every package comes with a single, one-time
-                service fee.{" "}
-                <span className="font-bold">
-                  Unlike many competitors who disguise their fees as
-                  subscriptions that renew year after year, we believe in clear,
-                  upfront pricing.
-                </span>{" "}
-                No surprises, no perpetual charges—just the service you need,
-                when you need it.
-              </p>
+        <div className="md:w-full max-sm:mb-9 md:mb-24 md:px-8 px-2 md:py-16 py-8 rounded-xl my-2 mt-16 bg-slate-50 md:grid md:grid-cols-2 md:gap-10 items-center">
+          <div>
+            <div className=" my-3">
+              <CurrencyDollarIcon className="min-h-9 min-w-9 max-h-9 max-w-9 text-[#2B93C9] border-2 border-[#2B93C9] rounded" />
             </div>
-            {/* part 2  */}
-            <div></div>
+            <h3 className=" text-black font-bold text-3xl uppercase">
+              A One-Time Fee,
+            </h3>
+            <h3 className=" font-bold text-3xl uppercase">
+              <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent bg-slate-100 rounded-xl px-1">
+                {" "}
+                No Strings Attached
+              </span>
+            </h3>
+            <p className="py-5 text-black">
+              At Incorp Bay, every package comes with a single, one-time
+              service fee.{" "}
+              <span className="font-bold">
+                Unlike many competitors who disguise their fees as
+                subscriptions that renew year after year, we believe in clear,
+                upfront pricing.
+              </span>{" "}
+              No surprises, no perpetual charges—just the service you need,
+              when you need it.
+            </p>
+          </div>
+          <div className="flex justify-center max-sm:mt-6">
+            <Image
+              className="w-full h-auto max-w-md"
+              src="/mak-dif/bg2.webp"
+              alt="One-time fee pricing breakdown"
+              width={1460}
+              height={996}
+            />
           </div>
         </div>
         {/* new section start  */}
         <div className="md:grid md:grid-cols-2 md:mx-20">
           {/*  left div first section  */}
           <div>
-            <h3 className="font-extrabold md:text-5xl max-sm:text-4xl">
-              VC FILING
+            <h3 className="font-bold md:text-5xl max-sm:text-4xl">
+              Incorp Bay
             </h3>
-            <h3 className="font-extrabold md:text-5xl max-sm:text-4xl">
+            <h3 className="font-bold md:text-5xl max-sm:text-4xl">
               <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent px-1">
                 Built Different
               </span>
@@ -126,8 +130,8 @@ const TaxConsultation = () => {
             {/* 3rd section  */}
             <div className="mr-16">
               <p className="text-sm">
-                <span className="font-bold">Where it all started:</span> VC
-                FILING&apos;s very first office, built on grit and big dreams.
+                <span className="font-bold">Where it all started:</span> Incorp
+                Bay&apos;s very first office, built on grit and big dreams.
                 Our bootstrapped roots drive our commitment to empowering
                 entrepreneurs every step of the way.
               </p>
@@ -158,12 +162,13 @@ const TaxConsultation = () => {
         {/* new section start  */}
 
         {/* new section start  */}
-        <div className=" max-sm:mx-5 bg-[url('/about-us/bgp.webp')] md:w-full md:bg-cover max-sm:mb-9 md:mb-24 md:px-8 px-2 text-white md:py-16 rounded-xl my-2  md:mt-16">
-          <div className="py-9">
-            <h3 className="uppercase font-extrabold md:text-7xl max-sm:text-5xl">
+        <div className="relative max-sm:mx-5 bg-[url('/about-us/bgp.webp')] md:w-full md:bg-cover max-sm:mb-9 md:mb-24 md:px-8 px-2 text-white md:py-16 rounded-xl my-2  md:mt-16 overflow-hidden">
+          <div className="absolute inset-0 bg-black/50 rounded-xl"></div>
+          <div className="relative py-9">
+            <h3 className="uppercase font-bold md:text-7xl max-sm:text-5xl">
               <span className="text-white">THE</span>
             </h3>
-            <h3 className="md:text-7xl font-extrabold max-sm:text-5xl">
+            <h3 className="md:text-7xl font-bold max-sm:text-5xl">
               <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent">OUR JOURNEY</span>
             </h3>
           </div>
@@ -172,15 +177,15 @@ const TaxConsultation = () => {
         <div className="md:mx-40 bg-slate-200 rounded-xl mt-8 mb-10 md:py-10">
           <h3 className="font-bold uppercase text-center pt-10 pb-8 text-3xl">
             <span className="bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)] bg-clip-text text-transparent">START YOUR BUSINESS TODAY</span>
-            <h2 className="font-extrabold md:text-5xl pt-5 max-sm:text-4xl ">
+            <h2 className="font-bold md:text-5xl pt-5 max-sm:text-4xl ">
               Ready to
             </h2>
-            <h2 className="font-extrabold md:text-5xl max-sm:text-4xl">
+            <h2 className="font-bold md:text-5xl max-sm:text-4xl">
               Get Started?
             </h2>
           </h3>
           <p className="text-center max-sm:mb-5">
-            Kickstart Your Dream Business with VC FILING Now.
+            Kickstart Your Dream Business with Incorp Bay Now.
           </p>
           {/* new part section  */}
           <div className="md:flex gap-5 justify-center items-center md:py-10 max-sm:mx-5 max-sm:gap-5 ">

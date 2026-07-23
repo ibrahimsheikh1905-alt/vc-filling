@@ -9,6 +9,9 @@ import NavigationWrapper from "@/components/NavigationWrapper";
 import { usePathname, useRouter } from "next/navigation";
 import { StateData } from "@/types";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface SelectBoxProps {
   options: string[];
   value: string;
@@ -105,10 +108,10 @@ const OrderForm = () => {
         className="flex flex-col justify-center"
       >
         <div className="max-w-4xl mx-auto p-6 my-10 bg-white rounded-lg shadow-lg">
-          <h1 className="text-4xl font-black text-center mb-2 leading-tight">
+          <h1 className="text-4xl font-bold text-center mb-2 leading-tight">
             START YOUR BUSINESS
             <br />
-            WITH <span className="text-primary">CONFIDENCE</span>
+            WITH <span className="text-[#2B93C9]">CONFIDENCE</span>
           </h1>
 
           <p className="text-center text-lg mb-8">
@@ -165,7 +168,9 @@ const SelectBox = ({
   const { register } = useForm<Inputs>();
   return (
     <div className="relative flex max-sm:my-5">
-      <div className="absolute left-0 top-0 bottom-0 w-12 bg-primary rounded-l-lg flex items-center justify-center text-white font-bold">
+      <div
+        className={`absolute left-0 top-0 bottom-0 w-12 ${LOGO_GRADIENT} rounded-l-lg flex items-center justify-center text-white font-bold`}
+      >
         {number}
       </div>
       <select
@@ -178,7 +183,7 @@ const SelectBox = ({
             onChange(e.target.value);
           },
         })}
-        className="py-3 md:w-72 w-80 pl-16 pr-10 bg-white border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+        className="py-3 md:w-72 w-80 pl-16 pr-10 bg-white border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-[#2B93C9]"
       >
         <option hidden value="">
           {label}

@@ -53,7 +53,7 @@ function Accordion({ items }: { items: QA[] }) {
               onClick={() => setOpen(isOpen ? null : index)}
               className="flex w-full items-center justify-between gap-5 text-left"
             >
-              <span className="text-[15px] font-semibold text-slate-950">{item.q}</span>
+              <span className="text-[15px] font-bold text-slate-950">{item.q}</span>
               <ChevronDown open={isOpen} />
             </button>
 
@@ -208,7 +208,7 @@ function ExpertGuide() {
         }
       `}</style>
 
-      <h2 className="mb-12 text-center text-[30px] font-extrabold leading-tight text-slate-950">
+      <h2 className="mb-12 text-center text-[30px] font-bold leading-tight text-slate-950">
         Incorp Bay Is Your Expert Guide for
         <br />
         Formation
@@ -231,7 +231,7 @@ function ExpertGuide() {
               </span>
 
               <div>
-                <h3 className="text-sm font-extrabold leading-snug text-cyan-500">
+                <h3 className="text-sm font-bold leading-snug text-cyan-500">
                   {item.title}
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-slate-500">
@@ -253,7 +253,7 @@ function ExpertGuide() {
 
               {["Business Name", "Entity Type", "Country"].map((item) => (
                 <div key={item} className="mb-3">
-                  <p className="mb-1 text-[10px] font-semibold text-slate-400">{item}</p>
+                  <p className="mb-1 text-[10px] font-bold text-slate-400">{item}</p>
                   <div className="h-8 rounded-full bg-slate-100" />
                 </div>
               ))}
@@ -273,7 +273,7 @@ function ExpertGuide() {
 
               <div className="mb-3 flex items-center justify-between rounded-xl bg-cyan-50 px-4 py-3">
                 <span className="text-xs font-bold text-slate-700">Total Due Now</span>
-                <span className="text-lg font-extrabold text-cyan-500">$0</span>
+                <span className="text-lg font-bold text-cyan-500">$0</span>
               </div>
 
               <button className="w-full rounded-full bg-cyan-500 py-3 text-xs font-bold uppercase text-white shadow-lg shadow-cyan-500/25">
@@ -296,7 +296,7 @@ function FeatureBlock({
 }) {
   return (
     <div className="grid grid-cols-1 gap-6 border-b border-slate-200 py-10 last:border-b-0 md:grid-cols-[190px_1fr]">
-      <h3 className="text-sm font-extrabold leading-tight text-slate-950">{title}</h3>
+      <h3 className="text-sm font-bold leading-tight text-slate-950">{title}</h3>
       <div className="space-y-8">
         {rows.map((row) => (
           <div key={row.label} className="grid grid-cols-1 gap-2 md:grid-cols-[220px_1fr]">
@@ -328,13 +328,13 @@ export default function NonprofitLandingPage() {
         <section className="mx-auto max-w-[1200px] px-6 pt-10 md:px-16">
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <div>
-              <div className="mb-4 flex items-center gap-2 text-[13px] font-medium text-slate-600">
+              <div className="mb-4 flex items-center gap-2 text-[13px] font-normal text-slate-600">
                 <span>Excellent <strong>4.7</strong> out of 5</span>
                 <StarRow />
                 <span className="font-bold text-[#00B67A]">Trustpilot</span>
               </div>
 
-              <h1 className="mb-4 text-[38px] font-extrabold leading-[1.15] text-slate-950 md:text-[44px]">
+              <h1 className="mb-4 text-[38px] font-bold leading-[1.15] text-slate-950 md:text-[44px]">
                 Start a Nonprofit
                 <br />
                 with <span className="text-cyan-500">Incorp Bay</span>
@@ -345,7 +345,7 @@ export default function NonprofitLandingPage() {
               </p>
 
               <a
-                href="/package-main?entity=non-profit"
+                href="/package-main?entity=Nonprofit"
                 className="inline-block rounded-full bg-cyan-500 px-7 py-3 text-sm font-bold text-white shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-600"
               >
                 START NOW
@@ -362,11 +362,11 @@ export default function NonprofitLandingPage() {
             </div>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-y border-slate-100 py-4 text-center text-[13px] font-semibold">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-y border-slate-100 py-4 text-center text-[13px] font-bold">
             <span>Bootstrapped, Founder Led, Independently Owned</span>
-            <span className="rounded bg-cyan-50 px-2 py-0.5 font-extrabold text-cyan-600">Since 2004</span>
+            <span className="rounded bg-cyan-50 px-2 py-0.5 font-bold text-cyan-600">Since 2004</span>
             <span>With</span>
-            <span className="rounded bg-cyan-50 px-2 py-0.5 font-extrabold text-cyan-600">Over 1,000,000 Entrepreneurs</span>
+            <span className="rounded bg-cyan-50 px-2 py-0.5 font-bold text-cyan-600">Over 1,000,000 Entrepreneurs</span>
             <span>Served!</span>
           </div>
         </section>
@@ -375,7 +375,7 @@ export default function NonprofitLandingPage() {
 
         <section id="pricing" className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
           <div className="rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm md:p-12">
-            <h2 className="mb-3 text-[30px] font-extrabold leading-tight">
+            <h2 className="mb-3 text-[30px] font-bold leading-tight">
               Discover the Benefits of Forming a
               <br />
               Nonprofit With <span className="text-cyan-500">Incorp Bay</span>
@@ -417,7 +417,7 @@ export default function NonprofitLandingPage() {
         </section>
 
         <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
-          <h2 className="mb-10 text-[30px] font-extrabold leading-tight">
+          <h2 className="mb-10 text-[30px] font-bold leading-tight">
             How to Form a Nonprofit with Incorp Bay in 3 Simple Steps
           </h2>
 
@@ -428,13 +428,13 @@ export default function NonprofitLandingPage() {
                 className="grid grid-cols-1 items-center gap-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:grid-cols-[1fr_300px]"
               >
                 <div>
-                  <div className="mb-2 text-sm font-extrabold text-cyan-500">{step.number}</div>
+                  <div className="mb-2 text-sm font-bold text-cyan-500">{step.number}</div>
                   <h3 className="mb-2 text-lg font-bold text-slate-950">{step.title}</h3>
                   <p className="text-[13px] leading-relaxed text-slate-500">{step.text}</p>
                 </div>
 
                 <div className="flex h-36 items-center justify-center rounded-xl bg-slate-50 p-5">
-                  <div className="rounded-xl bg-white px-6 py-4 text-center text-sm font-extrabold text-slate-700 shadow-lg">
+                  <div className="rounded-xl bg-white px-6 py-4 text-center text-sm font-bold text-slate-700 shadow-lg">
                     {step.visual}
                   </div>
                 </div>
@@ -445,7 +445,7 @@ export default function NonprofitLandingPage() {
 
         <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
           <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8 text-center md:p-12">
-            <h2 className="mb-8 text-[30px] font-extrabold leading-tight">
+            <h2 className="mb-8 text-[30px] font-bold leading-tight">
               What Happens After You Place Your
               <br />
               Order?
@@ -457,7 +457,7 @@ export default function NonprofitLandingPage() {
                   <div className="mx-auto mb-2 flex h-5 w-5 items-center justify-center rounded-full bg-cyan-50 text-cyan-500">
                     <CheckIcon />
                   </div>
-                  <h3 className="text-sm font-extrabold text-slate-950">{item.title}</h3>
+                  <h3 className="text-sm font-bold text-slate-950">{item.title}</h3>
                   <p className="mt-2 text-[12px] leading-relaxed text-slate-500">{item.text}</p>
                 </div>
               ))}
@@ -478,11 +478,11 @@ export default function NonprofitLandingPage() {
         <section className="mx-auto max-w-[1000px] px-6 pb-16 md:px-16">
           <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-[280px_1fr]">
             <div>
-              <div className="mb-3 flex items-center gap-2 text-[13px] font-medium text-slate-600">
+              <div className="mb-3 flex items-center gap-2 text-[13px] font-normal text-slate-600">
                 <span>Excellent <strong>4.7</strong> out of 5</span>
                 <StarRow />
               </div>
-              <h2 className="mb-5 text-[28px] font-extrabold leading-tight">
+              <h2 className="mb-5 text-[28px] font-bold leading-tight">
                 See What Our
                 <br />
                 Clients Have to Say…
@@ -520,7 +520,7 @@ export default function NonprofitLandingPage() {
               </div>
 
               <p className="mb-2 text-[13px] font-bold text-cyan-500">Start. Manage. Grow.</p>
-              <h2 className="mx-auto max-w-[520px] text-[30px] font-extrabold leading-tight">
+              <h2 className="mx-auto max-w-[520px] text-[30px] font-bold leading-tight">
                 Chosen by <span className="text-cyan-500">1,000,000+</span>
                 <br />
                 entrepreneurs across all 50 states
@@ -536,7 +536,7 @@ export default function NonprofitLandingPage() {
         </section>
 
         <section className="mx-auto max-w-[900px] px-6 pb-16 md:px-16">
-          <h2 className="mb-8 text-[30px] font-extrabold leading-tight">
+          <h2 className="mb-8 text-[30px] font-bold leading-tight">
             Common Questions About Forming
             <br />
             a Nonprofit Organization
@@ -548,7 +548,7 @@ export default function NonprofitLandingPage() {
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 to-slate-800 px-8 py-14 text-white shadow-2xl">
             <div className="absolute inset-0 bg-cyan-500/20" />
             <div className="relative z-10 max-w-sm">
-              <h2 className="text-[32px] font-extrabold leading-tight">
+              <h2 className="text-[32px] font-bold leading-tight">
                 Form Your
                 <br />
                 Nonprofit For $0

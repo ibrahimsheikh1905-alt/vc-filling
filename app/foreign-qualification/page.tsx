@@ -185,7 +185,7 @@ function Hero() {
 
       <div className="relative z-10 flex justify-center">
         <Image
-          src="/images/foreign-qualification/hero-certificate.png"
+          src="/foreign-qualification/Foreign-qualification-hero.webp"
           alt="Foreign Qualification Certificate"
           width={450}
           height={450}
@@ -721,7 +721,7 @@ function DoYouNeedSection() {
 
         <div className="flex justify-center md:justify-end">
           <Image
-            src="/images/foreign-qualification/do-you-need-certificate.png"
+            src="/foreign-qualification/Foreign-qualification-hero.webp"
             alt="Foreign Qualification certificate"
             width={400}
             height={500}

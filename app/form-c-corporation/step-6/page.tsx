@@ -9,6 +9,9 @@ import Link from "next/link";
 import useLocalStorageForm from "@/hooks/useLocalStorage";
 import NavigationWrapper from "@/components/NavigationWrapper";
 
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface ServiceItem {
   icon: React.ReactNode;
   title: string;
@@ -71,12 +74,12 @@ const StepSix: React.FC = () => {
               </h2>
 
               <p className="text-lg mb-6">
-                Upgrade for only <span className="font-semibold">$99</span> to
+                Upgrade for only <span className="font-bold">$99</span> to
                 receive these 2 premium services —{" "}
-                <span className="font-semibold">up to $190 value!</span>
+                <span className="font-bold">up to $190 value!</span>
               </p>
 
-              <h3 className="text-xl font-semibold mb-4">
+              <h3 className="text-xl font-bold mb-4">
                 Premium Service Package
               </h3>
 
@@ -87,10 +90,10 @@ const StepSix: React.FC = () => {
 
                     <div className="flex-grow">
                       <div className="flex justify-between items-start mb-2">
-                        <h4 className="text-lg font-semibold">
+                        <h4 className="text-lg font-bold">
                           {service.title}
                         </h4>
-                        <span className="text-lg font-semibold">
+                        <span className="text-lg font-bold">
                           ${service.price}
                         </span>
                       </div>
@@ -104,7 +107,7 @@ const StepSix: React.FC = () => {
                       )}
 
                       <div className="mt-2">
-                        <h5 className="font-semibold mb-1">Why You Need It:</h5>
+                        <h5 className="font-bold mb-1">Why You Need It:</h5>
                         <p className="text-gray-600">{service.whyYouNeedIt}</p>
                       </div>
                     </div>
@@ -116,7 +119,7 @@ const StepSix: React.FC = () => {
             <div className="flex flex-wrap items-center justify-between mt-12 gap-4">
               <Link
                 href="/form-c-corporation/step-5"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] hover:bg-primary/90 transition"
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] hover:opacity-90 transition`}
               >
                 Back
               </Link>
@@ -133,7 +136,7 @@ const StepSix: React.FC = () => {
                 <Link
                   href="/form-c-corporation/step-7"
                   onClick={() => updateFormData({ premiumServicePackage: true })}
-                  className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] hover:bg-primary/90 transition"
+                  className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] hover:opacity-90 transition`}
                 >
                   GET UPGRADE & BONUS
                 </Link>

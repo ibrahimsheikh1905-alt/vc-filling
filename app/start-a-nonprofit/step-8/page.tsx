@@ -16,6 +16,9 @@ import { statesInUS } from "@/data";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { usePathname, useRouter } from "next/navigation";
 import { SubmitHandler, useForm } from "react-hook-form";
+const LOGO_GRADIENT =
+  "bg-[linear-gradient(90deg,#244EB6_0%,#2B93C9_50%,#33D1CC_100%)]";
+
 interface AgentOption {
   title: string;
 }
@@ -69,12 +72,20 @@ const StepEight = () => {
 
   const options: Record<"recommended" | "own", AgentOption> = {
     recommended: {
-      title: "Assign VCFilling as my Registered Agent FREE For 1 year.",
+      title: "Assign Incorp as my Registered Agent FREE For 1 year.",
     },
     own: {
       title: "I would like to act as my own registered agent.",
     },
   };
+
+  const entityLabels: Record<string, string> = {
+    LLC: "an LLC",
+    "C-Corporation": "a C Corporation",
+    "S-Corporation": "an S Corporation",
+    Nonprofit: "a Nonprofit",
+  };
+  const entityLabel = entityLabels[formData.entityType] || "an entity";
   useEffect(() => {
     setIsMounted(true);
     const setServiceType = () => {
@@ -87,10 +98,10 @@ const StepEight = () => {
     updateFormData({
       entityType: JSON.parse(
         localStorage.getItem("/start-a-nonprofit/step-1") as string
-      ).entityType,
+      )?.entityType || "Nonprofit",
       stateFromStepOne: JSON.parse(
         localStorage.getItem("/start-a-nonprofit/step-1") as string
-      ).stateName,
+      )?.stateName || "Delaware",
     });
   }, [updateFormData]);
 
@@ -107,22 +118,22 @@ const StepEight = () => {
               <h2 className="text-2xl font-bold mb-4">
                 Registered Agent Information
               </h2>
-              <p className="mb-4 font-medium">
-                Alabama requires an LLC to appoint a Registered Agent:
+              <p className="mb-4 font-normal">
+                {formData.stateFromStepOne || "Your state"} requires{" "}
+                {entityLabel} to appoint a Registered Agent:
               </p>
               <div className="mb-4 flex items-center">
                 <CheckIcon
                   height={20}
                   width={20}
-                  className="mr-2 text-primary"
+                  className="mr-2 text-[#2B93C9]"
                 />{" "}
                 <p className="text-gray-500 ">
-                  Only VCFilling offers 1 full year of Registered Agent service
-                  FREE with every new business formation order - a $119.00
-                  value!
+                  Only Incorp offers 1 full year of Registered Agent service
+                  FREE with every new business formation order!
                 </p>
               </div>
-              <p className="mb-4 font-medium">
+              <p className="mb-4 font-normal">
                 Typical documents received by your Registered Agent can include:
               </p>
               <ul>
@@ -130,7 +141,7 @@ const StepEight = () => {
                   <CheckIcon
                     height={20}
                     width={20}
-                    className="mr-2 text-primary "
+                    className="mr-2 text-[#2B93C9] "
                   />{" "}
                   <p className="text-gray-500 ">
                     Service of Process, i.e. notification of a pending lawsuit
@@ -141,7 +152,7 @@ const StepEight = () => {
                   <CheckIcon
                     height={20}
                     width={20}
-                    className="mr-2 text-primary"
+                    className="mr-2 text-[#2B93C9]"
                   />{" "}
                   <p className="text-gray-500 ">
                     State correspondence, i.e. annual reports or statements
@@ -154,7 +165,7 @@ const StepEight = () => {
                     key={key}
                     className={`p-4 cursor-pointer border rounded-lg w-1/2 ${
                       formData.agentOption === key
-                        ? "border-primary"
+                        ? "border-[#2B93C9]"
                         : "border-gray-200"
                     }`}
                   >
@@ -191,7 +202,7 @@ const StepEight = () => {
                         <div
                           className={`min-w-4 max-w-4 h-4 rounded-full border-2 ${
                             formData.agentOption === key
-                              ? "border-primary bg-primary"
+                              ? `${LOGO_GRADIENT} border-transparent`
                               : "border-gray-300"
                           }`}
                         >
@@ -199,7 +210,7 @@ const StepEight = () => {
                             <div className="w-2 h-2 rounded-full bg-white mx-auto mt-0.5" />
                           )}
                         </div>
-                        <span className="font-medium">{option.title}</span>
+                        <span className="font-normal">{option.title}</span>
                       </div>
                     </div>
                   </label>
@@ -220,7 +231,7 @@ const StepEight = () => {
                     <label
                       className={`flex cursor-pointer items-center px-4 py-2 rounded-lg ${
                         formData.memberType === "individual"
-                          ? "bg-green-100 border-2 border-primary text-green-700"
+                          ? `${LOGO_GRADIENT} border-2 border-transparent text-white`
                           : "bg-gray-100 border border-gray-300 text-gray-700"
                       }`}
                     >
@@ -247,7 +258,7 @@ const StepEight = () => {
                     <label
                       className={`flex cursor-pointer items-center px-4 py-2 rounded-lg ${
                         formData.memberType === "company"
-                          ? "bg-green-100 border-2 border-primary text-green-700"
+                          ? `${LOGO_GRADIENT} border-2 border-transparent text-white`
                           : "bg-gray-100 border border-gray-300 text-gray-700"
                       }`}
                     >
@@ -296,7 +307,7 @@ const StepEight = () => {
                         <div>
                           <label
                             htmlFor="firstName"
-                            className="block mb-1 text-sm font-medium text-gray-700"
+                            className="block mb-1 text-sm font-normal text-gray-700"
                           >
                             First Name
                           </label>
@@ -325,7 +336,7 @@ const StepEight = () => {
                         <div>
                           <label
                             htmlFor="lastName"
-                            className="block mb-1 text-sm font-medium text-gray-700"
+                            className="block mb-1 text-sm font-normal text-gray-700"
                           >
                             Last Name
                           </label>
@@ -356,7 +367,7 @@ const StepEight = () => {
                         <div className="col-span-2">
                           <label
                             htmlFor="companyName"
-                            className="block mb-1 text-sm font-medium text-gray-700"
+                            className="block mb-1 text-sm font-normal text-gray-700"
                           >
                             Company Name
                           </label>
@@ -386,7 +397,7 @@ const StepEight = () => {
                   <div>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Street Address
                         </label>
                         <div className="my-3">
@@ -411,7 +422,7 @@ const StepEight = () => {
                         </div>
                       </div>
                       <div className="md:w-1/2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Address(Line 2)
                         </label>
                         <div className="my-3">
@@ -437,7 +448,7 @@ const StepEight = () => {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700">
+                      <label className="block text-sm font-normal text-gray-700">
                         City
                       </label>
                       <div className="my-3">
@@ -461,7 +472,7 @@ const StepEight = () => {
                     </div>
                     <div className="md:flex">
                       <div className="md:w-1/2 mr-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           State
                         </label>
                         <div className="my-3">
@@ -490,7 +501,7 @@ const StepEight = () => {
                         </div>
                       </div>
                       <div className="md:w-1/2">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-normal text-gray-700">
                           Zip Code
                         </label>
                         <div className="my-3">
@@ -520,9 +531,9 @@ const StepEight = () => {
               {formData.agentOption === "recommended" && (
                 <div className="mt-4">
                   <div className="flex">
-                    <CalendarIcon className="w-10 h-10 mr-4 text-primary" />
+                    <CalendarIcon className="w-10 h-10 mr-4 text-[#2B93C9]" />
                     <div>
-                      <p className="block text-base font-medium text-gray-700">
+                      <p className="block text-base font-normal text-gray-700">
                         Free First Year
                       </p>
                       <p className="text-sm text-gray-500">
@@ -535,9 +546,9 @@ const StepEight = () => {
                     </div>
                   </div>
                   <div className="flex">
-                    <DocumentCheckIcon className="w-10 h-10 mr-4 text-primary" />
+                    <DocumentCheckIcon className="w-10 h-10 mr-4 text-[#2B93C9]" />
                     <div>
-                      <p className="block text-base font-medium text-gray-700">
+                      <p className="block text-base font-normal text-gray-700">
                         Guaranteed Rates
                       </p>
                       <p className="text-sm text-gray-500">
@@ -551,10 +562,10 @@ const StepEight = () => {
                   </div>
                   <div className="flex gap-4">
                     <div className=" max-w-5">
-                      <WalletIcon className="w-5 h-5 text-primary" />
+                      <WalletIcon className="w-5 h-5 text-[#2B93C9]" />
                     </div>
                     <div className="">
-                      <p className="block text-base font-medium text-gray-700">
+                      <p className="block text-base font-normal text-gray-700">
                         All-Inclusive
                       </p>
                       <p className="text-sm text-gray-500">
@@ -565,9 +576,9 @@ const StepEight = () => {
                     </div>
                   </div>
                   <div className="flex">
-                    <TrashIcon className="w-10 h-10 mr-4 text-primary" />
+                    <TrashIcon className="w-10 h-10 mr-4 text-[#2B93C9]" />
                     <div>
-                      <p className="block text-base font-medium text-gray-700">
+                      <p className="block text-base font-normal text-gray-700">
                         Reduce Junk Mail
                       </p>
                       <p className="text-sm text-gray-500">
@@ -588,13 +599,13 @@ const StepEight = () => {
                     ? "/start-a-nonprofit/step-7-1"
                     : "/start-a-nonprofit/step-7"
                 }
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Back
               </Link>
               <button
                 type="submit"
-                className="px-8 py-2 bg-primary text-white border border-primary rounded-[30px] "
+                className={`px-8 py-2 ${LOGO_GRADIENT} text-white border border-transparent rounded-[30px] `}
               >
                 Next
               </button>
